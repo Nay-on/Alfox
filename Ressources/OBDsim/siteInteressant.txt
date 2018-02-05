@@ -1,0 +1,4 @@
+Le site suivant permet facilement de démarrer OBDSim et de dialoguer avec la prise diagnostic simulée à l'aide de commandes AT.
+Il fonctionne sur la machine virtuelle Ubuntu des ordianteurs de la section.
+https://acassis.wordpress.com/2014/04/03/getting-started-to-obd-ii-using-obdsim/
+

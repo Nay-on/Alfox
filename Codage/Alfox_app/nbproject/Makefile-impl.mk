@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=arduino_sample_project1.2
+PROJECTNAME=Alfox_app
 
 # Active Configuration
 DEFAULTCONF=Debug

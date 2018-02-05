@@ -56,11 +56,11 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/arduino_sample_project1.2
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/alfox_app
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/arduino_sample_project1.2: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/alfox_app: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${ARDUINO_TOOL_DIR}/avr-gcc -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/arduino_sample_project1.2 ${OBJECTFILES} ${LDLIBSOPTIONS} ${FLAGS_LINKER}
+	${ARDUINO_TOOL_DIR}/avr-gcc -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/alfox_app ${OBJECTFILES} ${LDLIBSOPTIONS} ${FLAGS_LINKER}
 
 ${OBJECTDIR}/setup_loop.o: setup_loop.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -73,7 +73,7 @@ ${OBJECTDIR}/setup_loop.o: setup_loop.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/arduino_sample_project1.2
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/alfox_app
 
 # Subprojects
 .clean-subprojects:

@@ -2,3 +2,11 @@ Le site suivant permet facilement de démarrer OBDSim et de dialoguer avec la pr
 Il fonctionne sur la machine virtuelle Ubuntu des ordianteurs de la section.
 https://acassis.wordpress.com/2014/04/03/getting-started-to-obd-ii-using-obdsim/
 
+Site bluetooth
+https://stackoverflow.com/questions/25720469/connect-obdsim-to-torqueandroid-app-ubuntu/25763606
+
+Site conversion + formule obd2:
+https://www.csselectronics.com/screen/page/obd-ii-online-message-converter/language/en
+
+Liste de toute les commandes (pids):
+https://www.outilsobdfacile.fr/mode-et-pid-obd.php

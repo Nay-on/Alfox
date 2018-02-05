@@ -1,0 +1,20 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Parametre
+-----------------------------------------------------------------------------------------------------------------------------------------------
+        <CR>: Permet de repeter la meme commande que la precedente
+        AL: permet d’autoriser les message long Ã l’envoi vers l’ELM (8 octets) et illimitÃ© vers le PC. A off par defaut. A UTILISER
+        AT0, AT1, AT2: permet de parametrer plus finement le temps de reponse. Par defaut, l’ELM les regle.
+        ATRV: Permet de lire la tension batterie (pont diviseur R1=47K, R2=10K), precision 2%, 28V max
+        ATE0: Desactive(0) ou non l’echo (si activÃ©, l’ELM renvoie alors les caractÃ¨res reÃ§u pour verif eventuelle)
+        ATL0: Desactive (0) ou non l’utilisation du <LF> apres le <cr>
+        ATS0: Affiche ou non les espaces (l’ECU repond en separant d’un espaces des paquets de 3 octets pour plus de lisibilitÃ©, au detriment de la vitesse)
+        ATSP0: Permet de parametrer le protocole Ã utiliser (0=mode auto)
+        ATH1: Affiche (1) ou non les entetes (pour debug principalement? affiche des messages en sus)
+        ATDPN: permet de recuperer le numero du protocole utilisÃ©, prÃ©cÃ©dÃ© de A en mode auto
+        ATR0: desactive ou non le renvoi direct des messages du calculateur (utile?)
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+DATA
+-----------------------------------------------------------------------------------------------------------------------------------------------
+

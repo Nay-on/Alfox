@@ -1,0 +1,527 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Arduino Bluetooth OBDII RPM Shift Light</title>
+</head>
+
+<body>
+
+<p><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2624460428507694";
+/* kooras.com */
+google_ad_slot = "2428446568";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></p>
+
+<pre>
+<span style="color: #7E7E7E;">//***********************************************//</span>
+<span style="color: #7E7E7E;">//******Car&nbsp;Engine&nbsp;RPM&nbsp;and&nbsp;Shift&nbsp;Light***********//</span>
+<span style="color: #7E7E7E;">//******with&nbsp;Arduino,&nbsp;HC-05&nbsp;Bluetooth&nbsp;Module*****//</span>
+<span style="color: #7E7E7E;">//**********and&nbsp;ELM-327&nbsp;OBDII&nbsp;Bluetooth**********//</span>
+<span style="color: #7E7E7E;">//***********************************************//</span>
+<span style="color: #7E7E7E;">//**********Designed&nbsp;and&nbsp;Programmed**************//</span>
+<span style="color: #7E7E7E;">//************by&nbsp;Kostas&nbsp;Kokoras******************//</span>
+<span style="color: #7E7E7E;">//************kostas@kokoras.com*****************//</span>
+
+#include&nbsp;&lt;<span style="color: #CC6600;">Timer</span>.h&gt;
+#include&nbsp;&lt;<span style="color: #CC6600;">EEPROM</span>.h&gt;
+#include&nbsp;&lt;SoftwareSerial.h&gt;
+
+#define&nbsp;RxD&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Arduino pin connected to Tx of HC-05</span>
+#define&nbsp;TxD&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Arduino pin connected to Rx of HC-05</span>
+#define&nbsp;Reset&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Arduino pin connected to Reset of HC-05 (reset with LOW)</span>
+#define&nbsp;PIO11&nbsp;A2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Arduino pin connected to PI011 of HC-05 (enter AT Mode with HIGH)</span>
+#define&nbsp;ledpin_green&nbsp;A0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Arduino output pin for Shift Light Green led </span>
+#define&nbsp;ledpin_yellow&nbsp;A1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Arduino output pin for Shift Light Yellow led </span>
+#define&nbsp;ledpin_red&nbsp;13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Arduino output pin for Shift Light Red led </span>
+#define&nbsp;led_dec&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Arduino output pin for decades 7-segment commone anode display</span>
+#define&nbsp;led_mon&nbsp;11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Arduino output pin for monades 7-segment commone anode display</span>
+#define&nbsp;sel_sw&nbsp;12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Arduino input for storing curent Shift Light RPM</span>
+#define&nbsp;BT_CMD_RETRIES&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Number of retries for each Bluetooth AT command in case of not responde with OK</span>
+#define&nbsp;OBD_CMD_RETRIES&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Number of retries for each OBD command in case of not receive prompt '&gt;' char</span>
+#define&nbsp;RPM_CMD_RETRIES&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Number of retries for RPM command</span>
+<span style="color: #CC6600;">int</span> BinaryPins[] = {3,4,5,6};<span style="color: #7E7E7E;">//Arduino Pins connected to 74LS47 BCD-to-7-Segment</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//A,B,C,D//  A is LSB</span>
+
+<span style="color: #CC6600;">int</span> addr=0;                  <span style="color: #7E7E7E;">//EEPROM address for storing Shift Light RPM</span>
+<span style="color: #CC6600;">unsigned</span> <span style="color: #CC6600;">int</span> rpm,rpm_to_disp;<span style="color: #7E7E7E;">//Variables for RPM</span>
+<span style="color: #CC6600;">int</span> shift_light_rpm;         <span style="color: #7E7E7E;">//Variable for Shift Light RPM</span>
+<span style="color: #CC6600;">unsigned</span> <span style="color: #CC6600;">int</span> decades;        <span style="color: #7E7E7E;">//Variable of RPM number decades for 7-seg disp</span>
+<span style="color: #CC6600;">unsigned</span> <span style="color: #CC6600;">int</span> monades;        <span style="color: #7E7E7E;">//Variable of RPM number monades for 7-seg disp</span>
+<span style="color: #CC6600;">boolean</span> but_pressed_flag;    <span style="color: #7E7E7E;">//Variable if RPM Shift Light button is pressed</span>
+<span style="color: #CC6600;">boolean</span> bt_error_flag;       <span style="color: #7E7E7E;">//Variable for bluetooth connection error</span>
+<span style="color: #CC6600;">boolean</span> obd_error_flag;      <span style="color: #7E7E7E;">//Variable for OBD connection error</span>
+<span style="color: #CC6600;">boolean</span> rpm_error_flag;      <span style="color: #7E7E7E;">//Variable for RPM error</span>
+<span style="color: #CC6600;">boolean</span> rpm_retries;         <span style="color: #7E7E7E;">//Variable for RPM cmd retries</span>
+<span style="color: #CC6600;">int</span> disp_bright;             <span style="color: #7E7E7E;">//Variable for 7-seg disp brightness</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SoftwareSerial&nbsp;blueToothSerial(RxD,TxD);
+<span style="color: #CC6600;">Timer</span> t;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="color: #7E7E7E;">//-----------------------------------------------------//</span>
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>setup</b></span>()
+{
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(RxD, <span style="color: #006699;">INPUT</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(TxD, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(PIO11, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(Reset, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(PIO11, <span style="color: #006699;">LOW</span>);    <span style="color: #7E7E7E;">//Set HC-05 to Com mode</span>
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(Reset, <span style="color: #006699;">HIGH</span>);   <span style="color: #7E7E7E;">//HC-05 no Reset</span>
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(3, <span style="color: #006699;">OUTPUT</span>);   
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(4, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(5, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(6, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(ledpin_green, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(ledpin_yellow, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(ledpin_red, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(led_dec, <span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(led_mon,<span style="color: #006699;">OUTPUT</span>);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">pinMode</span>(sel_sw,<span style="color: #006699;">INPUT</span>);
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//7-seg disp and shift light test</span>
+&nbsp;&nbsp;&nbsp;demo();
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Read Stored Shift Light RPM//</span>
+&nbsp;&nbsp;&nbsp;shift_light_rpm=<span style="color: #CC6600;">EEPROM</span>.<span style="color: #CC6600;">read</span>(addr);                                  <span style="color: #7E7E7E;">//Read EEPROM for stored value</span>
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ((shift_light_rpm&lt;0) or (shift_light_rpm&gt;99)) shift_light_rpm=0; <span style="color: #7E7E7E;">//if value not correct set it to 0</span>
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;rpm_retries=0;
+&nbsp;&nbsp;&nbsp;but_pressed_flag=<span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;&nbsp;disp_bright=0;<span style="color: #7E7E7E;">//Full Bright</span>
+&nbsp;
+&nbsp;&nbsp;&nbsp;t.<span style="color: #CC6600;">every</span>(250,rpm_calc);<span style="color: #7E7E7E;">//Every 250ms read RPM value from OBD</span>
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//start Bluetooth Connection</span>
+&nbsp;&nbsp;&nbsp;setupBlueToothConnection();
+&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//in case of Bluetoth connection error</span>
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (bt_error_flag){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bt_err_flash();
+&nbsp;&nbsp;&nbsp;}&nbsp;
+&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//OBDII initialitation</span>
+&nbsp;&nbsp;&nbsp;obd_init();
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//in case of OBDII connection error   </span>
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (obd_error_flag){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obd_err_flash();
+&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;
+}
+
+<span style="color: #7E7E7E;">//-----------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//---------------flashes&nbsp;fast&nbsp;red&nbsp;light----------------//</span>
+<span style="color: #7E7E7E;">//-------in&nbsp;case&nbsp;of&nbsp;Bluetooth&nbsp;connection&nbsp;error---------//</span>
+<span style="color: #7E7E7E;">//------loops&nbsp;for&nbsp;ever,&nbsp;need&nbsp;to&nbsp;restart&nbsp;Arduino--------//</span>
+<span style="color: #CC6600;">void</span> bt_err_flash(){
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #CC6600;">while</span>(1){
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(100);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(100);
+&nbsp;&nbsp;}
+}
+
+<span style="color: #7E7E7E;">//-----------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//---------------flashes&nbsp;slow&nbsp;red&nbsp;light----------------//</span>
+<span style="color: #7E7E7E;">//---------in&nbsp;case&nbsp;of&nbsp;OBDII&nbsp;connection&nbsp;error-----------//</span>
+<span style="color: #7E7E7E;">//------loops&nbsp;for&nbsp;ever,&nbsp;need&nbsp;to&nbsp;restart&nbsp;Arduino--------//</span>
+<span style="color: #CC6600;">void</span> obd_err_flash(){
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #CC6600;">while</span>(1){
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;&nbsp;}
+}
+
+<span style="color: #7E7E7E;">//-----------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//-------Just&nbsp;a&nbsp;demo-test&nbsp;for&nbsp;7-seg&nbsp;disp&nbsp;and&nbsp;leds------//</span>
+<span style="color: #CC6600;">void</span> demo(){
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//Turn 7-seg disp OFF</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led_dec,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led_mon,<span style="color: #006699;">HIGH</span>);
+
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//Shift Light LEDS Test</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span>(<span style="color: #CC6600;">int</span> i=0;i&lt;3;i++){
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_green,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_yellow,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(50);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_green,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_yellow,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(50);
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//7-seg diplays test</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span>(<span style="color: #CC6600;">int</span> i=0;i&lt;3;i++){
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">int</span> j=0;j&lt;4;j++){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sevenSegWriteDec(8);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sevenSegWriteMon(8);&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(10);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Turn 7-seg disp OFF</span>
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led_dec,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led_mon,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(50);
+&nbsp;&nbsp;}
+}
+
+<span style="color: #7E7E7E;">//-----------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//----------Decades&nbsp;7-seg&nbsp;disp&nbsp;driver------------------//</span>
+<span style="color: #CC6600;">void</span> sevenSegWriteDec(<span style="color: #CC6600;">int</span> digit) {
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (digit&gt;0) <span style="color: #CC6600;">analogWrite</span>(led_dec,disp_bright); <span style="color: #CC6600;">else</span> <span style="color: #CC6600;">digitalWrite</span>(led_dec,<span style="color: #006699;">HIGH</span>); <span style="color: #7E7E7E;">//if value is 0 stays OFF</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led_mon,<span style="color: #006699;">HIGH</span>);                                                     <span style="color: #7E7E7E;">//monades 7-seg disp OFF</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//convert dec number to 4 bits binary</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">byte</span> i = 0; i &lt; 4; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">int</span> dec_val=digit&amp;1;                  <span style="color: #7E7E7E;">//interested only for LSB of digit</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(BinaryPins[i],dec_val);  <span style="color: #7E7E7E;">//set it to BinaryPin i=0 is LSB and goes to pin A of 74LS47 BCD-to-7-Segment</span>
+&nbsp;&nbsp;&nbsp;&nbsp;digit=digit&gt;&gt;1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//shift right digit 1 bit </span>
+&nbsp;&nbsp;}
+&nbsp;&nbsp;
+}
+
+<span style="color: #7E7E7E;">//-----------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//----------Monades&nbsp;7-seg&nbsp;disp&nbsp;driver------------------//</span>
+<span style="color: #CC6600;">void</span> sevenSegWriteMon(<span style="color: #CC6600;">int</span> digit) {
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led_dec,<span style="color: #006699;">HIGH</span>);              <span style="color: #7E7E7E;">//decades 7-seg disp OFF</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">analogWrite</span>(led_mon,disp_bright);        <span style="color: #7E7E7E;">//monades 7-seg disp ON</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #7E7E7E;">//convert dec number to 4 bits binary</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (<span style="color: #CC6600;">byte</span> i = 0; i &lt; 4; i++) {
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">int</span> mon_val=digit&amp;1;                   <span style="color: #7E7E7E;">//interested only for LSB of digit</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(BinaryPins[i],mon_val);   <span style="color: #7E7E7E;">//set it to BinaryPin i=0 is LSB and goes to pin A of 74LS47 BCD-to-7-Segment</span>
+&nbsp;&nbsp;&nbsp;&nbsp;digit=digit&gt;&gt;1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//shift right digit 1 bit </span>
+&nbsp;&nbsp;}
+&nbsp;&nbsp;
+}
+
+<span style="color: #7E7E7E;">//-----------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//----------display&nbsp;stored&nbsp;shift&nbsp;light&nbsp;RPM-------------//</span>
+<span style="color: #7E7E7E;">//-----------------------for&nbsp;3&nbsp;secs--------------------//</span>
+<span style="color: #CC6600;">void</span> flash_store(<span style="color: #CC6600;">int</span> num){
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">unsigned</span> <span style="color: #CC6600;">long</span> start=<span style="color: #CC6600;">millis</span>();      <span style="color: #7E7E7E;">//set start as current millis</span>
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">unsigned</span> <span style="color: #CC6600;">long</span> dlay=3000UL;         <span style="color: #7E7E7E;">//set delay to 3000ms</span>
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> (<span style="color: #CC6600;">millis</span>()&lt;(start+dlay))      <span style="color: #7E7E7E;">//for 3 secs</span>
+&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//display num</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sevenSegWriteDec(num/10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sevenSegWriteMon(num%10);&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//turn red led ON</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_green,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_yellow,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;}&nbsp;
+&nbsp;&nbsp;
+}
+
+<span style="color: #7E7E7E;">//-----------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//----------Retrieve&nbsp;RPM&nbsp;value&nbsp;from&nbsp;OBD----------------//</span>
+<span style="color: #7E7E7E;">//---------convert&nbsp;it&nbsp;to&nbsp;readable&nbsp;number---------------//</span>
+<span style="color: #CC6600;">void</span> rpm_calc(){
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">boolean</span> prompt,valid;  
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">char</span> recvChar;
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">char</span> bufin[15];
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">int</span> i;
+
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (!(obd_error_flag)){                                   <span style="color: #7E7E7E;">//if no OBD connection error</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid=<span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;prompt=<span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blueToothSerial.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"010C1"</span>);                        <span style="color: #7E7E7E;">//send to OBD PID command 010C is for RPM, the last 1 is for ELM to wait just for 1 respond (see ELM datasheet)</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blueToothSerial.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"\r"</span>);                           <span style="color: #7E7E7E;">//send to OBD cariage return char</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> (blueToothSerial.<span style="color: #CC6600;">available</span>() &lt;= 0);              <span style="color: #7E7E7E;">//wait while no data from ELM</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> ((blueToothSerial.<span style="color: #CC6600;">available</span>()&gt;0) &amp;&amp; (!prompt)){  <span style="color: #7E7E7E;">//if there is data from ELM and prompt is false</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recvChar&nbsp;=&nbsp;blueToothSerial.<span style="color: #CC6600;">read</span>();                   <span style="color: #7E7E7E;">//read from ELM</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ((i&lt;15)&amp;&amp;(!(recvChar==32))) {                     <span style="color: #7E7E7E;">//the normal respond to previus command is 010C1/r41 0C ?? ??&gt;, so count 15 chars and ignore char 32 which is space</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bufin[i]=recvChar;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//put received char in bufin array</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//increase i</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (recvChar==62) prompt=<span style="color: #CC6600;">true</span>;                       <span style="color: #7E7E7E;">//if received char is 62 which is '&gt;' then prompt is true, which means that ELM response is finished </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ((bufin[6]==<span style="color: #006699;">'4'</span>) &amp;&amp; (bufin[7]==<span style="color: #006699;">'1'</span>) &amp;&amp; (bufin[8]==<span style="color: #006699;">'0'</span>) &amp;&amp; (bufin[9]==<span style="color: #006699;">'C'</span>)){ <span style="color: #7E7E7E;">//if first four chars after our command is 410C</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid=<span style="color: #CC6600;">true</span>;                                                                  <span style="color: #7E7E7E;">//then we have a correct RPM response</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span style="color: #CC6600;">else</span> {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valid=<span style="color: #CC6600;">false</span>;                                                                 <span style="color: #7E7E7E;">//else we dont</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (valid){                                                                    <span style="color: #7E7E7E;">//in case of correct RPM response</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rpm_retries=0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//reset to 0 retries</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rpm_error_flag=<span style="color: #CC6600;">false</span>;                                                        <span style="color: #7E7E7E;">//set rpm error flag to false</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//start calculation of real RPM value</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//RPM is coming from OBD in two 8bit(bytes) hex numbers for example A=0B and B=6C</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//the equation is ((A * 256) + B) / 4, so 0B=11 and 6C=108</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//so rpm=((11 * 256) + 108) / 4 = 731 a normal idle car engine rpm</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rpm=0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">for</span> (i=10;i&lt;14;i++){                              <span style="color: #7E7E7E;">//in that 4 chars of bufin array which is the RPM value</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ((bufin[i]&gt;=<span style="color: #006699;">'A'</span>) &amp;&amp; (bufin[i]&lt;=<span style="color: #006699;">'F'</span>)){        <span style="color: #7E7E7E;">//if char is between 'A' and 'F'</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bufin[i]-=55;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//'A' is int 65 minus 55 gives 10 which is int value for hex A</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ((bufin[i]&gt;=<span style="color: #006699;">'0'</span>) &amp;&amp; (bufin[i]&lt;=<span style="color: #006699;">'9'</span>)){        <span style="color: #7E7E7E;">//if char is between '0' and '9'</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bufin[i]-=48;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//'0' is int 48 minus 48 gives 0 same as hex</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rpm=(rpm&nbsp;&lt;&lt;&nbsp;4)&nbsp;|&nbsp;(bufin[i]&nbsp;&amp;&nbsp;0xf);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//shift left rpm 4 bits and add the 4 bits of new char</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rpm=rpm&nbsp;&gt;&gt;&nbsp;2;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//finaly shift right rpm 2 bits, rpm=rpm/4</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (!valid){                                              <span style="color: #7E7E7E;">//in case of incorrect RPM response</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rpm_error_flag=<span style="color: #CC6600;">true</span>;                                    <span style="color: #7E7E7E;">//set rpm error flag to true</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rpm_retries+=1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//add 1 retry</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rpm=0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//set rpm to 0</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//Serial.println("RPM_ERROR");</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (rpm_retries&gt;=RPM_CMD_RETRIES) obd_error_flag=<span style="color: #CC6600;">true</span>;  <span style="color: #7E7E7E;">//if retries reached RPM_CMD_RETRIES limit then set obd error flag to true</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+
+<span style="color: #7E7E7E;">//----------------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//---------------------Send&nbsp;OBD&nbsp;Command---------------------//</span>
+<span style="color: #7E7E7E;">//--------------------for&nbsp;initialitation--------------------//</span>
+
+<span style="color: #CC6600;">void</span> send_OBD_cmd(<span style="color: #CC6600;">char</span> *obd_cmd){
+&nbsp;&nbsp;<span style="color: #CC6600;">char</span> recvChar;
+&nbsp;&nbsp;<span style="color: #CC6600;">boolean</span> prompt;
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> retries;
+&nbsp;
+&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (!(obd_error_flag)){                                        <span style="color: #7E7E7E;">//if no OBD connection error</span>
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;prompt=<span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;retries=0;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span>((!prompt) &amp;&amp; (retries&lt;OBD_CMD_RETRIES)){                <span style="color: #7E7E7E;">//while no prompt and not reached OBD cmd retries</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blueToothSerial.<span style="color: #CC6600;">print</span>(obd_cmd);                             <span style="color: #7E7E7E;">//send OBD cmd</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blueToothSerial.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"\r"</span>);                                <span style="color: #7E7E7E;">//send cariage return</span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> (blueToothSerial.<span style="color: #CC6600;">available</span>() &lt;= 0);                   <span style="color: #7E7E7E;">//wait while no data from ELM</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> ((blueToothSerial.<span style="color: #CC6600;">available</span>()&gt;0) &amp;&amp; (!prompt)){       <span style="color: #7E7E7E;">//while there is data and not prompt</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recvChar&nbsp;=&nbsp;blueToothSerial.<span style="color: #CC6600;">read</span>();                        <span style="color: #7E7E7E;">//read from elm</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (recvChar==62) prompt=<span style="color: #CC6600;">true</span>;                            <span style="color: #7E7E7E;">//if received char is '&gt;' then prompt is true</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retries=retries+1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//increase retries</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(2000);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (retries&gt;=OBD_CMD_RETRIES) {                               <span style="color: #7E7E7E;">// if OBD cmd retries reached</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obd_error_flag=<span style="color: #CC6600;">true</span>;                                        <span style="color: #7E7E7E;">// obd error flag is true</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+}
+&nbsp;
+<span style="color: #7E7E7E;">//----------------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//----------------initialitation&nbsp;of&nbsp;OBDII-------------------//</span>
+<span style="color: #CC6600;">void</span> obd_init(){
+&nbsp;&nbsp;
+&nbsp;&nbsp;obd_error_flag=<span style="color: #CC6600;">false</span>;     <span style="color: #7E7E7E;">// obd error flag is false</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;send_OBD_cmd(<span style="color: #006699;">"ATZ"</span>);      <span style="color: #7E7E7E;">//send to OBD ATZ, reset</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;&nbsp;send_OBD_cmd(<span style="color: #006699;">"ATSP0"</span>);    <span style="color: #7E7E7E;">//send ATSP0, protocol auto</span>
+
+&nbsp;&nbsp;send_OBD_cmd(<span style="color: #006699;">"0100"</span>);     <span style="color: #7E7E7E;">//send 0100, retrieve available pid's 00-19</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;&nbsp;send_OBD_cmd(<span style="color: #006699;">"0120"</span>);     <span style="color: #7E7E7E;">//send 0120, retrieve available pid's 20-39</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;&nbsp;send_OBD_cmd(<span style="color: #006699;">"0140"</span>);     <span style="color: #7E7E7E;">//send 0140, retrieve available pid's 40-??</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;&nbsp;send_OBD_cmd(<span style="color: #006699;">"010C1"</span>);    <span style="color: #7E7E7E;">//send 010C1, RPM cmd</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;&nbsp;
+}
+
+<span style="color: #7E7E7E;">//----------------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//-----------start&nbsp;of&nbsp;bluetooth&nbsp;connection------------------//</span>
+<span style="color: #CC6600;">void</span> setupBlueToothConnection()
+{
+&nbsp;&nbsp;
+&nbsp;&nbsp;bt_error_flag=<span style="color: #CC6600;">false</span>;                    <span style="color: #7E7E7E;">//set bluetooth error flag to false</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;enterATMode();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//enter HC-05 AT mode</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(500);
+
+&nbsp;&nbsp;sendATCommand(<span style="color: #006699;">"RESET"</span>);                  <span style="color: #7E7E7E;">//send to HC-05 RESET</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;&nbsp;sendATCommand(<span style="color: #006699;">"ORGL"</span>);                   <span style="color: #7E7E7E;">//send ORGL, reset to original properties</span>
+&nbsp;&nbsp;sendATCommand(<span style="color: #006699;">"ROLE=1"</span>);                 <span style="color: #7E7E7E;">//send ROLE=1, set role to master</span>
+&nbsp;&nbsp;sendATCommand(<span style="color: #006699;">"CMODE=0"</span>);                <span style="color: #7E7E7E;">//send CMODE=0, set connection mode to specific address</span>
+&nbsp;&nbsp;sendATCommand(<span style="color: #006699;">"BIND=1122,33,DDEEFF"</span>);    <span style="color: #7E7E7E;">//send BIND=??, bind HC-05 to OBD bluetooth address</span>
+&nbsp;&nbsp;sendATCommand(<span style="color: #006699;">"INIT"</span>);                   <span style="color: #7E7E7E;">//send INIT, cant connect without this cmd </span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000); 
+&nbsp;&nbsp;sendATCommand(<span style="color: #006699;">"PAIR=1122,33,DDEEFF,20"</span>); <span style="color: #7E7E7E;">//send PAIR, pair with OBD address</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);  
+&nbsp;&nbsp;sendATCommand(<span style="color: #006699;">"LINK=1122,33,DDEEFF"</span>);    <span style="color: #7E7E7E;">//send LINK, link with OBD address</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000); 
+&nbsp;&nbsp;enterComMode();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//enter HC-05 comunication mode</span>
+&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(500);
+}
+
+<span style="color: #7E7E7E;">//----------------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//------------------reset&nbsp;of&nbsp;HC-05--------------------------//</span>
+<span style="color: #7E7E7E;">//-------set&nbsp;reset&nbsp;pin&nbsp;of&nbsp;HC-05&nbsp;to&nbsp;LOW&nbsp;for&nbsp;2&nbsp;secs-----------//</span>
+<span style="color: #CC6600;">void</span> resetBT()
+{
+&nbsp;<span style="color: #CC6600;">digitalWrite</span>(Reset, <span style="color: #006699;">LOW</span>);
+&nbsp;<span style="color: #CC6600;">delay</span>(2000);
+&nbsp;<span style="color: #CC6600;">digitalWrite</span>(Reset, <span style="color: #006699;">HIGH</span>);
+}
+
+<span style="color: #7E7E7E;">//----------------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//--------Enter&nbsp;HC-05&nbsp;bluetooth&nbsp;moduel&nbsp;command&nbsp;mode---------//</span>
+<span style="color: #7E7E7E;">//-------------set&nbsp;HC-05&nbsp;mode&nbsp;pin&nbsp;to&nbsp;LOW--------------------//</span>
+<span style="color: #CC6600;">void</span> enterComMode()
+{
+&nbsp;blueToothSerial.<span style="color: #CC6600;">flush</span>();
+&nbsp;<span style="color: #CC6600;">delay</span>(500);
+&nbsp;<span style="color: #CC6600;">digitalWrite</span>(PIO11, <span style="color: #006699;">LOW</span>);
+&nbsp;<span style="color: #7E7E7E;">//resetBT();</span>
+&nbsp;<span style="color: #CC6600;">delay</span>(500);
+&nbsp;blueToothSerial.<span style="color: #CC6600;">begin</span>(38400); <span style="color: #7E7E7E;">//default communication baud rate of HC-05 is 38400</span>
+}
+
+<span style="color: #7E7E7E;">//----------------------------------------------------------//</span>
+<span style="color: #7E7E7E;">//----------Enter&nbsp;HC-05&nbsp;bluetooth&nbsp;moduel&nbsp;AT&nbsp;mode------------//</span>
+<span style="color: #7E7E7E;">//-------------set&nbsp;HC-05&nbsp;mode&nbsp;pin&nbsp;to&nbsp;HIGH--------------------//</span>
+<span style="color: #CC6600;">void</span> enterATMode()
+{
+&nbsp;blueToothSerial.<span style="color: #CC6600;">flush</span>();
+&nbsp;<span style="color: #CC6600;">delay</span>(500);
+&nbsp;<span style="color: #CC6600;">digitalWrite</span>(PIO11, <span style="color: #006699;">HIGH</span>);
+&nbsp;<span style="color: #7E7E7E;">//resetBT();</span>
+&nbsp;<span style="color: #CC6600;">delay</span>(500);
+&nbsp;blueToothSerial.<span style="color: #CC6600;">begin</span>(38400);<span style="color: #7E7E7E;">//HC-05 AT mode baud rate is 38400</span>
+
+}
+
+<span style="color: #7E7E7E;">//----------------------------------------------------------//</span>
+
+<span style="color: #CC6600;">void</span> sendATCommand(<span style="color: #CC6600;">char</span> *command)
+{
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #CC6600;">char</span> recvChar;
+&nbsp;&nbsp;<span style="color: #CC6600;">char</span> str[2];
+&nbsp;&nbsp;<span style="color: #CC6600;">int</span> i,retries;
+&nbsp;&nbsp;<span style="color: #CC6600;">boolean</span> OK_flag;
+&nbsp;&nbsp;
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (!(bt_error_flag)){                                  <span style="color: #7E7E7E;">//if no bluetooth connection error</span>
+&nbsp;&nbsp;&nbsp;&nbsp;retries=0;
+&nbsp;&nbsp;&nbsp;&nbsp;OK_flag=<span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> ((retries&lt;BT_CMD_RETRIES) &amp;&amp; (!(OK_flag))){     <span style="color: #7E7E7E;">//while not OK and bluetooth cmd retries not reached</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blueToothSerial.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"AT"</span>);                       <span style="color: #7E7E7E;">//sent AT cmd to HC-05</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span>(strlen(command) &gt; 1){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blueToothSerial.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"+"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blueToothSerial.<span style="color: #CC6600;">print</span>(command);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blueToothSerial.<span style="color: #CC6600;">print</span>(<span style="color: #006699;">"\r\n"</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> (blueToothSerial.<span style="color: #CC6600;">available</span>()&lt;=0);              <span style="color: #7E7E7E;">//wait while no data</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=0;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">while</span> (blueToothSerial.<span style="color: #CC6600;">available</span>()&gt;0){               <span style="color: #7E7E7E;">// while data is available</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;recvChar&nbsp;=&nbsp;blueToothSerial.<span style="color: #CC6600;">read</span>();                 <span style="color: #7E7E7E;">//read data from HC-05</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (i&lt;2){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str[i]=recvChar;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//put received char to str</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=i+1;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retries=retries+1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//increase retries </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ((str[0]==<span style="color: #006699;">'O'</span>) &amp;&amp; (str[1]==<span style="color: #006699;">'K'</span>)) OK_flag=<span style="color: #CC6600;">true</span>;   <span style="color: #7E7E7E;">//if response is OK then OK-flag set to true</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(1000);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (retries&gt;=BT_CMD_RETRIES) {                        <span style="color: #7E7E7E;">//if bluetooth retries reached</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bt_error_flag=<span style="color: #CC6600;">true</span>;                                 <span style="color: #7E7E7E;">//set bluetooth error flag to true</span>
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;}
+&nbsp;&nbsp;
+}
+
+<span style="color: #7E7E7E;">//----------------------------------------------------------//</span>
+
+<span style="color: #CC6600;">void</span> <span style="color: #CC6600;"><b>loop</b></span>(){
+&nbsp;&nbsp;<span style="color: #CC6600;">while</span> (!(obd_error_flag)){            <span style="color: #7E7E7E;">//while no OBD comunication error  </span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ((rpm&gt;=0) &amp;&amp; (rpm&lt;10000)){       <span style="color: #7E7E7E;">//if rpm value is between 0 and 10000 </span>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rpm_to_disp=<span style="color: #CC6600;">int</span>(rpm/100);         <span style="color: #7E7E7E;">//devide by 100, cause we have only two 7-seg disps</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decades=rpm_to_disp&nbsp;/&nbsp;10;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//calculate decades</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;monades=rpm_to_disp&nbsp;%&nbsp;10;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//calculate monades</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sevenSegWriteDec(decades);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//display decades to decades 7-seg disp</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(10);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sevenSegWriteMon(monades);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//display monades to monades 7-seg disp</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">delay</span>(10);     
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (shift_light_rpm&gt;0){    <span style="color: #7E7E7E;">//if shift light rpm is &gt;0</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (rpm_to_disp&gt;=shift_light_rpm-10) <span style="color: #CC6600;">digitalWrite</span>(ledpin_green,<span style="color: #006699;">HIGH</span>); <span style="color: #CC6600;">else</span> <span style="color: #CC6600;">digitalWrite</span>(ledpin_green,<span style="color: #006699;">LOW</span>); <span style="color: #7E7E7E;">//green led on -1000rpms </span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (rpm_to_disp&gt;=shift_light_rpm-5) <span style="color: #CC6600;">digitalWrite</span>(ledpin_yellow,<span style="color: #006699;">HIGH</span>); <span style="color: #CC6600;">else</span> <span style="color: #CC6600;">digitalWrite</span>(ledpin_yellow,<span style="color: #006699;">LOW</span>);<span style="color: #7E7E7E;">//yellow led on -500rpms</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (rpm_to_disp&gt;=shift_light_rpm) <span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">HIGH</span>); <span style="color: #CC6600;">else</span> <span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">LOW</span>);        <span style="color: #7E7E7E;">//red led on stored shift light rpm value</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span style="color: #CC6600;">else</span> <span style="color: #CC6600;">digitalWrite</span>(ledpin_green,<span style="color: #006699;">HIGH</span>);<span style="color: #7E7E7E;">//if no value is stored in EEPROM</span>
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (rpm_error_flag){              <span style="color: #7E7E7E;">//if rpm error yellow led ON</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_green,<span style="color: #006699;">LOW</span>); 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_yellow,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #7E7E7E;">//if button pressed then store current rpm to EEPROM</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> ((<span style="color: #CC6600;">digitalRead</span>(sel_sw)) &amp;&amp; (!but_pressed_flag)){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;but_pressed_flag=<span style="color: #CC6600;">true</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;shift_light_rpm=rpm_to_disp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">EEPROM</span>.<span style="color: #CC6600;">write</span>(addr,shift_light_rpm);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flash_store(shift_light_rpm);&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (!(<span style="color: #CC6600;">digitalRead</span>(sel_sw))) but_pressed_flag=<span style="color: #CC6600;">false</span>;
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">else</span> <span style="color: #7E7E7E;">//if no correct rpm value received</span>
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led_dec,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(led_mon,<span style="color: #006699;">HIGH</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_red,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_green,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #CC6600;">digitalWrite</span>(ledpin_yellow,<span style="color: #006699;">LOW</span>);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;t.update();&nbsp;&nbsp;<span style="color: #7E7E7E;">//update of timer for calling rpm_calc</span>
+&nbsp;&nbsp;}
+&nbsp;&nbsp;<span style="color: #CC6600;">if</span> (obd_error_flag) obd_err_flash();    <span style="color: #7E7E7E;">//if OBD error flag is true</span>
+}
+
+</pre>
+
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+Download OBDSim:
+
+wget http://icculus.org/obdgpslogger/downloads/obdgpslogger-0.16.tar.gz 
+
+Or get the most recent version from: http://icculus.org/obdgpslogger/
+
+Install OBDSim:
+
+tar -zxvf obdgpslogger-0.16.tar.gz
+cd obdgpslogger-0.16
+mkdir build
+cd build
+
+I have to install only these libraries, but in your case keep attention to warning messages of cmake and install all that it ask you to install:
+
+sudo apt-get install libbluetooth-dev libfltk1.1-dev libfltk1.1 fltk1.1-doc fluid fftw3-dev libgps-dev libftdi-dev
+cmake .. 
+make obdsim
+cd ../bin/
+
+Run OBDSim:
+
+./obdsim -b -g gui_fltk
+
+Now you have OBDSim running, but you need a channel to communicate it with your app. You need a serial port working as a bluetooth interface.
+
+Creating the serial->bluetooth interface:
+
+sudo rfcomm bind 0 00:00:00:00:00:00 1 # Change this MAC address, putting the MAC of your device
+sudo sdptool add SP
+
+You can discover the MAC address of your device by using hcitool:
+
+hcitool dev
+
+
+
+On peut tester la connexion avec le logiciel Android "Serial Bluetooth Terminal"

@@ -4,6 +4,9 @@
 
 TinyGPS gps;
 SoftwareSerial ss(8, 7);
+unsigned long time1;
+unsigned long time2;
+
 
 void setup()
 {
@@ -11,10 +14,12 @@ void setup()
   ss.begin(9600);
   Serial.println("Projet Alfox");
   Serial.println();
+
 }
 
 void loop()
 {
+  time1 = millis();
   bool newData = false;
   unsigned long chars;
   unsigned short sentences, failed;
@@ -28,7 +33,6 @@ void loop()
         newData = true;
     }
   }
-
   if (newData)
   {
     float flat, flon;
@@ -44,6 +48,8 @@ void loop()
   gps.stats(&chars, &sentences, &failed);
   if (chars == 0)
     Serial.println("** Pas de signal GPS **");
+  time2 = millis();
+  Serial.println(time2-time1);
 }
 
 //fonction temps
@@ -62,5 +68,6 @@ static void print_date(TinyGPS &gps)
         jour, mois, annee, heure, minute, seconde);
     Serial.print(sz);
   }
+    
 }
 

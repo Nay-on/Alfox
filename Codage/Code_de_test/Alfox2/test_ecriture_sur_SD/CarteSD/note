@@ -1,0 +1,9 @@
+calcul distance  
+passage des km/h en m/s puis ajout m au total puis converssion en km
+
+
+km/h*0,277778=m/s
+ex 80-60-110-90-70-80
+22.22224-16.66668-30.55558-25.00002-19.44446-22.22224 arondie 134m
+non arrondie 136.11122 en 6s
+

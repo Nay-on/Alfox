@@ -24,7 +24,7 @@ void loop()
   unsigned long chars;
   unsigned short sentences, failed;
 
-  for (unsigned long start = millis(); millis() - start < 1000;)
+  for (unsigned long start = millis(); millis() - start < 500;)
   {
     while (ss.available())
     {

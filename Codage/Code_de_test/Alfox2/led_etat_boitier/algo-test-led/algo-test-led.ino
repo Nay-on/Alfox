@@ -86,7 +86,23 @@ void couleursFondue(){
   }
 }
 
+void couleurblanc(){
+  digitalWrite( ledRougePin, LOW);
+  digitalWrite( ledVertPin, LOW);
+  digitalWrite( ledBleuPin, LOW);
+  int iRouge = 0;
+  int iVert = 0;
+  int iBleu = 0;
+  analogWrite (ledRougePin, iRouge);
+  analogWrite (ledVertPin, iVert);
+  analogWrite (ledBleuPin, iBleu);
+}
+
+
+
+
 void loop(){
-  couleursSimple();
+  //couleursSimple();
   //couleursFondue();
+  couleurblanc();
 }

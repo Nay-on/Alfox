@@ -1,6 +1,7 @@
 #include <SPI.h>
 #include <SD.h>
 int Pin = 2;
+String date ="05032018";
 String kilometrage ="100000"; 
 String consomationMoyenne = "10,4";
 String nbDefauts = "4";
@@ -16,20 +17,21 @@ String heure ="00:00";
 char buf[100];
 unsigned long time1;
 unsigned long time2;
+String formatFichier =".txt";
+String nomFichier =date + formatFichier;
 File fichierSD;
 
 void setup()
 {
     pinMode(Pin, OUTPUT);
-    Serial.begin(9600);
+    Serial.begin(115200);
     pinMode(10, OUTPUT); // laisser la broche SS en sortie - obligatoire avec librairie SD
     if(!SD.begin(4)) { // si la communication commence bien sur le port d'ecriture
         Serial.println(F("Initialisation impossible !"));
         return;
     }
     Serial.println(F("Initialisation OK"));
-    fichierSD = SD.open("essai.txt", FILE_WRITE);           //Ouverture du fichier
-    fichierSD = SD.open("essai.txt", FILE_WRITE);
+    fichierSD = SD.open(nomFichier, FILE_WRITE);           //Ouverture du fichier
     fichierSD.println("KM : Distance");
     fichierSD.println("CMOY : consommation Moyenne");
     fichierSD.println("NBDF : nombre de defauts");
@@ -48,7 +50,7 @@ void loop()
 {
     time1 = millis();
     digitalWrite(2, HIGH);
-    fichierSD = SD.open("essai.txt", FILE_WRITE);           //Ouverture du fichier
+    fichierSD = SD.open(nomFichier, FILE_WRITE);           //Ouverture du fichier
     SD.mkdir("essai.txt");
 
     fichierSD.print(heure+"   ");
@@ -64,13 +66,11 @@ void loop()
     fichierSD.print(regimeMax+"   ");
     fichierSD.print(regimeMoyen+"   ");
     fichierSD.println("");
-    fichierSD.println(millis());
+    fichierSD.println(millis()); //milis permet de connaitre le temps de fonctionement de la arduino depuis sa dernière réinitialisation
     Serial.println("ecriture des donnée");
-    //fichierSD.read(buf,100);
-    //Serial.println(buf);
     fichierSD.close();
     time2 = millis();
-    Serial.println(time2-time1);
+    Serial.println(time2-time1); // permet de savoir le delais d'ecriture des donnée
     digitalWrite(2, LOW);
     delay(1000);
 

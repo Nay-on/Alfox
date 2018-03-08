@@ -13,7 +13,7 @@ class GPS
 		float latitude;
 		float longitude; 
 		char datation;
-		int rx,tx;
+    bool isAvailable1;
     TinyGPS gps;
     SoftwareSerial* serialGPS;
 
@@ -25,9 +25,7 @@ class GPS
 		int maj();
 		float getLatitude() {return latitude;};
     float getLongitude() {return longitude;};
-   
 		char getDatation() {return datation;};
-    
     bool isAvailable();
 		
 };

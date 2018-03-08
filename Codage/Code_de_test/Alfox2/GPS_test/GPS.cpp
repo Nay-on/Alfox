@@ -2,8 +2,6 @@
 
 GPS::GPS(int rx, int tx){
 
-	this->rx = rx;
-	this->tx = tx;
   serialGPS = new SoftwareSerial(rx,tx);
   serialGPS->begin(9600);
 }
@@ -39,5 +37,5 @@ int GPS::maj(){
 }
 
 bool GPS::isAvailable(){
-   
+   return isAvailable1;
 }

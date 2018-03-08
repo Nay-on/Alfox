@@ -31,6 +31,7 @@ int GPS::maj(){
     unsigned long age;
     gps.f_get_position(&latitude, &longitude, &age);
     latitude == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : latitude, 6;
+    
     longitude == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : longitude, 6;
     Serial.println("récupération lat lon");
   }

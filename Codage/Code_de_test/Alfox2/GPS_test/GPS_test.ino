@@ -1,8 +1,6 @@
  #include "GPS.h"
  
  GPS* gps = new GPS(8,7);
-  unsigned long time1;
-  unsigned long time2;
  
 void setup() {
   
@@ -13,8 +11,7 @@ void setup() {
 }
 
 void loop() {
-  delay(3000);
-  //time1 = millis();  
+  delay(3000); 
   int erreur = gps->maj();
 
   Serial.println(gps->getLongitude(), 6);

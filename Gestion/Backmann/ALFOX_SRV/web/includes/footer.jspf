@@ -1,0 +1,34 @@
+<%-- footer.jspf --%>
+<%@page import="com.persistence.User"%>
+<%@ page pageEncoding="UTF-8" %>
+
+<div class="footer" data-role="footer" data-theme="a" data-tap-toggle="false"
+            data-id="main-footer" data-position="fixed" data-fullscreen="true">
+    <% 
+        User user1 = (User) session.getAttribute("user");
+        // y a t'il eu connexion ?
+        if (user1 != null) {
+            if (user1.getRole().equals("responsable")) {
+                out.println("<div data-role='navbar' data-grid='d'>");
+                out.println("<ul>");
+                out.println("<li><a href='alfoxControl.jsp?action=accueil' data-ajax='false' id='navbarhome' data-icon='home'>Accueil</a></li>");
+                out.println("<li><a href='alfoxControl.jsp?action=localisation' data-ajax='false' id='navbarSuivi' data-icon='location'>Localisation</a></li>");
+                out.println("<li><a href='alfoxControl.jsp?action=infos' data-ajax='false' id='navbarInfos' data-icon='info'>Infos</a></li>");
+                out.println("<li><a href='alfoxControl.jsp?action=statistiques' data-ajax='false' id='navbarStatistiques' data-icon='bars'>Statistiques</a></li>");
+                out.println("<li><a href='alfoxControl.jsp?action=gestion' data-ajax='false' id='navbarGestion' data-icon='edit'>Gestion</a></li>");
+                out.println("</ul>");
+                out.println("</div>");
+            }
+            else {        // 4 menus
+                out.println("<div data-role='navbar' data-grid='c'>"); 
+                out.println("<ul>");
+                out.println("<li><a href='alfoxControl.jsp?action=accueil' data-ajax='false' id='navbarhome' data-icon='home'>Accueil</a></li>");
+                out.println("<li><a href='alfoxControl.jsp?action=localisation' data-ajax='false' id='navbarSuivi' data-icon='location'>Localisation</a></li>");
+                out.println("<li><a href='alfoxControl.jsp?action=infos' data-ajax='false' id='navbarInfos' data-icon='info'>Infos</a></li>");
+                out.println("<li><a href='alfoxControl.jsp?action=maintenance' data-ajax='false' id='navbarMaintenance' data-icon='gear'>Maintenance</a></li>");
+                out.println("</ul>");
+                out.println("</div>");
+            }
+        }
+    %>
+</div>

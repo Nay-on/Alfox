@@ -20,7 +20,7 @@ public:
 	float getDistanceParcourue();
 //	void majDistance(GPS gps);
 //	void majData(OBD2 obd2);
-	// pas de getDefaut ou de getNbDefaut
+	// pas de getDefaut ou de getNbDefaut ni de set
 private:
 	float distanceParcourue = 0;
 	int nbDefauts = 0;
@@ -37,4 +37,4 @@ private:
 
 };
 
-#endif /* CARTESD_H */
+#endif /* DONNEES_H */

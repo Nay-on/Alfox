@@ -1,0 +1,21 @@
+SMAP
+m_005faccueil_jsp.java
+JSP
+*S JSP
+*F
++ 0 m_accueil.jsp
+WEB-INF/m_accueil.jsp
++ 1 header.jspf
+includes/header.jspf
++ 2 footer.jspf
+includes/footer.jspf
+*L
+5,8:51
+1#1,10:59
+10,8:68
+12#0,24:75
+1#2,7:99
+8,26:107
+33,3:133
+35#0,4:135
+*E

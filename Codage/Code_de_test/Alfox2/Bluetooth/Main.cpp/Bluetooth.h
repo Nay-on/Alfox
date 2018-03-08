@@ -3,9 +3,12 @@
 
 class Bluetooth {
 
+private :
+  SoftwareSerial* serialBluetooth;
+
 public:
 	Bluetooth(int rx, int tx);
 	~Bluetooth();
-	Dev connexion();
+	void connexion();
 	bool isActive();
 };

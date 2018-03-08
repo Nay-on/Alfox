@@ -34,7 +34,7 @@ void GPS::useInterrupt(boolean v) {
   }
 }
 
-void GPS::SIGNAL(TIMER0_COMPA_vect){
-    char c = gps.read();
-  }
+SIGNAL(TIMER0_COMPA_vect){
+    char c = gps->read();
+}
 

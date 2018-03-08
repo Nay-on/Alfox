@@ -1,8 +1,9 @@
 #include "CarteSD.h"
 #include "DonneesTR.h"
 
-CarteSD carteSD;
-DonneesTR donneesTR;
+CarteSD* carteSD = new CarteSD();
+DonneesTR* donneesTR = new DonneesTR();
+GPS* gps = new GPS();
 
 void setup() {
   // put your setup code here, to run once:
@@ -12,7 +13,10 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-    carteSD.effacer();
-    Serial.println(donneesTR.getVitesseMoyenne());
+    carteSD->creerFichier("20180308.txt");
+    carteSD->ecrire(donneesTR,gps);
+    Serial.println(donneesTR->getVitesseMoyenne());
     delay(10000);
 }
+
+

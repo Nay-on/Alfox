@@ -1,4 +1,5 @@
-#include "DonneesTR.h"	
+#include "DonneesTR.h"
+#include "GPS.h"
 
 	DonneesTR::DonneesTR(){
 	}
@@ -8,7 +9,17 @@
 
 	void DonneesTR::razStat()
 	{
-
+    nbDefauts = 0;
+    defauts[4]=0;
+    consommation = 0;
+    consoMoyenne = 0;
+    consoMax = 0;
+    vitesse = 0;
+    vitesseMoyenne = 0;
+    vitesseMax = 0;
+    regime = 0;
+    regimeMoyen = 0;
+    regimeMax = 0;
 	}
 	
 	int DonneesTR::getConsoMoyenne()

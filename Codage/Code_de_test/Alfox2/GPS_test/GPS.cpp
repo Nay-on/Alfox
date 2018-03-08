@@ -2,8 +2,6 @@
 
 GPS::GPS(int rx, int tx){
 
-	this->rx = rx;
-	this->tx = tx;
   serialGPS = new SoftwareSerial(rx,tx);
   serialGPS->begin(9600);
 }
@@ -33,11 +31,12 @@ int GPS::maj(){
     unsigned long age;
     gps.f_get_position(&latitude, &longitude, &age);
     latitude == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : latitude, 6;
+    
     longitude == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : longitude, 6;
     Serial.println("récupération lat lon");
   }
 }
 
 bool GPS::isAvailable(){
-   
+   return isAvailable1;
 }

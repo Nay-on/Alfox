@@ -2,24 +2,6 @@ drop schema if exists alfox;
 create schema alfox;
 use alfox;
 
-create table contrat (
-    ID int(10) not null auto_increment, 
-    LoueurID int(10) not null, 
-    VehiculeID int(10) not null, 
-    ZoneLimiteID int(10), 
-    Numero varchar(255) not null unique, 
-    DateCreation date not null, 
-    Type varchar(255), 
-    Infos varchar(255), 
-    primary key (ID),
-    add index FKContrat5291 (ZoneLimiteID), 
-    add constraint FKContrat5291 foreign key (ZoneLimiteID) references zoneLimite (ID),
-    add index FKContrat433214 (VehiculeID), 
-    add constraint FKContrat433214 foreign key (VehiculeID) references vehicule (ID),
-    add index FKContrat81038 (LoueurID), 
-    add constraint FKContrat81038 foreign key (LoueurID) references loueur (ID)
-) ;
-
 create table donneesHisto (
     ID int(10) not null auto_increment, 
     Mode int(10) not null, 
@@ -36,9 +18,7 @@ create table donneesHisto (
     LongitudeGPS float not null, 
     DistanceParcourue bigint(20) not null, 
     VehiculeID int(10) not null, 
-    primary key (ID),
-    add index FKDonneesHis493650 (VehiculeID), 
-    add constraint FKDonneesHis493650 foreign key (VehiculeID) references vehicule (ID)
+    primary key (ID)   
 ) ;
 
 create table donneesTR (
@@ -57,36 +37,6 @@ create table donneesTR (
     Longitude float not null, 
     DistanceParcourue bigint(20) not null, 
     VehiculeID int(10) not null, 
-    primary key (ID),
-    add index FKDonneesTR404677 (VehiculeID), 
-    add constraint FKDonneesTR404677 foreign key (VehiculeID) references vehicule (ID)
-) ;
-
-create table loueur (
-    ID int(10) not null auto_increment, 
-    Nom varchar(255) not null, 
-    Prenom varchar(255) not null, 
-    Telephone varchar(255) unique, 
-    Mail varchar(255) not null unique, 
-    primary key (ID)
-) ;
-
-create table position (
-    ID int(10) not null auto_increment, 
-    ZoneLimiteID int(10) not null, 
-    Ordre int(10) not null, 
-    Latitude float not null, 
-    Longitude float not null, 
-    primary key (ID),
-    add index FKPosition217606 (ZoneLimiteID), 
-    add constraint FKPosition217606 foreign key (ZoneLimiteID) references zoneLimite (ID);
-) ;
-
-create table `user` (
-    ID int(10) not null auto_increment, 
-    Role varchar(255) not null unique, 
-    Mdp varchar(255) not null, 
-    Mail varchar(255) not null unique, 
     primary key (ID)
 ) ;
 
@@ -112,3 +62,69 @@ create table zoneLimite (
     Nom varchar(255) not null unique, 
     primary key (ID)
 ) ;
+
+
+create table loueur (
+    ID int(10) not null auto_increment, 
+    Nom varchar(255) not null, 
+    Prenom varchar(255) not null, 
+    Telephone varchar(255) unique, 
+    Mail varchar(255) not null unique, 
+    primary key (ID)
+) ;
+
+create table position (
+    ID int(10) not null auto_increment, 
+    ZoneLimiteID int(10) not null, 
+    Ordre int(10) not null, 
+    Latitude float not null, 
+    Longitude float not null, 
+    primary key (ID)
+) ;
+
+create table contrat (
+    ID int(10) not null auto_increment, 
+    LoueurID int(10) not null, 
+    VehiculeID int(10) not null, 
+    ZoneLimiteID int(10), 
+    Numero varchar(255) not null unique, 
+    DateCreation date not null, 
+    Modele varchar(255), 
+    Infos varchar(255), 
+    primary key (ID)
+) ;
+
+create table `user` (
+    ID int(10) not null auto_increment, 
+    Role varchar(255) not null unique, 
+    Mdp varchar(255) not null, 
+    Mail varchar(255) not null unique, 
+    primary key (ID)
+) ;
+
+alter table donneesHisto 
+    add index FKDonneesHis493650 (VehiculeID), 
+    add constraint FKDonneesHis493650 foreign key (VehiculeID) references vehicule (ID);
+
+alter table donneesTR 
+    add index FKDonneesTR404677 (VehiculeID), 
+    add constraint FKDonneesTR404677 foreign key (VehiculeID) references vehicule (ID);
+
+alter table contrat 
+    add index FKContrat5291 (ZoneLimiteID), 
+    add constraint FKContrat5291 foreign key (ZoneLimiteID) references zoneLimite (ID);
+
+alter table position 
+    add index FKPosition217606 (ZoneLimiteID), 
+    add constraint FKPosition217606 foreign key (ZoneLimiteID) references zoneLimite (ID);
+
+alter table contrat 
+    add index FKContrat433214 (VehiculeID), 
+    add constraint FKContrat433214 foreign key (VehiculeID) references vehicule (ID);
+
+alter table contrat 
+    add index FKContrat81038 (LoueurID), 
+    add constraint FKContrat81038 foreign key (LoueurID) references loueur (ID);
+
+alter table loueur
+    add constraint nomprenom unique (Nom, Prenom);

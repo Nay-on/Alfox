@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,12 +8,15 @@
         <link rel="stylesheet" href="../css/themes/jquery.mobile.icons.min.css" />
         <link rel="stylesheet" href="../css/alfoxTheme.css">
         <link rel="stylesheet" href="../css/alfox.css">
+        
+        <script type="text/javascript" src="../js/jquery/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="../js/jquery.mobile/jquery.mobile-1.4.5.min.js"></script>
     </head>
     <body>
         <div data-role="page" id="page1">
             <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" 
                  data-theme="a" data-position="fixed" data-fullscreen="true">
-                <h1><img id="logoHeader" src="images/alcisLogo.png"/>Accueil</h1>
+                <h1><img id="logoHeader" src="../images/alcisLogo.png"/>Accueil</h1>
             </div>
             
             <div role="main" class="ui-content">
@@ -22,7 +24,9 @@
                     <br/><br/><br/>
                     <h1>Page de la maintenance</h1>
                     <br/><br/>
-                    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/><br/>
                     <form id="formLogin" method="post" action="alfoxControl.jsp">
                         <input name="action" id="logout" type="hidden" value="logout"/><br/>
                         <button type="submit" id="submitOK" name="submitOK">Déconnexion</button>
@@ -31,13 +35,15 @@
                     <br/><br/><br/>
                 </center>
             </div>
-            <ul>
-                <li><a href='../alfoxControl.jsp?action=accueil' data-ajax='false' id='navbarhome' data-icon='home'>Accueil</a></li>
-                <li><a href='../alfoxControl.jsp?action=localisation' data-ajax='false' id='navbarSuivi' data-icon='location'>Localisation</a></li>
-                <li><a href='../alfoxControl.jsp?action=infos' data-ajax='false' id='navbarInfos' data-icon='info'>Infos</a></li>
-                <li><a href='../alfoxControl.jsp?action=statistiques' data-ajax='false' id='navbarStatistiques' data-icon='bars'>Statistiques</a></li>
-                <li><a href='../alfoxControl.jsp?action=gestion' data-ajax='false' id='navbarGestion' data-icon='edit'>Gestion</a></li>
-            </ul>
+            <div data-role='navbar' data-grid='d'>
+                <ul>
+                    <li><a href='#' data-ajax='false' id='navbarhome' data-icon='home'>Accueil</a></li>
+                    <li><a href='#' data-ajax='false' id='navbarSuivi' data-icon='location'>Localisation</a></li>
+                    <li><a href='#' data-ajax='false' id='navbarInfos' data-icon='info'>Infos</a></li>
+                    <li><a href='#' data-ajax='false' id='navbarStatistiques' data-icon='bars'>Statistiques</a></li>
+                    <li><a href='#' data-ajax='false' id='navbarGestion' data-icon='edit'>Gestion</a></li>
+                </ul>
+            </div>
         </div>
     </body>
 </html>

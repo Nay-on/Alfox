@@ -10,6 +10,7 @@
 
 use alfox;
 insert into loueur (nom, prenom, telephone, mail) values
-    ('Michel', 'Yves', '0607080910', 'yvesmichel@gmail.com'),
-    ('Michel', 'Bernard', '0607080911', 'bernardmichel@gmail.com'),
-    ('Jacques', 'Jean', '0708091011', 'jeanjacques@gmail.com');
+    ('Magritte', 'René', '0607080910', 'yvesmagritte@gmail.com'),
+    ('Magritte', 'Bernard', '0607080911', 'bernardmagritte@gmail.com'),
+    ('Magritte', 'Bernard1', '0607080912', 'bernardmagritte2@gmail.com'),
+    ('Bon', 'Jean', '0708091011', 'jeanbon@gmail.com');

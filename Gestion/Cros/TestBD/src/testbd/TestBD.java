@@ -34,7 +34,7 @@ public class TestBD {
             System.out.println(contrat.getType());
             System.out.println(contrat.getInfos());
             */
-            Loueur loueur = Loueur.getByNom(con, "Michel");
+            Loueur loueur = Loueur.getByNom(con, "Michel", "");
             System.out.println(loueur.getPrenom());
             System.out.println(loueur.getTelephone());
             System.out.println(loueur.getMail());

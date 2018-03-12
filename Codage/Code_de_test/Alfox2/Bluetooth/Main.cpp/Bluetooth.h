@@ -7,8 +7,8 @@ private :
   SoftwareSerial* serialBluetooth;
 
 public:
-	Bluetooth(int rx, int tx);
-	~Bluetooth();
-	void connexion();
-	bool isActive();
+  Bluetooth(int rx, int tx);
+  ~Bluetooth();
+  bool connexion(String adresse);
+  bool isActive();
 };

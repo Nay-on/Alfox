@@ -17,8 +17,8 @@ class GPS
     boolean usingInterrupt = false;
     Adafruit_GPS* gps;
     SoftwareSerial* serialGPS;
-     void useInterrupt(boolean v);
-     void SIGNAL(TIMER0_COMPA_vect);
+    void useInterrupt(boolean v);
+    //SIGNAL(TIMER0_COMPA_vect);
 
 	public:
 	

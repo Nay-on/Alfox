@@ -23,7 +23,7 @@ public class Loueur {
      * @param telephone
      * @param mail
      * @return 
-     * @ return  un loueur si le telephone est unique sinon null
+     * @ return retourne un loueur si le telephone est unique sinon null
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
      *                      ou le telephone est deja dans la BD
      * 
@@ -32,7 +32,7 @@ public class Loueur {
         Loueur loueur = new Loueur(nom, prenom, telephone, mail);
         
         String queryString =
-         "insert into user (`numero`, 'date', `type`, `infos`) values ("
+         "insert into user (`Nom`, 'Prenom', `Telephone`, `Mail`) values ("
                 + Utils.toString(nom) + ", " 
                 + Utils.toString(prenom) + ", " 
                 + Utils.toString(telephone) + ", " 
@@ -51,10 +51,10 @@ public class Loueur {
     public void save(Connection con) throws Exception {
         String queryString =
          "update user set "
-                + " `numero` =" + Utils.toString(nom) + ","
-                + " `date` =" + Utils.toString(prenom) + "," 
-                + " `type` =" + Utils.toString(telephone) + ","  
-                + " `infos` =" + Utils.toString(mail);
+                + " `Nom` =" + Utils.toString(nom) + ","
+                + " `Prenom` =" + Utils.toString(prenom) + "," 
+                + " `Telephone` =" + Utils.toString(telephone) + ","  
+                + " `Mail` =" + Utils.toString(mail);
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }
@@ -62,12 +62,13 @@ public class Loueur {
     /**
      * Retourne un user trouve par son pseudo, saved is true
      * @param con
-     * @param  nom le nom à trouver
-     * @return Loueur loueur trouve par nom
+     * @param  nom nom du loueur recherché
+     * @param  prenom prénom du loueur recherché
+     * @return Loueur loueur trouvé par nom, prénom
      * @throws java.lang.Exception
      */
-    public static Loueur getByNom(Connection con, String nom) throws Exception {
-        String queryString = "select * from loueur where nom='" + nom + "'";
+    public static Loueur getByNom(Connection con, String nom, String prenom) throws Exception {
+        String queryString = "select * from loueur where nom='" + nom + "' and prenom='" + prenom + "';";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
@@ -81,21 +82,21 @@ public class Loueur {
     }
     
     private static Loueur creerParRequete(ResultSet result) throws Exception {
-            String    lNom  = result.getString("nom");
-            String    lPrenom = result.getString("prenom");
-            String    lTelephone = result.getString("telephone");
-            String    lMail = result.getString("mail");
+            String    lNom  = result.getString("Nom");
+            String    lPrenom = result.getString("Prenom");
+            String    lTelephone = result.getString("Telephone");
+            String    lMail = result.getString("Mail");
             return    new Loueur(lNom,lPrenom, lTelephone, lMail);
     }
     
     /**
      * Cree et initialise completement Loueur
      */
-    private Loueur(String numero, String date, String type, String infos) {
-        this.nom = numero;
-        this.prenom = date;
-        this.telephone = type;
-        this.mail = infos;
+    private Loueur(String nom, String prenom, String telephone, String mail) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.telephone = telephone;
+        this.mail = mail;
     }
     
     // --------------------- les assesseurs ----------------------------
@@ -128,10 +129,10 @@ public class Loueur {
      */
     @Override
     public String toString() {
-        return  " numero =  " + nom + "\t" +
-                " date = " + Utils.toString(prenom) + 
-                " type = " + Utils.toString(telephone) + 
-                " infos = " + Utils.toString(mail)
+        return  " Nom =  " + nom + "\t" +
+                " Prenom = " + Utils.toString(prenom) + 
+                " Telephone = " + Utils.toString(telephone) + 
+                " Mail = " + Utils.toString(mail)
                 + " ";
     }
 }

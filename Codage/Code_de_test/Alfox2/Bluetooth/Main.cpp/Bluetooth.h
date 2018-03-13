@@ -10,5 +10,5 @@ public:
   Bluetooth(int rx, int tx);
   ~Bluetooth();
   bool connexion(String adresse);
-  bool isActive();
+  bool isActif();
 };

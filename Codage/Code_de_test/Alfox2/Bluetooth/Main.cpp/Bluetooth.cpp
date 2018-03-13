@@ -47,6 +47,19 @@ bool Bluetooth::connexion(String adresse){
     while (serialBluetooth->available()>0){
        Serial.write(serialBluetooth->read());
     }
+}
+
+bool Bluetooth::isActif(){
+    String contenu = "test";
+    serialBluetooth->println("ATZ");
+    while (serialBluetooth->available()<=0);
+    while (serialBluetooth->available()>0){
+    contenu  = serialBluetooth->read();
+    }
+    if(contenu == "ERROR:(0)" ) putchar("Le bluetooth n'est pas configuré");
+    else putchar("Le bluetooth est bien configuré");
+    
     
 }
+    
 

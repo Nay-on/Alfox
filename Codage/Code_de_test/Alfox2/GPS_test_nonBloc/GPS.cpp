@@ -14,9 +14,16 @@ GPS::GPS(int rx, int tx){
 }
 
 int GPS::maj(){
-
-  delay(1000);
-
+  if (! usingInterrupt) {
+    char c = gps->read();
+  }
+  if (gps->newNMEAreceived()) {
+    if (!gps->parse(gps->lastNMEA()))
+    return;
+  }
+  this->latitude = gps->latitudeDegrees;
+  this->longitude = gps->longitude;
+  
 }
 
 bool GPS::isAvailable(){
@@ -34,7 +41,7 @@ void GPS::useInterrupt(boolean v) {
   }
 }
 
-SIGNAL(TIMER0_COMPA_vect){
-    char c = gps->read();
+void GPS::readDATA(){
+  char c = gps->read();
 }
 

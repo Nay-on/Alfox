@@ -18,7 +18,6 @@ class GPS
     Adafruit_GPS* gps;
     SoftwareSerial* serialGPS;
     void useInterrupt(boolean v);
-    //SIGNAL(TIMER0_COMPA_vect);
 
 	public:
 	
@@ -30,6 +29,7 @@ class GPS
    	float getLongitude() {return longitude;};
 		char getDatation() {return datation;};
    	bool isAvailable();
+    void readDATA();
 		
 };
 

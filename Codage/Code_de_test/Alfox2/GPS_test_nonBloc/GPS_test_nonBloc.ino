@@ -10,20 +10,30 @@ void setup() {
 
   unsigned long time1;
   unsigned long time2;
+  unsigned long time3;
+  unsigned long time4;
+  unsigned long timeInterrupt;
+
 
 SIGNAL(TIMER0_COMPA_vect){
+  time3 = micros();
   gps->readDATA();
+  time4 = micros();
+  timeInterrupt = time4 - time3;
 }
 
 void loop() {
   time1 = millis();
   gps->maj();
+  
   if(gps->isAvailable()){
-    //delay(1000);
     Serial.println(gps->getLatitude(),6);
     Serial.println(gps->getLongitude(),6);
+    Serial.println(gps->getDatation());
     time2 = millis();
-    //Serial.println(time2 - time1 - 1000);
+    Serial.println(time2 - time1);
+    Serial.println(timeInterrupt);
+    
   }
 
 }

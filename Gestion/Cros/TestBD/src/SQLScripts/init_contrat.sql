@@ -9,6 +9,6 @@
  */
 
 use alfox;
-insert into contrat (numero, date, type, infos) values
+insert into contrat (numero, dateCreation, modele, infos) values
     ('0001', '01-01-01', 'type1', ''),
     ('0002', '02-02-02', 'type2', '');

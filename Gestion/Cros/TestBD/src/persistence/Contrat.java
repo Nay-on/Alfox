@@ -11,16 +11,16 @@ import java.sql.*;
 
 public class Contrat {
     private String    numero;           // la clef primaire
-    private String    date;
-    private String    type;
+    private Timestamp dateCreation;
+    private String    modele;
     private String    infos;
     
     /**
      * Créer un nouvel objet persistant 
      * @param con
      * @param numero
-     * @param date
-     * @param type
+     * @param dateCreation
+     * @param modele
      * @param infos
      * @return 
      * @ return  un contrat si le numero est unique sinon null
@@ -28,14 +28,14 @@ public class Contrat {
      *                      ou le numero est deja dans la BD
      * 
      */
-    static public Contrat create(Connection con, String numero, String date, String type, String infos)  throws Exception {
-        Contrat contrat = new Contrat(numero, date, type, infos);
+    static public Contrat create(Connection con, String numero, Timestamp dateCreation, String modele, String infos)  throws Exception {
+        Contrat contrat = new Contrat(numero, dateCreation, modele, infos);
         
         String queryString =
-         "insert into user (`numero`, 'date', `type`, `infos`) values ("
+         "insert into user (`Numero`, 'DateCreation', `Modele`, `Infos`) values ("
                 + Utils.toString(numero) + ", " 
-                + Utils.toString(date) + ", " 
-                + Utils.toString(type) + ", " 
+                + Utils.toString(dateCreation) + ", " 
+                + Utils.toString(modele) + ", " 
                 + Utils.toString(infos)
           + ")";
         Statement lStat = con.createStatement();
@@ -51,10 +51,10 @@ public class Contrat {
     public void save(Connection con) throws Exception {
         String queryString =
          "update user set "
-                + " `numero` =" + Utils.toString(numero) + ","
-                + " `date` =" + Utils.toString(date) + "," 
-                + " `type` =" + Utils.toString(type) + ","  
-                + " `infos` =" + Utils.toString(infos);
+                + " `Numero` =" + Utils.toString(numero) + ","
+                + " `DateCreation` =" + Utils.toString(dateCreation) + "," 
+                + " `Modele` =" + Utils.toString(modele) + ","  
+                + " `Infos` =" + Utils.toString(infos);
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }
@@ -81,20 +81,20 @@ public class Contrat {
     }
     
     private static Contrat creerParRequete(ResultSet result) throws Exception {
-            String    lNumero  = result.getString("numero");
-            String    lDate = result.getString("date");
-            String    lType = result.getString("type");
-            String    lInfos = result.getString("infos");
-            return    new Contrat(lNumero,lDate, lType, lInfos);
+            String    lNumero  = result.getString("Numero");
+            Timestamp    lDateCreation = result.getTimestamp("Datecreation");
+            String    lModele = result.getString("Modele");
+            String    lInfos = result.getString("Infos");
+            return    new Contrat(lNumero,lDateCreation, lModele, lInfos);
     }
     
     /**
      * Cree et initialise completement Contrat
      */
-    private Contrat(String numero, String date, String type, String infos) {
+    private Contrat(String numero, Timestamp dateCreation, String modele, String infos) {
         this.numero = numero;
-        this.date = date;
-        this.type = type;
+        this.dateCreation = dateCreation;
+        this.modele = modele;
         this.infos = infos;
     }
     
@@ -103,19 +103,19 @@ public class Contrat {
         return numero;
     }
 
-    public String getDate() {
-        return date;
+    public Timestamp getDate() {
+        return dateCreation;
     }
     public String getType() {
-        return type;
+        return modele;
     }
 
     public String getInfos() {
         return infos;
     }
 
-    public void setType(String type) throws Exception {
-        this.type = type;
+    public void setType(String modele) throws Exception {
+        this.modele = modele;
     }
 
     public void setInfos(String infos) throws Exception {
@@ -129,8 +129,8 @@ public class Contrat {
     @Override
     public String toString() {
         return  " numero =  " + numero + "\t" +
-                " date = " + Utils.toString(date) + 
-                " type = " + Utils.toString(type) + 
+                " date = " + Utils.toString(dateCreation) + 
+                " type = " + Utils.toString(modele) + 
                 " infos = " + Utils.toString(infos)
                 + " ";
     }

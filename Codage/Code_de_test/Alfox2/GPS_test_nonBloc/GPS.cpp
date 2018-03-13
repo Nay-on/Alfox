@@ -19,15 +19,13 @@ int GPS::maj(){
   }
   if (gps->newNMEAreceived()) {
     if (!gps->parse(gps->lastNMEA()))
-    return;
+      return;
+    this->latitude = gps->latitudeDegrees;
+    this->longitude = gps->longitudeDegrees;
+    available = true;
   }
-  this->latitude = gps->latitudeDegrees;
-  this->longitude = gps->longitude;
+
   
-}
-
-bool GPS::isAvailable(){
-
 }
 
 void GPS::useInterrupt(boolean v) {
@@ -44,4 +42,16 @@ void GPS::useInterrupt(boolean v) {
 void GPS::readDATA(){
   char c = gps->read();
 }
+
+bool GPS::isAvailable(){
+  if(available == true){
+    available = false;
+    return true;
+  }else
+    return false;
+}
+
+
+
+
 

@@ -14,6 +14,8 @@ class GPS
 		float latitude;
 		float longitude; 
 		char datation;
+    bool available = false;
+    
     boolean usingInterrupt = false;
     Adafruit_GPS* gps;
     SoftwareSerial* serialGPS;

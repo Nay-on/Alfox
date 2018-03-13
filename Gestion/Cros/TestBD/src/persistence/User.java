@@ -30,7 +30,7 @@ public class User {
         User user = new User(role, mdp, mail);
         
         String queryString =
-         "insert into user (`Role`, `mpd`, `email`) values ("
+         "insert into user (`Role`, `Mpd`, `Mail`) values ("
                 + Utils.toString(role) + ", " 
                 + Utils.toString(mdp) + ", " 
                 + Utils.toString(mail)
@@ -79,7 +79,7 @@ public class User {
     private static User creerParRequete(ResultSet result) throws Exception {
             String    lRole  = result.getString("Role");
             String    lMdp = result.getString("Mdp");
-            String    lMail = result.getString("mail");
+            String    lMail = result.getString("Mail");
             return    new User(lRole,lMdp,lMail);
     }
     
@@ -119,9 +119,9 @@ public class User {
      */
     @Override
     public String toString() {
-        return  " role =  " + role + "\t" +
-                " mdp = " + Utils.toString(mdp) + 
-                " mail = " + Utils.toString(mail)
+        return  " Role =  " + role + "\t" +
+                " Mdp = " + Utils.toString(mdp) + 
+                " Mail = " + Utils.toString(mail)
                 + " ";
     }
 }

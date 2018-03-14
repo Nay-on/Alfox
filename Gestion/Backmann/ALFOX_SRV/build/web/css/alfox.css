@@ -92,3 +92,17 @@
     font-size: 18px;
     padding: 10px 10px 10px 10px;
 }
+
+/* les saisies ne prennent que 60% de l'écran en largeur */
+.form {
+    padding: 0px 30% 0px 30% !important;
+}
+
+.form1{
+    width: 20%;
+    float: left;
+}
+
+.mess{
+    float: right;
+}

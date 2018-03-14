@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 #include <Adafruit_GPS.h>
+#include <time.h>
 
 
 class GPS
@@ -13,7 +14,7 @@ class GPS
 
 		float latitude;
 		float longitude; 
-		String datation;
+		struct tm datation;
     bool available = false;
     
     boolean usingInterrupt = false;
@@ -29,8 +30,8 @@ class GPS
 		int maj();
 		float getLatitude() {return latitude;};
    	float getLongitude() {return longitude;};
-		String getDatation() {return datation;};
-   	bool isAvailable();
+		struct tm getDatation() {return datation;};
+   	bool isDispo();
     void readDATA();
 		
 };

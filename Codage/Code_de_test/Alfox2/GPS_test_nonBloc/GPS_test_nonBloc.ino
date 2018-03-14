@@ -26,13 +26,18 @@ void loop() {
   time1 = millis();
   gps->maj();
   
-  if(gps->isAvailable()){
+  if(gps->isDispo()){
     Serial.println(gps->getLatitude(),6);
     Serial.println(gps->getLongitude(),6);
-    Serial.println(gps->getDatation());
+    
+    Serial.println(gps->getDatation().tm_mday);
+    Serial.println(gps->getDatation().tm_mon);
+    Serial.println(gps->getDatation().tm_year);
+    Serial.println();
+
     time2 = millis();
-    Serial.println(time2 - time1);
-    Serial.println(timeInterrupt);
+    //Serial.println(time2 - time1);
+    //Serial.println(timeInterrupt);
     
   }
 

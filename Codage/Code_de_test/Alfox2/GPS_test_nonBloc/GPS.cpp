@@ -22,16 +22,15 @@ int GPS::maj(){
       return;
     this->latitude = gps->latitudeDegrees;
     this->longitude = gps->longitudeDegrees;
-    this->datation = gps->day;
-    this->datation += '/';
-    this->datation += gps->month;
-    this->datation += '/';
-    this->datation += gps->year;
+
+    this->datation.tm_year = gps->year;
+    this->datation.tm_mon = gps->month - 1;
+    this->datation.tm_mday = gps->day;
     available = true;
     
   }
 
-  
+
 }
 
 void GPS::useInterrupt(boolean v) {
@@ -49,7 +48,7 @@ void GPS::readDATA(){
   char c = gps->read();
 }
 
-bool GPS::isAvailable(){
+bool GPS::isDispo(){
   if(available == true){
     available = false;
     return true;

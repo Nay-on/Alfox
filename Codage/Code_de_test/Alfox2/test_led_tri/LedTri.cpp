@@ -11,56 +11,56 @@ LedTri::LedTri(int pLedRougePin, int pLedVertPin, int pLedBleuPin ) {
 
 
 /* la fonction permet d'afficher la couleur Rouge sur la led rgb */
-void LedTri::setRouge(){
+void LedTri::setRouge(int lumi){
   // Valeurs à modifier entre 1 et 255 pour varier l'intensité de la LED de couleur.
-  analogWrite(ledRougePin, 255); 
+  analogWrite(ledRougePin, lumi); 
   analogWrite(ledVertPin, 0);
   analogWrite(ledBleuPin, 0);
 }
 
 
 /* la fonction permet d'afficher la couleur Jaune sur la led rgb */
-void LedTri::setJaune(){
+void LedTri::setJaune(int lumi){
   // Valeurs à modifier entre 1 et 255 pour varier l'intensité de la LED de couleur.
-  analogWrite(ledRougePin, 255); 
-  analogWrite(ledVertPin, 255);
+  analogWrite(ledRougePin, lumi); 
+  analogWrite(ledVertPin, lumi);
   analogWrite(ledBleuPin, 0);
 }
 
 
 /* la fonction permet d'afficher la couleur vert sur la led rgb */
-void LedTri::setVert(){
+void LedTri::setVert(int lumi){
   // Valeurs à modifier entre 1 et 255 pour varier l'intensité de la LED de couleur.
   analogWrite(ledRougePin, 0); 
-  analogWrite(ledVertPin, 255);
+  analogWrite(ledVertPin, lumi);
   analogWrite(ledBleuPin, 0);
 }
 
 
 /* la fonction permet d'afficher la couleur cyan sur la led rgb */
-void LedTri::setCyan(){
+void LedTri::setCyan(int lumi){
   // Valeurs à modifier entre 1 et 255 pour varier l'intensité de la LED de couleur.
   analogWrite(ledRougePin, 0); 
-  analogWrite(ledVertPin, 255);
-  analogWrite(ledBleuPin, 255);
+  analogWrite(ledVertPin, lumi);
+  analogWrite(ledBleuPin, lumi);
 }
 
 
 /* la fonction permet d'afficher la couleur bleu sur la led rgb */
-void LedTri::setBleu(){
+void LedTri::setBleu(int lumi){
   // Valeurs à modifier entre 1 et 255 pour varier l'intensité de la LED de couleur.
   analogWrite(ledRougePin, 0); 
   analogWrite(ledVertPin, 0);
-  analogWrite(ledBleuPin, 255);
+  analogWrite(ledBleuPin, lumi);
 }
 
 
 /* la fonction permet d'afficher la couleur magenta sur la led rgb */
-void LedTri::setMagenta(){
+void LedTri::setMagenta(int lumi){
   // Valeurs à modifier entre 1 et 255 pour varier l'intensité de la LED de couleur.
-  analogWrite(ledRougePin, 255); 
+  analogWrite(ledRougePin, lumi); 
   analogWrite(ledVertPin, 0);
-  analogWrite(ledBleuPin, 255);
+  analogWrite(ledBleuPin, lumi);
 }
 
 
@@ -72,25 +72,25 @@ void LedTri::setCouleur(int rouge, int vert, int bleu){
 }
 
 
-void LedTri::setCouleur(COLOR c) {
+void LedTri::setCouleur(COLOR c, int lumi) {
     switch (c) {
     case 1:
-      setRouge();
+      setRouge(lumi);
       break;
     case 2:
-      setJaune();
+      setJaune(lumi);
       break;
     case 3:
-      setVert();
+      setVert(lumi);
       break;
     case 4:
-      setCyan();
+      setCyan(lumi);
       break;
     case 5:
-      setBleu();
+      setBleu(lumi);
       break;
     case 6:
-      setMagenta();
+      setMagenta(lumi);
       break;
     default:
       break;

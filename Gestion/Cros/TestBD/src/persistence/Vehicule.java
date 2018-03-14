@@ -13,7 +13,7 @@ public class Vehicule {
     private String    marque;           // la clef primaire
     private String    modele;
     private String    immatriculation;
-    private Timestamp    dateMiseEnService;
+    private Timestamp dateMiseEnService;
     private String    motorisation;
     private String    idSigfox;
     private Timestamp dateVidange;
@@ -127,20 +127,20 @@ public class Vehicule {
             String    lMarque  = result.getString("Marque");
             String    lModele = result.getString("Modele");
             String    lImmatriculation = result.getString("Immatriculation");
-            Timestamp    lDateMiseEnService = result.getTimestamp("DateMiseEnService");
+            Timestamp lDateMiseEnService = result.getTimestamp("DateMiseEnService");
             String    lMotorisation  = result.getString("Motorisation");
             String    lIdSigfox = result.getString("IdSigfox");
-            Timestamp    lDateVidange = result.getTimestamp("DateVidange");
-            int    lKmVidange = result.getInt("KmVidange");
-            boolean    lHorsZone  = result.getBoolean("HorsZone");
-            int    lTauxUtilisation = result.getInt("TauxUtilisation");
-            boolean    lAProbleme = result.getBoolean("AProbleme");
-            float    lCompteurReel = result.getFloat("CompteuReel");
-            Timestamp    lDateControleTechnique = result.getTimestamp("DateControleTechnique");
+            Timestamp lDateVidange = result.getTimestamp("DateVidange");
+            int       lKmVidange = result.getInt("KmVidange");
+            boolean   lHorsZone  = result.getBoolean("HorsZone");
+            int       lTauxUtilisation = result.getInt("TauxUtilisation");
+            boolean   lAProbleme = result.getBoolean("AProbleme");
+            float     lCompteurReel = result.getFloat("CompteuReel");
+            Timestamp lDateControleTechnique = result.getTimestamp("DateControleTechnique");
             return    new Vehicule(lMarque, lModele, lImmatriculation, lDateMiseEnService, 
-                    lMotorisation, lIdSigfox, lDateVidange, lKmVidange,
+                lMotorisation, lIdSigfox, lDateVidange, lKmVidange,
                     lHorsZone, lTauxUtilisation, lAProbleme, lCompteurReel,
-                    lDateControleTechnique);
+                        lDateControleTechnique);
     }
     
     /**

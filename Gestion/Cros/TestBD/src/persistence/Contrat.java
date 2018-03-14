@@ -23,7 +23,7 @@ public class Contrat {
      * @param modele
      * @param infos
      * @return 
-     * @ return  un contrat si le numero est unique sinon null
+     * @ return un contrat si le numero est unique sinon null
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
      *                      ou le numero est deja dans la BD
      * 
@@ -82,7 +82,7 @@ public class Contrat {
     
     private static Contrat creerParRequete(ResultSet result) throws Exception {
             String    lNumero  = result.getString("Numero");
-            Timestamp    lDateCreation = result.getTimestamp("Datecreation");
+            Timestamp lDateCreation = result.getTimestamp("Datecreation");
             String    lModele = result.getString("Modele");
             String    lInfos = result.getString("Infos");
             return    new Contrat(lNumero,lDateCreation, lModele, lInfos);
@@ -128,10 +128,10 @@ public class Contrat {
      */
     @Override
     public String toString() {
-        return  " numero =  " + numero + "\t" +
-                " date = " + Utils.toString(dateCreation) + 
-                " type = " + Utils.toString(modele) + 
-                " infos = " + Utils.toString(infos)
+        return  " Numero =  " + numero + "\t" +
+                " DateCreation = " + Utils.toString(dateCreation) + 
+                " Modele = " + Utils.toString(modele) + 
+                " Infos = " + Utils.toString(infos)
                 + " ";
     }
 }

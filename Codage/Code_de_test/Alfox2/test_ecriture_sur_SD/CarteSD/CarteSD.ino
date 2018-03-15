@@ -11,7 +11,6 @@ void setup() {
   carteSD = new CarteSD();
   donneesTR = new DonneesTR();
   gps = new GPS();
-
   Serial.begin(9600);
 
 }
@@ -21,8 +20,8 @@ void loop() {
     carteSD->nouveauFichier("180315.txt");
     Serial.println(donneesTR->getVitesseMoyenne());
     carteSD->ecrire(donneesTR,gps);
-    carteSD->effacer();
-    delay(5000);
+    //carteSD->effacer();
+    delay(500);
 }
 
 

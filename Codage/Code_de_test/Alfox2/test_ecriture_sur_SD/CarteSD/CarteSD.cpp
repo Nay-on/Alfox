@@ -14,8 +14,8 @@ CarteSD::~CarteSD() {
 
 }
 
-String CarteSD::lire(String nom){
-  fichierSD=SD.open(nom);
+String CarteSD::lire(){
+  fichierSD=SD.open(nomFichier);
   if (fichierSD) {
     while (fichierSD.available()) {
       Serial.write(fichierSD.read());
@@ -28,23 +28,22 @@ String CarteSD::lire(String nom){
   }
 }
 
-
+// ne fonctionne que en passant les valeurs brut 
 void CarteSD::ecrire(DonneesTR* dTR, GPS* gps)
 {
   fichierSD = SD.open(nomFichier, FILE_WRITE);
   //fichierSD.print(heure+"   ");
   if(fichierSD){
-    fichierSD.print("100");
+    fichierSD.print("# 100   "+String(dTR->getConsoMoyenne())+"   "+String(dTR->getConsoMax()) + "   "+String(dTR->getVitesseMax()) + "   "+String(dTR->getVitesseMoyenne()) + "   "+String(dTR->getRegimeMax()) + "   ");
+//    fichierSD.print(dTR->getConsoMoyenne());
     fichierSD.print("   ");
-    fichierSD.print(dTR->getConsoMoyenne());
-    fichierSD.print("   ");
-    fichierSD.print(dTR->getConsoMax() + "   ");
+    fichierSD.print(String(dTR->getConsoMax()) + "   ");
     //fichierSD.print(nbDefauts+"   ");
     //fichierSD.print(codeDf+"   ");
-    fichierSD.print(dTR->getVitesseMax() + "   ");
-    fichierSD.print(dTR->getVitesseMoyenne() + "   ");
-    fichierSD.print(dTR->getRegimeMax() + "   ");
-    fichierSD.print(dTR->getRegimeMoyen() + "   ");
+    fichierSD.print(String(dTR->getVitesseMax()) + "   ");
+    fichierSD.print(String(dTR->getVitesseMoyenne()) + "   ");
+    fichierSD.print(String(dTR->getRegimeMax()) + "   ");
+    fichierSD.print(String(dTR->getRegimeMoyen()) + "   ");
     fichierSD.println("");
     fichierSD.close();
     Serial.println("ecriture");
@@ -54,7 +53,7 @@ void CarteSD::ecrire(DonneesTR* dTR, GPS* gps)
   }
 }
 
-
+// a reterter pour effacement 
 void CarteSD::effacer()
 {
   fichierRacineSD = SD.open("/");
@@ -78,7 +77,7 @@ void CarteSD::effacer()
 }
 
 
-
+// printDirectory
 bool CarteSD::isFull(){
 while (true) {
 
@@ -103,7 +102,7 @@ void CarteSD::effacerOldData()
 }
 
 
-
+//fonction ok et tester nececite l'ajout d'un fichier a la base de la carte pour la suite
 bool CarteSD::nouveauFichier(String nom)
 {
   if (SD.exists(nom)) {
@@ -112,7 +111,7 @@ bool CarteSD::nouveauFichier(String nom)
     return true;
   }
   else {
-
+    SD.mkdir("fichierTest");
     fichierSD = SD.open(nom,FILE_WRITE);
     if (fichierSD) {
       fichierSD.println("Heure   KM       CMOY  NBDF  CD1    CD2    CD3    CD4   VMX   VMOY  RMX    RMOY");

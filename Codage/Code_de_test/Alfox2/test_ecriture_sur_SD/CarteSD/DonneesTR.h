@@ -22,18 +22,18 @@ public:
 //	void majData(OBD2 obd2);
 	// pas de getDefaut ou de getNbDefaut ni de set
 private:
-	float distanceParcourue = 0;
-	int nbDefauts = 0;
+	float distanceParcourue;
+	int nbDefauts;
 	int defauts[4];
-	int consommation = 0;
-	int consoMoyenne = 0;
-	int consoMax = 0;
-	int vitesse = 0;
-	int vitesseMoyenne = 0;
-	int vitesseMax = 0;
-	int regime = 0;
-	int regimeMoyen = 0;
-	int regimeMax = 0;
+	int consommation;
+	int consoMoyenne;
+	int consoMax;
+	int vitesse;
+	int vitesseMoyenne;
+	int vitesseMax;
+	int regime;
+	int regimeMoyen;
+	int regimeMax;
 
 };
 

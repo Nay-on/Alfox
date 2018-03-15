@@ -36,7 +36,8 @@ void CarteSD::ecrire(DonneesTR* dTR, GPS* gps)
   if(fichierSD){
     fichierSD.print("100");
     fichierSD.print("   ");
-    fichierSD.print(dTR->getConsoMoyenne() + "   ");
+    fichierSD.print(dTR->getConsoMoyenne());
+    fichierSD.print("   ");
     fichierSD.print(dTR->getConsoMax() + "   ");
     //fichierSD.print(nbDefauts+"   ");
     //fichierSD.print(codeDf+"   ");
@@ -75,6 +76,8 @@ void CarteSD::effacer()
     }
   }*/
 }
+
+
 
 bool CarteSD::isFull(){
 while (true) {
@@ -127,6 +130,8 @@ bool CarteSD::nouveauFichier(String nom)
   }
 }
 
+
+
 bool CarteSD::supprimerFichier(String nom)
 {
   if (SD.exists(nom)) {
@@ -134,13 +139,14 @@ bool CarteSD::supprimerFichier(String nom)
   }
 }
 
+
+
 void CarteSD::printDirectory(File dir, int numTabs)
 {
   // ne fonctionne que si il y as un dossier a la racine de la carte SD
   while (true){
-    Serial.println(dir);
+
     File entry = dir.openNextFile();
-    Serial.println(entry.name());
     if (! entry)
     {
       if (numTabs == 0)
@@ -157,7 +163,7 @@ void CarteSD::printDirectory(File dir, int numTabs)
     }
     else
     {
-      Serial.print("\t\t");
+      Serial.print("\t");
       Serial.println(entry.size(), DEC);
     }
     entry.close();

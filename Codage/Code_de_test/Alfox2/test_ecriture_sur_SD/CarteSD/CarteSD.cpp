@@ -56,8 +56,9 @@ void CarteSD::ecrire(DonneesTR* dTR, GPS* gps)
 
 void CarteSD::effacer()
 {
-
+  fichierRacineSD = SD.open("/");
   printDirectory(fichierRacineSD,0);
+  fichierSD.close();
   /*
   while (true) {
 
@@ -102,15 +103,13 @@ void CarteSD::effacerOldData()
 
 bool CarteSD::nouveauFichier(String nom)
 {
-  Serial.println("passage dans création fichier");
   if (SD.exists(nom)) {
     Serial.println(F("le fichier existe déjà"));
     String nomFichier = nom;
-    Serial.println(nomFichier);
     return true;
   }
   else {
-    Serial.println("création fichier");
+
     fichierSD = SD.open(nom,FILE_WRITE);
     if (fichierSD) {
       fichierSD.println("Heure   KM       CMOY  NBDF  CD1    CD2    CD3    CD4   VMX   VMOY  RMX    RMOY");
@@ -121,9 +120,9 @@ bool CarteSD::nouveauFichier(String nom)
       Serial.println(F("erreur de creation"));
       return false;
     }
-    fichierRacineSD = SD.open("/");;
-    String nomFichier = nom;
-    Serial.println(nomFichier);
+    fichierRacineSD = SD.open("/");
+    
+    nomFichier = nom;
     return true;
   }
 }
@@ -137,13 +136,15 @@ bool CarteSD::supprimerFichier(String nom)
 
 void CarteSD::printDirectory(File dir, int numTabs)
 {
-  while (true)
-  {
+  // ne fonctionne que si il y as un dossier a la racine de la carte SD
+  while (true){
+    Serial.println(dir);
     File entry = dir.openNextFile();
+    Serial.println(entry.name());
     if (! entry)
     {
       if (numTabs == 0)
-        Serial.println("** Done **");
+        Serial.println("liste des fichier complète");
       return;
     }
     for (uint8_t i = 0; i < numTabs; i++)
@@ -162,4 +163,5 @@ void CarteSD::printDirectory(File dir, int numTabs)
     entry.close();
   }
 }
+
 

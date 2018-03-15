@@ -17,10 +17,27 @@
         <div data-role="page" id="page1">
             <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" data-position="fixed">
                 <h1><img id="logoHeader" src="../images/alcisLogo.png"/>Infos</h1>
+                <a href="#panelVehicules" 
+                   class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear ui-btn-right">
+                </a>
+                <p>Mode : NORMAL</p>
             </div>
             
             <div role="main" class="ui-content">
                 <center>
+                    <p class="mess">Nombre de message restant : 3/4</p>
+                    <form class="form" >
+                        <div class="ui-field-contain">
+                            <label for="select-native-1">Véhicule :</label>
+                            <select name="select-native-1" id="select-native-1">
+                                <option value="1">DF-412-EZ</option>
+                                <option value="2">EF-324-ES</option>
+                                <option value="3">JF-311-DE</option>
+                                <option value="4">FE-899-EX</option>
+                            </select>
+                        </div>
+                        <input value="2018-03-14" id="date" type="date">
+                    </form>
                     <br/><br/><br/><br/><br/><br/>
                     <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
                     <thead>
@@ -138,7 +155,28 @@
                     </table>
                 </center>
             </div>
-            <br/><br/><br/><br/><br/><br/><br/>
+            <div id="panelVehicules" data-role="panel" data-position="right"  
+                 data-position-fixed="true" data-display="push">
+                <p>Mode :</p>
+                <div data-role="collapsibleset" data-inset="false">
+                    <button data-theme="a" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-icon-gear ui-btn-icon-left ui-shadow ui-corner-all">
+                        <h4>DORMIR</h4>
+                    </button>
+                    <button data-theme="a" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-icon-gear ui-btn-icon-left ui-shadow ui-corner-all">
+                        <h4>GPS</h4>
+                    </button>
+                    <button data-theme="a" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-icon-gear ui-btn-icon-left ui-shadow ui-corner-all">
+                        <h4>Demande GPS</h4>
+                    </button>
+                    <button data-theme="a" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-icon-gear ui-btn-icon-left ui-shadow ui-corner-all">
+                        <h4>MAINTENANCE</h4>
+                    </button>
+                    <button data-theme="a" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-icon-gear ui-btn-icon-left ui-shadow ui-corner-all">
+                        <h4>RESET</h4>
+                    </button>
+                </div>     
+            </div>
+            <br/><br/>
             <div data-role='navbar' data-grid='d'>
                 <ul>
                     <li><a href='#' data-ajax='false' id='navbarhome' data-icon='home'>Accueil</a></li>

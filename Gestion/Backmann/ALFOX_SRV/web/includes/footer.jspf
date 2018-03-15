@@ -25,7 +25,7 @@
                 out.println("<li><a href='alfoxControl.jsp?action=accueil' data-ajax='false' id='navbarhome' data-icon='home'>Accueil</a></li>");
                 out.println("<li><a href='alfoxControl.jsp?action=localisation' data-ajax='false' id='navbarSuivi' data-icon='location'>Localisation</a></li>");
                 out.println("<li><a href='alfoxControl.jsp?action=infos' data-ajax='false' id='navbarInfos' data-icon='info'>Infos</a></li>");
-                out.println("<li><a href='alfoxControl.jsp?action=maintenance' data-ajax='false' id='navbarMaintenance' data-icon='gear'>Maintenance</a></li>");
+                out.println("<li><a href='alfoxControl.jsp?action=maintenance' data-ajax='false' id='navbarMaintenance' data-icon='bars'>Statistiques</a></li>");
                 out.println("</ul>");
                 out.println("</div>");
             }

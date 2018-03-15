@@ -3,17 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/persistence/ZoneLimite.java</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/SQLScripts/init_contrat.sql</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/SQLScripts/init_donneesHisto.sql</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/SQLScripts/init_zoneLimite.sql</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/SQLScripts/alfox_schema.sql</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/SQLScripts/init_vehicule.sql</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/SQLScripts/init_donneesTR.sql</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/SQLScripts/init_position.sql</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/SQLScripts/init_loueur.sql</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/testbd/TestBD.java</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/SQLScripts/init_users.sql</file>
+            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Cros/TestBD/src/persistence/Vehicule.java</file>
         </group>
     </open-files>
 </project-private>

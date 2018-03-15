@@ -38,6 +38,7 @@ public class DonneesHisto {
      * @param vitesseMax
      * @param regimeMax
      * @param consoMax
+     * @param nbDefauts
      * @param defaut1
      * @param defaut2
      * @param defaut3
@@ -119,7 +120,7 @@ public class DonneesHisto {
      * @return DonneesHisto donneesHisto trouve par date
      * @throws java.lang.Exception
      */
-    public static DonneesHisto getByDatation(Connection con, Timestamp datation) throws Exception {
+    public static DonneesHisto getByDatation(Connection con, String datation) throws Exception {
         String queryString = "select * from donneesHisto where datation='" + datation + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 

@@ -11,33 +11,153 @@
         
         <script type="text/javascript" src="../js/jquery/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="../js/jquery.mobile/jquery.mobile-1.4.5.min.js"></script>
+        
     </head>
     <body>
         <div data-role="page" id="page1">
-            <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" 
-                 data-theme="a" data-position="fixed" data-fullscreen="true">
+            <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" data-position="fixed">
                 <h1><img id="logoHeader" src="../images/alcisLogo.png"/>Infos</h1>
             </div>
             
             <div role="main" class="ui-content">
                 <center>
-                    <br/><br/><br/> 
-                    <h1>Page d'infos SD</h1>
-                    <br/><br/><br/><br/><br/><br/><br/>
-                    <br/><br/><br/><br/><br/><br/><br/>
-                    <br/><br/><br/><br/><br/><br/><br/>
-                    <br/><br/><br/><br/><br/><br/><br/>
-                    <p class="mini">V0.1 - Mars 2018<br/>Développement : BTS SNIR Lycée V.Hugo Colomiers</p>
-                    <br/><br/><br/>
+                    <form class="form" >
+                        <div class="ui-field-contain">
+                            <label for="select-native-1">Véhicule :</label>
+                            <select name="select-native-1" id="select-native-1">
+                                <option value="1">DF-412-EZ</option>
+                                <option value="2">EF-324-ES</option>
+                                <option value="3">JF-311-DE</option>
+                                <option value="4">FE-899-EX</option>
+                            </select>
+                        </div>
+                        <input value="2018-03-14" id="date" type="date">
+                    </form>
+                    
+                    <br/><br/><br/><br/><br/><br/>
+                    <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
+                    <thead>
+                        <tr>
+                          <th data-priority="1">Num</th>
+                          <th data-priority="2">Date</th>
+                          <th data-priority="2">Km</th>
+                          <th data-priority="3">VitMoy</th>
+                          <th data-priority="3">Conso</th>
+                          <th data-priority="4">Latitude</th>
+                          <th data-priority="4">Longitude</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                              <td>123</td>
+                              <td>12/02/2018 16:12</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                        <tr>
+                              <td>124</td>
+                              <td>12/02/2018 16:22</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                        <tr>
+                              <td>125</td>
+                              <td>12/02/2018 16:22</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                        <tr>
+                              <td>129</td>
+                              <td>12/02/2018 16:22</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                        <tr>
+                              <td>130</td>
+                              <td>12/02/2018 16:22</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                        <tr>
+                              <td>131</td>
+                              <td>12/02/2018 16:22</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                        <tr>
+                              <td>132</td>
+                              <td>12/02/2018 16:22</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                        <tr>
+                              <td>133</td>
+                              <td>12/02/2018 16:22</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                        <tr>
+                              <td>134</td>
+                              <td>12/02/2018 16:22</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                        <tr>
+                              <td>135</td>
+                              <td>12/02/2018 16:22</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                        <tr>
+                              <td>136</td>
+                              <td>12/02/2018 16:22</td>
+                              <td>12534</td>
+                              <td>54</td>
+                              <td>6,3</td>
+                              <td>36,123456</td>
+                              <td>01,123456</td>
+                        </tr>
+                    </tbody>
+                    </table>
                 </center>
             </div>
-            <div data-role='navbar' data-grid='d'>
+            <br/><br/><br/><br/><br/><br/><br/>
+            <div data-role='navbar' data-grid='c'>
                 <ul>
                     <li><a href='#' data-ajax='false' id='navbarhome' data-icon='home'>Accueil</a></li>
                     <li><a href='#' data-ajax='false' id='navbarSuivi' data-icon='location'>Localisation</a></li>
                     <li><a href='#' data-ajax='false' id='navbarInfos' data-icon='info'>Infos</a></li>
-                    <li><a href='#' data-ajax='false' id='navbarStatistiques' data-icon='bars'>Statistiques</a></li>
-                    <li><a href='#' data-ajax='false' id='navbarGestion' data-icon='edit'>Gestion</a></li>
+                    <li><a href='#' data-ajax='false' id='navbarMaintenance' data-icon='bars'>Statistiques</a></li>
                 </ul>
             </div>
         </div>

@@ -121,7 +121,7 @@ public class DonneesHisto {
      * @throws java.lang.Exception
      */
     public static DonneesHisto getByDatation(Connection con, String datation) throws Exception {
-        String queryString = "select * from donneesHisto where datation='" + datation + "'";
+        String queryString = "select * from donneesHisto where Datation='" + datation + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);

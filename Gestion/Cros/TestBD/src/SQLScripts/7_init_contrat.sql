@@ -9,6 +9,6 @@
  */
 
 use alfox;
-insert into contrat (numero, dateCreation, modele, infos) values
-    ('0001', '01-01-01', 'type1', ''),
-    ('0002', '02-02-02', 'type2', '');
+insert into contrat (numero, dateCreation, modele, infos, LoueurID, VehiculeID, ZoneLimiteID) values
+    (1, '2017-01-01', 'annuel', '', 1, 1, 1),
+    (2, '2018-02-02', 'annuel', '', 2, 2, 1);

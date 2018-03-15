@@ -11,19 +11,21 @@ class CarteSD {
 public:
     CarteSD();
     virtual ~CarteSD();
-    String lire();
+    String lire(String nom);
     void ecrire(DonneesTR* dTR,GPS* gps);
     void effacer();
     bool isFull();
     void effacerOldData();
-    bool creerFichier(String nom);
+    bool nouveauFichier(String nom);
     bool supprimerFichier(String nom);
-
+    void printDirectory(File dir, int numTabs);
 
     
 private:
     String nomFichier;
     File fichierSD;
+    File fichierRacineSD;
+    int placePrise=0;
 };
 
 #endif /* CARTESD_H */

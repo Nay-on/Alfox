@@ -54,7 +54,7 @@ public class ZoneLimite {
      * @return ZoneLimite trouvee par nom
      * @throws java.lang.Exception
      */
-    public static ZoneLimite getByOrdre(Connection con, String nom) throws Exception {
+    public static ZoneLimite getByNom(Connection con, String nom) throws Exception {
         String queryString = "select * from zoneLimite where nom='" + nom + "';";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
@@ -83,22 +83,6 @@ public class ZoneLimite {
     // --------------------- les assesseurs ----------------------------
     public String getNom() {
         return nom;
-    }
-
-    public boolean isDehors(float lat, float lg) {
-        boolean isDehors = true;
-        //int pnpoly (int npol, float *xp, float *yp, float x, float y)
-        //{
-        //int i, j, c = 0;
-        //pour (i = 0, j = npol-1; i < npol; j = i++) {
-        //    si (((((((yp[i]<=y) && (y<yp[j])) || (&)
-        //    ((yp[j]<=y) && (& (y<yp[i])]) &&& (x < (xp[j] - xp[i]) * (y - yp[i]) / (yp[j] - yp[i]) + xp[i]))
-
-        //    c =! c;
-        //}
-        //retour c;
-        //}
-        return isDehors;
     }
     
     /**

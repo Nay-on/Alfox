@@ -9,6 +9,8 @@
  */
 
 use alfox;
-insert into position (ordre, latitude, longitude) values
-    ('1', '43.546231', '1.350065'),
-    ('2', '02-02-02', 'type2', '');
+insert into zoneLimite (Nom) values
+    ('Toulouse'),
+    ('Paris'),
+    ('France'),
+    ('Europe');

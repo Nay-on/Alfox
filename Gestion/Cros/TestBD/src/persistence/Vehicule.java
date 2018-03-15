@@ -109,7 +109,7 @@ public class Vehicule {
      * @return Vehicule vehicule trouve par immatriculation
      * @throws java.lang.Exception
      */
-    public static Vehicule getByNumero(Connection con, String immatriculation) throws Exception {
+    public static Vehicule getByImmatriculation(Connection con, String immatriculation) throws Exception {
         String queryString = "select * from vehicule where immatriculation='" + immatriculation + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
@@ -121,6 +121,22 @@ public class Vehicule {
         }
         else
             return null;
+    }
+    
+    public boolean isDehors(Connection con) throws Exception {
+        boolean isDehors = true;
+        String queryString = "select * from position, zoneLimite where  ZoneLimiteID = zoneLimite.ID and Nom = (select Nom from contrat, vehicule, zoneLimite where VehiculeID = vehicule.ID and ZoneLimiteID = zoneLimite.ID and Immatriculation='" + immatriculation + "') order by Ordre";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        while (lResult.next()) {
+            float[] xp;
+            float[] yp;
+            int nbPoints = 0;
+            
+        }
+        return isDehors;
     }
     
     private static Vehicule creerParRequete(ResultSet result) throws Exception {
@@ -135,7 +151,7 @@ public class Vehicule {
             boolean   lHorsZone  = result.getBoolean("HorsZone");
             int       lTauxUtilisation = result.getInt("TauxUtilisation");
             boolean   lAProbleme = result.getBoolean("AProbleme");
-            float     lCompteurReel = result.getFloat("CompteuReel");
+            float     lCompteurReel = result.getFloat("CompteurReel");
             Timestamp lDateControleTechnique = result.getTimestamp("DateControleTechnique");
             return    new Vehicule(lMarque, lModele, lImmatriculation, lDateMiseEnService, 
                 lMotorisation, lIdSigfox, lDateVidange, lKmVidange,

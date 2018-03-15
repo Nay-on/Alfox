@@ -4,8 +4,8 @@ use alfox;
 
 create table donneesHisto (
     ID int(10) not null auto_increment, 
-    Mode int(10) not null, 
-    Datation date not null, 
+    Mode varchar(255) not null, 
+    Datation datetime not null, 
     Vitesse int(10) not null, 
     Regime int(10) not null, 
     Consommation int(10) not null, 
@@ -13,7 +13,10 @@ create table donneesHisto (
     RegimeMax int(10) not null, 
     ConsoMax int(10) not null, 
     NbDefauts int(10) not null, 
-    Defauts int(10) not null, 
+    Defaut1 int(10) not null,
+    Defaut2 int(10) not null,
+    Defaut3 int(10) not null,
+    Defaut4 int(10) not null, 
     LatitudeGPS float not null, 
     LongitudeGPS float not null, 
     DistanceParcourue bigint(20) not null, 
@@ -23,8 +26,8 @@ create table donneesHisto (
 
 create table donneesTR (
     ID int(10) not null auto_increment, 
-    Mode int(10) not null, 
-    Datation date not null, 
+    Mode varchar(255) not null, 
+    Datation datetime not null, 
     Vitesse int(10) not null, 
     Regime int(10) not null, 
     Consommation int(10) not null, 
@@ -32,7 +35,10 @@ create table donneesTR (
     RegimeMax int(10) not null, 
     ConsoMax int(10) not null, 
     NbDefauts int(10) not null, 
-    Defauts int(10) not null, 
+    Defaut1 int(10) not null,
+    Defaut2 int(10) not null,
+    Defaut3 int(10) not null,
+    Defaut4 int(10) not null,
     Latitude float not null, 
     Longitude float not null, 
     DistanceParcourue bigint(20) not null, 
@@ -45,21 +51,31 @@ create table vehicule (
     Marque varchar(255) not null, 
     Modele varchar(255) not null, 
     Immatriculation varchar(255) not null unique, 
-    DateMiseEnService date not null, 
+    DateMiseEnService datetime not null, 
     Motorisation varchar(255) not null, 
-    IdSigfox varchar(255) not null unique, 
-    DateVidange date, KmVidange date, 
+    IdSigfox varchar(255) unique, 
+    DateVidange datetime, 
+    KmVidange int(10), 
     HorsZone tinyint(1) not null, 
     TauxUtilisation int(10) not null, 
     AProbleme tinyint(1) not null, 
-    CompteurRéel float not null, 
-    DateControleTechnique date not null, 
+    CompteurReel float not null, 
+    DateControleTechnique datetime not null, 
     primary key (ID)
 ) ;
 
 create table zoneLimite (
     ID int(10) not null auto_increment, 
     Nom varchar(255) not null unique, 
+    primary key (ID)
+) ;
+
+create table position (
+    ID int(10) not null auto_increment, 
+    ZoneLimiteID int(10) not null, 
+    Ordre int(10) not null, 
+    Latitude float not null, 
+    Longitude float not null, 
     primary key (ID)
 ) ;
 
@@ -73,22 +89,13 @@ create table loueur (
     primary key (ID)
 ) ;
 
-create table position (
-    ID int(10) not null auto_increment, 
-    ZoneLimiteID int(10) not null, 
-    Ordre int(10) not null, 
-    Latitude float not null, 
-    Longitude float not null, 
-    primary key (ID)
-) ;
-
 create table contrat (
     ID int(10) not null auto_increment, 
     LoueurID int(10) not null, 
     VehiculeID int(10) not null, 
     ZoneLimiteID int(10), 
     Numero varchar(255) not null unique, 
-    DateCreation date not null, 
+    DateCreation datetime not null, 
     Modele varchar(255), 
     Infos varchar(255), 
     primary key (ID)

@@ -37,8 +37,8 @@
 
 /* mise en page de la map Google dans la page localisation */
 #map {
-    height: 600px;
-    width: 90%;
+    height: 807px;
+    width: 1440px;
     margin-left: 5%;
     border-style: solid;
     border-width: 1px;
@@ -105,4 +105,14 @@
 
 .mess{
     float: right;
+}
+
+.mode{
+    float: right;
+}
+
+.ui-content{
+    height: 80%;
+    width: 80%;
+    margin-left:7%;
 }

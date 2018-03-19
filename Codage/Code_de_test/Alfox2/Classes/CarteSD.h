@@ -11,7 +11,7 @@ class CarteSD {
 public:
     CarteSD();
     virtual ~CarteSD();
-    String lire(String nom);
+    String lire();
     void ecrire(DonneesTR* dTR,GPS* gps);
     void effacer();
     bool isFull();

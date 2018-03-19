@@ -1,3 +1,5 @@
+
+
 #include "Bluetooth.h"
 
 Bluetooth::Bluetooth(int rx, int tx){
@@ -6,7 +8,11 @@ Bluetooth::Bluetooth(int rx, int tx){
 }
 
 bool Bluetooth::connexion(String adresse){
-    Serial.println("Envoi des commandes AT");
+    digitalWrite(5,HIGH);
+    delay(1000);
+    digitalWrite(4,HIGH);
+    delay(1000);
+    
     serialBluetooth->println("AT+ROLE=1");
     while (serialBluetooth->available()<=0);
     while (serialBluetooth->available()>0){
@@ -47,6 +53,9 @@ bool Bluetooth::connexion(String adresse){
     while (serialBluetooth->available()>0){
        Serial.write(serialBluetooth->read());
     }
+    delay(1000);
+    digitalWrite(4,LOW);
+   
 }
 
 bool Bluetooth::isActif(){
@@ -56,8 +65,12 @@ bool Bluetooth::isActif(){
     while (serialBluetooth->available()>0){
     contenu  = serialBluetooth->read();
     }
-    if(contenu == "ERROR:(0)" ) putchar("Le bluetooth n'est pas configuré");
-    else putchar("Le bluetooth est bien configuré");
+    if(contenu == "ERROR:(0)" ){ 
+      return 0;
+    }
+    else {
+      return 1;
+    }
     
     
 }

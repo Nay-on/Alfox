@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <SoftwareSerial.h>
-#include "/home/snir2g2/Bureau/Alfox/Codage/Code_de_test/Alfox2/Bluetooth/Main.cpp/Bluetooth.h"
+#include "Bluetooth.h"
 
 
 class OBD2

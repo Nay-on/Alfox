@@ -1,4 +1,4 @@
-#include "/home/snir2g2/Bureau/Alfox/Codage/Code_de_test/Alfox2/Bluetooth/Main.cpp/Bluetooth.h"
+#include "Bluetooth.h"
 #include "OBD2.h"
 
 Bluetooth* bluetooth = new Bluetooth(2,3);

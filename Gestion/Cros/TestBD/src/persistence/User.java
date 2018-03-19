@@ -104,7 +104,11 @@ public class User {
     public String getMail() {
         return mail;
     }
-
+    
+    public void setRole(String role) throws Exception {
+        this.role = role;
+    }
+    
     public void setMail(String mail) throws Exception {
         this.mail = mail;
     }

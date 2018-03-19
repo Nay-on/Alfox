@@ -5,11 +5,13 @@
 #include "GPS.h"
 #include <Arduino.h>
 
+
 class DonneesTR {
 public:
     DonneesTR();
     virtual ~DonneesTR();
 	void razStat();
+  int DonneesTR::getConsommation();
 	int getConsoMoyenne();
 	int getConsoMax();
 	int getVitesseMoyenne();
@@ -21,7 +23,7 @@ public:
 	void setRegime(int regime);
 	float getDistanceParcourue();
 	void majDistance(GPS gps);
-	void majData(OBD2 obd2);
+	//void majData(OBD2 obd2);
 	float getLatitude();
 	float getLongitude();
 	

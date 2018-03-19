@@ -4,15 +4,14 @@
 #include <SD.h>
 #include <Arduino.h>
 #include "DonneesTR.h"
-#include "GPS.h"
 
 
 class CarteSD {
 public:
     CarteSD();
     virtual ~CarteSD();
-    String lire(String nom);
-    void ecrire(DonneesTR* dTR,GPS* gps);
+    String lire();
+    void ecrire(DonneesTR* dTR);
     void effacer();
     bool isFull();
     void effacerOldData();

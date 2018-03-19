@@ -18,8 +18,11 @@ public:
 	void setConsommation(int consommation);
 	void setRegime(int regime);
 	float getDistanceParcourue();
-//	void majDistance(GPS gps);
-//	void majData(OBD2 obd2);
+	void majDistance(GPS gps);
+	void majData(OBD2 obd2);
+	float getLatitude();
+	float getLongitude();
+	
 	// pas de getDefaut ou de getNbDefaut ni de set
 private:
 	float distanceParcourue;

@@ -2,19 +2,20 @@
 #include "GPS.h"
 
 	DonneesTR::DonneesTR(){
-  distanceParcourue = 0;
-  nbDefauts = 0;
-  defauts[4]=0;
-  consommation = 0;
-  consoMoyenne = 0;
-  consoMax = 0;
-  vitesse = 0;
-  vitesseMoyenne = 0;
-  vitesseMax = 0;
-  regime = 0;
-  regimeMoyen = 0;
-  regimeMax = 0;
+	distanceParcourue = 0;
+	nbDefauts = 0;
+	defauts[4]=0;
+	consommation = 0;
+	consoMoyenne = 0;
+	consoMax = 0;
+	vitesse = 0;
+	vitesseMoyenne = 0;
+	vitesseMax = 0;
+	regime = 0;
+	regimeMoyen = 0;
+	regimeMax = 0;
 	}
+
 	DonneesTR::~DonneesTR(){
 	}
 	
@@ -91,7 +92,7 @@
 		return distanceParcourue;
 	}
 
-/*
+
 	void DonneesTR::majDistance(GPS gps)
 	{
 
@@ -101,4 +102,4 @@
 	void DonneesTR::majData(OBD2 obd2)
 	{
 
-	}*/
+	}

@@ -11,4 +11,5 @@ public:
   ~Bluetooth();
   bool connexion(String adresse);
   bool isActif();
+  SoftwareSerial* getLiaisonBT() {return serialBluetooth;};
 };

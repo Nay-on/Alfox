@@ -1,12 +1,13 @@
-#include OBD2.h
+#include "OBD2.h"
 
-OBD2::OBD2(Bluetooth* moduleBT){
+OBD2::OBD2(Bluetooth* bt){
   
-  this->moduleBT = moduleBT;
+  this->moduleBT = bt;
+  liaisonBT = bt->getLiaisonBT();
   
 }
 
-int OBD2::demande(String code){
+String OBD2::demande(String code){
   
 }
 

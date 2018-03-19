@@ -124,9 +124,30 @@ public class Vehicule {
             return null;
     }
     
+    public Timestamp getLastDatation(Connection con) throws Exception {
+        //Récupération de la date de la dernière donnée TR enregistrée pour le véhicule associé
+        String queryString = "select Datation from donneesTR, vehicule where VehiculeID = vehicule.ID and vehicule.Immatriculation = \""
+                + this.immatriculation + "\" order by Datation desc limit 1;";
+        Statement lStat = con.createStatement( //peut générer une exception si problème avec la requête SQL
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lDate = lStat.executeQuery(queryString);
+        //Si il y a une donnée on retourne la date
+        if (lDate.next()) {
+            Timestamp date = lDate.getTimestamp("Datation");
+            return date;
+        }
+        //Sinon on génère une exception
+        else {
+            throw new Exception("Aucune donnée TR");
+        }
+    }
+    
+    //Obligation de passer par la méthode getLastDatation() avant
     public boolean isDehors(Connection con) throws Exception {
+        //Récupération du tableau de position de la zone associée par le contrat au véhicule
         String queryString = "select * from position, zoneLimite where  ZoneLimiteID = zoneLimite.ID and Nom = (select Nom from contrat, vehicule, zoneLimite where VehiculeID = vehicule.ID and ZoneLimiteID = zoneLimite.ID and Immatriculation='" + immatriculation + "') order by Ordre";
-        Statement lStat = con.createStatement(
+        Statement lStat = con.createStatement( //peut générer une exception si problème avec la requête SQL
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
         ResultSet lResult = lStat.executeQuery(queryString);
@@ -142,32 +163,27 @@ public class Vehicule {
         int nbPoints = xap.size();
         Float[] xtp = xap.toArray(new Float[0]);
         Float[] ytp = yap.toArray(new Float[0]);
+        
         // les tableaux sont maintenant des tableaux de Float !
-        //Récupération de la dernière latitude enregistrée
-        String queryString2 = "select Latitude from donneesTR, vehicule where VehiculeID = vehicule.ID and vehicule.Immatriculation = \""+ this.immatriculation +"\" order by donneesTR.ID desc limit 1;";
-        System.out.println(queryString2);
+        //Récupération de la dernière latitude et longitude enregistrée
+        String queryString2 = "select Latitude, Longitude from donneesTR, vehicule where VehiculeID = vehicule.ID and vehicule.Immatriculation = \""
+               + this.immatriculation +"\" order by Datation desc limit 1;";
         Statement lStat2 = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
-        ResultSet lLatitude = lStat2.executeQuery(queryString2);
+        ResultSet req = lStat2.executeQuery(queryString2);
         float latitude = 0;
-        while(lLatitude.next()) {    
-            latitude = lLatitude.getFloat("Latitude");
-        }
-        System.out.println(latitude);
-        
-        
-        //Récupération de la dernière longitude enregistrée
-        String queryString3 = "select Longitude from donneesTR, vehicule where VehiculeID = vehicule.ID and vehicule.Immatriculation = \""+ this.immatriculation +"\" order by donneesTR.ID desc limit 1;";
-        Statement lStat3 = con.createStatement(
-                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
-                                ResultSet.CONCUR_READ_ONLY);
-        ResultSet lLongitude = lStat3.executeQuery(queryString3);
         float longitude = 0;
-        while(lLongitude.next()) {    
-            longitude = lLongitude.getFloat("Longitude");
+        //Si il y a une donnée on récupère la latitude et longitude
+        if (req.next()) {    
+            latitude = req.getFloat("Latitude");
+            longitude = req.getFloat("Longitude");
         }
-        System.out.println(longitude);
+        //Sinon on génère une exception
+        else {
+            throw new Exception("Aucune donnée TR");
+        }
+        //on vérifie que le point se situe dans la zone
         
         int i, j;
         boolean isDehors = false;

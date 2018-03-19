@@ -1,5 +1,5 @@
 #include "DonneesTR.h"
-#include "GPS.h"
+
 
 	DonneesTR::DonneesTR(){
 	distanceParcourue = 0;
@@ -60,12 +60,18 @@
 
 	int DonneesTR::getRegimeMoyen()
 	{
+		
 		return regimeMoyen;
 	}
 
 
 	int DonneesTR::getRegimeMax()
 	{
+  int tab[8];
+    for( int i = 0 ; i >= 8 ; i++ ){
+      tab[i] = regime % 10;
+      regime /=10;
+    }
 		return regimeMax;
 	}
 

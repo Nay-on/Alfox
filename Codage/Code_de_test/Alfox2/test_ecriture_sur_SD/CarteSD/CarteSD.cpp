@@ -14,8 +14,8 @@ CarteSD::~CarteSD() {
 
 }
 
-String CarteSD::lire(){
-  fichierSD=SD.open(nomFichier);
+String CarteSD::lire(String nom){
+  fichierSD=SD.open(nom);
   if (fichierSD) {
     while (fichierSD.available()) {
       Serial.write(fichierSD.read());
@@ -28,29 +28,23 @@ String CarteSD::lire(){
   }
 }
 
-// ne fonctionne que en passant les valeurs brut 
+
 void CarteSD::ecrire(DonneesTR* dTR, GPS* gps)
 {
   fichierSD = SD.open(nomFichier, FILE_WRITE);
   //fichierSD.print(heure+"   ");
   if(fichierSD){
-    Serial.print(fichierSD);
-    Serial.println(fichierSD.name());
-    fichierSD.println("# 100   "+String(dTR->getConsoMoyenne())+"   "+String(dTR->getConsoMax()) + "   "+String(dTR->getVitesseMax()) + "   "+String(dTR->getVitesseMoyenne()) + "   "+String(dTR->getRegimeMax()) + "   ");
-    Serial.println("donnée ecrite");
-    Serial.println("# 100   "+String(dTR->getConsoMoyenne())+"   "+String(dTR->getConsoMax()) + "   "+String(dTR->getVitesseMax()) + "   "+String(dTR->getVitesseMoyenne()) + "   "+String(dTR->getRegimeMax()) + "   ");
-    
-    
-    //fichierSD.print(dTR->getConsoMoyenne());
-    //fichierSD.print("   ");
-    //fichierSD.print(String(dTR->getConsoMax()) + "   ");
+    fichierSD.print("100");
+    fichierSD.print("   ");
+    fichierSD.print(dTR->getConsoMoyenne() + "   ");
+    fichierSD.print(dTR->getConsoMax() + "   ");
     //fichierSD.print(nbDefauts+"   ");
     //fichierSD.print(codeDf+"   ");
-    //fichierSD.print(String(dTR->getVitesseMax()) + "   ");
-    //fichierSD.print(String(dTR->getVitesseMoyenne()) + "   ");
-    //fichierSD.print(String(dTR->getRegimeMax()) + "   ");
-    //fichierSD.print(String(dTR->getRegimeMoyen()) + "   ");
-    //fichierSD.println("");
+    fichierSD.print(dTR->getVitesseMax() + "   ");
+    fichierSD.print(dTR->getVitesseMoyenne() + "   ");
+    fichierSD.print(dTR->getRegimeMax() + "   ");
+    fichierSD.print(dTR->getRegimeMoyen() + "   ");
+    fichierSD.println("");
     fichierSD.close();
     Serial.println("ecriture");
   }
@@ -59,12 +53,11 @@ void CarteSD::ecrire(DonneesTR* dTR, GPS* gps)
   }
 }
 
-// a retraiter pour effacement 
+
 void CarteSD::effacer()
 {
-  fichierRacineSD = SD.open("/");
+
   printDirectory(fichierRacineSD,0);
-  fichierSD.close();
   /*
   while (true) {
 
@@ -82,8 +75,6 @@ void CarteSD::effacer()
   }*/
 }
 
-
-// printDirectory
 bool CarteSD::isFull(){
 while (true) {
 
@@ -108,16 +99,18 @@ void CarteSD::effacerOldData()
 }
 
 
-//fonction ok et tester nececite l'ajout d'un fichier a la base de la carte pour la suite
+
 bool CarteSD::nouveauFichier(String nom)
 {
+  Serial.println("passage dans création fichier");
   if (SD.exists(nom)) {
     Serial.println(F("le fichier existe déjà"));
-    //String nomFichier = nom;
+    String nomFichier = nom;
+    Serial.println(nomFichier);
     return true;
   }
   else {
-    SD.mkdir("fichierTest");
+    Serial.println("création fichier");
     fichierSD = SD.open(nom,FILE_WRITE);
     if (fichierSD) {
       fichierSD.println("Heure   KM       CMOY  NBDF  CD1    CD2    CD3    CD4   VMX   VMOY  RMX    RMOY");
@@ -128,14 +121,12 @@ bool CarteSD::nouveauFichier(String nom)
       Serial.println(F("erreur de creation"));
       return false;
     }
-    fichierRacineSD = SD.open("/");
-    
-    nomFichier = nom;
+    fichierRacineSD = SD.open("/");;
+    String nomFichier = nom;
+    Serial.println(nomFichier);
     return true;
   }
 }
-
-
 
 bool CarteSD::supprimerFichier(String nom)
 {
@@ -144,18 +135,15 @@ bool CarteSD::supprimerFichier(String nom)
   }
 }
 
-
-
 void CarteSD::printDirectory(File dir, int numTabs)
 {
-  // ne fonctionne que si il y as un dossier a la racine de la carte SD
-  while (true){
-
+  while (true)
+  {
     File entry = dir.openNextFile();
     if (! entry)
     {
       if (numTabs == 0)
-        Serial.println("liste des fichier complète");
+        Serial.println("** Done **");
       return;
     }
     for (uint8_t i = 0; i < numTabs; i++)
@@ -168,11 +156,10 @@ void CarteSD::printDirectory(File dir, int numTabs)
     }
     else
     {
-      Serial.print("\t");
+      Serial.print("\t\t");
       Serial.println(entry.size(), DEC);
     }
     entry.close();
   }
 }
-
 

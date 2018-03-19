@@ -2,7 +2,9 @@
 #define DONNEES_H
 #include <SPI.h>
 #include <SD.h>
+#include "GPS.h"
 #include <Arduino.h>
+
 class DonneesTR {
 public:
     DonneesTR();

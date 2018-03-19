@@ -11,6 +11,6 @@
 use alfox;
 insert into zoneLimite (Nom) values
     ('Toulouse'),
-    ('Paris'),
+    ('Alcis'),
     ('France'),
     ('Europe');

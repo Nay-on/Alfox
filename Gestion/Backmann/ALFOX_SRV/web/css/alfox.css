@@ -8,6 +8,14 @@
     left: 35px;
 }
 
+/* Changement de mode de la page infos */
+.mode{
+    position: fixed;
+    top : -3px; 
+    right: 50px;
+}
+
+
 /* le logo ne prend que 30% de la largeur de l'écran */
 .logo img {
     border-radius: 8px;
@@ -65,7 +73,7 @@
 }
 
 .cardValeur {
-    font-size: 60px;
+    font-size: 50px;
 }
 
 .cardUnite {
@@ -98,21 +106,16 @@
     padding: 0px 30% 0px 30% !important;
 }
 
-.form1{
+/*.form1{
     width: 20%;
     float: left;
-}
+}*/
 
+/* Nombre de messages restants de la page infos */
 .mess{
-    float: right;
+    text-align: right;
 }
 
-.mode{
-    float: right;
-}
-
-.ui-content{
-    height: 80%;
-    width: 80%;
-    margin-left:7%;
+/* popup page infos */
+#popupBasic{
 }

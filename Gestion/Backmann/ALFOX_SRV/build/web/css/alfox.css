@@ -8,6 +8,14 @@
     left: 35px;
 }
 
+/* Changement de mode de la page infos */
+.mode{
+    position: fixed;
+    top : -3px; 
+    right: 50px;
+}
+
+
 /* le logo ne prend que 30% de la largeur de l'écran */
 .logo img {
     border-radius: 8px;
@@ -37,8 +45,8 @@
 
 /* mise en page de la map Google dans la page localisation */
 #map {
-    height: 600px;
-    width: 90%;
+    height: 807px;
+    width: 1440px;
     margin-left: 5%;
     border-style: solid;
     border-width: 1px;
@@ -65,7 +73,7 @@
 }
 
 .cardValeur {
-    font-size: 60px;
+    font-size: 50px;
 }
 
 .cardUnite {
@@ -98,11 +106,16 @@
     padding: 0px 30% 0px 30% !important;
 }
 
-.form1{
+/*.form1{
     width: 20%;
     float: left;
+}*/
+
+/* Nombre de messages restants de la page infos */
+.mess{
+    text-align: right;
 }
 
-.mess{
-    float: right;
+/* popup page infos */
+#popupBasic{
 }

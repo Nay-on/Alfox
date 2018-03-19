@@ -26,7 +26,7 @@
             <div role="main" class="ui-content">
                 <center>
                     <p class="mess">Nombre de message restants : 3/4</p>
-                    <form class="form" >
+                    <form class="form">
                         <div class="ui-field-contain">
                             <label class="label" for="select-native-1">Véhicule :</label>
                             <select name="select-native-1" id="select-native-1">
@@ -1319,23 +1319,34 @@
             </div>
             <div id="panelVehicules" data-role="panel" data-position="right"  
                  data-position-fixed="true" data-display="push">
-                <p>Mode :</p>
+                <p>Changement de mode :</p>
                 <div data-role="collapsibleset" data-inset="false">
-                    <button data-theme="a" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-icon-gear ui-btn-icon-left ui-shadow ui-corner-all">
+                    <a href="#positionWindow" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
                         <h4>DORMIR</h4>
-                    </button>
-                    <button data-theme="a" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-icon-gear ui-btn-icon-left ui-shadow ui-corner-all">
+                        <div data-role="popup" id="positionWindow" class="ui-content">
+                            <p>Etes-vous sûr de vouloir changer de mode ?</p>
+                            <button>OK</button>
+                            <button>Annuler</button>
+                        </div>
+                    </a>
+                    <a href="#positionWindow" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
                         <h4>GPS</h4>
-                    </button>
-                    <button data-theme="a" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-icon-gear ui-btn-icon-left ui-shadow ui-corner-all">
+                        <div data-role="popup" id="positionWindow" class="ui-content">
+                            <p>Etes-vous sûr de vouloir changer de mode ?</p>
+                        </div>
+                    </a>
+                    <a href="#positionWindow" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
                         <h4>Demande GPS</h4>
-                    </button>
-                    <button data-theme="a" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-icon-gear ui-btn-icon-left ui-shadow ui-corner-all">
-                        <h4>MAINTENANCE</h4>
-                    </button>
-                    <button data-theme="a" data-form="ui-btn-up-a" class=" ui-btn ui-btn-a ui-icon-gear ui-btn-icon-left ui-shadow ui-corner-all">
+                        <div data-role="popup" id="positionWindow" class="ui-content">
+                            <p>Etes-vous sûr de vouloir changer de mode ?</p>
+                        </div>
+                    </a>
+                    <a href="#positionWindow" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
                         <h4>RESET</h4>
-                    </button>
+                        <div data-role="popup" id="positionWindow" class="ui-content">
+                            <p>Etes-vous sûr de vouloir changer de mode ?</p>
+                        </div>
+                    </a>
                 </div>     
             </div>
             <br/><br/>

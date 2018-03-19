@@ -34,17 +34,23 @@ void CarteSD::ecrire(DonneesTR* dTR, GPS* gps)
   fichierSD = SD.open(nomFichier, FILE_WRITE);
   //fichierSD.print(heure+"   ");
   if(fichierSD){
-    fichierSD.print("# 100   "+String(dTR->getConsoMoyenne())+"   "+String(dTR->getConsoMax()) + "   "+String(dTR->getVitesseMax()) + "   "+String(dTR->getVitesseMoyenne()) + "   "+String(dTR->getRegimeMax()) + "   ");
-//    fichierSD.print(dTR->getConsoMoyenne());
-    fichierSD.print("   ");
-    fichierSD.print(String(dTR->getConsoMax()) + "   ");
+    Serial.print(fichierSD);
+    Serial.println(fichierSD.name());
+    fichierSD.println("# 100   "+String(dTR->getConsoMoyenne())+"   "+String(dTR->getConsoMax()) + "   "+String(dTR->getVitesseMax()) + "   "+String(dTR->getVitesseMoyenne()) + "   "+String(dTR->getRegimeMax()) + "   ");
+    Serial.println("donnée ecrite");
+    Serial.println("# 100   "+String(dTR->getConsoMoyenne())+"   "+String(dTR->getConsoMax()) + "   "+String(dTR->getVitesseMax()) + "   "+String(dTR->getVitesseMoyenne()) + "   "+String(dTR->getRegimeMax()) + "   ");
+    
+    
+    //fichierSD.print(dTR->getConsoMoyenne());
+    //fichierSD.print("   ");
+    //fichierSD.print(String(dTR->getConsoMax()) + "   ");
     //fichierSD.print(nbDefauts+"   ");
     //fichierSD.print(codeDf+"   ");
-    fichierSD.print(String(dTR->getVitesseMax()) + "   ");
-    fichierSD.print(String(dTR->getVitesseMoyenne()) + "   ");
-    fichierSD.print(String(dTR->getRegimeMax()) + "   ");
-    fichierSD.print(String(dTR->getRegimeMoyen()) + "   ");
-    fichierSD.println("");
+    //fichierSD.print(String(dTR->getVitesseMax()) + "   ");
+    //fichierSD.print(String(dTR->getVitesseMoyenne()) + "   ");
+    //fichierSD.print(String(dTR->getRegimeMax()) + "   ");
+    //fichierSD.print(String(dTR->getRegimeMoyen()) + "   ");
+    //fichierSD.println("");
     fichierSD.close();
     Serial.println("ecriture");
   }
@@ -53,7 +59,7 @@ void CarteSD::ecrire(DonneesTR* dTR, GPS* gps)
   }
 }
 
-// a reterter pour effacement 
+// a retraiter pour effacement 
 void CarteSD::effacer()
 {
   fichierRacineSD = SD.open("/");
@@ -107,7 +113,7 @@ bool CarteSD::nouveauFichier(String nom)
 {
   if (SD.exists(nom)) {
     Serial.println(F("le fichier existe déjà"));
-    String nomFichier = nom;
+    //String nomFichier = nom;
     return true;
   }
   else {

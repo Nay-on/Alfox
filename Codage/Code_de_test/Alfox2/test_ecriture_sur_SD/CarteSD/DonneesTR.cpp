@@ -2,11 +2,11 @@
 #include "GPS.h"
 
 	DonneesTR::DonneesTR(){
-  distanceParcourue = 0;
+  distanceParcourue = 12;
   nbDefauts = 0;
   defauts[4]=0;
-  consommation = 0;
-  consoMoyenne = 0;
+  consommation = 24;
+  consoMoyenne = 3;
   consoMax = 0;
   vitesse = 0;
   vitesseMoyenne = 0;

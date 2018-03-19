@@ -17,8 +17,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-    carteSD->nouveauFichier("180315.txt");
-    Serial.println(donneesTR->getVitesseMoyenne());
+    carteSD->nouveauFichier("180316.txt");
     carteSD->ecrire(donneesTR,gps);
     //carteSD->effacer();
     delay(500);

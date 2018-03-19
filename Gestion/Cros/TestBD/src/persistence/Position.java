@@ -63,7 +63,7 @@ public class Position {
      * @throws java.lang.Exception
      */
     public static Position getByOrdre(Connection con, int ordre) throws Exception {
-        String queryString = "select * from loueur where ordre='" + ordre + "';";
+        String queryString = "select * from position where Ordre='" + ordre + "';";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);

@@ -8,6 +8,7 @@
 package persistence;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Vehicule {
     private String    marque;           // la clef primaire
@@ -109,7 +110,7 @@ public class Vehicule {
      * @return Vehicule vehicule trouve par immatriculation
      * @throws java.lang.Exception
      */
-    public static Vehicule getByNumero(Connection con, String immatriculation) throws Exception {
+    public static Vehicule getByImmatriculation(Connection con, String immatriculation) throws Exception {
         String queryString = "select * from vehicule where immatriculation='" + immatriculation + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
@@ -123,6 +124,61 @@ public class Vehicule {
             return null;
     }
     
+    public boolean isDehors(Connection con) throws Exception {
+        String queryString = "select * from position, zoneLimite where  ZoneLimiteID = zoneLimite.ID and Nom = (select Nom from contrat, vehicule, zoneLimite where VehiculeID = vehicule.ID and ZoneLimiteID = zoneLimite.ID and Immatriculation='" + immatriculation + "') order by Ordre";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        // on met les points dans 2 collections Arraylist de Float
+        // Float avec un F majuscule est une classe !)
+        ArrayList<Float> xap = new ArrayList<>();
+        ArrayList<Float> yap = new ArrayList<>();
+        while (lResult.next()) {
+                xap.add(lResult.getFloat("Latitude"));
+                yap.add(lResult.getFloat("Longitude"));
+        }
+        // on transforme les collections en tableaux d'objets
+        int nbPoints = xap.size();
+        Float[] xtp = xap.toArray(new Float[0]);
+        Float[] ytp = yap.toArray(new Float[0]);
+        // les tableaux sont maintenant des tableaux de Float !
+        //Récupération de la dernière latitude enregistrée
+        String queryString2 = "select Latitude from donneesTR, vehicule where VehiculeID = vehicule.ID and vehicule.Immatriculation = \""+ this.immatriculation +"\" order by donneesTR.ID desc limit 1;";
+        System.out.println(queryString2);
+        Statement lStat2 = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lLatitude = lStat2.executeQuery(queryString2);
+        float latitude = 0;
+        while(lLatitude.next()) {    
+            latitude = lLatitude.getFloat("Latitude");
+        }
+        System.out.println(latitude);
+        
+        
+        //Récupération de la dernière longitude enregistrée
+        String queryString3 = "select Longitude from donneesTR, vehicule where VehiculeID = vehicule.ID and vehicule.Immatriculation = \""+ this.immatriculation +"\" order by donneesTR.ID desc limit 1;";
+        Statement lStat3 = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lLongitude = lStat3.executeQuery(queryString3);
+        float longitude = 0;
+        while(lLongitude.next()) {    
+            longitude = lLongitude.getFloat("Longitude");
+        }
+        System.out.println(longitude);
+        
+        int i, j;
+        boolean isDehors = false;
+        for (i = 0, j = nbPoints-1; i < nbPoints; j = i++) {
+            if ((((ytp[i] <= longitude) && (longitude < ytp[j])) || ((ytp[j] <= longitude) && (longitude < ytp[i])))
+                && (latitude < (xtp[j] - xtp[i]) * (longitude - ytp[i]) / (ytp[j] - ytp[i]) + xtp[i]))
+                isDehors = !isDehors;
+        }
+        return !isDehors;
+        }
+    
     private static Vehicule creerParRequete(ResultSet result) throws Exception {
             String    lMarque  = result.getString("Marque");
             String    lModele = result.getString("Modele");
@@ -135,7 +191,7 @@ public class Vehicule {
             boolean   lHorsZone  = result.getBoolean("HorsZone");
             int       lTauxUtilisation = result.getInt("TauxUtilisation");
             boolean   lAProbleme = result.getBoolean("AProbleme");
-            float     lCompteurReel = result.getFloat("CompteuReel");
+            float     lCompteurReel = result.getFloat("CompteurReel");
             Timestamp lDateControleTechnique = result.getTimestamp("DateControleTechnique");
             return    new Vehicule(lMarque, lModele, lImmatriculation, lDateMiseEnService, 
                 lMotorisation, lIdSigfox, lDateVidange, lKmVidange,

@@ -119,8 +119,8 @@ public class DonneesTR {
      * @return DonneesHisto donneesHisto trouve par date
      * @throws java.lang.Exception
      */
-    public static DonneesTR getByDatation(Connection con, Timestamp datation) throws Exception {
-        String queryString = "select * from donneesHisto where datation='" + datation + "'";
+    public static DonneesTR getByDatation(Connection con, String datation) throws Exception {
+        String queryString = "select * from donneesTR where datation='" + datation + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);

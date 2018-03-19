@@ -69,7 +69,7 @@
                         </div>
                     </div>
                     <br/><br/><br/><br/><br/>
-                    <form id="formLogin" method="post" action="alfoxControl.jsp">
+                    <form id="formLogin" method="post" action="#">
                         <input name="action" id="logout" type="hidden" value="logout"/><br/>
                         <button type="submit" id="submitOK" name="submitOK">Déconnexion</button>
                     </form>
@@ -77,14 +77,17 @@
                     <br/><br/><br/>
                 </center>
             </div>
-            <div data-role='navbar' data-grid='d'>
-                <ul>
-                    <li><a href='#' data-ajax='false' id='navbarhome' data-icon='home'>Accueil</a></li>
-                    <li><a href='#' data-ajax='false' id='navbarSuivi' data-icon='location'>Localisation</a></li>
-                    <li><a href='#' data-ajax='false' id='navbarInfos' data-icon='info'>Infos</a></li>
-                    <li><a href='#' data-ajax='false' id='navbarStatistiques' data-icon='bars'>Statistiques</a></li>
-                    <li><a href='#' data-ajax='false' id='navbarGestion' data-icon='edit'>Gestion</a></li>
-                </ul>
+            <div class="footer" data-role="footer" data-theme="b" data-tap-toggle="false"
+            data-id="main-footer" data-position="fixed" data-fullscreen="true">
+                <div data-role='navbar' data-grid='d'>
+                    <ul>
+                        <li><a href='#' data-ajax='false' id='navbarhome' data-icon='home'>Accueil</a></li>
+                        <li><a href='#' data-ajax='false' id='navbarSuivi' data-icon='location'>Localisation</a></li>
+                        <li><a href='#' data-ajax='false' id='navbarInfos' data-icon='info'>Infos</a></li>
+                        <li><a href='#' data-ajax='false' id='navbarStatistiques' data-icon='bars'>Statistiques</a></li>
+                        <li><a href='#' data-ajax='false' id='navbarGestion' data-icon='edit'>Gestion</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </body>

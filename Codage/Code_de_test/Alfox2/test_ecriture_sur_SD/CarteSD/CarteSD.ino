@@ -3,24 +3,26 @@
 #include <SD.h>
 #include <SPI.h>
 
-CarteSD* carteSD = new CarteSD();
-DonneesTR* donneesTR = new DonneesTR();
-GPS* gps = new GPS();
+CarteSD* carteSD;
+DonneesTR* donneesTR;
+int conso = 0;
 
 void setup() {
-  // put your setup code here, to run once:
-
+  carteSD = new CarteSD();
+  donneesTR = new DonneesTR();
   Serial.begin(9600);
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-    carteSD->nouveauFichier("180314.txt");
-    
-    carteSD->ecrire(donneesTR,gps);
-    carteSD->effacer();
-    delay(5000);
+    carteSD->nouveauFichier("180316.txt");
+    donneesTR->setConsommation(conso);
+    conso = conso + 1;
+    carteSD->ecrire(donneesTR);
+    //carteSD->lire();
+    //carteSD->effacer();
+    delay(500);
 }
 
 

@@ -5,6 +5,7 @@ class Bluetooth {
 
 private :
   SoftwareSerial* serialBluetooth;
+  
 
 public:
   Bluetooth(int rx, int tx);

@@ -34,13 +34,7 @@
     regimeMoyen = 0;
     regimeMax = 0;
 	}
-
-    int DonneesTR::getConsommation()
-  {
-    return consommation;
-  }
-
-  
+	
 	int DonneesTR::getConsoMoyenne()
 	{
 		return consoMoyenne;
@@ -110,8 +104,8 @@
 
 	}
 
-/*
+
 	void DonneesTR::majData(OBD2 obd2)
 	{
 
-	}*/
+	}

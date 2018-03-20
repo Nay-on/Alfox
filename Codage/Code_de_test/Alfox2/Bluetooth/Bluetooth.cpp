@@ -5,19 +5,20 @@
 Bluetooth::Bluetooth(int rx, int tx){
   serialBluetooth = new SoftwareSerial(rx,tx);
   serialBluetooth->begin(38400);
+  pinMode(4,OUTPUT);
+  digitalWrite(4,HIGH);
+  delay(1000);
+  pinMode(5,OUTPUT);
+  digitalWrite(5,LOW);
 }
 
 bool Bluetooth::connexion(String adresse){
-    digitalWrite(5,HIGH);
-    delay(1000);
     digitalWrite(4,HIGH);
     delay(1000);
+    digitalWrite(5,HIGH);
+    delay(1000);
     
-    serialBluetooth->println("AT+ROLE=1");
-    while (serialBluetooth->available()<=0);
-    while (serialBluetooth->available()>0){
-       Serial.write(serialBluetooth->read());
-    } 
+    modeMaster();
     serialBluetooth->println("AT+CMODE=1");
     while (serialBluetooth->available()<=0);
     while (serialBluetooth->available()>0){
@@ -78,5 +79,20 @@ bool Bluetooth::isActif(){
 
 SoftwareSerial* Bluetooth::getLiaisonBT(){
   return serialBluetooth;
+}
+
+int Bluetooth::modeMaster(){
+    serialBluetooth->println("AT+ROLE=1");
+    while (serialBluetooth->available()<=0);
+    while (serialBluetooth->available()>0){
+       if(serialBluetooth->read()=="OK")
+       {
+        return 1;
+       }else
+       {
+        return 0;
+       }
+    } 
+
 }
 

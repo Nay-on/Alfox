@@ -85,6 +85,10 @@ public class ZoneLimite {
         return nom;
     }
     
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+    
     /**
      * toString() operator overload
      * @return   the result string

@@ -8,6 +8,16 @@ OBD2::OBD2(Bluetooth* bt){
 }
 
 String OBD2::demande(String code){
+  liaisonBT->print(code);
   
+}
+
+String OBD2::lireReponse(){
+  String reponse;
+  while (Serial.available() > 0) {
+    if(liaisonBT->read() != '\n'){
+      reponse == liaisonBT->read();
+    }
+  }
 }
 

@@ -1,3 +1,7 @@
+#ifndef __BLUETOOTH__
+#define __BLUETOOTH__
+
+
 #include <SoftwareSerial.h>
 #include <Arduino.h>
 
@@ -14,3 +18,5 @@ public:
   bool isActif();
   SoftwareSerial* getLiaisonBT();
 };
+
+#endif

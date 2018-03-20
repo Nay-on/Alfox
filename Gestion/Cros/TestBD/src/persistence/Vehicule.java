@@ -9,6 +9,9 @@ package persistence;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Vehicule {
     private String    marque;           // la clef primaire
@@ -290,8 +293,8 @@ public class Vehicule {
         return kmVidange;
     }
 
-    public void setDateVidange(Timestamp dateVidange) throws Exception {
-        this.dateVidange = dateVidange;
+    public void setDateVidange(String dateVidange) throws Exception {
+        this.dateVidange = this.stringToTimestamp(dateVidange);
     }
     public void setHorsZone(boolean horsZone) throws Exception {
         this.horsZone = horsZone;
@@ -305,10 +308,21 @@ public class Vehicule {
     public void setCompteurReel(float compteurReel) throws Exception {
         this.compteurReel = compteurReel;
     }    
-    public void setDateControleTechnique(Timestamp dateControleTechnique) throws Exception {
-        this.dateControleTechnique = dateControleTechnique;
+    public void setDateControleTechnique(String dateControleTechnique) throws Exception {
+        this.dateControleTechnique = this.stringToTimestamp(dateControleTechnique);
     }
-    
+    public Timestamp stringToTimestamp(String dateIn) throws Exception {
+        //Méthode de conversion d'un String vers un Timestamp.
+        //Nécessaire à l'utilisation des méthodes setDateVidange() et setDateControleTechnique()
+        //qui ne peuvent pas reçevoir de Timestamp en paramètre.
+        String dt = dateIn;
+	String pattern = "dd-mm-yyyy";
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+	Date date = simpleDateFormat.parse(dt);
+	java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+        return timestamp;
+    }
+        
     /**
      * toString() operator overload
      * @return   the result string

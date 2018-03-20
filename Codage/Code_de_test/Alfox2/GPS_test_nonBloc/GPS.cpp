@@ -75,6 +75,14 @@ bool GPS::isDispo(){
     return false;
 }
 
+struct tm GPS::getDatationUltimate(){
+    this->datation.tm_year = gps->year;
+    this->datation.tm_mon = gps->month - 1;
+    this->datation.tm_mday = gps->day;
+    this->datation.tm_hour = gps->hour;
+    this->datation.tm_min = gps->minute;
+    this->datation.tm_sec = gps->seconds;
+}
 
 
 

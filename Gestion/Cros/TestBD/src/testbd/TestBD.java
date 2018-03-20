@@ -78,6 +78,7 @@ public class TestBD {
         user.setRole("administrateur");
         user.setMail("changementdemail@gmail.com");
         user.setMdp("changementmdp");
+        user.save(con);
         System.out.println(user.getRole());
         System.out.println(user.getMail());
     }
@@ -117,6 +118,7 @@ public class TestBD {
         vehicule.setDateVidange("20-03-2018");
         vehicule.setHorsZone(true);
         vehicule.setTauxUtilisation(5);
+        vehicule.save(con);
         System.out.print(vehicule.getAProbleme() + ";");
         System.out.print(vehicule.getCompteurReel() + ";");
         System.out.print(vehicule.getDateControleTechnique() + ";");
@@ -136,6 +138,7 @@ public class TestBD {
         System.out.println("Test des setters :");
         loueur.setMail("mailchange@gmail.com");
         loueur.setTelephone("0607080910");
+        loueur.save(con);
         System.out.print(loueur.getTelephone() + ";");
         System.out.println(loueur.getMail() + ";");
     }
@@ -148,6 +151,7 @@ public class TestBD {
         //test des setters
         System.out.println("Test des setters :");
         zoneLimite.setNom("Sud");
+        zoneLimite.save(con);
         System.out.println(zoneLimite.getNom() + ";");
     }
     
@@ -163,6 +167,7 @@ public class TestBD {
         position.setOrdre(9);
         position.setLatitude((float)40.456789);
         position.setLongitude((float)41.123456);
+        position.save(con);
         System.out.print(position.getOrdre() + ";");
         System.out.print(position.getLatitude() + ";");
         System.out.println(position.getLongitude() + ";");
@@ -179,6 +184,7 @@ public class TestBD {
         System.out.println("Test des setters :");
         contrat.setInfos("blablabla");
         contrat.setType("blablablablabla");
+        contrat.save(con);
         System.out.print(contrat.getType() + ";");
         System.out.println(contrat.getInfos() + ";");
         

@@ -17,6 +17,7 @@ public:
   bool connexion(String adresse);
   bool isActif();
   SoftwareSerial* getLiaisonBT();
+  bool modeMaster();
 };
 
 #endif

@@ -74,5 +74,9 @@ bool Bluetooth::isActif(){
     
     
 }
-    
+
+
+SoftwareSerial* Bluetooth::getLiaisonBT(){
+  return serialBluetooth;
+}
 

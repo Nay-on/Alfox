@@ -40,14 +40,5 @@ void loop() {
     //Serial.println(timeInterrupt);
     
   }
-    Serial.print(gps->getDatationUltimate().tm_mday);
-    Serial.print(gps->getDatationUltimate().tm_mon);
-    Serial.print(gps->getDatationUltimate().tm_year);
-    Serial.println();Serial.println();Serial.println();
-  Serial.print(gps->getDatationUltimate().tm_hour);
-  Serial.print(gps->getDatationUltimate().tm_min);
-  Serial.print(gps->getDatationUltimate().tm_sec);
-  Serial.println();
-  delay(2000);
 
 }

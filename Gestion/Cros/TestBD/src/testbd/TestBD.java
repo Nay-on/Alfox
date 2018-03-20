@@ -74,15 +74,19 @@ public class TestBD {
         System.out.println(user.getRole());
         System.out.println(user.getMail());
         //test des setters
+        System.out.println("Test des setters :");
         user.setRole("administrateur");
         user.setMail("changementdemail@gmail.com");
         user.setMdp("changementmdp");
+        user.save(con);
         System.out.println(user.getRole());
         System.out.println(user.getMail());
     }
     
     public static void testVehicule(Connection con, String immatriculation) throws Exception {
+        //test de la récupération d'un user par son mdp
         Vehicule vehicule = Vehicule.getByImmatriculation(con, immatriculation);
+        //test des getters
         System.out.print(vehicule.getMarque() + ";");
         System.out.print(vehicule.getModele() + ";");
         System.out.print(vehicule.getImmatriculation() + ";");
@@ -97,13 +101,30 @@ public class TestBD {
         System.out.print(vehicule.getCompteurReel() + ";");
         System.out.println(vehicule.getDateControleTechnique() + ";");
         try {
+            //Obtention de la date de dernière données TR reçue
             System.out.println("getLastDatation : --------------------------------------------------");
             System.out.println(vehicule.getLastDatation(con));
+            //Le véhicule est-il dans sa zone associée?
             System.out.println("isDehors : ---------------------------------------------------------");
             System.out.println(vehicule.isDehors(con));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+        //test des setters
+        System.out.println("Test des setters :");
+        vehicule.setAProbleme(true);
+        vehicule.setCompteurReel(5050);
+        vehicule.setDateControleTechnique("20-03-2018");
+        vehicule.setDateVidange("20-03-2018");
+        vehicule.setHorsZone(true);
+        vehicule.setTauxUtilisation(5);
+        vehicule.save(con);
+        System.out.print(vehicule.getAProbleme() + ";");
+        System.out.print(vehicule.getCompteurReel() + ";");
+        System.out.print(vehicule.getDateControleTechnique() + ";");
+        System.out.print(vehicule.getDateVidange() + ";");
+        System.out.print(vehicule.getHorsZone() + ";");
+        System.out.println(vehicule.getTauxUtilisation() + ";");
     }
     
     public static void testLoueur(Connection con, String nom, String prenom) throws Exception {
@@ -112,8 +133,14 @@ public class TestBD {
         //test des getters
         System.out.print(loueur.getPrenom() + ";");
         System.out.print(loueur.getTelephone() + ";");
-        System.out.print(loueur.getMail() + ";");
+        System.out.println(loueur.getMail() + ";");
         //test des setters
+        System.out.println("Test des setters :");
+        loueur.setMail("mailchange@gmail.com");
+        loueur.setTelephone("0607080910");
+        loueur.save(con);
+        System.out.print(loueur.getTelephone() + ";");
+        System.out.println(loueur.getMail() + ";");
     }
     
     public static void testZoneLimite(Connection con, String zone) throws Exception {
@@ -122,6 +149,10 @@ public class TestBD {
         //test du getter
         System.out.println(zoneLimite.getNom() + ";");
         //test des setters
+        System.out.println("Test des setters :");
+        zoneLimite.setNom("Sud");
+        zoneLimite.save(con);
+        System.out.println(zoneLimite.getNom() + ";");
     }
     
     public static void testPosition(Connection con, int ordre) throws Exception {
@@ -132,6 +163,14 @@ public class TestBD {
         System.out.print(position.getLatitude() + ";");
         System.out.println(position.getLongitude() + ";");
         //test des setters
+        System.out.println("Test des setters :");
+        position.setOrdre(9);
+        position.setLatitude((float)40.456789);
+        position.setLongitude((float)41.123456);
+        position.save(con);
+        System.out.print(position.getOrdre() + ";");
+        System.out.print(position.getLatitude() + ";");
+        System.out.println(position.getLongitude() + ";");
     }
     
     public static void testContrat(Connection con, String numero) throws Exception {
@@ -142,6 +181,13 @@ public class TestBD {
         System.out.print(contrat.getType() + ";");
         System.out.println(contrat.getInfos() + ";");
         //test des setters
+        System.out.println("Test des setters :");
+        contrat.setInfos("blablabla");
+        contrat.setType("blablablablabla");
+        contrat.save(con);
+        System.out.print(contrat.getType() + ";");
+        System.out.println(contrat.getInfos() + ";");
+        
     }
     
     public static void testDonneesHisto(Connection con, String date) throws Exception {
@@ -164,7 +210,6 @@ public class TestBD {
         System.out.print(donneesHisto.getLatitudeGPS() + ";");
         System.out.print(donneesHisto.getLongitudeGPS() + ";");
         System.out.println(donneesHisto.getDistanceParcourue() + ";");
-        //test des setters
     }
     
     public static void testDonneesTR(Connection con, String date) throws Exception {
@@ -187,6 +232,5 @@ public class TestBD {
         System.out.print(donneesTR.getLatitude() + ";");
         System.out.print(donneesTR.getLongitude() + ";");
         System.out.println(donneesTR.getDistanceParcourue() + ";");
-        //test des setters
     }
 }

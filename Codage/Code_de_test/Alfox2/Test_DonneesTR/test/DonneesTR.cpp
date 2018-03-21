@@ -92,6 +92,14 @@
 	void DonneesTR::setRegime(int regime)
 	{
 		this->regime = regime;
+    if(regime > regimeMax)
+      regimeMax = regime;
+    
+    valeurMoyenneRegime *= moyenneRegime;
+    valeurMoyenneRegime += regime;
+    moyenneRegime++;
+    valeurMoyenneRegime /= moyenneRegime;
+    regimeMoyen = valeurMoyenneRegime ;
 	}
 
 	float DonneesTR::getDistanceParcourue()

@@ -1,3 +1,6 @@
+#ifndef __BLUETOOTH__
+#define __BLUETOOTH__
+
 #include <SoftwareSerial.h>
 #include <Arduino.h>
 
@@ -10,7 +13,16 @@ private :
 public:
   Bluetooth(int rx, int tx);
   ~Bluetooth();
-  bool connexion(String adresse);
+  int connexion(String adresse);
   bool isActif();
   SoftwareSerial* getLiaisonBT();
+  int modeMaster();
+  int modeConnection();
+  int motDePasse();
+  int initialisation();
+  int appairage(String adresse);
+  int lien(String adresse);
+  int modeDeconnecte();
 };
+
+#endif

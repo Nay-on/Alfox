@@ -1,3 +1,6 @@
+#ifndef __BLUETOOTH__
+#define __BLUETOOTH__
+
 #include <SoftwareSerial.h>
 #include <Arduino.h>
 
@@ -21,3 +24,5 @@ public:
   int lien(String adresse);
   int modeDeconnecte();
 };
+
+#endif

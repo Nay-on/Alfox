@@ -15,13 +15,17 @@ class OBD2
     SoftwareSerial* liaisonBT;
     
     String lireReponse();
+    String code[4] = {"010D", "015E", "010C", "CODE_DEFAUT_NONDEF" };
   
 	public:
-	
 		/** Constructeur **/
 		OBD2(Bluetooth* bt);
     bool isConnected();
-    String demande(String code);
+    int demande(int numCode);
+
+    typedef enum {
+      C_VITESSE, C_CONSOMMATION, C_REGIME, C_DEFAUT
+    } TCode;
     
 };
 

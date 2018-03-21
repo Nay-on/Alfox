@@ -1,3 +1,4 @@
+
 #include "OBD2.h"
 
 OBD2::OBD2(Bluetooth* bt){
@@ -7,8 +8,10 @@ OBD2::OBD2(Bluetooth* bt){
   
 }
 
-String OBD2::demande(String code){
-  liaisonBT->print(code);
+int OBD2::demande(int numCode){
+  liaisonBT->print(code[numCode]);
+  String a = lireReponse();
+  return a.toInt();
   
 }
 
@@ -19,5 +22,6 @@ String OBD2::lireReponse(){
       reponse == liaisonBT->read();
     }
   }
+  return reponse;
 }
 

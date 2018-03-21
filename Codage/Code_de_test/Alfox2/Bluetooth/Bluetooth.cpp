@@ -58,19 +58,19 @@ SoftwareSerial* Bluetooth::getLiaisonBT(){
 }
 
 int Bluetooth::modeMaster(){
-    String contenu = "test";
+    String contenu = "";
     serialBluetooth->println("AT+ROLE=1");
-    while (serialBluetooth->available()<=0);
-    while (serialBluetooth->available()>0){
-       contenu = serialBluetooth->read();
-       if(contenu == "OK")
-       {
-        return 1;
-       }else
-       {
-        return 0;
-       }
-    } 
+    while (serialBluetooth->available() <= 0);
+    while (serialBluetooth->available() > 0) {
+       contenu += serialBluetooth->read();
+    }
+    if(contenu =="OK")
+    {
+      return 2;
+    }else
+    {
+      return 0;
+    }
 }
 
 int Bluetooth::modeConnection(){

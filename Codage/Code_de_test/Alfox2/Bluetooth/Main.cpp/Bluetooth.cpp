@@ -36,11 +36,11 @@ int Bluetooth::connexion(String adresse){
 }
 
 bool Bluetooth::isActif(){
-    String contenu = "test";
+    String contenu = "";
     serialBluetooth->println("ATZ");
     while (serialBluetooth->available()<=0);
     while (serialBluetooth->available()>0){
-    contenu  = serialBluetooth->read();
+    contenu  += serialBluetooth->read();
     }
     if(contenu == "ERROR:(0)" || contenu == ""){ 
       return 0;
@@ -64,7 +64,24 @@ int Bluetooth::modeMaster(){
     while (serialBluetooth->available() > 0) {
        contenu += serialBluetooth->read();
     }
-    if(contenu =="OK")
+    Serial.println(contenu);
+    if(contenu =="79751310")
+    {
+      return 1;
+    }else
+    {
+      return 0;
+    }
+}
+
+int Bluetooth::modeConnection(){
+    String contenu = "";
+    serialBluetooth->println("AT+CMODE=1");
+    while (serialBluetooth->available()<=0);
+    while (serialBluetooth->available()>0){
+       contenu += serialBluetooth->read();
+    }
+    if(contenu =="79751310")
     {
       return 2;
     }else
@@ -73,101 +90,90 @@ int Bluetooth::modeMaster(){
     }
 }
 
-int Bluetooth::modeConnection(){
-    String contenu = "test";
-    serialBluetooth->println("AT+CMODE=1");
-    while (serialBluetooth->available()<=0);
-    while (serialBluetooth->available()>0){
-       contenu = serialBluetooth->read();
-       if(contenu =="OK")
-       {
-        return 2;
-       }else
-       {
-        return 0;
-       }
-    }
-}
 
 int Bluetooth::motDePasse(){
-    String contenu = "test";
+    String contenu = "";
     serialBluetooth->println("AT+PSWD=1234");
     while (serialBluetooth->available()<=0);
     while (serialBluetooth->available()>0){
-       contenu = serialBluetooth->read();
-       if(contenu =="OK")
-       {
-        return 4;
-       }else
-       {
-        return 0;
-       }
-    } 
-}
+       contenu += serialBluetooth->read();
+    }
+    if(contenu =="79751310")
+    {
+      return 4;
+    }else
+    {
+      return 0;
+    }
+} 
+
 
 int Bluetooth::initialisation(){
-    String contenu = "test";
+    String contenu = "";
     serialBluetooth->println("AT+INIT");
     while (serialBluetooth->available()<=0);
     while (serialBluetooth->available()>0){
-       contenu = serialBluetooth->read();
-       if(contenu =="OK")
-       {
-        return 8;
-       }else
-       {
-        return 0;
-       }
-    } 
-}
+       contenu += serialBluetooth->read();
+    }
+    if(contenu =="79751310")
+    {
+      return 8;
+    }else
+    {
+      return 0;
+    }
+} 
+
 
 int Bluetooth::appairage(String adresse){
-    String contenu = "test";
+    String contenu = "";
     serialBluetooth->println("AT+PAIR="+ adresse +",15");
     while (serialBluetooth->available()<=0);
     while (serialBluetooth->available()>0){
-       contenu = serialBluetooth->read();
-       if(contenu =="OK")
-       {
-        return 16;
-       }else
-       {
-        return 0;
-       }
-    } 
-}
+       contenu += serialBluetooth->read();
+    }
+    if(contenu =="79751310")
+    {
+      return 16;
+    }else
+    {
+      return 0;
+    }
+} 
+
 
 int Bluetooth::lien(String adresse){
-    String contenu = "test";
+    String contenu = "";
     serialBluetooth->println("AT+BIND="+adresse);
     while (serialBluetooth->available()<=0);
     while (serialBluetooth->available()>0){
-       contenu = serialBluetooth->read();
-       if(contenu =="OK")
-       {
-        return 32;
-       }else
-       {
-        return 0;
-       }
-    } 
-}
+       contenu += serialBluetooth->read();
+    }
+    if(contenu =="79751310")
+    {
+      return 32;
+    }else
+    {
+      return 0;
+    }
+} 
+
 
 int Bluetooth::modeDeconnecte(){
-    String contenu = "test";
+    String contenu = "";
     serialBluetooth->println("AT+CMODE=0");
     while (serialBluetooth->available()<=0);
     while (serialBluetooth->available()>0){
-       contenu = serialBluetooth->read();
-       if(contenu =="OK")
-       {
-        return 64;
-       }else
-       {
-        return 0;
-       }
-    } 
-}
+       contenu += serialBluetooth->read();
+    }
+    if(contenu =="79751310")
+    {
+      return 64;
+    }else
+    {
+      return 0;
+    }
+} 
 
 
 

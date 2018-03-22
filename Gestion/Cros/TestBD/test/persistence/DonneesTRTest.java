@@ -18,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author snir2g1
  */
-public class DonneesHistoTest {
+public class DonneesTRTest {
     
-    public DonneesHistoTest() {
+    public DonneesTRTest() {
     }
     
     @BeforeClass
@@ -40,7 +40,7 @@ public class DonneesHistoTest {
     }
 
     /**
-     * Test of create method, of class DonneesHisto.
+     * Test of create method, of class DonneesTR.
      */
     @Test
     public void testCreate() throws Exception {
@@ -64,14 +64,14 @@ public class DonneesHistoTest {
         long distanceParcourue = 50;
         int vehiculeID = 1;
         String expResult = "2017/03/22 12:00:00";
-        DonneesHisto result = DonneesHisto.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitudeGPS, longitudeGPS, distanceParcourue, vehiculeID);
+        DonneesTR result = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitudeGPS, longitudeGPS, distanceParcourue, vehiculeID);
         assertEquals(expResult, result.getDatation());
         result.delete(con);
     }
 
     /**
-     * Test of save method, of class DonneesHisto.
-    */
+     * Test of save method, of class DonneesTR.
+     */
     @Test
     public void testSave() throws Exception {
         System.out.println("save");
@@ -93,197 +93,199 @@ public class DonneesHistoTest {
         float longitudeGPS = (float)50.123456;
         long distanceParcourue = 50;
         int vehiculeID = 1;
-        DonneesHisto instance = DonneesHisto.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitudeGPS, longitudeGPS, distanceParcourue, vehiculeID);
+        DonneesTR instance = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitudeGPS, longitudeGPS, distanceParcourue, vehiculeID);
         instance.save(con);
         assertEquals(50, instance.getVitesse());
         instance.delete(con);
     }
-    
+
     /**
-     * Test of getByDatation method, of class DonneesHisto.
+     * Test of getByDatation method, of class DonneesTR.
      */
     @Test
     public void testGetByDatation() throws Exception {
         System.out.println("getByDatation");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto result = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals("2018-01-03 17:42:37", result.getDatation());
+        DonneesTR result = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals("2018-03-20 00:00:00", result.getDatation());
     }
 
     /**
-     * Test of getMode method, of class DonneesHisto.
+     * Test of getMode method, of class DonneesTR.
      */
     @Test
     public void testGetMode() throws Exception {
         System.out.println("getMode");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
         assertEquals("STANDARD", instance.getMode());
     }
 
     /**
-     * Test of getDatation method, of class DonneesHisto.
+     * Test of getDatation method, of class DonneesTR.
      */
     @Test
-    public void testGetDatation() throws Exception{
+    public void testGetDatation() throws Exception {
         System.out.println("getDatation");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals("2018-01-03 17:42:37", instance.getDatation());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals("2018-03-20 00:00:00", instance.getDatation());
     }
 
     /**
-     * Test of getVitesse method, of class DonneesHisto.
+     * Test of getVitesse method, of class DonneesTR.
      */
     @Test
-    public void testGetVitesse() throws Exception{
+    public void testGetVitesse() throws Exception {
         System.out.println("getVitesse");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals(50, instance.getVitesse());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(35, instance.getVitesse());
     }
 
     /**
-     * Test of getRegime method, of class DonneesHisto.
+     * Test of getRegime method, of class DonneesTR.
      */
     @Test
-    public void testGetRegime() throws Exception{
+    public void testGetRegime() throws Exception {
+        System.out.println("getRegime");
         System.out.println("getRegime");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals(1800, instance.getRegime());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(1479, instance.getRegime());
     }
 
     /**
-     * Test of getConsommation method, of class DonneesHisto.
+     * Test of getConsommation method, of class DonneesTR.
      */
     @Test
     public void testGetConsommation() throws Exception {
         System.out.println("getConsommation");
+        System.out.println("getConsommation");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals(62, instance.getConsommation());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(6, instance.getConsommation());
     }
 
     /**
-     * Test of getVitesseMax method, of class DonneesHisto.
+     * Test of getVitesseMax method, of class DonneesTR.
      */
     @Test
     public void testGetVitesseMax() throws Exception {
         System.out.println("getVitesseMax");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals(136, instance.getVitesseMax());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(114, instance.getVitesseMax());
     }
 
     /**
-     * Test of getRegimeMax method, of class DonneesHisto.
+     * Test of getRegimeMax method, of class DonneesTR.
      */
     @Test
-    public void testGetRegimeMax() throws Exception{
+    public void testGetRegimeMax() throws Exception {
         System.out.println("getRegimeMax");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals(3600, instance.getRegimeMax());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(3205, instance.getRegimeMax());
     }
 
     /**
-     * Test of getConsoMax method, of class DonneesHisto.
+     * Test of getConsoMax method, of class DonneesTR.
      */
     @Test
     public void testGetConsoMax() throws Exception {
         System.out.println("getConsoMax");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals(250, instance.getConsoMax());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(30, instance.getConsoMax());
     }
 
     /**
-     * Test of getNbDefauts method, of class DonneesHisto.
+     * Test of getNbDefauts method, of class DonneesTR.
      */
     @Test
     public void testGetNbDefauts() throws Exception {
         System.out.println("getNbDefauts");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals(0, instance.getNbDefauts());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(3, instance.getNbDefauts());
     }
 
     /**
-     * Test of getDefaut1 method, of class DonneesHisto.
+     * Test of getDefaut1 method, of class DonneesTR.
      */
     @Test
     public void testGetDefaut1() throws Exception {
         System.out.println("getDefaut1");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals(0, instance.getDefaut1());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(75, instance.getDefaut1());
     }
 
     /**
-     * Test of getDefaut2 method, of class DonneesHisto.
+     * Test of getDefaut2 method, of class DonneesTR.
      */
     @Test
     public void testGetDefaut2() throws Exception {
         System.out.println("getDefaut2");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals(0, instance.getDefaut2());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(5, instance.getDefaut2());
     }
 
     /**
-     * Test of getDefaut3 method, of class DonneesHisto.
+     * Test of getDefaut3 method, of class DonneesTR.
      */
     @Test
-    public void testGetDefaut3() throws Exception{
+    public void testGetDefaut3() throws Exception {
         System.out.println("getDefaut3");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
         assertEquals(0, instance.getDefaut3());
     }
 
     /**
-     * Test of getDefaut4 method, of class DonneesHisto.
+     * Test of getDefaut4 method, of class DonneesTR.
      */
     @Test
-    public void testGetDefaut4() throws Exception{
+    public void testGetDefaut4() throws Exception {
         System.out.println("getDefaut4");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
         assertEquals(0, instance.getDefaut4());
     }
 
     /**
-     * Test of getLatitudeGPS method, of class DonneesHisto.
+     * Test of getLatitude method, of class DonneesTR.
      */
     @Test
-    public void testGetLatitudeGPS() throws Exception {
-        System.out.println("getLatitudeGPS");
+    public void testGetLatitude() throws Exception {
+        System.out.println("getLatitude");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals((float)40.5643453, (float)instance.getLatitudeGPS(), 0.00001);
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(57.761382, instance.getLatitude(), 0.00001);
     }
 
     /**
-     * Test of getLongitudeGPS method, of class DonneesHisto.
+     * Test of getLongitude method, of class DonneesTR.
      */
     @Test
-    public void testGetLongitudeGPS() throws Exception {
-        System.out.println("getLongitudeGPS");
+    public void testGetLongitude() throws Exception {
+        System.out.println("getLongitude");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals((float)50.6354734, (float)instance.getLongitudeGPS(), 0.00001);
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(11.700803, instance.getLongitude(), 0.00001);
     }
 
     /**
-     * Test of getDistanceParcourue method, of class DonneesHisto.
+     * Test of getDistanceParcourue method, of class DonneesTR.
      */
     @Test
     public void testGetDistanceParcourue() throws Exception {
         System.out.println("getDistanceParcourue");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37");
-        assertEquals(7, instance.getDistanceParcourue());
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        assertEquals(20, instance.getDistanceParcourue());
     }
     
 }

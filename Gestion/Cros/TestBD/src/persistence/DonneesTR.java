@@ -38,6 +38,7 @@ public class DonneesTR {
      * @param vitesseMax
      * @param regimeMax
      * @param consoMax
+     * @param nbDefauts
      * @param defaut1
      * @param defaut2
      * @param defaut3
@@ -45,6 +46,7 @@ public class DonneesTR {
      * @param latitude
      * @param longitude
      * @param distanceParcourue
+     * @param vehiculeID
      * @return 
      * @ return retourne une donneesHisto si la date est unique sinon null
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
@@ -55,13 +57,13 @@ public class DonneesTR {
             int vitesse, int regime, int consommation, int vitesseMax, int regimeMax,
                 int consoMax, int nbDefauts, int defaut1, int defaut2, int defaut3, 
                     int defaut4, float latitude, float longitude,
-                        long distanceParcourue)  throws Exception {
+                        long distanceParcourue, int vehiculeID)  throws Exception {
         DonneesTR donneesTR = new DonneesTR(mode, datation, vitesse, regime, 
             consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1,
                 defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue);
         
         String queryString =
-         "insert into donneesTR ('Mode', 'Date', 'Vitesse', 'Regime', 'Consommation', 'VitesseMax', 'RegimeMax', 'ConsoMax', 'NbDefauts', 'Defaut1', 'Defaut2', 'Defaut3', 'Defaut4', 'Latitude', 'Longitude', 'DistanceParcourue') values ("
+         "insert into donneesTR ('Mode', 'Date', 'Vitesse', 'Regime', 'Consommation', 'VitesseMax', 'RegimeMax', 'ConsoMax', 'NbDefauts', 'Defaut1', 'Defaut2', 'Defaut3', 'Defaut4', 'Latitude', 'Longitude', 'DistanceParcourue', 'VehiculeID') values ("
                 + Utils.toString(mode) + ", " 
                 + Utils.toString(datation) + ", " 
                 + Utils.toString(vitesse) + ", "
@@ -77,11 +79,25 @@ public class DonneesTR {
                 + Utils.toString(defaut4) + ", " 
                 + Utils.toString(latitude) + ", "
                 + Utils.toString(longitude) + ", " 
-                + Utils.toString(distanceParcourue)
+                + Utils.toString(distanceParcourue) + ", " 
+                + Utils.toString(vehiculeID)
           + ")";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
         return donneesTR;
+    }
+    
+    /**
+     * suppression de l'objet user dans la BD
+     * @param con
+     * @return 
+     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     */
+    public boolean delete(Connection con) throws Exception {
+        String queryString = "delete from contrat where Date='" + datation + "'";
+        Statement lStat = con.createStatement();
+        lStat.executeUpdate(queryString);
+        return true;
     }
     
     /**

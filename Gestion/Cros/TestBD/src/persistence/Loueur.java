@@ -81,6 +81,19 @@ public class Loueur {
             return null;
     }
     
+    /**
+     * suppression de l'objet user dans la BD
+     * @param con
+     * @return 
+     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     */
+    public boolean delete(Connection con) throws Exception {
+        String queryString = "delete from contrat where Nom='" + nom + "' and Prenom='" + prenom + "'";
+        Statement lStat = con.createStatement();
+        lStat.executeUpdate(queryString);
+        return true;
+    }
+    
     private static Loueur creerParRequete(ResultSet result) throws Exception {
             String    lNom  = result.getString("Nom");
             String    lPrenom = result.getString("Prenom");

@@ -41,6 +41,10 @@ private:
 	int regime;
 	int regimeMoyen;
 	int regimeMax;
+  int moyenneRegime = 0;  //nb total de valeurs
+  long valeurMoyenneRegime = 0;
+  int moyenneVitesse = 0; //nb total de valeurs
+  int moyenneConso = 0;   //nb total de valeurs
 
 };
 

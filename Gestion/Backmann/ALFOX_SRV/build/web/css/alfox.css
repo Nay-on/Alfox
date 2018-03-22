@@ -45,9 +45,9 @@
 
 /* mise en page de la map Google dans la page localisation */
 #map {
-    height: 807px;
+    height: 786px;
     width: 1440px;
-    margin-left: 5%;
+    margin-left: 10%;
     border-style: solid;
     border-width: 1px;
     border-color: #AAAAAA;
@@ -84,7 +84,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 40px;
-  width: 80%;       /* largeur obligatoire pour être centré */
+  width: 80%; /* largeur obligatoire pour être centré */
 }
 
 /* pour les graphiques */
@@ -117,5 +117,20 @@
 }
 
 /* popup page infos */
-#popupBasic{
+#positionWindow,
+#positionWindow1,
+#positionWindow2,
+#positionWindow3{
+    width: 450px;
+    height: 100px;
+    z-index: 1;
+}
+
+.annuler{
+    top: -30px;
+    right: -250px;
+}
+
+.ok{
+    top: 22px;
 }

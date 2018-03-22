@@ -73,12 +73,7 @@
 
 	int DonneesTR::getRegimeMax()
 	{
-  int tab[8];
-    for( int i = 0 ; i >= 8 ; i++ ){
-      tab[i] = regime % 10;
-      regime /=10;
-    }
-		return regimeMax;
+    return regimeMax;
 	}
 
 
@@ -97,6 +92,14 @@
 	void DonneesTR::setRegime(int regime)
 	{
 		this->regime = regime;
+    if(regime > regimeMax)
+      regimeMax = regime;
+    
+    valeurMoyenneRegime *= moyenneRegime;
+    valeurMoyenneRegime += regime;
+    moyenneRegime++;
+    valeurMoyenneRegime /= moyenneRegime;
+    regimeMoyen = valeurMoyenneRegime ;
 	}
 
 	float DonneesTR::getDistanceParcourue()

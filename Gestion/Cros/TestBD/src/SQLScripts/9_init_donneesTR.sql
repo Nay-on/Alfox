@@ -8,9 +8,9 @@
 *Created:13mars2018
 */
 
-usealfox;
-insertintodonneesTR(Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, 
-NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, DistanceParcourue, VehiculeID)values
+use alfox;
+insert into donneesTR(Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, 
+NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, DistanceParcourue, VehiculeID) values
 ('STANDARD', '2018-03-20 00:00:00', 35, 1479, 6, 114, 3205, 30, 3, 75, 5, 0, 0, 57.761382, 11.700803, 20, 1), 
 ('STANDARD', '2018-03-20 00:10:00', 12, 2275, 8, 96, 3938, 22, 1, 153, 0, 0, 0, 19.368961, 33.811088, 16, 2), 
 ('STANDARD', '2018-03-20 00:20:00', 36, 3236, 9, 109, 3380, 19, 3, 67, 143, 35, 0, 40.283732, 59.196649, 15, 2), 

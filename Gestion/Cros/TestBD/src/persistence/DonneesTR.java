@@ -61,7 +61,7 @@ public class DonneesTR {
                 defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue);
         
         String queryString =
-         "insert into user ('Mode', 'Date', 'Vitesse', 'Regime', 'Consommation', 'VitesseMax', 'RegimeMax', 'ConsoMax', 'NbDefauts', 'Defaut1', 'Defaut2', 'Defaut3', 'Defaut4', 'Latitude', 'Longitude', 'DistanceParcourue') values ("
+         "insert into donneesTR ('Mode', 'Date', 'Vitesse', 'Regime', 'Consommation', 'VitesseMax', 'RegimeMax', 'ConsoMax', 'NbDefauts', 'Defaut1', 'Defaut2', 'Defaut3', 'Defaut4', 'Latitude', 'Longitude', 'DistanceParcourue') values ("
                 + Utils.toString(mode) + ", " 
                 + Utils.toString(datation) + ", " 
                 + Utils.toString(vitesse) + ", "

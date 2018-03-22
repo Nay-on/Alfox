@@ -30,7 +30,7 @@ public class Position {
         Position position = new Position(ordre, latitude, longitude);
         
         String queryString =
-         "insert into user (`Ordre`, 'Latitude', `Longitude`) values ("
+         "insert into position (`Ordre`, 'Latitude', `Longitude`) values ("
                 + Utils.toString(ordre) + ", " 
                 + Utils.toString(latitude) + ", " 
                 + Utils.toString(longitude)
@@ -47,7 +47,7 @@ public class Position {
      */
     public void save(Connection con) throws Exception {
         String queryString =
-         "update user set "
+         "update position set "
                 + " `Ordre` =" + Utils.toString(ordre) + ","
                 + " `Latitude` =" + Utils.toString(latitude) + "," 
                 + " `Longitude` =" + Utils.toString(longitude);

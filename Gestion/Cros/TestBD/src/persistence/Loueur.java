@@ -32,7 +32,7 @@ public class Loueur {
         Loueur loueur = new Loueur(nom, prenom, telephone, mail);
         
         String queryString =
-         "insert into user (`Nom`, 'Prenom', `Telephone`, `Mail`) values ("
+         "insert into loueur (`Nom`, 'Prenom', `Telephone`, `Mail`) values ("
                 + Utils.toString(nom) + ", " 
                 + Utils.toString(prenom) + ", " 
                 + Utils.toString(telephone) + ", " 
@@ -50,7 +50,7 @@ public class Loueur {
      */
     public void save(Connection con) throws Exception {
         String queryString =
-         "update user set "
+         "update loueur set "
                 + " `Nom` =" + Utils.toString(nom) + ","
                 + " `Prenom` =" + Utils.toString(prenom) + "," 
                 + " `Telephone` =" + Utils.toString(telephone) + ","  

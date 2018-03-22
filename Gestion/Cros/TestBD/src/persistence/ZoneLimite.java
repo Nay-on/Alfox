@@ -26,7 +26,7 @@ public class ZoneLimite {
         ZoneLimite zoneLimite = new ZoneLimite(nom);
         
         String queryString =
-         "insert into user (`Nom`) values ("
+         "insert into zoneLimite (`Nom`) values ("
                 + Utils.toString(nom)
           + ")";
         Statement lStat = con.createStatement();
@@ -41,7 +41,7 @@ public class ZoneLimite {
      */
     public void save(Connection con) throws Exception {
         String queryString =
-         "update user set "
+         "update zoneLimite set "
                 + " `Nom` =" + Utils.toString(nom);
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);

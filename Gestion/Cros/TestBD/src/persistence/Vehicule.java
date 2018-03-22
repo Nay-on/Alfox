@@ -9,9 +9,7 @@ package persistence;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import persistence.Utils;
 
 public class Vehicule {
     private String    marque;           // la clef primaire
@@ -61,7 +59,7 @@ public class Vehicule {
             compteurReel, dateControleTechnique);
         
         String queryString =
-         "insert into user ('Marque', 'Modele', 'Immatriculation', 'DateMiseEnService', 'Motorisation', 'IdSigfox', 'DateVidange', 'KmVidange', 'HorsZone', 'TauxUtilisation', 'AProbleme', 'CompteurReel', 'DateControleTechnique') values ("
+         "insert into vehicule ('Marque', 'Modele', 'Immatriculation', 'DateMiseEnService', 'Motorisation', 'IdSigfox', 'DateVidange', 'KmVidange', 'HorsZone', 'TauxUtilisation', 'AProbleme', 'CompteurReel', 'DateControleTechnique') values ("
                 + Utils.toString(marque) + ", " 
                 + Utils.toString(modele) + ", " 
                 + Utils.toString(immatriculation) + ", "
@@ -88,7 +86,7 @@ public class Vehicule {
      */
     public void save(Connection con) throws Exception {
         String queryString =
-         "update user set "
+         "update vehicule set "
                 + " `Marque` =" + Utils.toString(marque) + ","
                 + " `Modele` =" + Utils.toString(modele) + "," 
                 + " `Immatriculation` =" + Utils.toString(immatriculation) + ","
@@ -294,33 +292,27 @@ public class Vehicule {
     }
 
     public void setDateVidange(String dateVidange) throws Exception {
-        this.dateVidange = this.stringToTimestamp(dateVidange);
+        this.dateVidange = Utils.stringToTimestamp(dateVidange);
     }
+    
     public void setHorsZone(boolean horsZone) throws Exception {
         this.horsZone = horsZone;
-    }    
+    }   
+    
     public void setTauxUtilisation(int tauxUtilisation) throws Exception {
         this.tauxUtilisation = tauxUtilisation;
-    }   
+    }  
+    
     public void setAProbleme(boolean aProbleme) throws Exception {
         this.aProbleme = aProbleme;
-    }    
+    }  
+    
     public void setCompteurReel(float compteurReel) throws Exception {
         this.compteurReel = compteurReel;
-    }    
+    }   
+    
     public void setDateControleTechnique(String dateControleTechnique) throws Exception {
-        this.dateControleTechnique = this.stringToTimestamp(dateControleTechnique);
-    }
-    public Timestamp stringToTimestamp(String dateIn) throws Exception {
-        //Méthode de conversion d'un String vers un Timestamp.
-        //Nécessaire à l'utilisation des méthodes setDateVidange() et setDateControleTechnique()
-        //qui ne peuvent pas reçevoir de Timestamp en paramètre.
-        String dt = dateIn;
-	String pattern = "dd-mm-yyyy";
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-	Date date = simpleDateFormat.parse(dt);
-	java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
-        return timestamp;
+        this.dateControleTechnique = Utils.stringToTimestamp(dateControleTechnique);
     }
         
     /**

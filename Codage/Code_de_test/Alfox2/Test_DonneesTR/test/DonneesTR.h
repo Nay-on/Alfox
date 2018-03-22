@@ -44,6 +44,7 @@ private:
   int moyenneRegime = 0;  //nb total de valeurs
   long valeurMoyenneRegime = 0;
   int moyenneVitesse = 0; //nb total de valeurs
+  long valeurMoyenneVitesse = 0;
   int moyenneConso = 0;   //nb total de valeurs
 
 };

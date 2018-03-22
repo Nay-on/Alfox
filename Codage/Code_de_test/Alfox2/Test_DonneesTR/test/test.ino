@@ -68,8 +68,13 @@ int lireRegimeMoteur(){
   int a = strtoul(trameA,NULL,16);
   int b = strtoul(trameB,NULL,16);
   return ((a*256)+b)/4;
-
 }
+
+int lireConsomation(){
+  //     litre/heure
+}
+
+
 
 
 

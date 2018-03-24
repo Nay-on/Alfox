@@ -49,7 +49,6 @@ public class PositionTest {
         float latitude = (float)40.123456;
         float longitude = (float)50.123456;
         int zoneLimiteID = 1;
-        Position expResult = null;
         Position result = Position.create(con, ordre, zoneLimiteID, latitude, longitude);
         assertEquals(12, result.getOrdre());
         result.delete(con);

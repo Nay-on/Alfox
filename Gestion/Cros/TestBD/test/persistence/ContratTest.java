@@ -158,6 +158,7 @@ public class ContratTest {
         Contrat instance = Contrat.getByNumero(con, "C1");
         String modele = "mensuel";
         instance.setType(modele);
+        instance.save(con);
         assertEquals(instance.getType(), modele);
     }
 
@@ -171,6 +172,7 @@ public class ContratTest {
         Contrat instance = Contrat.getByNumero(con, "C1");
         String infos = "Ce contrat est valable un an";
         instance.setInfos(infos);
+        instance.save(con);
         assertEquals(instance.getInfos(), infos);
     }
     

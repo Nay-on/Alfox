@@ -30,7 +30,7 @@ public class User {
         User user = new User(role, mdp, mail);
         
         String queryString =
-         "insert into user (`Role`, `Mpd`, `Mail`) values ("
+         "insert into user (`Role`, `Mdp`, `Mail`) values ("
                 + Utils.toString(role) + ", " 
                 + Utils.toString(mdp) + ", " 
                 + Utils.toString(mail)
@@ -38,6 +38,19 @@ public class User {
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
         return user;
+    }
+    
+    /**
+     * suppression de l'objet user dans la BD
+     * @param con
+     * @return 
+     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     */
+    public boolean delete(Connection con) throws Exception {
+        String queryString = "delete from contrat where Mdp='" + mdp + "'";
+        Statement lStat = con.createStatement();
+        lStat.executeUpdate(queryString);
+        return true;
     }
     
     /**

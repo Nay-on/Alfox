@@ -80,6 +80,19 @@ public class Vehicule {
     }
     
     /**
+     * suppression de l'objet user dans la BD
+     * @param con
+     * @return 
+     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     */
+    public boolean delete(Connection con) throws Exception {
+        String queryString = "delete from contrat where Immatriculation='" + immatriculation + "'";
+        Statement lStat = con.createStatement();
+        lStat.executeUpdate(queryString);
+        return true;
+    }
+    
+    /**
      * update de l'objet contrat dans la ConnexionMySQL
      * @param con
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
@@ -287,8 +300,8 @@ public class Vehicule {
         return dateControleTechnique;
     }
 
-    public int kmVidange() {
-        return kmVidange;
+    public void setKmVidange(int kmVidange) {
+        this.kmVidange = kmVidange;
     }
 
     public void setDateVidange(String dateVidange) throws Exception {

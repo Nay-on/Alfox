@@ -31,7 +31,7 @@ public class Position {
         Position position = new Position(ordre, latitude, longitude);
         
         String queryString =
-         "insert into position (`Ordre`, 'ZoneLimiteID', 'Latitude', `Longitude`) values ("
+         "insert into position ('Ordre', 'ZoneLimiteID', 'Latitude', 'Longitude') values ("
                 + Utils.toString(ordre) + ", " 
                 + Utils.toString(zoneLimiteID) + ", " 
                 + Utils.toString(latitude) + ", " 
@@ -49,7 +49,7 @@ public class Position {
      * @throws SQLException    impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
-        String queryString = "delete from contrat where Ordre='" + ordre + "'";
+        String queryString = "delete from position where Ordre='" + ordre + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString);
         return true;
@@ -63,9 +63,9 @@ public class Position {
     public void save(Connection con) throws Exception {
         String queryString =
          "update position set "
-                + " `Ordre` =" + Utils.toString(ordre) + ","
-                + " `Latitude` =" + Utils.toString(latitude) + "," 
-                + " `Longitude` =" + Utils.toString(longitude);
+                + " 'Ordre' =" + Utils.toString(ordre) + ","
+                + " 'Latitude' =" + Utils.toString(latitude) + "," 
+                + " 'Longitude' =" + Utils.toString(longitude);
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }

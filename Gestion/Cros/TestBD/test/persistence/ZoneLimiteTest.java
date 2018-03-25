@@ -44,11 +44,11 @@ public class ZoneLimiteTest {
     @Test
     public void testCreate() throws Exception {
         System.out.println("create");
-        Connection con = null;
-        String nom = "";
-        ZoneLimite expResult = null;
+        Connection con = ConnexionMySQL.newConnexion();
+        String nom = "Paris";
         ZoneLimite result = ZoneLimite.create(con, nom);
-        assertEquals(expResult, result);
+        assertEquals("Paris", result.getNom());
+        result.delete(con);
     }
 
     /**
@@ -57,11 +57,12 @@ public class ZoneLimiteTest {
     @Test
     public void testSave() throws Exception {
         System.out.println("save");
-        Connection con = null;
-        ZoneLimite instance = null;
+        Connection con = ConnexionMySQL.newConnexion();
+        ZoneLimite instance = ZoneLimite.getByNom(con, "Toulouse");
+        instance.setNom("Toulouse2");
         instance.save(con);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance = ZoneLimite.getByNom(con, "Toulouse2");
+        assertEquals("Toulouse2", instance.getNom());
     }
 
     /**
@@ -70,54 +71,32 @@ public class ZoneLimiteTest {
     @Test
     public void testGetByNom() throws Exception {
         System.out.println("getByNom");
-        Connection con = null;
-        String nom = "";
-        ZoneLimite expResult = null;
-        ZoneLimite result = ZoneLimite.getByNom(con, nom);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Connection con = ConnexionMySQL.newConnexion();
+        ZoneLimite result = ZoneLimite.getByNom(con, "Alcis");
+        assertEquals("Alcis", result.getNom());
     }
 
     /**
      * Test of getNom method, of class ZoneLimite.
      */
     @Test
-    public void testGetNom() {
+    public void testGetNom() throws Exception {
         System.out.println("getNom");
-        ZoneLimite instance = null;
-        String expResult = "";
-        String result = instance.getNom();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Connection con = ConnexionMySQL.newConnexion();
+        ZoneLimite result = ZoneLimite.getByNom(con, "Alcis");
+        assertEquals("Alcis", result.getNom());
     }
 
     /**
      * Test of setNom method, of class ZoneLimite.
      */
     @Test
-    public void testSetNom() {
+    public void testSetNom() throws Exception {
         System.out.println("setNom");
-        String nom = "";
-        ZoneLimite instance = null;
-        instance.setNom(nom);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Connection con = ConnexionMySQL.newConnexion();
+        ZoneLimite instance = ZoneLimite.getByNom(con, "Alcis");
+        instance.setNom("Alcis2");
+        instance.save(con);
+        assertEquals(instance.getNom(), "Alcis2");
     }
-
-    /**
-     * Test of toString method, of class ZoneLimite.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        ZoneLimite instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

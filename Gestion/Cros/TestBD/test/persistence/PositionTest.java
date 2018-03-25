@@ -105,14 +105,11 @@ public class PositionTest {
      * Test of getLongitude method, of class Position.
      */
     @Test
-    public void testGetLongitude() {
+    public void testGetLongitude() throws Exception {
         System.out.println("getLongitude");
-        Position instance = null;
-        float expResult = 0.0F;
-        float result = instance.getLongitude();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Connection con = ConnexionMySQL.newConnexion();
+        Position result = Position.getByOrdre(con, 4);
+        assertEquals(43.668415, result.getLongitude(), 0.00001);
     }
 
     /**
@@ -121,11 +118,11 @@ public class PositionTest {
     @Test
     public void testSetOrdre() throws Exception {
         System.out.println("setOrdre");
-        int ordre = 0;
-        Position instance = null;
-        instance.setOrdre(ordre);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Connection con = ConnexionMySQL.newConnexion();
+        Position instance = Position.getByOrdre(con, 8);
+        instance.setOrdre(12);
+        instance.save(con);
+        assertEquals(12, instance.getOrdre());
     }
 
     /**
@@ -134,11 +131,11 @@ public class PositionTest {
     @Test
     public void testSetLatitude() throws Exception {
         System.out.println("setLatitude");
-        float latitude = 0.0F;
-        Position instance = null;
-        instance.setLatitude(latitude);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Connection con = ConnexionMySQL.newConnexion();
+        Position instance = Position.getByOrdre(con, 6);
+        instance.setLatitude(40.123456F);
+        instance.save(con);
+        assertEquals(40.123456F, instance.getLatitude(), 0.00001F);
     }
 
     /**
@@ -147,25 +144,10 @@ public class PositionTest {
     @Test
     public void testSetLongitude() throws Exception {
         System.out.println("setLongitude");
-        float longitude = 0.0F;
-        Position instance = null;
-        instance.setLongitude(longitude);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of toString method, of class Position.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        Position instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
+        Connection con = ConnexionMySQL.newConnexion();
+        Position instance = Position.getByOrdre(con, 6);
+        instance.setLatitude(40.123456F);
+        instance.save(con);
+        assertEquals(40.123456F, instance.getLatitude(), 0.00001F);
+    }  
 }

@@ -26,12 +26,25 @@ public class ZoneLimite {
         ZoneLimite zoneLimite = new ZoneLimite(nom);
         
         String queryString =
-         "insert into zoneLimite (`Nom`) values ("
+         "insert into zoneLimite ('Nom') values ("
                 + Utils.toString(nom)
           + ")";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
         return zoneLimite;
+    }
+    
+    /**
+     * suppression de l'objet user dans la BD
+     * @param con
+     * @return 
+     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     */
+    public boolean delete(Connection con) throws Exception {
+        String queryString = "delete from zoneLimite where Nom='" + nom + "'";
+        Statement lStat = con.createStatement();
+        lStat.executeUpdate(queryString);
+        return true;
     }
     
     /**
@@ -42,7 +55,7 @@ public class ZoneLimite {
     public void save(Connection con) throws Exception {
         String queryString =
          "update zoneLimite set "
-                + " `Nom` =" + Utils.toString(nom);
+                + " 'Nom' =" + Utils.toString(nom);
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }

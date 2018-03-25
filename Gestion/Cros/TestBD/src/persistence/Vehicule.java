@@ -86,7 +86,7 @@ public class Vehicule {
      * @throws SQLException    impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
-        String queryString = "delete from contrat where Immatriculation='" + immatriculation + "'";
+        String queryString = "delete from vehicule where Immatriculation='" + immatriculation + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString);
         return true;
@@ -125,7 +125,7 @@ public class Vehicule {
      * @throws java.lang.Exception
      */
     public static Vehicule getByImmatriculation(Connection con, String immatriculation) throws Exception {
-        String queryString = "select * from vehicule where immatriculation='" + immatriculation + "'";
+        String queryString = "select * from vehicule where Immatriculation='" + immatriculation + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);

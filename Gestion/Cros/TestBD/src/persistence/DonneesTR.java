@@ -63,7 +63,7 @@ public class DonneesTR {
                 defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue);
         
         String queryString =
-         "insert into donneesTR ('Mode', 'Date', 'Vitesse', 'Regime', 'Consommation', 'VitesseMax', 'RegimeMax', 'ConsoMax', 'NbDefauts', 'Defaut1', 'Defaut2', 'Defaut3', 'Defaut4', 'Latitude', 'Longitude', 'DistanceParcourue', 'VehiculeID') values ("
+         "insert into donneesTR ('Mode', 'Datatation', 'Vitesse', 'Regime', 'Consommation', 'VitesseMax', 'RegimeMax', 'ConsoMax', 'NbDefauts', 'Defaut1', 'Defaut2', 'Defaut3', 'Defaut4', 'Latitude', 'Longitude', 'DistanceParcourue', 'VehiculeID') values ("
                 + Utils.toString(mode) + ", " 
                 + Utils.toString(datation) + ", " 
                 + Utils.toString(vitesse) + ", "
@@ -94,7 +94,7 @@ public class DonneesTR {
      * @throws SQLException    impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
-        String queryString = "delete from contrat where Date='" + datation + "'";
+        String queryString = "delete from donneesTR where Datation='" + datation + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString);
         return true;
@@ -107,23 +107,23 @@ public class DonneesTR {
      */
     public void save(Connection con) throws Exception {
         String queryString =
-         "update user set "
-                + " `Mode` =" + Utils.toString(mode) + ","
-                + " `Datation` =" + Utils.toString(datation) + "," 
-                + " `Vitesse` =" + Utils.toString(vitesse) + ","
-                + " `Regime` =" + Utils.toString(regime) + ","
-                + " `Consommation` =" + Utils.toString(consommation) + "," 
-                + " `VitesseMax` =" + Utils.toString(vitesseMax) + ","
-                + " `RegimeMax` =" + Utils.toString(regimeMax) + ","
-                + " `ConsoMax` =" + Utils.toString(consoMax) + "," 
-                + " `NbDefauts` =" + Utils.toString(nbDefauts) + ","
-                + " `Defaut1` =" + Utils.toString(defaut1) + ","
-                + " `Defaut2` =" + Utils.toString(defaut2) + ","
-                + " `Defaut3` =" + Utils.toString(defaut3) + ","
-                + " `Defaut4` =" + Utils.toString(defaut4) + ","
-                + " `Latitude` =" + Utils.toString(latitude) + ","
-                + " `Longitude` =" + Utils.toString(longitude) + "," 
-                + " `DistanceParcourue` =" + Utils.toString(distanceParcourue);
+         "update donneesTR set "
+                + " 'Mode' =" + Utils.toString(mode) + ","
+                + " 'Datation' =" + Utils.toString(datation) + "," 
+                + " 'Vitesse' =" + Utils.toString(vitesse) + ","
+                + " 'Regime' =" + Utils.toString(regime) + ","
+                + " 'Consommation' =" + Utils.toString(consommation) + "," 
+                + " 'VitesseMax' =" + Utils.toString(vitesseMax) + ","
+                + " 'RegimeMax' =" + Utils.toString(regimeMax) + ","
+                + " 'ConsoMax' =" + Utils.toString(consoMax) + "," 
+                + " 'NbDefauts' =" + Utils.toString(nbDefauts) + ","
+                + " 'Defaut1' =" + Utils.toString(defaut1) + ","
+                + " 'Defaut2' =" + Utils.toString(defaut2) + ","
+                + " 'Defaut3' =" + Utils.toString(defaut3) + ","
+                + " 'Defaut4' =" + Utils.toString(defaut4) + ","
+                + " 'Latitude' =" + Utils.toString(latitude) + ","
+                + " 'Longitude' =" + Utils.toString(longitude) + "," 
+                + " 'DistanceParcourue' =" + Utils.toString(distanceParcourue);
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }
@@ -136,7 +136,7 @@ public class DonneesTR {
      * @throws java.lang.Exception
      */
     public static DonneesTR getByDatation(Connection con, String datation) throws Exception {
-        String queryString = "select * from donneesTR where datation='" + datation + "'";
+        String queryString = "select * from donneesTR where Datation='" + datation + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
@@ -260,7 +260,7 @@ public class DonneesTR {
     @Override
     public String toString() {
         return  " Mode = " + Utils.toString(mode) + "\t" +
-                " datation = " + Utils.toString(datation) + 
+                " Datation = " + Utils.toString(datation) + 
                 " Vitesse = " + Utils.toString(vitesse) + 
                 " Regime = " + Utils.toString(regime) +
                 " Consommation = " + Utils.toString(consommation) + 

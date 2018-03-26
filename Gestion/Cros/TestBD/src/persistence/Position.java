@@ -18,6 +18,7 @@ public class Position {
      * Créer un nouvel objet persistant 
      * @param con
      * @param ordre
+     * @param zoneLimiteID
      * @param latitude
      * @param longitude
      * @return 
@@ -26,12 +27,13 @@ public class Position {
      *                      ou le telephone est deja dans la BD
      * 
      */
-    static public Position create(Connection con, int ordre, float latitude, float longitude)  throws Exception {
+    static public Position create(Connection con, int ordre, int zoneLimiteID, float latitude, float longitude)  throws Exception {
         Position position = new Position(ordre, latitude, longitude);
         
         String queryString =
-         "insert into user (`Ordre`, 'Latitude', `Longitude`) values ("
+         "insert into position ('Ordre', 'ZoneLimiteID', 'Latitude', 'Longitude') values ("
                 + Utils.toString(ordre) + ", " 
+                + Utils.toString(zoneLimiteID) + ", " 
                 + Utils.toString(latitude) + ", " 
                 + Utils.toString(longitude)
           + ")";
@@ -41,16 +43,29 @@ public class Position {
     }
     
     /**
+     * suppression de l'objet user dans la BD
+     * @param con
+     * @return 
+     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     */
+    public boolean delete(Connection con) throws Exception {
+        String queryString = "delete from position where Ordre='" + ordre + "'";
+        Statement lStat = con.createStatement();
+        lStat.executeUpdate(queryString);
+        return true;
+    }
+    
+    /**
      * update de l'objet loueur dans la ConnexionMySQL
      * @param con
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
      */
     public void save(Connection con) throws Exception {
         String queryString =
-         "update user set "
-                + " `Ordre` =" + Utils.toString(ordre) + ","
-                + " `Latitude` =" + Utils.toString(latitude) + "," 
-                + " `Longitude` =" + Utils.toString(longitude);
+         "update position set "
+                + " 'Ordre' =" + Utils.toString(ordre) + ","
+                + " 'Latitude' =" + Utils.toString(latitude) + "," 
+                + " 'Longitude' =" + Utils.toString(longitude);
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }

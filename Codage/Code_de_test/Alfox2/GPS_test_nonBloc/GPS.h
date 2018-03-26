@@ -33,6 +33,7 @@ class GPS
 		struct tm getDatation() {return datation;};
    	bool isDispo();
     void readDATA();
+    struct tm getDatationUltimate();
 		
 };
 

@@ -33,7 +33,7 @@ void loop() {
     Serial.println(gps->getDatation().tm_mday);
     Serial.println(gps->getDatation().tm_mon);
     Serial.println(gps->getDatation().tm_year);
-    Serial.println();
+    Serial.println("-------------------------");
 
     time2 = millis();
     //Serial.println(time2 - time1);

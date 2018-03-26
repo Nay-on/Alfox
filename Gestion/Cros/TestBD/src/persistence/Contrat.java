@@ -58,9 +58,10 @@ public class Contrat {
     public void save(Connection con) throws Exception {
         String queryString =
          "update contrat set "
-                + " 'DateCreation' =" + Utils.toString(dateCreation) + "," 
-                + " 'Modele' =" + Utils.toString(modele) + ","  
-                + " 'Infos' =" + Utils.toString(infos);
+                + " DateCreation = " + Utils.toString(dateCreation) + "," 
+                + " Modele = " + Utils.toString(modele) + ","  
+                + " Infos = " + Utils.toString(infos)
+                + " where Numero ='" + numero + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }

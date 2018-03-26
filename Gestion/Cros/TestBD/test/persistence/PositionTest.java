@@ -6,6 +6,7 @@
 package persistence;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -98,7 +99,7 @@ public class PositionTest {
         System.out.println("getLatitude");
         Connection con = ConnexionMySQL.newConnexion();
         Position result = Position.getByOrdre(con, 4);
-        assertEquals(43.668415, result.getLatitude(), 0.00001);
+        assertEquals((float)43.668415, result.getLatitude(), 0.00001);
     }
 
     /**
@@ -109,7 +110,7 @@ public class PositionTest {
         System.out.println("getLongitude");
         Connection con = ConnexionMySQL.newConnexion();
         Position result = Position.getByOrdre(con, 4);
-        assertEquals(43.668415, result.getLongitude(), 0.00001);
+        assertEquals((float)1.403108, (float)result.getLongitude(), 0.1);
     }
 
     /**
@@ -150,4 +151,48 @@ public class PositionTest {
         instance.save(con);
         assertEquals(40.123456F, instance.getLatitude(), 0.00001F);
     }  
+
+    /**
+     * Test of delete method, of class Position.
+     */
+    @Test
+    public void testDelete() throws Exception {
+        System.out.println("delete");
+        Connection con = null;
+        Position instance = null;
+        boolean expResult = false;
+        boolean result = instance.delete(con);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getByZone method, of class Position.
+     */
+    @Test
+    public void testGetByZone() throws Exception {
+        System.out.println("getByZone");
+        Connection con = null;
+        int zone = 0;
+        ArrayList<Position> expResult = null;
+        ArrayList<Position> result = Position.getByZone(con, zone);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of toString method, of class Position.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Position instance = null;
+        String expResult = "";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }

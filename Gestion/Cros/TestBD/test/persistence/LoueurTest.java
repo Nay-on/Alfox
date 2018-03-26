@@ -119,8 +119,8 @@ public class LoueurTest {
     public void testGetMail() throws Exception {
         System.out.println("getMail");
         Connection con = ConnexionMySQL.newConnexion();
-        Loueur instance = Loueur.getByNom(con, "Magritte", "René");
-        assertEquals("yvesmagritte@gmail.com", instance.getMail());
+        Loueur instance = Loueur.getByNom(con, "Magritte", "Bernard");
+        assertEquals("bernardmagritte@gmail.com", instance.getMail());
     }
 
     /**

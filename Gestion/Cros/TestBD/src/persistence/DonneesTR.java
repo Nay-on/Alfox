@@ -63,7 +63,7 @@ public class DonneesTR {
                 defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue);
         
         String queryString =
-         "insert into donneesTR ('Mode', 'Datatation', 'Vitesse', 'Regime', 'Consommation', 'VitesseMax', 'RegimeMax', 'ConsoMax', 'NbDefauts', 'Defaut1', 'Defaut2', 'Defaut3', 'Defaut4', 'Latitude', 'Longitude', 'DistanceParcourue', 'VehiculeID') values ("
+         "insert into donneesTR (Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, DistanceParcourue, VehiculeID) values ("
                 + Utils.toString(mode) + ", " 
                 + Utils.toString(datation) + ", " 
                 + Utils.toString(vitesse) + ", "
@@ -108,22 +108,23 @@ public class DonneesTR {
     public void save(Connection con) throws Exception {
         String queryString =
          "update donneesTR set "
-                + " 'Mode' =" + Utils.toString(mode) + ","
-                + " 'Datation' =" + Utils.toString(datation) + "," 
-                + " 'Vitesse' =" + Utils.toString(vitesse) + ","
-                + " 'Regime' =" + Utils.toString(regime) + ","
-                + " 'Consommation' =" + Utils.toString(consommation) + "," 
-                + " 'VitesseMax' =" + Utils.toString(vitesseMax) + ","
-                + " 'RegimeMax' =" + Utils.toString(regimeMax) + ","
-                + " 'ConsoMax' =" + Utils.toString(consoMax) + "," 
-                + " 'NbDefauts' =" + Utils.toString(nbDefauts) + ","
-                + " 'Defaut1' =" + Utils.toString(defaut1) + ","
-                + " 'Defaut2' =" + Utils.toString(defaut2) + ","
-                + " 'Defaut3' =" + Utils.toString(defaut3) + ","
-                + " 'Defaut4' =" + Utils.toString(defaut4) + ","
-                + " 'Latitude' =" + Utils.toString(latitude) + ","
-                + " 'Longitude' =" + Utils.toString(longitude) + "," 
-                + " 'DistanceParcourue' =" + Utils.toString(distanceParcourue);
+                + " Mode =" + Utils.toString(mode) + ","
+                + " Datation =" + Utils.toString(datation) + "," 
+                + " Vitesse =" + Utils.toString(vitesse) + ","
+                + " Regime =" + Utils.toString(regime) + ","
+                + " Consommation =" + Utils.toString(consommation) + "," 
+                + " VitesseMax =" + Utils.toString(vitesseMax) + ","
+                + " RegimeMax =" + Utils.toString(regimeMax) + ","
+                + " ConsoMax =" + Utils.toString(consoMax) + "," 
+                + " NbDefauts =" + Utils.toString(nbDefauts) + ","
+                + " Defaut1 =" + Utils.toString(defaut1) + ","
+                + " Defaut2 =" + Utils.toString(defaut2) + ","
+                + " Defaut3 =" + Utils.toString(defaut3) + ","
+                + " Defaut4 =" + Utils.toString(defaut4) + ","
+                + " Latitude =" + Utils.toString(latitude) + ","
+                + " Longitude =" + Utils.toString(longitude) + "," 
+                + " DistanceParcourue =" + Utils.toString(distanceParcourue)
+                + " where Datation ='" + datation + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }

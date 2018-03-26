@@ -136,10 +136,14 @@ public final class Utils {
             if (pVal instanceof Integer) { 
                 lResult = String.valueOf((Integer)pVal);
             }
+            if (pVal instanceof Long) { 
+                lResult = String.valueOf(pVal);
+            }
             if (pVal instanceof Double) {
-                // rounded to two decimal places
-                double roundedValue = Math.rint(((Double)pVal) * 100.0) / 100.0;
-                lResult = String.valueOf(roundedValue);
+                lResult = String.valueOf(pVal);
+            }
+            if (pVal instanceof Float) {
+                lResult = String.valueOf(pVal);
             }
             if (pVal instanceof Boolean) { 
                 lResult = String.valueOf((Boolean)pVal);

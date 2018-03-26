@@ -49,17 +49,16 @@ public class VehiculeTest {
         String marque = "Citroën";
         String modele = "DS5";
         String immatriculation = "DD-000-EE";
-        Timestamp dateMiseEnService = null;
+        Timestamp dateMiseEnService = Utils.stringToTimestamp("2018/03/26 00:00:00");
         String motorisation = "Diesel";
         String idSigfox = "0123";
-        Timestamp dateVidange = null;
+        Timestamp dateVidange = Utils.stringToTimestamp("2018/05/26 00:00:00");
         int kmVidange = 0;
         boolean horsZone = false;
         int tauxUtilisation = 0;
         boolean aProbleme = false;
         float compteurReel = 50.0F;
-        Timestamp dateControleTechnique = null;
-        Vehicule expResult = null;
+        Timestamp dateControleTechnique = Utils.stringToTimestamp("2020/03/26 00:00:00");
         Vehicule result = Vehicule.create(con, marque, modele, immatriculation, dateMiseEnService, motorisation, idSigfox, dateVidange, kmVidange, horsZone, tauxUtilisation, aProbleme, compteurReel, dateControleTechnique);
         assertEquals("DS5", result.getModele());
         result.delete(con);
@@ -76,7 +75,9 @@ public class VehiculeTest {
         instance.setCompteurReel(2540.652F);
         instance.save(con);
         instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals(2540.652F, instance.getCompteurReel(), 0.001);
+        assertEquals(2540.652F, instance.getCompteurReel(), 0.1);
+        instance.setCompteurReel(21526.15F);
+        instance.save(con);
     }
 
     /**
@@ -114,7 +115,7 @@ public class VehiculeTest {
         System.out.println("isDehors");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals(false, result.isDehors(con));
+        assertEquals(false, result.getHorsZone());
     }
 
     /**
@@ -158,7 +159,7 @@ public class VehiculeTest {
         System.out.println("getDateMiseEnService");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals("2018-01-01 00:00:00", result.getDateMiseEnService());
+        assertEquals(Utils.stringToTimestamp("2018/01/01 00:00:00.0"), result.getDateMiseEnService());
     }
 
     /**
@@ -191,7 +192,7 @@ public class VehiculeTest {
         System.out.println("getDateVidange");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals("2018-01-01 00:00:00", result.getDateVidange());
+        assertEquals(Utils.stringToTimestamp("2018/01/01 00:00:00.0"), result.getDateVidange());
     }
 
     /**
@@ -257,7 +258,7 @@ public class VehiculeTest {
         System.out.println("getDateControleTechnique");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals("2020-01-01 00:00:00", result.getDateControleTechnique());
+        assertEquals(Utils.stringToTimestamp("2020/01/01 00:00:00.0"), result.getDateControleTechnique());
     }
 
     /**
@@ -271,6 +272,8 @@ public class VehiculeTest {
         instance.setKmVidange(400);
         instance.save(con);
         assertEquals(instance.getKmVidange(), 400);
+        instance.setKmVidange(30000);
+        instance.save(con);
     }
 
     /**
@@ -281,9 +284,11 @@ public class VehiculeTest {
         System.out.println("setDateVidange");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        instance.setDateVidange("2020-05-05 00:00:00");
+        instance.setDateVidange("2020/05/05 00:00:00");
         instance.save(con);
-        assertEquals(instance.getDateVidange(), "2020-05-05 00:00:00");
+        assertEquals(Utils.stringToTimestamp("2020/05/05 00:00:00.0"), instance.getDateVidange());
+        instance.setDateVidange("2018/01/01 00:00:00");
+        instance.save(con);
     }
 
     /**
@@ -297,6 +302,8 @@ public class VehiculeTest {
         instance.setHorsZone(true);
         instance.save(con);
         assertEquals(instance.getHorsZone(), true);
+        instance.setHorsZone(false);
+        instance.save(con);
     }
 
     /**
@@ -310,6 +317,8 @@ public class VehiculeTest {
         instance.setTauxUtilisation(13);
         instance.save(con);
         assertEquals(instance.getTauxUtilisation(), 13);
+        instance.setTauxUtilisation(100);
+        instance.save(con);
     }
 
     /**
@@ -323,6 +332,8 @@ public class VehiculeTest {
         instance.setAProbleme(true);
         instance.save(con);
         assertEquals(instance.getAProbleme(), true);
+        instance.setAProbleme(false);
+        instance.save(con);
     }
 
     /**
@@ -336,6 +347,8 @@ public class VehiculeTest {
         instance.setCompteurReel(45270.31F);
         instance.save(con);
         assertEquals(instance.getCompteurReel(), 45270.31F, 0.01);
+        instance.setCompteurReel(21526.15F);
+        instance.save(con);
     }
 
     /**
@@ -346,8 +359,10 @@ public class VehiculeTest {
         System.out.println("setDateControleTechnique");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        instance.setDateControleTechnique("2020-05-05 00:00:00");
+        instance.setDateControleTechnique("2020/05/05 00:00:00");
         instance.save(con);
-        assertEquals(instance.getDateControleTechnique(), "2020-05-05 00:00:00");
+        assertEquals(Utils.stringToTimestamp("2020/05/05 00:00:00.0"), instance.getDateControleTechnique());
+        instance.setDateControleTechnique("2020/01/01 00:00:00");
+        instance.save(con);
     }    
 }

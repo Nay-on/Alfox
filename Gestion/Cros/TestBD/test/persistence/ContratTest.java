@@ -129,7 +129,7 @@ public class ContratTest {
     public void testGetType() throws Exception {
         System.out.println("getType");
         Connection con = ConnexionMySQL.newConnexion();
-        Contrat instance = Contrat.getByNumero(con, "C1");
+        Contrat instance = Contrat.getByNumero(con, "C2");
         String expResult = "annuel";
         String result = instance.getType();
         assertEquals(expResult, result);
@@ -142,7 +142,7 @@ public class ContratTest {
     public void testGetInfos() throws Exception{
         System.out.println("getInfos");
         Connection con = ConnexionMySQL.newConnexion();
-        Contrat instance = Contrat.getByNumero(con, "C1");
+        Contrat instance = Contrat.getByNumero(con, "C2");
         String expResult = "";
         String result = instance.getInfos();
         assertEquals(expResult, result);
@@ -159,7 +159,7 @@ public class ContratTest {
         String modele = "mensuel";
         instance.setType(modele);
         instance.save(con);
-        assertEquals(instance.getType(), modele);
+        assertEquals(modele, instance.getType());
     }
 
     /**

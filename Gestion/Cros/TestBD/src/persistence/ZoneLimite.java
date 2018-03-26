@@ -10,7 +10,8 @@ package persistence;
 import java.sql.*;
 
 public class ZoneLimite {
-    private String nom;           // la clef primaire
+    private int ID;           // la clef primaire
+    private String nom;
     
     /**
      * Créer un nouvel objet persistant 
@@ -26,11 +27,12 @@ public class ZoneLimite {
         ZoneLimite zoneLimite = new ZoneLimite(nom);
         
         String queryString =
-         "insert into zoneLimite ('Nom') values ("
+         "insert into zoneLimite (Nom) values ("
                 + Utils.toString(nom)
           + ")";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
+        zoneLimite.ID = ZoneLimite.getByNom(con, nom).getID();
         return zoneLimite;
     }
     
@@ -55,7 +57,8 @@ public class ZoneLimite {
     public void save(Connection con) throws Exception {
         String queryString =
          "update zoneLimite set "
-                + " 'Nom' =" + Utils.toString(nom);
+                + " Nom =" + Utils.toString(nom)
+                + " where ID ='" + ID + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }
@@ -68,7 +71,7 @@ public class ZoneLimite {
      * @throws java.lang.Exception
      */
     public static ZoneLimite getByNom(Connection con, String nom) throws Exception {
-        String queryString = "select * from zoneLimite where nom='" + nom + "';";
+        String queryString = "select * from zoneLimite where Nom='" + nom + "';";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
@@ -82,14 +85,23 @@ public class ZoneLimite {
     }
     
     private static ZoneLimite creerParRequete(ResultSet result) throws Exception {
-            String       lNom  = result.getString("Nom");
-            return    new ZoneLimite(lNom);
+        int lID = result.getInt("ID");
+        String lNom  = result.getString("Nom");
+        return new ZoneLimite(lID, lNom);
     }
     
     /**
      * Cree et initialise completement Loueur
      */
     private ZoneLimite(String nom) {
+        this.nom = nom;
+    }
+    
+    /**
+     * Cree et initialise completement Loueur
+     */
+    private ZoneLimite(int id, String nom) {
+        this.ID = id;
         this.nom = nom;
     }
     
@@ -100,6 +112,11 @@ public class ZoneLimite {
     
     public void setNom(String nom) {
         this.nom = nom;
+    }
+    
+
+    public int getID() {
+        return ID;
     }
     
     /**

@@ -17,8 +17,8 @@ create table donneesHisto (
     Defaut2 int(10) not null,
     Defaut3 int(10) not null,
     Defaut4 int(10) not null, 
-    LatitudeGPS float not null, 
-    LongitudeGPS float not null, 
+    LatitudeGPS decimal(9,6) not null, 
+    LongitudeGPS decimal(9,6) not null, 
     DistanceParcourue bigint(20) not null, 
     VehiculeID int(10) not null, 
     primary key (ID)   
@@ -39,8 +39,8 @@ create table donneesTR (
     Defaut2 int(10) not null,
     Defaut3 int(10) not null,
     Defaut4 int(10) not null,
-    Latitude float not null, 
-    Longitude float not null, 
+    Latitude decimal(9,6) not null, 
+    Longitude decimal(9,6) not null, 
     DistanceParcourue bigint(20) not null, 
     VehiculeID int(10) not null, 
     primary key (ID)
@@ -74,8 +74,8 @@ create table position (
     ID int(10) not null auto_increment, 
     ZoneLimiteID int(10) not null, 
     Ordre int(10) not null, 
-    Latitude float not null, 
-    Longitude float not null, 
+    Latitude decimal(9,6) not null, 
+    Longitude decimal(9,6) not null, 
     primary key (ID)
 ) ;
 

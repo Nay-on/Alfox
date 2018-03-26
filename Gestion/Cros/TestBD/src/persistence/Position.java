@@ -8,6 +8,7 @@
 package persistence;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Position {
     private int    ordre;           // la clef primaire
@@ -31,7 +32,7 @@ public class Position {
         Position position = new Position(ordre, latitude, longitude);
         
         String queryString =
-         "insert into position ('Ordre', 'ZoneLimiteID', 'Latitude', 'Longitude') values ("
+         "insert into position (Ordre, ZoneLimiteID, Latitude, Longitude) values ("
                 + Utils.toString(ordre) + ", " 
                 + Utils.toString(zoneLimiteID) + ", " 
                 + Utils.toString(latitude) + ", " 
@@ -63,9 +64,10 @@ public class Position {
     public void save(Connection con) throws Exception {
         String queryString =
          "update position set "
-                + " 'Ordre' =" + Utils.toString(ordre) + ","
-                + " 'Latitude' =" + Utils.toString(latitude) + "," 
-                + " 'Longitude' =" + Utils.toString(longitude);
+                + " Ordre =" + Utils.toString(ordre) + ","
+                + " Latitude =" + Utils.toString(latitude) + "," 
+                + " Longitude =" + Utils.toString(longitude)
+                + " where Ordre ='" + ordre + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }
@@ -77,18 +79,17 @@ public class Position {
      * @return Position trouvee par ordre
      * @throws java.lang.Exception
      */
-    public static Position getByOrdre(Connection con, int ordre) throws Exception {
-        String queryString = "select * from position where Ordre='" + ordre + "';";
+    public static ArrayList<Position> getByZone(Connection con, int zone) throws Exception {
+        String queryString = "select * from position where ZoneLimiteID='" + zone + "' order by Ordre";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
         ResultSet lResult = lStat.executeQuery(queryString);
-        // y en a t'il au moins un ?
-        if (lResult.next()) {
-            return creerParRequete(lResult);
+        ArrayList<Position> lstPos = new  ArrayList<Position>();
+        while (lResult.next()) {
+            lstPos.add(creerParRequete(lResult));
         }
-        else
-            return null;
+        return lstPos;
     }
     
     private static Position creerParRequete(ResultSet result) throws Exception {

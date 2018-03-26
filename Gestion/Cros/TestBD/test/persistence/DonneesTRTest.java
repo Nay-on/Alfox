@@ -63,9 +63,8 @@ public class DonneesTRTest {
         float longitudeGPS = (float)50.123456;
         long distanceParcourue = 50;
         int vehiculeID = 1;
-        String expResult = "2017/03/22 12:00:00";
         DonneesTR result = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitudeGPS, longitudeGPS, distanceParcourue, vehiculeID);
-        assertEquals(expResult, result.getDatation());
+        assertEquals(Utils.stringToTimestamp("2017/03/22 12:00:00.0"), result.getDatation());
         result.delete(con);
     }
 
@@ -107,7 +106,7 @@ public class DonneesTRTest {
         System.out.println("getByDatation");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR result = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
-        assertEquals("2018-03-20 00:00:00", result.getDatation());
+        assertEquals(Utils.stringToTimestamp("2018/03/20 00:00:00.0"), result.getDatation());
     }
 
     /**
@@ -129,7 +128,7 @@ public class DonneesTRTest {
         System.out.println("getDatation");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
-        assertEquals("2018-03-20 00:00:00", instance.getDatation());
+        assertEquals(Utils.stringToTimestamp("2018/03/20 00:00:00.0"), instance.getDatation());
     }
 
     /**

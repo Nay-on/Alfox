@@ -98,5 +98,7 @@ public class ZoneLimiteTest {
         instance.setNom("Alcis2");
         instance.save(con);
         assertEquals(instance.getNom(), "Alcis2");
+        instance.setNom("Alcis");
+        instance.save(con);
     }
 }

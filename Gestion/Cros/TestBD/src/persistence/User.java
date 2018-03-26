@@ -30,7 +30,7 @@ public class User {
         User user = new User(role, mdp, mail);
         
         String queryString =
-         "insert into user ('Role', 'Mdp', 'Mail') values ("
+         "insert into user (Role, Mdp, Mail) values ("
                 + Utils.toString(role) + ", " 
                 + Utils.toString(mdp) + ", " 
                 + Utils.toString(mail)
@@ -61,9 +61,10 @@ public class User {
     public void save(Connection con) throws Exception {
         String queryString =
          "update user set "
-                + " 'Role' =" + Utils.toString(role) + "," 
-                + " 'Mdp' =" + Utils.toString(mdp) + ","  
-                + " 'Mail' =" + Utils.toString(mail);
+                + " Role =" + Utils.toString(role) + "," 
+                + " Mdp =" + Utils.toString(mdp) + ","  
+                + " Mail =" + Utils.toString(mail)
+                + " where Mdp ='" + mdp + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }

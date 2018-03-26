@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import java.sql.Connection;
@@ -15,7 +10,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author snir2g1
+ * @author acros
  */
 public class UserTest {
     
@@ -65,6 +60,8 @@ public class UserTest {
         instance.save(con);
         instance = User.getByMotDePasse(con, "responsable");
         assertEquals("nouveau@gmail.com", instance.getMail());
+        instance.setMail("responsable@free.fr");
+        instance.save(con);
     }
 
     /**
@@ -137,6 +134,8 @@ public class UserTest {
         instance.setMail("nouveaumail@gmail.com");
         instance.save(con);
         assertEquals(instance.getMail(), "nouveaumail@gmail.com");
+        instance.setMail("responsable@free.fr");
+        instance.save(con);
     }
 
     /**
@@ -150,5 +149,7 @@ public class UserTest {
         instance.setMdp("nouveau");
         instance.save(con);
         assertEquals(instance.getMdp(), "nouveau");
+        instance.setMdp("responsable");
+        instance.save(con);
     }
 }

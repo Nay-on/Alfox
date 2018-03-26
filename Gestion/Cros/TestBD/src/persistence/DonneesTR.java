@@ -1,8 +1,8 @@
 /*
- * Projet  : eventSkyTracker
+ * Projet  : Alfox
  * Fichier : User.java
- * Description : Classe interface de la table user
- * Cette table stocke les infos sur les utilisateurs connus du logiciel
+ * Description : Classe interface de la table donneesTR
+ * Cette table stocke les données TR
  */
 
 package persistence;
@@ -10,22 +10,22 @@ package persistence;
 import java.sql.*;
 
 public class DonneesTR {
-    private String    mode;           // la clef primaire
-    private Timestamp datation;
-    private int       vitesse;
-    private int       regime;
-    private int       consommation;
-    private int       vitesseMax;
-    private int       regimeMax;
-    private int       consoMax;
-    private int       nbDefauts;
-    private int       defaut1;
-    private int       defaut2;
-    private int       defaut3;
-    private int       defaut4;
-    private float     latitude;
-    private float     longitude;
-    private long      distanceParcourue;
+    private String    mode;             // non null
+    private Timestamp datation;         // non null
+    private int       vitesse;          // non null
+    private int       regime;           // non null
+    private int       consommation;     // non null
+    private int       vitesseMax;       // non null
+    private int       regimeMax;        // non null
+    private int       consoMax;         // non null
+    private int       nbDefauts;        // non null
+    private int       defaut1;          // non null
+    private int       defaut2;          // non null
+    private int       defaut3;          // non null
+    private int       defaut4;          // non null
+    private double    latitude;         // non null
+    private double    longitude;        // non null
+    private long      distanceParcourue;// non null
     
     /**
      * Créer un nouvel objet persistant 
@@ -48,15 +48,15 @@ public class DonneesTR {
      * @param distanceParcourue
      * @param vehiculeID
      * @return 
-     * @ return retourne une donneesHisto si la date est unique sinon null
+     * @ return retourne une donneesTR si la date est unique sinon null
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
-     *                      ou le numero est deja dans la BD
+     *                      ou la date est deja dans la BD
      * 
      */
     static public DonneesTR create(Connection con, String mode, Timestamp datation,
             int vitesse, int regime, int consommation, int vitesseMax, int regimeMax,
                 int consoMax, int nbDefauts, int defaut1, int defaut2, int defaut3, 
-                    int defaut4, float latitude, float longitude,
+                    int defaut4, double latitude, double longitude,
                         long distanceParcourue, int vehiculeID)  throws Exception {
         DonneesTR donneesTR = new DonneesTR(mode, datation, vitesse, regime, 
             consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1,
@@ -88,10 +88,10 @@ public class DonneesTR {
     }
     
     /**
-     * suppression de l'objet user dans la BD
+     * suppression de l'objet donneesTR dans la BD
      * @param con
      * @return 
-     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     * @throws SQLException impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
         String queryString = "delete from donneesTR where Datation='" + datation + "'";
@@ -101,9 +101,9 @@ public class DonneesTR {
     }
     
     /**
-     * update de l'objet contrat dans la ConnexionMySQL
+     * update de l'objet donneesTR dans la ConnexionMySQL
      * @param con
-     * @throws Exception    impossible d'accéder à la ConnexionMySQL
+     * @throws Exception impossible d'accéder à la ConnexionMySQL
      */
     public void save(Connection con) throws Exception {
         String queryString =
@@ -130,10 +130,10 @@ public class DonneesTR {
     }
     
     /**
-     * Retourne un user trouve par son pseudo, saved is true
+     * Retourne une donneesTR trouve par sa date, saved is true
      * @param con
-     * @param  datation la date a trouver
-     * @return DonneesHisto donneesHisto trouve par date
+     * @param  datation date de donneesTR a trouver
+     * @return donneesTR trouv" par date
      * @throws java.lang.Exception
      */
     public static DonneesTR getByDatation(Connection con, String datation) throws Exception {
@@ -164,8 +164,8 @@ public class DonneesTR {
             int       lDefaut2 = result.getInt("Defaut2");
             int       lDefaut3 = result.getInt("Defaut3");
             int       lDefaut4 = result.getInt("Defaut4");
-            float     lLatitude = result.getFloat("Latitude");
-            float     lLongitude = result.getFloat("Longitude");
+            double    lLatitude = result.getDouble("Latitude");
+            double    lLongitude = result.getDouble("Longitude");
             long      lDistanceParcourue = result.getLong("DistanceParcourue");
             return    new DonneesTR(lMode, lDatation, lVitesse, lRegime, lConsommation, 
                 lVitesseMax, lRegimeMax, lConsoMax, lNbDefauts, lDefaut1, lDefaut2, 
@@ -173,12 +173,12 @@ public class DonneesTR {
     }
     
     /**
-     * Cree et initialise completement Contrat
+     * Cree et initialise completement DonneesTR
      */
     private DonneesTR(String mode, Timestamp datation,
             int vitesse, int regime, int consommation, int vitesseMax, int regimeMax,
                 int consoMax, int nbDefauts, int defaut1, int defaut2, int defaut3, 
-                    int defaut4, float latitude, float longitude, long distanceParcourue) {
+                    int defaut4, double latitude, double longitude, long distanceParcourue) {
         this.mode = mode;
         this.datation = datation;
         this.vitesse = vitesse;
@@ -242,11 +242,11 @@ public class DonneesTR {
         return defaut4;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
     
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 

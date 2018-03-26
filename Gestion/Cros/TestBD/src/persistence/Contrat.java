@@ -1,8 +1,8 @@
 /*
- * Projet  : eventSkyTracker
+ * Projet  : Alfox
  * Fichier : User.java
- * Description : Classe interface de la table user
- * Cette table stocke les infos sur les utilisateurs connus du logiciel
+ * Description : Classe interface de la table contrat
+ * Cette table stocke les contrats connus du logiciel
  */
 
 package persistence;
@@ -10,8 +10,8 @@ package persistence;
 import java.sql.*;
 
 public class Contrat {
-    private String    numero;           // la clef primaire
-    private Timestamp dateCreation;
+    private String    numero;           // non null, unique
+    private Timestamp dateCreation;     // non null
     private String    modele;
     private String    infos;
     
@@ -67,7 +67,7 @@ public class Contrat {
     }
     
     /**
-     * suppression de l'objet user dans la BD
+     * suppression de l'objet contrat dans la BD
      * @param con
      * @return 
      * @throws SQLException    impossible d'accéder à la ConnexionMySQL
@@ -80,7 +80,7 @@ public class Contrat {
     }
     
     /**
-     * Retourne un user trouve par son pseudo, saved is true
+     * Retourne un contrat trouve par son numero, saved is true
      * @param con
      * @param  numero le numero à trouver
      * @return Contrat contrat trouve par numero

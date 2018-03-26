@@ -1,8 +1,8 @@
 /*
- * Projet  : eventSkyTracker
+ * Projet  : Alfox
  * Fichier : User.java
- * Description : Classe interface de la table user
- * Cette table stocke les infos sur les utilisateurs connus du logiciel
+ * Description : Classe interface de la table position
+ * Cette table stocke les points définissant chaque zone
  */
 
 package persistence;
@@ -11,10 +11,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Position {
-    private int    ordre;           // la clef primaire
-    private float  latitude;
-    private float  longitude;
-    
+    private int    ordre;           // non null
+    private double  latitude;       // non null
+    private double  longitude;      // non null
+        
     /**
      * Créer un nouvel objet persistant 
      * @param con
@@ -23,12 +23,11 @@ public class Position {
      * @param latitude
      * @param longitude
      * @return 
-     * @ return retourne un loueur si le telephone est unique sinon null
+     * @ return retourne une position
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
-     *                      ou le telephone est deja dans la BD
      * 
      */
-    static public Position create(Connection con, int ordre, int zoneLimiteID, float latitude, float longitude)  throws Exception {
+    static public Position create(Connection con, int ordre, int zoneLimiteID, double latitude, double longitude)  throws Exception {
         Position position = new Position(ordre, latitude, longitude);
         
         String queryString =
@@ -44,10 +43,10 @@ public class Position {
     }
     
     /**
-     * suppression de l'objet user dans la BD
+     * suppression de l'objet position dans la BD
      * @param con
      * @return 
-     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     * @throws SQLException impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
         String queryString = "delete from position where Ordre='" + ordre + "'";
@@ -57,9 +56,9 @@ public class Position {
     }
     
     /**
-     * update de l'objet loueur dans la ConnexionMySQL
+     * update de l'objet position dans la ConnexionMySQL
      * @param con
-     * @throws Exception    impossible d'accéder à la ConnexionMySQL
+     * @throws Exception impossible d'accéder à la ConnexionMySQL
      */
     public void save(Connection con) throws Exception {
         String queryString =
@@ -73,10 +72,10 @@ public class Position {
     }
     
     /**
-     * Retourne un user trouve par son pseudo, saved is true
+     * Retourne une collection de positions trouvées par nom de zone, saved is true
      * @param con
-     * @param  ordre ordre du point recherché
-     * @return Position trouvee par ordre
+     * @param zone
+     * @return collection de positions
      * @throws java.lang.Exception
      */
     public static ArrayList<Position> getByZone(Connection con, int zone) throws Exception {
@@ -94,15 +93,15 @@ public class Position {
     
     private static Position creerParRequete(ResultSet result) throws Exception {
             int       lOrdre  = result.getInt("Ordre");
-            float     lLatitude = result.getFloat("Latitude");
-            float     lLongitude = result.getFloat("Longitude");
+            double    lLatitude = result.getDouble("Latitude");
+            double    lLongitude = result.getDouble("Longitude");
             return    new Position(lOrdre, lLatitude, lLongitude);
     }
     
     /**
-     * Cree et initialise completement Loueur
+     * Cree et initialise completement Position
      */
-    private Position(int ordre, float latitude, float longitude) {
+    private Position(int ordre, double latitude, double longitude) {
         this.ordre = ordre;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -113,10 +112,10 @@ public class Position {
         return ordre;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -124,11 +123,11 @@ public class Position {
         this.ordre = ordre;
     }
 
-    public void setLatitude(float latitude) throws Exception {
+    public void setLatitude(double latitude) throws Exception {
         this.latitude = latitude;
     }
 
-    public void setLongitude(float longitude) throws Exception {
+    public void setLongitude(double longitude) throws Exception {
         this.longitude = longitude;
     }
     

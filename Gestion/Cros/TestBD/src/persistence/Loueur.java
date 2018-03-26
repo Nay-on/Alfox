@@ -1,8 +1,8 @@
 /*
- * Projet  : eventSkyTracker
+ * Projet  : Alfox
  * Fichier : User.java
- * Description : Classe interface de la table user
- * Cette table stocke les infos sur les utilisateurs connus du logiciel
+ * Description : Classe interface de la table loueur
+ * Cette table stocke les infos sur les loueurs connus du logiciel
  */
 
 package persistence;
@@ -10,10 +10,10 @@ package persistence;
 import java.sql.*;
 
 public class Loueur {
-    private String    nom;           // la clef primaire
-    private String    prenom;
-    private String    telephone;
-    private String    mail;
+    private String    nom;              // non null
+    private String    prenom;           // non null
+    private String    telephone;        // non null
+    private String    mail;             // non null, unique
     
     /**
      * Créer un nouvel objet persistant 
@@ -23,9 +23,9 @@ public class Loueur {
      * @param telephone
      * @param mail
      * @return 
-     * @ return retourne un loueur si le telephone est unique sinon null
+     * @ return retourne un loueur si le mail est unique sinon null
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
-     *                      ou le telephone est deja dans la BD
+     *                      ou le mail est deja dans la BD
      * 
      */
     static public Loueur create(Connection con, String nom, String prenom, String telephone, String mail)  throws Exception {
@@ -46,7 +46,7 @@ public class Loueur {
     /**
      * update de l'objet loueur dans la ConnexionMySQL
      * @param con
-     * @throws Exception    impossible d'accéder à la ConnexionMySQL
+     * @throws Exception impossible d'accéder à la ConnexionMySQL
      */
     public void save(Connection con) throws Exception {
         String queryString =
@@ -61,11 +61,11 @@ public class Loueur {
     }
     
     /**
-     * Retourne un user trouve par son pseudo, saved is true
+     * Retourne un loueur trouve par son nom et prénom, saved is true
      * @param con
      * @param  nom nom du loueur recherché
      * @param  prenom prénom du loueur recherché
-     * @return Loueur loueur trouvé par nom, prénom
+     * @return loueur trouvé par nom et prénom
      * @throws java.lang.Exception
      */
     public static Loueur getByNom(Connection con, String nom, String prenom) throws Exception {
@@ -83,10 +83,10 @@ public class Loueur {
     }
     
     /**
-     * suppression de l'objet user dans la BD
+     * suppression de l'objet loueur dans la BD
      * @param con
      * @return 
-     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     * @throws SQLException impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
         String queryString = "delete from loueur where Nom='" + nom + "' and Prenom='" + prenom + "'";

@@ -1,13 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- * Author:  snir2g1
- * Created: 22 mars 2018
- */
-
 drop schema if exists alfox;
 create schema alfox;
 use alfox;
@@ -69,7 +59,7 @@ create table vehicule (
     HorsZone tinyint(1) not null, 
     TauxUtilisation int(10) not null, 
     AProbleme tinyint(1) not null, 
-    CompteurReel float not null, 
+    CompteurReel decimal(9,3) not null, 
     DateControleTechnique datetime not null, 
     primary key (ID)
 ) ;

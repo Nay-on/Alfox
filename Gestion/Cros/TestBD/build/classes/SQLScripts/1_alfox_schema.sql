@@ -59,7 +59,7 @@ create table vehicule (
     HorsZone tinyint(1) not null, 
     TauxUtilisation int(10) not null, 
     AProbleme tinyint(1) not null, 
-    CompteurReel float not null, 
+    CompteurReel decimal(9,6) not null, 
     DateControleTechnique datetime not null, 
     primary key (ID)
 ) ;

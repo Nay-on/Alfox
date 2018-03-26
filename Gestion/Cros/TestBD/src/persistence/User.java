@@ -1,5 +1,5 @@
 /*
- * Projet  : eventSkyTracker
+ * Projet  : Alfox
  * Fichier : User.java
  * Description : Classe interface de la table user
  * Cette table stocke les infos sur les utilisateurs connus du logiciel
@@ -10,9 +10,9 @@ package persistence;
 import java.sql.*;
 
 public class User {
-    private String    role;           // la clef primaire
-    private String    mdp;
-    private String    mail;            // son mail (unique)
+    private String    role;        // not null, unique
+    private String    mdp;         // non null
+    private String    mail;        // not null, unique
     
     /**
      * Créer un nouvel objet persistant 
@@ -21,9 +21,9 @@ public class User {
      * @param mdp
      * @param mail
      * @return 
-     * @ return  un user si le pseudo est unique sinon null
+     * @ return  un user si le role est unique sinon null
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
-     *                      ou le pseudo est deja dans la BD
+     *                      ou le role est deja dans la BD
      * 
      */
     static public User create(Connection con, String role, String mdp, String mail)  throws Exception {
@@ -44,7 +44,7 @@ public class User {
      * suppression de l'objet user dans la BD
      * @param con
      * @return 
-     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     * @throws SQLException impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
         String queryString = "delete from user where Mdp='" + mdp + "'";
@@ -56,7 +56,7 @@ public class User {
     /**
      * update de l'objet user dans la ConnexionMySQL
      * @param con
-     * @throws Exception    impossible d'accéder à la ConnexionMySQL
+     * @throws Exception impossible d'accéder à la ConnexionMySQL
      */
     public void save(Connection con) throws Exception {
         String queryString =
@@ -72,8 +72,8 @@ public class User {
     /**
      * Retourne un user trouve par son pseudo, saved is true
      * @param con
-     * @param  mdp le pseudo à trouver
-     * @return User user trouve par pseudo
+     * @param  mdp du pseudo à trouver
+     * @return user trouve par mdp
      * @throws java.lang.Exception
      */
     public static User getByMotDePasse(Connection con, String mdp) throws Exception {

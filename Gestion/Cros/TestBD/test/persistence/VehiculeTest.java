@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import java.sql.Connection;
@@ -16,7 +11,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author snir2g1
+ * @author acros
  */
 public class VehiculeTest {
     
@@ -72,11 +67,11 @@ public class VehiculeTest {
         System.out.println("save");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        instance.setCompteurReel(2540.652F);
+        instance.setCompteurReel(2540.652);
         instance.save(con);
         instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
         assertEquals(2540.652F, instance.getCompteurReel(), 0.1);
-        instance.setCompteurReel(21526.15F);
+        instance.setCompteurReel(21526.15);
         instance.save(con);
     }
 
@@ -93,19 +88,14 @@ public class VehiculeTest {
 
     /**
      * Test of getLastDatation method, of class Vehicule.
-    
+     */
     @Test
     public void testGetLastDatation() throws Exception {
         System.out.println("getLastDatation");
-        Connection con = null;
-        Vehicule instance = null;
-        Timestamp expResult = null;
-        Timestamp result = instance.getLastDatation(con);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Connection con = ConnexionMySQL.newConnexion();
+        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        assertEquals(Utils.stringToTimestamp("2018/03/20 05:50:00.0"), result.getLastDatation(con));
     }
-    */
     
     /**
      * Test of isDehors method, of class Vehicule.

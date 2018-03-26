@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import java.sql.Connection;
@@ -16,7 +11,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author snir2g1
+ * @author acros
  */
 public class DonneesHistoTest {
     
@@ -59,13 +54,12 @@ public class DonneesHistoTest {
         int defaut2 = 0;
         int defaut3 = 0;
         int defaut4 = 0;
-        float latitudeGPS = 40.123456F;
-        float longitudeGPS = 50.123456F;
+        double latitudeGPS = 40.123456;
+        double longitudeGPS = 50.123456;
         long distanceParcourue = 50;
         int vehiculeID = 1;
-        String expResult = "2017/03/22 12:00:00";
         DonneesHisto result = DonneesHisto.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitudeGPS, longitudeGPS, distanceParcourue, vehiculeID);
-        assertEquals(Utils.stringToTimestamp(expResult), result.getDatation());
+        assertEquals(Utils.stringToTimestamp("2017/03/22 12:00:00"), result.getDatation());
         result.delete(con);
     }
 
@@ -89,8 +83,8 @@ public class DonneesHistoTest {
         int defaut2 = 0;
         int defaut3 = 0;
         int defaut4 = 0;
-        float latitudeGPS = 40.123456f;
-        float longitudeGPS = 50.123456f;
+        double latitudeGPS = 40.123456f;
+        double longitudeGPS = 50.123456f;
         long distanceParcourue = 50;
         int vehiculeID = 1;
         DonneesHisto instance = DonneesHisto.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitudeGPS, longitudeGPS, distanceParcourue, vehiculeID);
@@ -128,7 +122,7 @@ public class DonneesHistoTest {
     public void testGetDatation() throws Exception{
         System.out.println("getDatation");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018-01-03 17:42:37.0");
+        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018/01/03 17:42:37.0");
         assertEquals(Utils.stringToTimestamp("2018/01/03 17:42:37.0"), instance.getDatation());
     }
 
@@ -261,7 +255,7 @@ public class DonneesHistoTest {
         System.out.println("getLatitudeGPS");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesHisto instance = DonneesHisto.getByDatation(con, "2018/01/03 17:42:37.0");
-        assertEquals((double)40.564345, (double)instance.getLatitudeGPS(), 0.00001);
+        assertEquals(40.564345, instance.getLatitudeGPS(), 0.00001);
     }
 
     /**
@@ -272,7 +266,7 @@ public class DonneesHistoTest {
         System.out.println("getLongitudeGPS");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesHisto instance = DonneesHisto.getByDatation(con, "2018/01/03 17:42:37.0");
-        assertEquals((double)50.654734, (double)instance.getLongitudeGPS(), 0.00001);
+        assertEquals(50.654734, instance.getLongitudeGPS(), 0.00001);
     }
 
     /**

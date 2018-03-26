@@ -1,13 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- * Author:  snir2g1
- * Created: 13 mars 2018
- */
-
 use alfox;
 insert into donneesHisto (Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, 
                 NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, LatitudeGPS, LongitudeGPS, DistanceParcourue, VehiculeID) values

@@ -1,8 +1,8 @@
 /*
- * Projet  : eventSkyTracker
+ * Projet  : Aflox
  * Fichier : User.java
- * Description : Classe interface de la table user
- * Cette table stocke les infos sur les utilisateurs connus du logiciel
+ * Description : Classe interface de la table zoneLimite
+ * Cette table stocke les zones limites connus du logiciel
  */
 
 package persistence;
@@ -10,17 +10,16 @@ package persistence;
 import java.sql.*;
 
 public class ZoneLimite {
-    private int ID;           // la clef primaire
-    private String nom;
+    private int ID;         // la clef primaire
+    private String nom;     // non null, unique
     
     /**
      * Créer un nouvel objet persistant 
      * @param con
      * @param nom
      * @return 
-     * @ return retourne un loueur si le telephone est unique sinon null
+     * @ return retourne une zoneLimite
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
-     *                      ou le telephone est deja dans la BD
      * 
      */
     static public ZoneLimite create(Connection con, String nom)  throws Exception {
@@ -37,10 +36,10 @@ public class ZoneLimite {
     }
     
     /**
-     * suppression de l'objet user dans la BD
+     * suppression de l'objet zoneLimite dans la BD
      * @param con
      * @return 
-     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     * @throws SQLException impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
         String queryString = "delete from zoneLimite where Nom='" + nom + "'";
@@ -50,9 +49,9 @@ public class ZoneLimite {
     }
     
     /**
-     * update de l'objet loueur dans la ConnexionMySQL
+     * update de l'objet zoneLimite dans la ConnexionMySQL
      * @param con
-     * @throws Exception    impossible d'accéder à la ConnexionMySQL
+     * @throws Exception impossible d'accéder à la ConnexionMySQL
      */
     public void save(Connection con) throws Exception {
         String queryString =
@@ -64,10 +63,10 @@ public class ZoneLimite {
     }
     
     /**
-     * Retourne un user trouve par son pseudo, saved is true
+     * Retourne une zoneLimite trouve par son nom, saved is true
      * @param con
-     * @param  nom nom de la zone recherchee
-     * @return ZoneLimite trouvee par nom
+     * @param  nom nom de la zone recherchée
+     * @return zoneLimite trouvee par nom
      * @throws java.lang.Exception
      */
     public static ZoneLimite getByNom(Connection con, String nom) throws Exception {
@@ -91,14 +90,14 @@ public class ZoneLimite {
     }
     
     /**
-     * Cree et initialise completement Loueur
+     * Cree et initialise completement zoneLimite sans ID
      */
     private ZoneLimite(String nom) {
         this.nom = nom;
     }
     
     /**
-     * Cree et initialise completement Loueur
+     * Cree et initialise completement zoneLimite avec un ID
      */
     private ZoneLimite(int id, String nom) {
         this.ID = id;

@@ -1,30 +1,29 @@
 /*
- * Projet  : eventSkyTracker
+ * Projet  : Alfox
  * Fichier : User.java
- * Description : Classe interface de la table user
- * Cette table stocke les infos sur les utilisateurs connus du logiciel
+ * Description : Classe interface de la table vehicule
+ * Cette table stocke les infos sur les véhicules connus du logiciel
  */
 package persistence;
 
 import java.sql.*;
 import java.util.ArrayList;
-import persistence.Utils;
 
 public class Vehicule {
 
-    private String marque;           // la clef primaire
-    private String modele;
-    private String immatriculation;
-    private Timestamp dateMiseEnService;
-    private String motorisation;
-    private String idSigfox;
+    private String marque;                          // non null
+    private String modele;                          // non null
+    private String immatriculation;                 // non null, unique
+    private Timestamp dateMiseEnService;            // non null
+    private String motorisation;                    // non null
+    private String idSigfox;                        // unique
     private Timestamp dateVidange;
     private int kmVidange;
-    private boolean horsZone;
-    private int tauxUtilisation;
-    private boolean aProbleme;
-    private float compteurReel;
-    private Timestamp dateControleTechnique;
+    private boolean horsZone;                       // non null
+    private int tauxUtilisation;                    // non null
+    private boolean aProbleme;                      // non null
+    private double compteurReel;                    // non null
+    private Timestamp dateControleTechnique;        // non null
 
     /**
      * Créer un nouvel objet persistant
@@ -45,19 +44,19 @@ public class Vehicule {
      * @param dateControleTechnique
      * @return
      * @ return retourne un vehicule si l'immatriculation est unique sinon null
-     * @throws Exception impossible d'accéder à la ConnexionMySQL ou le numero
-     * est deja dans la BD
+     * @throws Exception impossible d'accéder à la ConnexionMySQL 
+     *                   ou le numero l'immatriculation est deja dans la BD
      *
      */
     static public Vehicule create(Connection con, String marque, String modele,
             String immatriculation, Timestamp dateMiseEnService,
-            String motorisation, String idSigfox, Timestamp dateVidange,
-            int kmVidange, boolean horsZone, int tauxUtilisation, boolean aProbleme,
-            float compteurReel, Timestamp dateControleTechnique) throws Exception {
+                String motorisation, String idSigfox, Timestamp dateVidange,
+                    int kmVidange, boolean horsZone, int tauxUtilisation, boolean aProbleme,
+                        double compteurReel, Timestamp dateControleTechnique) throws Exception {
         Vehicule vehicule = new Vehicule(marque, modele, immatriculation,
-                dateMiseEnService, motorisation, idSigfox, dateVidange,
+            dateMiseEnService, motorisation, idSigfox, dateVidange,
                 kmVidange, horsZone, tauxUtilisation, aProbleme,
-                compteurReel, dateControleTechnique);
+                    compteurReel, dateControleTechnique);
 
         String queryString
                 = "insert into vehicule (Marque, Modele, Immatriculation, DateMiseEnService, Motorisation, IdSigfox, DateVidange, KmVidange, HorsZone, TauxUtilisation, AProbleme, CompteurReel, DateControleTechnique) values ("
@@ -81,7 +80,7 @@ public class Vehicule {
     }
 
     /**
-     * suppression de l'objet user dans la BD
+     * suppression de l'objet vehicule dans la BD
      *
      * @param con
      * @return
@@ -95,7 +94,7 @@ public class Vehicule {
     }
 
     /**
-     * update de l'objet contrat dans la ConnexionMySQL
+     * update de l'objet vehicule dans la ConnexionMySQL
      *
      * @param con
      * @throws Exception impossible d'accéder à la ConnexionMySQL
@@ -122,11 +121,11 @@ public class Vehicule {
     }
 
     /**
-     * Retourne un user trouve par son pseudo, saved is true
+     * Retourne un vehicule trouve par son immatriculation, saved is true
      *
      * @param con
      * @param immatriculation l'immatriculation a trouver
-     * @return Vehicule vehicule trouve par immatriculation
+     * @return vehicule trouvé par immatriculation
      * @throws java.lang.Exception
      */
     public static Vehicule getByImmatriculation(Connection con, String immatriculation) throws Exception {
@@ -144,18 +143,18 @@ public class Vehicule {
     }
 
     public Timestamp getLastDatation(Connection con) throws Exception {
-        //Récupération de la date de la dernière donnée TR enregistrée pour le véhicule associé
+        // Récupération de la date de la dernière donnée TR enregistrée pour le véhicule associé
         String queryString = "select Datation from donneesTR, vehicule where VehiculeID = vehicule.ID and vehicule.Immatriculation = \""
                 + this.immatriculation + "\" order by Datation desc limit 1;";
-        Statement lStat = con.createStatement( //peut générer une exception si problème avec la requête SQL
+        Statement lStat = con.createStatement( // peut générer une exception si problème avec la requête SQL
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         ResultSet lDate = lStat.executeQuery(queryString);
-        //Si il y a une donnée on retourne la date
+        // Si il y a une donnée on retourne la date
         if (lDate.next()) {
             Timestamp date = lDate.getTimestamp("Datation");
             return date;
-        } //Sinon on génère une exception
+        } // Sinon on génère une exception
         else {
             throw new Exception("Aucune donnée TR");
         }
@@ -170,38 +169,38 @@ public class Vehicule {
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         ResultSet lResult = lStat.executeQuery(queryString);
-        // on met les points dans 2 collections Arraylist de Float
-        // Float avec un F majuscule est une classe !)
-        ArrayList<Float> xap = new ArrayList<>();
-        ArrayList<Float> yap = new ArrayList<>();
+        // On met les points dans 2 collections Arraylist de Dloat
+        // Dloat avec un D majuscule est une classe !)
+        ArrayList<Double> xap = new ArrayList<>();
+        ArrayList<Double> yap = new ArrayList<>();
         while (lResult.next()) {
-            xap.add(lResult.getFloat("Latitude"));
-            yap.add(lResult.getFloat("Longitude"));
+            xap.add(lResult.getDouble("Latitude"));
+            yap.add(lResult.getDouble("Longitude"));
         }
-        // on transforme les collections en tableaux d'objets
+        // On transforme les collections en tableaux d'objets
         int nbPoints = xap.size();
-        Float[] xtp = xap.toArray(new Float[0]);
-        Float[] ytp = yap.toArray(new Float[0]);
+        Double[] xtp = xap.toArray(new Double[0]);
+        Double[] ytp = yap.toArray(new Double[0]);
 
-        // les tableaux sont maintenant des tableaux de Float !
-        //Récupération de la dernière latitude et longitude enregistrée
+        // Les tableaux sont maintenant des tableaux de doubles !
+        // Récupération de la dernière latitude et longitude enregistrée
         String queryString2 = "select Latitude, Longitude from donneesTR, vehicule where VehiculeID = vehicule.ID and vehicule.Immatriculation = \""
                 + this.immatriculation + "\" order by Datation desc limit 1;";
         Statement lStat2 = con.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         ResultSet req = lStat2.executeQuery(queryString2);
-        float latitude = 0;
-        float longitude = 0;
-        //Si il y a une donnée on récupère la latitude et longitude
+        double latitude = 0;
+        double longitude = 0;
+        // Si il y a une donnée on récupère la latitude et longitude
         if (req.next()) {
-            latitude = req.getFloat("Latitude");
-            longitude = req.getFloat("Longitude");
-        } //Sinon on génère une exception
+            latitude = req.getDouble("Latitude");
+            longitude = req.getDouble("Longitude");
+        }// Sinon on génère une exception
         else {
             throw new Exception("Aucune donnée TR");
         }
-        //on vérifie que le point se situe dans la zone
+        // On vérifie que le point se situe dans la zone
 
         int i, j;
         boolean isDehors = false;
@@ -211,6 +210,7 @@ public class Vehicule {
                 isDehors = !isDehors;
             }
         }
+        // On met à jour horsZone avec la valeur donnée par la méthode isDehors()
         horsZone = isDehors;
         return !isDehors;
     }
@@ -227,7 +227,7 @@ public class Vehicule {
         boolean lHorsZone = result.getBoolean("HorsZone");
         int lTauxUtilisation = result.getInt("TauxUtilisation");
         boolean lAProbleme = result.getBoolean("AProbleme");
-        float lCompteurReel = result.getFloat("CompteurReel");
+        double lCompteurReel = result.getDouble("CompteurReel");
         Timestamp lDateControleTechnique = result.getTimestamp("DateControleTechnique");
         return new Vehicule(lMarque, lModele, lImmatriculation, lDateMiseEnService,
                 lMotorisation, lIdSigfox, lDateVidange, lKmVidange,
@@ -236,13 +236,13 @@ public class Vehicule {
     }
 
     /**
-     * Cree et initialise completement Contrat
+     * Cree et initialise completement Vehicule
      */
     private Vehicule(String marque, String modele,
             String immatriculation, Timestamp dateMiseEnService,
             String motorisation, String idSigfox, Timestamp dateVidange,
             int kmVidange, boolean horsZone, int tauxUtilisation, boolean aProbleme,
-            float compteurReel, Timestamp dateControleTechnique) {
+            double compteurReel, Timestamp dateControleTechnique) {
         this.marque = marque;
         this.modele = modele;
         this.immatriculation = immatriculation;
@@ -303,7 +303,7 @@ public class Vehicule {
         return aProbleme;
     }
 
-    public float getCompteurReel() {
+    public double getCompteurReel() {
         return compteurReel;
     }
 
@@ -331,7 +331,7 @@ public class Vehicule {
         this.aProbleme = aProbleme;
     }
 
-    public void setCompteurReel(float compteurReel) throws Exception {
+    public void setCompteurReel(double compteurReel) throws Exception {
         this.compteurReel = compteurReel;
     }
 

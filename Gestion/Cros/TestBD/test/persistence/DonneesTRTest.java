@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import java.sql.Connection;
@@ -16,7 +11,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author snir2g1
+ * @author acros
  */
 public class DonneesTRTest {
     
@@ -59,11 +54,11 @@ public class DonneesTRTest {
         int defaut2 = 0;
         int defaut3 = 0;
         int defaut4 = 0;
-        float latitudeGPS = (float)40.123456;
-        float longitudeGPS = (float)50.123456;
+        double latitude = 40.123456;
+        double longitude = 50.123456;
         long distanceParcourue = 50;
         int vehiculeID = 1;
-        DonneesTR result = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitudeGPS, longitudeGPS, distanceParcourue, vehiculeID);
+        DonneesTR result = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue, vehiculeID);
         assertEquals(Utils.stringToTimestamp("2017/03/22 12:00:00.0"), result.getDatation());
         result.delete(con);
     }
@@ -88,11 +83,11 @@ public class DonneesTRTest {
         int defaut2 = 0;
         int defaut3 = 0;
         int defaut4 = 0;
-        float latitudeGPS = (float)40.123456;
-        float longitudeGPS = (float)50.123456;
+        double latitude = 40.123456;
+        double longitude = 50.123456;
         long distanceParcourue = 50;
         int vehiculeID = 1;
-        DonneesTR instance = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitudeGPS, longitudeGPS, distanceParcourue, vehiculeID);
+        DonneesTR instance = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue, vehiculeID);
         instance.save(con);
         assertEquals(50, instance.getVitesse());
         instance.delete(con);
@@ -105,7 +100,7 @@ public class DonneesTRTest {
     public void testGetByDatation() throws Exception {
         System.out.println("getByDatation");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR result = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR result = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(Utils.stringToTimestamp("2018/03/20 00:00:00.0"), result.getDatation());
     }
 
@@ -116,7 +111,7 @@ public class DonneesTRTest {
     public void testGetMode() throws Exception {
         System.out.println("getMode");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals("STANDARD", instance.getMode());
     }
 
@@ -127,7 +122,7 @@ public class DonneesTRTest {
     public void testGetDatation() throws Exception {
         System.out.println("getDatation");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(Utils.stringToTimestamp("2018/03/20 00:00:00.0"), instance.getDatation());
     }
 
@@ -138,7 +133,7 @@ public class DonneesTRTest {
     public void testGetVitesse() throws Exception {
         System.out.println("getVitesse");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(35, instance.getVitesse());
     }
 
@@ -148,9 +143,8 @@ public class DonneesTRTest {
     @Test
     public void testGetRegime() throws Exception {
         System.out.println("getRegime");
-        System.out.println("getRegime");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(1479, instance.getRegime());
     }
 
@@ -162,7 +156,7 @@ public class DonneesTRTest {
         System.out.println("getConsommation");
         System.out.println("getConsommation");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(6, instance.getConsommation());
     }
 
@@ -173,7 +167,7 @@ public class DonneesTRTest {
     public void testGetVitesseMax() throws Exception {
         System.out.println("getVitesseMax");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(114, instance.getVitesseMax());
     }
 
@@ -184,7 +178,7 @@ public class DonneesTRTest {
     public void testGetRegimeMax() throws Exception {
         System.out.println("getRegimeMax");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(3205, instance.getRegimeMax());
     }
 
@@ -195,7 +189,7 @@ public class DonneesTRTest {
     public void testGetConsoMax() throws Exception {
         System.out.println("getConsoMax");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(30, instance.getConsoMax());
     }
 
@@ -206,7 +200,7 @@ public class DonneesTRTest {
     public void testGetNbDefauts() throws Exception {
         System.out.println("getNbDefauts");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(3, instance.getNbDefauts());
     }
 
@@ -217,7 +211,7 @@ public class DonneesTRTest {
     public void testGetDefaut1() throws Exception {
         System.out.println("getDefaut1");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(75, instance.getDefaut1());
     }
 
@@ -228,7 +222,7 @@ public class DonneesTRTest {
     public void testGetDefaut2() throws Exception {
         System.out.println("getDefaut2");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(5, instance.getDefaut2());
     }
 
@@ -239,7 +233,7 @@ public class DonneesTRTest {
     public void testGetDefaut3() throws Exception {
         System.out.println("getDefaut3");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(0, instance.getDefaut3());
     }
 
@@ -250,7 +244,7 @@ public class DonneesTRTest {
     public void testGetDefaut4() throws Exception {
         System.out.println("getDefaut4");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(0, instance.getDefaut4());
     }
 
@@ -261,7 +255,7 @@ public class DonneesTRTest {
     public void testGetLatitude() throws Exception {
         System.out.println("getLatitude");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(57.761382, instance.getLatitude(), 0.00001);
     }
 
@@ -272,7 +266,7 @@ public class DonneesTRTest {
     public void testGetLongitude() throws Exception {
         System.out.println("getLongitude");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(11.700803, instance.getLongitude(), 0.00001);
     }
 
@@ -283,7 +277,7 @@ public class DonneesTRTest {
     public void testGetDistanceParcourue() throws Exception {
         System.out.println("getDistanceParcourue");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesTR instance = DonneesTR.getByDatation(con, "2018-03-20 00:00:00");
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(20, instance.getDistanceParcourue());
     }
     

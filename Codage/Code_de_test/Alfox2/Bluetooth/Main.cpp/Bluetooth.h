@@ -1,3 +1,9 @@
+/*
+  Librairie SoftwareSerial.h disponible dans IDE Arduino ---> Croquis ---> Inclure une bibliothèque ---> Gérer les bibliothèques
+  ---> Rechercher et installer SoftwareSerial
+*/
+
+
 #ifndef __BLUETOOTH__
 #define __BLUETOOTH__
 

@@ -37,6 +37,7 @@ int Bluetooth::connexion(String adresse){
 
 bool Bluetooth::isActif(){
     String contenu = "";
+    delay(2000);
     serialBluetooth->println("ATZ");
     while (serialBluetooth->available()<=0);
     while (serialBluetooth->available()>0){

@@ -46,6 +46,7 @@ public class DonneesHisto {
      * @param latitudeGPS
      * @param longitudeGPS
      * @param distanceParcourue
+     * @param vehiculeID
      * @return 
      * @ return retourne une donneesHisto si la date est unique sinon null
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
@@ -56,13 +57,13 @@ public class DonneesHisto {
             int vitesse, int regime, int consommation, int vitesseMax, int regimeMax,
                 int consoMax, int nbDefauts, int defaut1, int defaut2, int defaut3, 
                     int defaut4, float latitudeGPS, float longitudeGPS,
-                        long distanceParcourue)  throws Exception {
+                        long distanceParcourue, int vehiculeID)  throws Exception {
         DonneesHisto donneesHisto = new DonneesHisto(mode, datation, vitesse, regime, 
             consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1,
                 defaut2, defaut3, defaut4, latitudeGPS, longitudeGPS, distanceParcourue);
         
         String queryString =
-         "insert into user ('Mode', 'Date', 'Vitesse', 'Regime', 'Consommation', 'VitesseMax', 'RegimeMax', 'ConsoMax', 'NbDefauts', 'Defaut1', 'Defaut2', 'Defaut3', 'Defaut4', 'LatitudeGPS', 'LongitudeGPS', 'DistanceParcourue') values ("
+         "insert into donneesHisto ('Mode', 'Datation', 'Vitesse', 'Regime', 'Consommation', 'VitesseMax', 'RegimeMax', 'ConsoMax', 'NbDefauts', 'Defaut1', 'Defaut2', 'Defaut3', 'Defaut4', 'LatitudeGPS', 'LongitudeGPS', 'DistanceParcourue', 'VehiculeID') values ("
                 + Utils.toString(mode) + ", " 
                 + Utils.toString(datation) + ", " 
                 + Utils.toString(vitesse) + ", "
@@ -78,11 +79,25 @@ public class DonneesHisto {
                 + Utils.toString(defaut4) + ", " 
                 + Utils.toString(latitudeGPS) + ", "
                 + Utils.toString(longitudeGPS) + ", " 
-                + Utils.toString(distanceParcourue)
+                + Utils.toString(distanceParcourue) + ", "
+                + Utils.toString(vehiculeID)
           + ")";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
         return donneesHisto;
+    }
+    
+    /**
+     * suppression de l'objet user dans la BD
+     * @param con
+     * @return 
+     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     */
+    public boolean delete(Connection con) throws Exception {
+        String queryString = "delete from donneesHisto where Datation='" + datation + "'";
+        Statement lStat = con.createStatement();
+        lStat.executeUpdate(queryString);
+        return true;
     }
     
     /**
@@ -92,23 +107,23 @@ public class DonneesHisto {
      */
     public void save(Connection con) throws Exception {
         String queryString =
-         "update user set "
-                + " `Mode` =" + Utils.toString(mode) + ","
-                + " `Datation` =" + Utils.toString(datation) + "," 
-                + " `Vitesse` =" + Utils.toString(vitesse) + ","
-                + " `Regime` =" + Utils.toString(regime) + ","
-                + " `Consommation` =" + Utils.toString(consommation) + "," 
-                + " `VitesseMax` =" + Utils.toString(vitesseMax) + ","
-                + " `RegimeMax` =" + Utils.toString(regimeMax) + ","
-                + " `ConsoMax` =" + Utils.toString(consoMax) + "," 
-                + " `NbDefauts` =" + Utils.toString(nbDefauts) + ","
-                + " `Defaut1` =" + Utils.toString(defaut1) + ","
-                + " `Defaut2` =" + Utils.toString(defaut2) + ","
-                + " `Defaut3` =" + Utils.toString(defaut3) + ","
-                + " `Defaut4` =" + Utils.toString(defaut4) + ","
-                + " `LatitudeGPS` =" + Utils.toString(latitudeGPS) + ","
-                + " `LongitudeGPS` =" + Utils.toString(longitudeGPS) + "," 
-                + " `DistanceParcourue` =" + Utils.toString(distanceParcourue);
+         "update donneesHisto set "
+                + " 'Mode' =" + Utils.toString(mode) + ","
+                + " 'Datation' =" + Utils.toString(datation) + "," 
+                + " 'Vitesse' =" + Utils.toString(vitesse) + ","
+                + " 'Regime' =" + Utils.toString(regime) + ","
+                + " 'Consommation' =" + Utils.toString(consommation) + "," 
+                + " 'VitesseMax' =" + Utils.toString(vitesseMax) + ","
+                + " 'RegimeMax' =" + Utils.toString(regimeMax) + ","
+                + " 'ConsoMax' =" + Utils.toString(consoMax) + "," 
+                + " 'NbDefauts' =" + Utils.toString(nbDefauts) + ","
+                + " 'Defaut1' =" + Utils.toString(defaut1) + ","
+                + " 'Defaut2' =" + Utils.toString(defaut2) + ","
+                + " 'Defaut3' =" + Utils.toString(defaut3) + ","
+                + " 'Defaut4' =" + Utils.toString(defaut4) + ","
+                + " 'LatitudeGPS' =" + Utils.toString(latitudeGPS) + ","
+                + " 'LongitudeGPS' =" + Utils.toString(longitudeGPS) + "," 
+                + " 'DistanceParcourue' =" + Utils.toString(distanceParcourue);
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }
@@ -245,7 +260,7 @@ public class DonneesHisto {
     @Override
     public String toString() {
         return  " Mode = " + Utils.toString(mode) + "\t" +
-                " datation = " + Utils.toString(datation) + 
+                " Datation = " + Utils.toString(datation) + 
                 " Vitesse = " + Utils.toString(vitesse) + 
                 " Regime = " + Utils.toString(regime) +
                 " Consommation = " + Utils.toString(consommation) + 

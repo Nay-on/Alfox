@@ -30,7 +30,7 @@ public class User {
         User user = new User(role, mdp, mail);
         
         String queryString =
-         "insert into user (`Role`, `Mpd`, `Mail`) values ("
+         "insert into user ('Role', 'Mdp', 'Mail') values ("
                 + Utils.toString(role) + ", " 
                 + Utils.toString(mdp) + ", " 
                 + Utils.toString(mail)
@@ -41,6 +41,19 @@ public class User {
     }
     
     /**
+     * suppression de l'objet user dans la BD
+     * @param con
+     * @return 
+     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     */
+    public boolean delete(Connection con) throws Exception {
+        String queryString = "delete from user where Mdp='" + mdp + "'";
+        Statement lStat = con.createStatement();
+        lStat.executeUpdate(queryString);
+        return true;
+    }
+    
+    /**
      * update de l'objet user dans la ConnexionMySQL
      * @param con
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
@@ -48,9 +61,9 @@ public class User {
     public void save(Connection con) throws Exception {
         String queryString =
          "update user set "
-                + " `Role` =" + Utils.toString(role) + "," 
-                + " `Mdp` =" + Utils.toString(mdp) + ","  
-                + " `Mail` =" + Utils.toString(mail);
+                + " 'Role' =" + Utils.toString(role) + "," 
+                + " 'Mdp' =" + Utils.toString(mdp) + ","  
+                + " 'Mail' =" + Utils.toString(mail);
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }

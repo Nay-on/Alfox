@@ -9,9 +9,7 @@ package persistence;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import persistence.Utils;
 
 public class Vehicule {
     private String    marque;           // la clef primaire
@@ -61,7 +59,7 @@ public class Vehicule {
             compteurReel, dateControleTechnique);
         
         String queryString =
-         "insert into user ('Marque', 'Modele', 'Immatriculation', 'DateMiseEnService', 'Motorisation', 'IdSigfox', 'DateVidange', 'KmVidange', 'HorsZone', 'TauxUtilisation', 'AProbleme', 'CompteurReel', 'DateControleTechnique') values ("
+         "insert into vehicule ('Marque', 'Modele', 'Immatriculation', 'DateMiseEnService', 'Motorisation', 'IdSigfox', 'DateVidange', 'KmVidange', 'HorsZone', 'TauxUtilisation', 'AProbleme', 'CompteurReel', 'DateControleTechnique') values ("
                 + Utils.toString(marque) + ", " 
                 + Utils.toString(modele) + ", " 
                 + Utils.toString(immatriculation) + ", "
@@ -82,13 +80,26 @@ public class Vehicule {
     }
     
     /**
+     * suppression de l'objet user dans la BD
+     * @param con
+     * @return 
+     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     */
+    public boolean delete(Connection con) throws Exception {
+        String queryString = "delete from vehicule where Immatriculation='" + immatriculation + "'";
+        Statement lStat = con.createStatement();
+        lStat.executeUpdate(queryString);
+        return true;
+    }
+    
+    /**
      * update de l'objet contrat dans la ConnexionMySQL
      * @param con
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
      */
     public void save(Connection con) throws Exception {
         String queryString =
-         "update user set "
+         "update vehicule set "
                 + " `Marque` =" + Utils.toString(marque) + ","
                 + " `Modele` =" + Utils.toString(modele) + "," 
                 + " `Immatriculation` =" + Utils.toString(immatriculation) + ","
@@ -114,7 +125,7 @@ public class Vehicule {
      * @throws java.lang.Exception
      */
     public static Vehicule getByImmatriculation(Connection con, String immatriculation) throws Exception {
-        String queryString = "select * from vehicule where immatriculation='" + immatriculation + "'";
+        String queryString = "select * from vehicule where Immatriculation='" + immatriculation + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
@@ -289,38 +300,32 @@ public class Vehicule {
         return dateControleTechnique;
     }
 
-    public int kmVidange() {
-        return kmVidange;
+    public void setKmVidange(int kmVidange) {
+        this.kmVidange = kmVidange;
     }
 
     public void setDateVidange(String dateVidange) throws Exception {
-        this.dateVidange = this.stringToTimestamp(dateVidange);
+        this.dateVidange = Utils.stringToTimestamp(dateVidange);
     }
+    
     public void setHorsZone(boolean horsZone) throws Exception {
         this.horsZone = horsZone;
-    }    
+    }   
+    
     public void setTauxUtilisation(int tauxUtilisation) throws Exception {
         this.tauxUtilisation = tauxUtilisation;
-    }   
+    }  
+    
     public void setAProbleme(boolean aProbleme) throws Exception {
         this.aProbleme = aProbleme;
-    }    
+    }  
+    
     public void setCompteurReel(float compteurReel) throws Exception {
         this.compteurReel = compteurReel;
-    }    
+    }   
+    
     public void setDateControleTechnique(String dateControleTechnique) throws Exception {
-        this.dateControleTechnique = this.stringToTimestamp(dateControleTechnique);
-    }
-    public Timestamp stringToTimestamp(String dateIn) throws Exception {
-        //Méthode de conversion d'un String vers un Timestamp.
-        //Nécessaire à l'utilisation des méthodes setDateVidange() et setDateControleTechnique()
-        //qui ne peuvent pas reçevoir de Timestamp en paramètre.
-        String dt = dateIn;
-	String pattern = "dd-mm-yyyy";
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-	Date date = simpleDateFormat.parse(dt);
-	java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
-        return timestamp;
+        this.dateControleTechnique = Utils.stringToTimestamp(dateControleTechnique);
     }
         
     /**

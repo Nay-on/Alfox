@@ -80,6 +80,14 @@
 	void DonneesTR::setVitesse(int vitesse)
 	{
 		this->vitesse=vitesse;
+    if(vitesse > vitesseMax)
+      vitesseMax = vitesse;
+    
+    valeurMoyenneVitesse *= moyenneVitesse;
+    valeurMoyenneVitesse += vitesse;
+    moyenneVitesse++;
+    valeurMoyenneVitesse /= moyenneVitesse;
+    vitesseMoyenne = valeurMoyenneVitesse ;
 	}
 
 

@@ -37,12 +37,14 @@ int Bluetooth::connexion(String adresse){
 
 bool Bluetooth::isActif(){
     String contenu = "";
+    delay(2000);
     serialBluetooth->println("ATZ");
     while (serialBluetooth->available()<=0);
     while (serialBluetooth->available()>0){
     contenu  += serialBluetooth->read();
     }
-    if(contenu == "ERROR:(0)" || contenu == ""){ 
+    Serial.println(contenu);
+    if(contenu == "6982827982584048411310" || contenu == ""){ 
       return 0;
     }
     else {
@@ -64,7 +66,6 @@ int Bluetooth::modeMaster(){
     while (serialBluetooth->available() > 0) {
        contenu += serialBluetooth->read();
     }
-    Serial.println(contenu);
     if(contenu =="79751310")
     {
       return 1;

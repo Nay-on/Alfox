@@ -1,8 +1,8 @@
 /*
- * Projet  : eventSkyTracker
+ * Projet  : Aflox
  * Fichier : User.java
- * Description : Classe interface de la table user
- * Cette table stocke les infos sur les utilisateurs connus du logiciel
+ * Description : Classe interface de la table zoneLimite
+ * Cette table stocke les zones limites connus du logiciel
  */
 
 package persistence;
@@ -10,35 +10,36 @@ package persistence;
 import java.sql.*;
 
 public class ZoneLimite {
-    private String nom;           // la clef primaire
+    private int ID;         // la clef primaire
+    private String nom;     // non null, unique
     
     /**
      * Créer un nouvel objet persistant 
      * @param con
      * @param nom
      * @return 
-     * @ return retourne un loueur si le telephone est unique sinon null
+     * @ return retourne une zoneLimite
      * @throws Exception    impossible d'accéder à la ConnexionMySQL
-     *                      ou le telephone est deja dans la BD
      * 
      */
     static public ZoneLimite create(Connection con, String nom)  throws Exception {
         ZoneLimite zoneLimite = new ZoneLimite(nom);
         
         String queryString =
-         "insert into zoneLimite ('Nom') values ("
+         "insert into zoneLimite (Nom) values ("
                 + Utils.toString(nom)
           + ")";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
+        zoneLimite.ID = ZoneLimite.getByNom(con, nom).getID();
         return zoneLimite;
     }
     
     /**
-     * suppression de l'objet user dans la BD
+     * suppression de l'objet zoneLimite dans la BD
      * @param con
      * @return 
-     * @throws SQLException    impossible d'accéder à la ConnexionMySQL
+     * @throws SQLException impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
         String queryString = "delete from zoneLimite where Nom='" + nom + "'";
@@ -48,27 +49,28 @@ public class ZoneLimite {
     }
     
     /**
-     * update de l'objet loueur dans la ConnexionMySQL
+     * update de l'objet zoneLimite dans la ConnexionMySQL
      * @param con
-     * @throws Exception    impossible d'accéder à la ConnexionMySQL
+     * @throws Exception impossible d'accéder à la ConnexionMySQL
      */
     public void save(Connection con) throws Exception {
         String queryString =
          "update zoneLimite set "
-                + " 'Nom' =" + Utils.toString(nom);
+                + " Nom =" + Utils.toString(nom)
+                + " where ID ='" + ID + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }
     
     /**
-     * Retourne un user trouve par son pseudo, saved is true
+     * Retourne une zoneLimite trouve par son nom, saved is true
      * @param con
-     * @param  nom nom de la zone recherchee
-     * @return ZoneLimite trouvee par nom
+     * @param  nom nom de la zone recherchée
+     * @return zoneLimite trouvee par nom
      * @throws java.lang.Exception
      */
     public static ZoneLimite getByNom(Connection con, String nom) throws Exception {
-        String queryString = "select * from zoneLimite where nom='" + nom + "';";
+        String queryString = "select * from zoneLimite where Nom='" + nom + "';";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
@@ -82,14 +84,23 @@ public class ZoneLimite {
     }
     
     private static ZoneLimite creerParRequete(ResultSet result) throws Exception {
-            String       lNom  = result.getString("Nom");
-            return    new ZoneLimite(lNom);
+        int lID = result.getInt("ID");
+        String lNom  = result.getString("Nom");
+        return new ZoneLimite(lID, lNom);
     }
     
     /**
-     * Cree et initialise completement Loueur
+     * Cree et initialise completement zoneLimite sans ID
      */
     private ZoneLimite(String nom) {
+        this.nom = nom;
+    }
+    
+    /**
+     * Cree et initialise completement zoneLimite avec un ID
+     */
+    private ZoneLimite(int id, String nom) {
+        this.ID = id;
         this.nom = nom;
     }
     
@@ -100,6 +111,11 @@ public class ZoneLimite {
     
     public void setNom(String nom) {
         this.nom = nom;
+    }
+    
+
+    public int getID() {
+        return ID;
     }
     
     /**

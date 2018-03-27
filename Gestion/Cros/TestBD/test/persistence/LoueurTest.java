@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import java.sql.Connection;
@@ -15,7 +10,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author snir2g1
+ * @author acros
  */
 public class LoueurTest {
     
@@ -45,11 +40,7 @@ public class LoueurTest {
     public void testCreate() throws Exception {
         System.out.println("create");
         Connection con = ConnexionMySQL.newConnexion();
-        String nom = "Picasso";
-        String prenom = "Pablo";
-        String telephone = "0610090807";
-        String mail = "pablopicasso@gmail.com";
-        Loueur result = Loueur.create(con, nom, prenom, telephone, mail);
+        Loueur result = Loueur.create(con, "Picasso", "Pablo", "0610090807", "pablopicasso@gmail.com");
         assertEquals("Picasso", result.getNom());
         result.delete(con);
     }
@@ -66,6 +57,8 @@ public class LoueurTest {
         instance.save(con);
         instance = Loueur.getByNom(con, "Magritte", "René");
         assertEquals("nouveaumail@gmail.com", instance.getMail());
+        instance.setMail("yvesmagritte@gmail.com");
+        instance.save(con);
     }
 
     /**
@@ -119,8 +112,8 @@ public class LoueurTest {
     public void testGetMail() throws Exception {
         System.out.println("getMail");
         Connection con = ConnexionMySQL.newConnexion();
-        Loueur instance = Loueur.getByNom(con, "Magritte", "René");
-        assertEquals("yvesmagritte@gmail.com", instance.getMail());
+        Loueur instance = Loueur.getByNom(con, "Magritte", "Bernard");
+        assertEquals("bernardmagritte@gmail.com", instance.getMail());
     }
 
     /**
@@ -132,7 +125,10 @@ public class LoueurTest {
         Connection con = ConnexionMySQL.newConnexion();
         Loueur instance = Loueur.getByNom(con, "Magritte", "René");
         instance.setTelephone("0606060606");
+        instance.save(con);
         assertEquals("0606060606", instance.getTelephone());
+        instance.setTelephone("0607080910");
+        instance.save(con);
     }
 
     /**
@@ -144,7 +140,10 @@ public class LoueurTest {
         Connection con = ConnexionMySQL.newConnexion();
         Loueur instance = Loueur.getByNom(con, "Magritte", "René");
         instance.setMail("nouveaumail@gmail.com");
+        instance.save(con);
         assertEquals("nouveaumail@gmail.com", instance.getMail());
+        instance.setMail("yvesmagritte@gmail.com");
+        instance.save(con);
     }
     
 }

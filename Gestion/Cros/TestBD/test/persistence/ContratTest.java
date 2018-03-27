@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import java.sql.Connection;
@@ -16,7 +11,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author snir2g1
+ * @author acros
  */
 public class ContratTest {
     
@@ -46,23 +41,15 @@ public class ContratTest {
     public void testCreate() throws Exception {
         System.out.println("create");
         Connection con = ConnexionMySQL.newConnexion();
-        String numero = "A3";
         Timestamp dateCreation = Utils.stringToTimestamp("2017/10/15 12:00:00");
-        String modele = "m1";
-        String infos = "";
-        String expResult = "A3";
-        Contrat result = Contrat.create(con, numero, dateCreation, modele, infos, 2, 2, 1);
-        assertEquals(expResult, result.getNumero());
+        Contrat result = Contrat.create(con, "A3", dateCreation, "m1", "", 2, 2, 1);
+        assertEquals("A3", result.getNumero());
         
         result.delete(con);
         
-        numero = "A4";
         dateCreation = Utils.stringToTimestamp("2017/10/15 12:00:00");
-        modele = "m1";
-        infos = "";
-        expResult = "A4";
-        result = Contrat.create(con, numero, dateCreation, modele, infos, 1, 1, 1);
-        assertEquals(expResult, result.getNumero());
+        result = Contrat.create(con, "A4", dateCreation, "m1", "", 1, 1, 1);
+        assertEquals("A4", result.getNumero());
         
         result.delete(con);
     }
@@ -79,6 +66,8 @@ public class ContratTest {
         result.save(con);
         result = Contrat.getByNumero(con, "C1");
         assertEquals("nouvelle info", result.getInfos());
+        result.setInfos("");
+        result.save(con);
     }
 
     /**
@@ -86,12 +75,10 @@ public class ContratTest {
      */
     @Test
     public void testGetByNumero() throws Exception {
-        Connection con = ConnexionMySQL.newConnexion();
-        String numero = "C1";
         System.out.println("getByNumero");
-        String expResult = "C1";
-        Contrat result = Contrat.getByNumero(con, numero);
-        assertEquals(expResult, result.getNumero());
+        Connection con = ConnexionMySQL.newConnexion();
+        Contrat result = Contrat.getByNumero(con, "C1");
+        assertEquals("C1", result.getNumero());
         //on cherche un contrat qui n'existe pas ; on attend null
         assertNull(Contrat.getByNumero(con, "X2"));
     }
@@ -104,9 +91,7 @@ public class ContratTest {
         System.out.println("getNumero");
         Connection con = ConnexionMySQL.newConnexion();
         Contrat instance = Contrat.getByNumero(con, "C1");
-        String expResult = "C1";
-        String result = instance.getNumero();
-        assertEquals(expResult, result);
+        assertEquals("C1", instance.getNumero());
     }
 
     /**
@@ -117,9 +102,7 @@ public class ContratTest {
         System.out.println("getDate");
         Connection con = ConnexionMySQL.newConnexion();
         Contrat instance = Contrat.getByNumero(con, "C1");
-        Timestamp expResult = Utils.stringToTimestamp("2017/01/01 00:00:00");
-        Timestamp result = instance.getDate();
-        assertEquals(expResult, result);
+        assertEquals(Utils.stringToTimestamp("2017/01/01 00:00:00"), instance.getDate());
     }
 
     /**
@@ -129,10 +112,8 @@ public class ContratTest {
     public void testGetType() throws Exception {
         System.out.println("getType");
         Connection con = ConnexionMySQL.newConnexion();
-        Contrat instance = Contrat.getByNumero(con, "C1");
-        String expResult = "annuel";
-        String result = instance.getType();
-        assertEquals(expResult, result);
+        Contrat instance = Contrat.getByNumero(con, "C2");
+        assertEquals("annuel", instance.getType());
     }
 
     /**
@@ -142,10 +123,8 @@ public class ContratTest {
     public void testGetInfos() throws Exception{
         System.out.println("getInfos");
         Connection con = ConnexionMySQL.newConnexion();
-        Contrat instance = Contrat.getByNumero(con, "C1");
-        String expResult = "";
-        String result = instance.getInfos();
-        assertEquals(expResult, result);
+        Contrat instance = Contrat.getByNumero(con, "C2");
+        assertEquals("", instance.getInfos());
     }
 
     /**
@@ -156,10 +135,11 @@ public class ContratTest {
         System.out.println("setType");
         Connection con = ConnexionMySQL.newConnexion();
         Contrat instance = Contrat.getByNumero(con, "C1");
-        String modele = "mensuel";
-        instance.setType(modele);
+        instance.setType("mensuel");
         instance.save(con);
-        assertEquals(instance.getType(), modele);
+        assertEquals("mensuel", instance.getType());
+        instance.setType("annuel");
+        instance.save(con);
     }
 
     /**
@@ -170,10 +150,11 @@ public class ContratTest {
         System.out.println("setInfos");
         Connection con = ConnexionMySQL.newConnexion();
         Contrat instance = Contrat.getByNumero(con, "C1");
-        String infos = "Ce contrat est valable un an";
-        instance.setInfos(infos);
+        instance.setInfos("Ce contrat est valable un an");
         instance.save(con);
-        assertEquals(instance.getInfos(), infos);
+        assertEquals("Ce contrat est valable un an", instance.getInfos());
+        instance.setType("");
+        instance.save(con);
     }
     
 }

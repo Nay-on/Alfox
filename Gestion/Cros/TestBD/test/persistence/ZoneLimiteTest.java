@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import java.sql.Connection;
@@ -15,7 +10,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author snir2g1
+ * @author acros
  */
 public class ZoneLimiteTest {
     
@@ -63,6 +58,8 @@ public class ZoneLimiteTest {
         instance.save(con);
         instance = ZoneLimite.getByNom(con, "Toulouse2");
         assertEquals("Toulouse2", instance.getNom());
+        instance.setNom("Toulouse");
+        instance.save(con);
     }
 
     /**
@@ -98,5 +95,7 @@ public class ZoneLimiteTest {
         instance.setNom("Alcis2");
         instance.save(con);
         assertEquals(instance.getNom(), "Alcis2");
+        instance.setNom("Alcis");
+        instance.save(con);
     }
 }

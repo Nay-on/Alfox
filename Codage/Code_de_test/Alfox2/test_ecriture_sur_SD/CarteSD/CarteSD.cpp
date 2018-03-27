@@ -13,9 +13,10 @@ CarteSD::CarteSD() {
 CarteSD::~CarteSD() {
 
 }
-
+// bloque la lercture
 String CarteSD::lire(){
   fichierSD=SD.open(nomFichier);
+  Serial.println(fichierSD.name());
   if (fichierSD) {
     while (fichierSD.available()) {
       Serial.write(fichierSD.read());
@@ -33,9 +34,8 @@ void CarteSD::ecrire(DonneesTR* dTR)
 {
   fichierSD = SD.open(nomFichier, FILE_WRITE);
   if(fichierSD){
-    Serial.print(fichierSD);
     Serial.println(fichierSD.name());
-    fichierSD.println("# 100   "+String(dTR->getConsommation())+"   "+String(dTR->getConsoMax()) + "   "+String(dTR->getVitesseMax()) + "   "+String(dTR->getVitesseMoyenne()) + "   "+String(dTR->getRegimeMax()) + "   ");    
+    fichierSD.println("# "+String(dTR->getConsommation())+"   "+String(dTR->getConsoMax()) + "   "+String(dTR->getVitesseMax()) + "   "+String(dTR->getVitesseMoyenne()) + "   "+String(dTR->getRegimeMax()) + "   ");    
     fichierSD.close();
     Serial.println("ecriture");
   }
@@ -48,42 +48,51 @@ void CarteSD::ecrire(DonneesTR* dTR)
 // a retraiter pour effacement 
 void CarteSD::effacer()
 {
-  fichierRacineSD = SD.open("/");
-  printDirectory(fichierRacineSD,0);
-  fichierSD.close();
-  /*
-  while (true) {
+   dir = SD.open(fichierRacineSD.name(),FILE_WRITE);
+   while (true){
 
-    File entry = fichierRacineSD.openNextFile();
-    if (!entry) {
-      Serial.println(fichierRacineSD.openNextFile());
-      Serial.println("aucun fichier trouver");
-      break;
+    File entry = dir.openNextFile();
+    if (! entry)
+    {
+      if (numTabs == 0)
+        Serial.println("liste des fichier complète");
+      return;
     }
-    else {
-    
-    supprimerFichier(entry.name());
-    Serial.println(entry.name());
+    for (uint8_t i = 0; i < numTabs; i++)
+      Serial.print('\t');
+    Serial.print(entry.name());
+    if (entry.isDirectory())
+    {
+      Serial.println("/");
+      numTabs = numTabs + 1;
+      effacer();
     }
-  }*/
+    else
+    {
+      Serial.println("supression de "+String(dir.name()));
+      SD.remove(dir.name());
+      Serial.println("supression réussie");
+    }
+    entry.close();
+  }
+  numTabs=0;
 }
 
 
-// printDirectory
+// printDirectory mais tout doit être dans un dossier donc nececite la création d'un dossier
 bool CarteSD::isFull(){
-while (true) {
-
-    File entry =  fichierRacineSD.openNextFile();
-    if (! entry) {
-      Serial.println("plus de fichier");
-      break;
-    }
-    else {
-    
-    placePrise=placePrise+entry.size();
-    entry.close();
-    }
+  Serial.println("liste Fichier"); 
+  fichierRacineSD = SD.open("/",FILE_WRITE);
+  printDirectory(fichierRacineSD,0);
+  fichierSD.close();
+  Serial.println("place utilisée "+ String(placePrise));
+  if(placePrise<8589800000){
+    return false;
   }
+  else{
+    return true;
+  }
+
 }
 
 
@@ -103,7 +112,6 @@ bool CarteSD::nouveauFichier(String nom)
     return true;
   }
   else {
-    SD.mkdir("fichierTest");
     fichierSD = SD.open(nom,FILE_WRITE);
     if (fichierSD) {
       fichierSD.println("Heure   KM       CMOY  NBDF  CD1    CD2    CD3    CD4   VMX   VMOY  RMX    RMOY");
@@ -113,6 +121,7 @@ bool CarteSD::nouveauFichier(String nom)
     }
     else {
       Serial.println(F("erreur de creation"));
+
       return false;
     }
     fichierRacineSD = SD.open("/");
@@ -130,6 +139,7 @@ bool CarteSD::supprimerFichier(String nom)
   if (SD.exists(nom)) {
     SD.remove(nom);
   }
+  return SD.exists(nom);
 }
 
 
@@ -158,6 +168,7 @@ void CarteSD::printDirectory(File dir, int numTabs)
     {
       Serial.print("\t");
       Serial.println(entry.size(), DEC);
+      placePrise = placePrise+entry.size();
     }
     entry.close();
   }

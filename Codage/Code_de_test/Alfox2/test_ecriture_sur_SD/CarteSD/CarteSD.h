@@ -24,7 +24,9 @@ private:
     String nomFichier;
     File fichierSD;
     File fichierRacineSD;
+    File dir;
     int placePrise=0;
+     int numTabs =0;
 };
 
 #endif /* CARTESD_H */

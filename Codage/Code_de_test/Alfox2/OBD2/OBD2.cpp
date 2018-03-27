@@ -1,4 +1,3 @@
-
 #include "OBD2.h"
 
 OBD2::OBD2(Bluetooth* bt){

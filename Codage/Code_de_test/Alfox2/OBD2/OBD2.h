@@ -1,3 +1,7 @@
+/*
+  Librairie SoftwareSerial dans IDE ARDUINO aller dans Croquis > Inclurenune Blibliothèque >
+  Gérer les Blibliothèques > Chercher "SowtwareSerial" > installer.
+*/
 #ifndef __OBD2__
 #define __OBD2__
 

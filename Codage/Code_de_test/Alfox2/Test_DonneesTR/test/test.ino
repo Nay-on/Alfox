@@ -71,7 +71,7 @@ int lireRegimeMoteur(){
 }
 
 int lireConsomation(){
-  //     litre/heure
+  //     litres/heure
 }
 
 

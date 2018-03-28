@@ -6,6 +6,7 @@ void setup() {
   bluetooth = new Bluetooth(2,3);
   Serial.begin(9600);
   Serial.println(bluetooth->connexion("B22B,1C,70EA6"));
+  delay(2000);
   Serial.println(bluetooth->isActif());
 }
 

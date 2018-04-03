@@ -22,22 +22,10 @@ void setup() {
 }
 
 void loop() {
-    time1 = millis();
-    carteSD->nouveauFichier("180322.txt");
-    time2 = millis();
-    Serial.println("temps creation "+ String(time2-time1));
+    carteSD->nouveauFichier("290322.txt");
     donneesTR->setConsommation(conso);
     conso = conso + 1;
-    time3 = millis();
     carteSD->ecrire(donneesTR);
-    time4 = millis();
-    Serial.println("temps ecriture "+ String(time4-time3));
-    //carteSD->lire();
-    //Serial.println();
-    //time1 = millis();
-    
-    //time2 = millis();
-    //Serial.println("temps isFull "+ String(time2-time1));
     Serial.println();
     Serial.println();
     delay(1000);

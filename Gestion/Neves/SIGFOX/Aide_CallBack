@@ -1,0 +1,21 @@
+http://host/path?id={device}&time={time}&key1={var1}&key2={var2}...
+
+Champs possibles :
+time (int): the event timestamp (in seconds since the Unix Epoch) 
+device (string): device identifier (in hexadecimal – up to 8 characters <=> 4 bytes)
+duplicate (bool): «true» if the message is a duplicate one, meaning that the backend has already processed this message 
+	from a different  base station, «false» otherwise. To receive duplicate messages, you have to check 
+	the «send duplicate» box in the callback configuration page
+snr (float): the signal to noise ratio (in dB – Float value with two maximum fraction digits)
+rssi (float): the RSSI (in dBm – Float value with two maximum fraction digits). If there is no data to be returned, 
+	then the value is null.
+avgSnr (float): the average signal to noise ratio computed from the last 25 messages 
+	(in dB – Float value with two maximum fraction digits) or «N/A». The device must have send at least 15 messages.
+station (string): the base station identifier (in hexadecimal – 4 characters <=> 2 bytes)
+data (string): the user data (in hexadecimal)
+lat (float): the latitude, rounded to the nearest integer, of the base station which received the message
+lng (float): the longitude, rounded to the nearest integer, of the base station which received the message
+seqNumber (int): the sequence number of the message if available
+
+
+http://194.254.25.155/callback.jsp?id={device}&seqNumber={seqNumber}&time={time}&data={data}&lat={lat}&lng={lng}&snr={snr}&rssi={rssi}&avgSnr={avgSnr}

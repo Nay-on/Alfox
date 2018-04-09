@@ -26,23 +26,41 @@ void setup() {
    compteur = 0;
 }
 
-// Fonction loop(), appelée continuellement en boucle tant que la carte Arduino est alimentée
-void loop() {
+void tache1() {
 
- 
- 
   etatBrocheLed1 = !etatBrocheLed1;
   digitalWrite(BROCHE_LED_1, etatBrocheLed1);
+  
+}
+
+void tache2() {
+
+   etatBrocheLed2 = !etatBrocheLed2;
+   digitalWrite(BROCHE_LED_2, etatBrocheLed2);
+  
+}
+
+void tache3() {
+
+   etatBrocheLed3 = !etatBrocheLed3;
+  digitalWrite(BROCHE_LED_3, etatBrocheLed3);
+  
+}
+
+
+// Fonction loop(), appelée continuellement en boucle tant que la carte Arduino est alimentée
+void loop() { 
+
+  tache1();
  
   if(compteur % 2 == 0) {
-  // Inverse l'état de la LED 2
-  etatBrocheLed2 = !etatBrocheLed2;
-  digitalWrite(BROCHE_LED_2, etatBrocheLed2);
+    
+  tache2();  // Inverse l'état de la LED 2
   }
  
   if(compteur % 4 == 0) {
-  etatBrocheLed3 = !etatBrocheLed3;
-  digitalWrite(BROCHE_LED_3, etatBrocheLed3);
+ 
+  tache3();  // Inverse l'état de la LED 3
   }
   delay(500);
   compteur = (compteur + 1) % 100;

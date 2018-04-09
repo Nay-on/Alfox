@@ -4,7 +4,11 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Arduino.h</itemPath>
+      <itemPath>DonneesTR.h</itemPath>
+      <itemPath>Global.h</itemPath>
       <itemPath>Message.h</itemPath>
+      <itemPath>OBD2.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -38,9 +42,17 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="Arduino.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DonneesTR.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Global.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Message.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Message.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="OBD2.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -65,9 +77,17 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="Arduino.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="DonneesTR.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Global.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Message.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Message.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="OBD2.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

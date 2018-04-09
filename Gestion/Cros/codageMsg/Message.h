@@ -11,9 +11,16 @@
  * Created on 4 avril 2018, 12:44
  */
 
+#include "Global.h"
+#include "time.h"
+#include "OBD2.h"
+#include "DonneesTR.h"
+
 #ifndef MESSAGE_H
 #define MESSAGE_H
 using namespace std;
+
+typedef unsigned char   byte;
 
 class Message {
 public:
@@ -21,13 +28,14 @@ public:
     Message(const Message& orig);
     virtual ~Message();
     Etat decoderEtat(string msg);
-    string nouveau(Etat etat, DonneesTR datas);
+    string nouveau(Etat etat, DonneesTR data);
 private:
-    string normal(DonneesTR datas);
-    string degrade();
-    string dmdGPS(GPS gps);
-    string GPS(GPS gps);
-    string dormir();
+    string normal(DonneesTR data);
+    string degrade(DonneesTR data);
+    string dmdGPS(DonneesTR data);
+    string GPS(DonneesTR data);
+    string dormir(DonneesTR data);
+    enum TM{NORMAL, DEGRADE, DMD_GPS, GPS, DORMIR};
 };
 
 #endif /* MESSAGE_H */

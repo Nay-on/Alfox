@@ -11,8 +11,29 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println("Début du test");
+  configureInterrupt_timer4_1ms();
+}
 
+void loop() 
+{
+   //Rien à faire
+}
+
+void TC4_Handler()                              // Interrupt Service Routine (ISR) for timer TC4
+{     
   
+  // Check for overflow (OVF) interrupt
+  if (TC4->COUNT16.INTFLAG.bit.OVF && TC4->COUNT16.INTENSET.bit.OVF)             
+  {
+    Serial.println(compteur);
+    compteur++;
+    REG_TC4_INTFLAG = TC_INTFLAG_OVF;         // Clear the OVF interrupt flag
+  }
+}
+
+//Fonction englobant la configuration et le démarrage des interruptions du Timer 4 toutes les 1 ms.
+void configureInterrupt_timer4_1ms()
+{
   // Set up the generic clock (GCLK4) used to clock timers
   REG_GCLK_GENDIV = GCLK_GENDIV_DIV(1) |          // On divise les 48MHz  par 1: 48MHz/1=48MHz
                     GCLK_GENDIV_ID(4);            // Select Generic Clock (GCLK) 4
@@ -46,21 +67,4 @@ void setup()
                    TC_CTRLA_WAVEGEN_MFRQ |        // Timer 4 en mode "match frequency" (MFRQ) 
                    TC_CTRLA_ENABLE;               // Enable TC4
   while (TC4->COUNT16.STATUS.bit.SYNCBUSY);       // Wait for synchronization
-}
-
-void loop() 
-{
-   //Rien à faire
-}
-
-void TC4_Handler()                              // Interrupt Service Routine (ISR) for timer TC4
-{     
-  
-  // Check for overflow (OVF) interrupt
-  if (TC4->COUNT16.INTFLAG.bit.OVF && TC4->COUNT16.INTENSET.bit.OVF)             
-  {
-    Serial.println(compteur);
-    compteur++;
-    REG_TC4_INTFLAG = TC_INTFLAG_OVF;         // Clear the OVF interrupt flag
-  }
 }

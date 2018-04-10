@@ -54,7 +54,7 @@ public:
     
     void setDefauts(int codeDefauts);
 
-    void majDistance(GPS gps);          // met à jour la DistanceParcourue 
+    //void majDistance(GPS gps);          // met à jour la DistanceParcourue 
                                         // si pas de bluetooth
     void setDateHTR(tm dateHTR);
 

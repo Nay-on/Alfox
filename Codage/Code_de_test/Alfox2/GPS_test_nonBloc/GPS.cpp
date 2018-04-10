@@ -1,12 +1,14 @@
 #include "GPS.h"
 
-GPS::GPS(int rx, int tx){
+GPS::GPS(/*int rx, int tx*/){
   //Créer la liaison série
-	serialGPS = new SoftwareSerial(rx,tx);
+	serialGPS = &Serial1;
+  //Lancer la liaison série
+  serialGPS->begin(9600);
   //Création du gps > librairie Adafruit_gps
 	gps = new Adafruit_GPS(serialGPS);
-  //Lancer la liaison série
-	serialGPS->begin(9600);
+  
+	
 
   //Cette ligne sert à réduire la reception du gps en ignorant les données peu utile.
   gps->sendCommand(PMTK_SET_NMEA_OUTPUT_RMCONLY);
@@ -15,16 +17,16 @@ GPS::GPS(int rx, int tx){
   //Permet de récupérer les infos du signal
   gps->sendCommand(PGCMD_ANTENNA);
   
-  useInterrupt(true);
+//  useInterrupt(true);
   
 }
 
 int GPS::maj(){
-  
+  /*
   if (! usingInterrupt) {
     //Lire les données du gps
     char c = gps->read();
-  }
+  }*/
   if (gps->newNMEAreceived()) //si une nouvelle données gps est disponible
   {
     if (!gps->parse(gps->lastNMEA()))
@@ -49,7 +51,7 @@ int GPS::maj(){
 
 
 }
-
+/*
 void GPS::useInterrupt(boolean v) {
   if (v) {
     OCR0A = 0xAF;
@@ -59,7 +61,7 @@ void GPS::useInterrupt(boolean v) {
     TIMSK0 &= ~_BV(OCIE0A);
     usingInterrupt = false;
   }
-}
+}*/
 
 void GPS::readDATA(){
   //Lis la données gps

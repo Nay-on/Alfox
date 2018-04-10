@@ -11,7 +11,7 @@ public:
     DonneesTR();
     virtual ~DonneesTR();
 	void razStat();
-  int DonneesTR::getConsommation();
+  int getConsommation();
 	int getConsoMoyenne();
 	int getConsoMax();
 	int getVitesseMoyenne();
@@ -24,8 +24,8 @@ public:
 	float getDistanceParcourue();
 	void majDistance(GPS gps);
 	//void majData(OBD2 obd2);
-	float getLatitude();
-	float getLongitude();
+	float getLatitude() {return latitude;};
+	float getLongitude(){return longitude;};
 	
 	// pas de getDefaut ou de getNbDefaut ni de set
 private:
@@ -41,6 +41,9 @@ private:
 	int regime;
 	int regimeMoyen;
 	int regimeMax;
+  float latitude;
+  float longitude;
+  
   int moyenneRegime = 0;  //nb total de valeurs
   long valeurMoyenneRegime = 0;
   int moyenneVitesse = 0; //nb total de valeurs

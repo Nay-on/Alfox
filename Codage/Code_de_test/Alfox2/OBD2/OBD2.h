@@ -16,7 +16,7 @@ class OBD2
 	private:
     
     Bluetooth* moduleBT;
-    SoftwareSerial* liaisonBT;
+    Uart* liaisonBT;
     
     String lireReponse();
     String code[4] = {"010D", "015E", "010C", "CODE_DEFAUT_NONDEF" };

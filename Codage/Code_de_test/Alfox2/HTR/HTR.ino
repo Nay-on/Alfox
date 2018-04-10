@@ -3,16 +3,16 @@
 
 GPS* gpsDateEtHeure;
 HTR* htr;
-void setup() {
-
+void setup() 
+{
   Serial.begin(9600);
   
   gpsDateEtHeure = new GPS();
   htr = new HTR(gpsDateEtHeure);
-
 }
 
-void loop() {
+void loop() 
+{
 
   gpsDateEtHeure->maj();
   
@@ -21,6 +21,5 @@ void loop() {
     Serial.println(htr->lire().tm_mon);
     Serial.println(htr->lire().tm_year);
   }
-  
 }
 

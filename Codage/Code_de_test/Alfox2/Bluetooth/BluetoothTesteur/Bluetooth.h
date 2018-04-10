@@ -17,7 +17,7 @@ private :
   
 
 public:
-  Bluetooth();
+  Bluetooth(/*Uart* serialBluetooth*/);
   ~Bluetooth();
   int connexion(String adresse);
   bool isActif();
@@ -27,8 +27,9 @@ public:
   int motDePasse();
   int initialisation();
   int appairage(String adresse);
-  int lien(String adresse);
+  int bind(String adresse);
   int modeDeconnecte();
+  int lien(String adresse);
 };
 
 #endif

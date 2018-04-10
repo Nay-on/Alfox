@@ -1,8 +1,9 @@
+//#include <SomeSerial.h>
 #ifndef __GPS__
 #define __GPS__
 
 #include <Arduino.h>
-#include <SoftwareSerial.h>
+//#include <SoftwareSerial.h>
 #include <Adafruit_GPS.h>
 #include <time.h>
 
@@ -19,13 +20,13 @@ class GPS
     
     boolean usingInterrupt = false;
     Adafruit_GPS* gps;
-    SoftwareSerial* serialGPS;
-    void useInterrupt(boolean v);
+    HardwareSerial* serialGPS;
+    //void useInterrupt(boolean v);
 
 	public:
 	
 		/** Constructeur **/
-		GPS(int rx, int tx);
+		GPS(/*int rx, int tx*/);
 
 		int maj();
 		float getLatitude() {return latitude;};

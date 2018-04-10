@@ -15,12 +15,26 @@
 #include "time.h"
 #include "OBD2.h"
 #include "DonneesTR.h"
+#include <string>
+ 
+using namespace std;
+ 
+ 
+int main()
+{
+    string maChaine; //Création d'un objet 'maChaine' de type string
+ 
+    return 0;
+}
 
 #ifndef MESSAGE_H
 #define MESSAGE_H
 using namespace std;
 
 typedef unsigned char   byte;
+
+//enum TM{NORMAL, DEGRADE, DMD_GPS, GPS, DORMIR};
+enum EtatCom{BT_OFF, BT_ON_OBD2_OFF, BT_ON_OBD2_ON};
 
 class Message {
 public:
@@ -30,12 +44,13 @@ public:
     Etat decoderEtat(string msg);
     string nouveau(Etat etat, DonneesTR data);
 private:
-    string normal(DonneesTR data);
-    string degrade(DonneesTR data);
-    string dmdGPS(DonneesTR data);
-    string GPS(DonneesTR data);
-    string dormir(DonneesTR data);
-    enum TM{NORMAL, DEGRADE, DMD_GPS, GPS, DORMIR};
+    string normal(DonneesTR data, EtatCom etatCom);
+    string degrade(DonneesTR data, EtatCom etatCom);
+    string dmdGPS(DonneesTR data, EtatCom etatCom);
+    string gps(DonneesTR data, EtatCom etatCom);
+    string dormir(DonneesTR data, EtatCom etatCom);
+    //TM typeMessage;
+    
 };
 
 #endif /* MESSAGE_H */

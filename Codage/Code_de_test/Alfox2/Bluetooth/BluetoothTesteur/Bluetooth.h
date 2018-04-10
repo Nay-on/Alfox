@@ -7,21 +7,21 @@
 #ifndef __BLUETOOTH__
 #define __BLUETOOTH__
 
-#include <SoftwareSerial.h>
 #include <Arduino.h>
+#include "wiring_private.h"
 
 class Bluetooth {
 
 private :
-  SoftwareSerial* serialBluetooth;
+  Uart* serialBT;
   
 
 public:
-  Bluetooth(int rx, int tx);
+  Bluetooth();
   ~Bluetooth();
   int connexion(String adresse);
   bool isActif();
-  SoftwareSerial* getLiaisonBT();
+  Uart* getLiaisonBT();
   int modeMaster();
   int modeConnection();
   int motDePasse();

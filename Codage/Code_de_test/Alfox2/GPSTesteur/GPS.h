@@ -1,4 +1,3 @@
-//#include <SomeSerial.h>
 #ifndef __GPS__
 #define __GPS__
 
@@ -21,16 +20,18 @@ class GPS
     Adafruit_GPS* gps;
     HardwareSerial* serialGPS;
 
+
 	public:
 	
 		/** Constructeur **/
 		GPS();
+
 		int maj();
 		float getLatitude() {return latitude;};
    	float getLongitude() {return longitude;};
 		struct tm getDatation() {return datation;};
    	bool isDispo();
-    void readDATA();
+    char readDATA();
     struct tm getDatationUltimate();
 		
 };

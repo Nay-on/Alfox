@@ -1,32 +1,28 @@
 #include "GPS.h"
+#include <Arduino.h>
 
-GPS* gps = new GPS();
+GPS* gps;
 
-void setup() {
-
+void setup() 
+{
+  gps = new GPS();
   Serial.begin(115200);
-  delay(10000);
-  Serial.println("Test");
+  Serial1.begin(9600);
+  configureInterrupt_timer4_1ms();
   
 }
 
   unsigned long time1;
   unsigned long time2;
-  unsigned long time3; 
+  unsigned long time3;
   unsigned long time4;
   unsigned long timeInterrupt;
 
-/*
-SIGNAL(TIMER0_COMPA_vect){
-  time3 = micros();
-  gps->readDATA();
-  time4 = micros();
-  timeInterrupt = time4 - time3;
-}*/
 
 void loop() {
+  //Serial.print(gps->readDATA());
   time1 = millis();
-  /*gps->maj();
+  gps->maj();
   
   if(gps->isDispo()){
     Serial.println(gps->getLatitude(),6);
@@ -41,9 +37,10 @@ void loop() {
     //Serial.println(time2 - time1);
     //Serial.println(timeInterrupt);
     
-  }*/
+  }
 
 }
+
 
 void TC4_Handler()                              // Interrupt Service Routine (ISR) for timer TC4
 {     
@@ -51,14 +48,11 @@ void TC4_Handler()                              // Interrupt Service Routine (IS
   // Check for overflow (OVF) interrupt
   if (TC4->COUNT16.INTFLAG.bit.OVF && TC4->COUNT16.INTENSET.bit.OVF)             
   {
-    //Serial.println(compteur);
-    //compteur++;
-
-    //gps->readDATA();
-    
+    char c = gps->readDATA();
     REG_TC4_INTFLAG = TC_INTFLAG_OVF;         // Clear the OVF interrupt flag
   }
 }
+
 
 //Fonction englobant la configuration et le démarrage des interruptions du Timer 4 toutes les 1 ms.
 void configureInterrupt_timer4_1ms()

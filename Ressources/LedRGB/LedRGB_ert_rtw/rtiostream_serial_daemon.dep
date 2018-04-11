@@ -1,0 +1,44 @@
+rtiostream_serial_daemon.o: \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/arduinotarget/registry/../src/rtiostream_serial_daemon.cpp \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/Arduino.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/binary.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/WCharacter.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/WString.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/HardwareSerial.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/Stream.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/Print.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/Printable.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/USBAPI.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/Arduino.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/variants/standard/pins_arduino.h \
+ /home/ocommeng/Google\ Drive/Travail/SNIR2_2017-2018/Projets/ALFOX/Alfox/Ressources/LedRGB/LedRGB_ert_rtw/MW_target_hardware_resources.h \
+ /home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/arduinotarget/scheduler/include/arduinoAVRScheduler.h \
+ /usr/local/MATLAB/R2017a/rtw/c/src/rtiostream.h
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/Arduino.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/binary.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/WCharacter.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/WString.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/HardwareSerial.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/Stream.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/Print.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/Printable.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/USBAPI.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/cores/arduino/Arduino.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/3P.instrset/arduinoide.instrset/arduino-1.6.13/hardware/arduino/avr/variants/standard/pins_arduino.h:
+
+/home/ocommeng/Google\ Drive/Travail/SNIR2_2017-2018/Projets/ALFOX/Alfox/Ressources/LedRGB/LedRGB_ert_rtw/MW_target_hardware_resources.h:
+
+/home/ocommeng/Documents/MATLAB/SupportPackages/R2017a/toolbox/target/supportpackages/arduinotarget/scheduler/include/arduinoAVRScheduler.h:
+
+/usr/local/MATLAB/R2017a/rtw/c/src/rtiostream.h:

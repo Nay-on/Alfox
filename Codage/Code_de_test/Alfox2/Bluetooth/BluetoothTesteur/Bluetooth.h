@@ -12,23 +12,23 @@
 
 class Bluetooth {
 
-private :
-  Uart* serialBT;
+  private :
+    Uart* serialBT;
+    int modeMaster();
+    int modeConnection();
+    int motDePasse();
+    int initialisation();
+    int appairage(String adresse);
+    int bind(String adresse);
+    int modeDeconnecte();
+    int lien(String adresse);
   
-
-public:
-  Bluetooth();
-  ~Bluetooth();
-  int connexion(String adresse);
-  bool isActif();
-  Uart* getLiaisonBT();
-  int modeMaster();
-  int modeConnection();
-  int motDePasse();
-  int initialisation();
-  int appairage(String adresse);
-  int lien(String adresse);
-  int modeDeconnecte();
+  public:
+    Bluetooth(/*Uart* serialBluetooth*/);
+    ~Bluetooth();
+    int connexion(String adresse);
+    bool isActif();
+    Uart* getLiaisonBT();
 };
 
 #endif

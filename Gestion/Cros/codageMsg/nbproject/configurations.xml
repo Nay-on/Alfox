@@ -4,7 +4,6 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>Arduino.h</itemPath>
       <itemPath>DonneesTR.h</itemPath>
       <itemPath>Global.h</itemPath>
       <itemPath>Message.h</itemPath>
@@ -42,8 +41,6 @@
       </toolsSet>
       <compileType>
       </compileType>
-      <item path="Arduino.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="DonneesTR.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Global.h" ex="false" tool="3" flavor2="0">
@@ -77,8 +74,6 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="Arduino.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="DonneesTR.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Global.h" ex="false" tool="3" flavor2="0">

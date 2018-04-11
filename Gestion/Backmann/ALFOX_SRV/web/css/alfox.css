@@ -103,7 +103,7 @@
 
 /* les saisies ne prennent que 60% de l'écran en largeur */
 .form {
-    margin-top: 100px;
+    margin-top: 25px;
     padding: 0px 30% 0px 30% !important;
 }
 

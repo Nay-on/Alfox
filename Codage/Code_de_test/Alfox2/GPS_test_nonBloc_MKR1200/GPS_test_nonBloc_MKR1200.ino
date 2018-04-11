@@ -1,4 +1,5 @@
 #include "GPS.h"
+#include <Arduino.h>
 
 GPS* gps;
 

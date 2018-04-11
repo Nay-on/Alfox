@@ -1,1 +1,0 @@
-/home/snir2g2/Bureau/Alfox/Codage/Code_de_test/Alfox2/test_ecriture_sur_SD/CarteSD/CarteSD.h

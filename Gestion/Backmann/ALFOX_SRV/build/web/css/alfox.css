@@ -67,7 +67,7 @@
 
 .cardTitre {
     background-color: orange;
-    color: white;
+    color: black;
     font-size: 18px;
     padding: 10px 10px 10px 10px;
 }
@@ -103,6 +103,7 @@
 
 /* les saisies ne prennent que 60% de l'écran en largeur */
 .form {
+    margin-top: 100px;
     padding: 0px 30% 0px 30% !important;
 }
 
@@ -113,7 +114,7 @@
 
 /* Nombre de messages restants de la page infos */
 .mess{
-    text-align: right;
+    float: right;
 }
 
 /* popup page infos */

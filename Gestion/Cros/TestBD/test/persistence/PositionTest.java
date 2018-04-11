@@ -1,11 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,7 +13,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author snir2g1
+ * @author acros
  */
 public class PositionTest {
     
@@ -46,10 +44,10 @@ public class PositionTest {
         System.out.println("create");
         Connection con = ConnexionMySQL.newConnexion();
         int ordre = 12;
-        float latitude = (float)40.123456;
-        float longitude = (float)50.123456;
+        double latitude = 40.123456;
+        double longitude = 50.123456;
         int zoneLimiteID = 1;
-        Position result = Position.create(con, ordre, zoneLimiteID, latitude, longitude);
+        Position result = Position.create(con, zoneLimiteID, ordre, latitude, longitude);
         assertEquals(12, result.getOrdre());
         result.delete(con);
     }
@@ -61,24 +59,28 @@ public class PositionTest {
     public void testSave() throws Exception {
         System.out.println("save");
         Connection con = ConnexionMySQL.newConnexion();
-        Position instance = Position.getByOrdre(con, 1);
-        instance.setOrdre(15);
-        instance.save(con);
-        instance = Position.getByOrdre(con, 15);
-        assertEquals(15, instance.getOrdre());
+        Position result = Position.getById(con, 1);
+        result.setLatitude(43.546266);
+        result.save(con);
+        result = Position.getById(con, 1);
+        assertEquals(43.546266, result.getLatitude(), 0.000001);
+        // on restitue l'état initial
+        result.setLatitude(43.546231);
+        result.save(con);
     }
 
     /**
-     * Test of getByOrdre method, of class Position.
+     * Test of getByZone method, of class Position.
      */
     @Test
-    public void testGetByOrdre() throws Exception {
-        System.out.println("getByOrdre");
+    public void testGetByZone() throws Exception {
+        System.out.println("getByZone");
         Connection con = ConnexionMySQL.newConnexion();
-        Position result = Position.getByOrdre(con, 4);
-        assertEquals(4, result.getOrdre());
+        ArrayList<Position> result = Position.getByZone(con, 1);
+        assertEquals(result.size(), 8);
+        assertEquals(43.659971, result.get(2).getLatitude(), 0.000001);
     }
-
+    
     /**
      * Test of getOrdre method, of class Position.
      */
@@ -86,8 +88,8 @@ public class PositionTest {
     public void testGetOrdre() throws Exception {
         System.out.println("getOrdre");
         Connection con = ConnexionMySQL.newConnexion();
-        Position result = Position.getByOrdre(con, 4);
-        assertEquals(4, result.getOrdre());
+        ArrayList<Position> result = Position.getByZone(con, 1);
+        assertEquals(1, result.get(0).getOrdre());
     }
 
     /**
@@ -97,8 +99,8 @@ public class PositionTest {
     public void testGetLatitude() throws Exception {
         System.out.println("getLatitude");
         Connection con = ConnexionMySQL.newConnexion();
-        Position result = Position.getByOrdre(con, 4);
-        assertEquals(43.668415, result.getLatitude(), 0.00001);
+        ArrayList<Position> result = Position.getByZone(con, 1);
+        assertEquals(43.546231, result.get(0).getLatitude(), 0.000001);
     }
 
     /**
@@ -108,21 +110,8 @@ public class PositionTest {
     public void testGetLongitude() throws Exception {
         System.out.println("getLongitude");
         Connection con = ConnexionMySQL.newConnexion();
-        Position result = Position.getByOrdre(con, 4);
-        assertEquals(43.668415, result.getLongitude(), 0.00001);
-    }
-
-    /**
-     * Test of setOrdre method, of class Position.
-     */
-    @Test
-    public void testSetOrdre() throws Exception {
-        System.out.println("setOrdre");
-        Connection con = ConnexionMySQL.newConnexion();
-        Position instance = Position.getByOrdre(con, 8);
-        instance.setOrdre(12);
-        instance.save(con);
-        assertEquals(12, instance.getOrdre());
+        ArrayList<Position> result = Position.getByZone(con, 1);
+        assertEquals(1.350065, result.get(0).getLongitude(), 0.000001);
     }
 
     /**
@@ -132,10 +121,14 @@ public class PositionTest {
     public void testSetLatitude() throws Exception {
         System.out.println("setLatitude");
         Connection con = ConnexionMySQL.newConnexion();
-        Position instance = Position.getByOrdre(con, 6);
-        instance.setLatitude(40.123456F);
-        instance.save(con);
-        assertEquals(40.123456F, instance.getLatitude(), 0.00001F);
+        Position result = Position.getById(con, 1);
+        result.setLatitude(43.546266);
+        result.save(con);
+        result = Position.getById(con, 1);
+        assertEquals(43.546266, result.getLatitude(), 0.000001);
+        // on restitue l'état initial
+        result.setLatitude(43.546231);
+        result.save(con);
     }
 
     /**
@@ -145,9 +138,13 @@ public class PositionTest {
     public void testSetLongitude() throws Exception {
         System.out.println("setLongitude");
         Connection con = ConnexionMySQL.newConnexion();
-        Position instance = Position.getByOrdre(con, 6);
-        instance.setLatitude(40.123456F);
-        instance.save(con);
-        assertEquals(40.123456F, instance.getLatitude(), 0.00001F);
-    }  
+        Position result = Position.getById(con, 1);
+        result.setLongitude(43.546266);
+        result.save(con);
+        result = Position.getById(con, 1);
+        assertEquals(43.546266, result.getLongitude(), 0.000001);
+        // on restitue l'état initial
+        result.setLongitude(1.350065);
+        result.save(con);
+    }
 }

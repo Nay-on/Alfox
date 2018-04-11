@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package persistence;
 
 import java.sql.Connection;
@@ -15,7 +10,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author snir2g1
+ * @author acros
  */
 public class UserTest {
     
@@ -63,8 +58,10 @@ public class UserTest {
         User instance = User.getByMotDePasse(con, "responsable");
         instance.setMail("nouveau@gmail.com");
         instance.save(con);
-        instance = User.getByMotDePasse(con, "reponsable");
+        instance = User.getByMotDePasse(con, "responsable");
         assertEquals("nouveau@gmail.com", instance.getMail());
+        instance.setMail("responsable@free.fr");
+        instance.save(con);
     }
 
     /**
@@ -74,8 +71,8 @@ public class UserTest {
     public void testGetByMotDePasse() throws Exception {
         System.out.println("getByMotDePasse");
         Connection con = ConnexionMySQL.newConnexion();
-        User result = User.getByMotDePasse(con, "responsable");
-        assertEquals("responsable", result.getRole());
+        User result = User.getByMotDePasse(con, "maintenance");
+        assertEquals("maintenance", result.getRole());
     }
 
     /**
@@ -85,8 +82,8 @@ public class UserTest {
     public void testGetRole() throws Exception {
         System.out.println("getRole");
         Connection con = ConnexionMySQL.newConnexion();
-        User instance = User.getByMotDePasse(con, "responsable");
-        assertEquals("responsable", instance.getRole());
+        User instance = User.getByMotDePasse(con, "maintenance");
+        assertEquals("maintenance", instance.getRole());
     }
 
     /**
@@ -122,6 +119,8 @@ public class UserTest {
         instance.setRole("recrue");
         instance.save(con);
         assertEquals(instance.getRole(), "recrue");
+        instance.setRole("responsable");
+        instance.save(con);
     }
 
     /**
@@ -132,9 +131,11 @@ public class UserTest {
         System.out.println("setMail");
         Connection con = ConnexionMySQL.newConnexion();
         User instance = User.getByMotDePasse(con, "responsable");
-        instance.setRole("nouveaumail@gmail.com");
+        instance.setMail("nouveaumail@gmail.com");
         instance.save(con);
         assertEquals(instance.getMail(), "nouveaumail@gmail.com");
+        instance.setMail("responsable@free.fr");
+        instance.save(con);
     }
 
     /**
@@ -145,8 +146,10 @@ public class UserTest {
         System.out.println("setMdp");
         Connection con = ConnexionMySQL.newConnexion();
         User instance = User.getByMotDePasse(con, "responsable");
-        instance.setRole("nouveau");
+        instance.setMdp("nouveau");
         instance.save(con);
         assertEquals(instance.getMdp(), "nouveau");
+        instance.setMdp("responsable");
+        instance.save(con);
     }
 }

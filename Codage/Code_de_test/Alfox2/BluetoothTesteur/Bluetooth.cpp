@@ -13,7 +13,7 @@ Bluetooth::Bluetooth(/*Uart* serialBluetooth*/)
 
 int Bluetooth::connexion(String adresse) 
 {
-  if(this->isActif == true)
+  if(this->isActif() == true)
   {
     return 1;
   }
@@ -46,7 +46,7 @@ bool Bluetooth::isActif()
   {
     contenu  += serialBT->read();
   }
-  if (contenu == "6982827982584048411310" || contenu == "") //Vérifier que ça ne retourne pas toujours vrai
+  if (contenu.substring(0,2) == "ATZ")
   {
     return true;
   }
@@ -172,7 +172,7 @@ int Bluetooth::bind(String adresse)
 {
   String contenu = "";
   serialBT->println("AT+BIND=" + adresse);
-  delay(100);
+  delay(200);
   while (serialBT->available() <= 0);
   while (serialBT->available() > 0) 
   {

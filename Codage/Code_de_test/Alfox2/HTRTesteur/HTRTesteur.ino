@@ -20,7 +20,6 @@ void loop()
 
   gpsDateEtHeure->maj();
   if(gpsDateEtHeure->isDispo()){
-    Serial.println("dispo");
     Serial.println(htr->lire().tm_mday);
     Serial.println(htr->lire().tm_mon);
     Serial.println(htr->lire().tm_year);

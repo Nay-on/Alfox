@@ -13,30 +13,32 @@ Bluetooth::Bluetooth(/*Uart* serialBluetooth*/)
 
 int Bluetooth::connexion(String adresse) 
 {
-  
-//Commencer par tester si la connexion n'est pas effective avec un this->isActif
-//Si le retour est false alors lancer la procédure de connexion.
-
+  if(this->isActif == true)
+  {
+    return 1;
+  }
+  else
+  {
   int sommeErreurs = 0;
 
   sommeErreurs += modeMaster();
-  sommeErreurs += modeConnection(); //Corriger la faute d'orthographe conneXion
+  sommeErreurs += modeConnexion();
   sommeErreurs += motDePasse();
   sommeErreurs += initialisation();
   sommeErreurs += appairage(adresse);
   delay(10000);
   sommeErreurs += bind(adresse);
-  sommeErreurs += modeDeconnecte(); //L'appel à cette fonction doit être faite après le link (lien())
+  sommeErreurs += modeDeconnecte(); 
   sommeErreurs += lien(adresse);
 
 
   return sommeErreurs;
+  }
 }
 
 bool Bluetooth::isActif() 
 {
   String contenu = "";
-  delay(2000);
   serialBT->println("ATZ");
   delay(100);
   while (serialBT->available() <= 0);
@@ -44,7 +46,6 @@ bool Bluetooth::isActif()
   {
     contenu  += serialBT->read();
   }
-  Serial.println(contenu);
   if (contenu == "6982827982584048411310" || contenu == "") //Vérifier que ça ne retourne pas toujours vrai
   {
     return true;
@@ -83,7 +84,7 @@ int Bluetooth::modeMaster()
   }
 }
 
-int Bluetooth::modeConnection() 
+int Bluetooth::modeConnexion() 
 {
   String contenu = "";
   serialBT->println("AT+CMODE=1");

@@ -15,7 +15,7 @@ class Bluetooth {
   private :
     Uart* serialBT;
     int modeMaster();
-    int modeConnection();
+    int modeConnexion();
     int motDePasse();
     int initialisation();
     int appairage(String adresse);

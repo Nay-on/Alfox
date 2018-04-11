@@ -5,6 +5,8 @@
         <group>
             <file>file:/home/snir2g1/Documents/Alfox/Gestion/Backmann/ALFOX_SRV/web/WEB-INF/m_infos.jsp</file>
             <file>file:/home/snir2g1/Documents/Alfox/Gestion/Backmann/ALFOX_SRV/web/index.jsp</file>
+            <file>file:/home/snir2g2/Documents/Alfox/Gestion/Backmann/ALFOX_SRV/src/java/com/persistence/ConnexionMySQL.java</file>
+            <file>file:/home/snir2g2/Documents/Alfox/Gestion/Backmann/ALFOX_SRV/web/scripts/5_init_admin.sql</file>
         </group>
     </open-files>
 </project-private>

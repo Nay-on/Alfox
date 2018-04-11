@@ -33,9 +33,6 @@ using namespace std;
 
 typedef unsigned char   byte;
 
-//enum TM{NORMAL, DEGRADE, DMD_GPS, GPS, DORMIR};
-enum EtatCom{BT_OFF, BT_ON_OBD2_OFF, BT_ON_OBD2_ON};
-
 class Message {
 public:
     Message();
@@ -44,13 +41,11 @@ public:
     Etat decoderEtat(string msg);
     string nouveau(Etat etat, DonneesTR data);
 private:
-    string normal(DonneesTR data, EtatCom etatCom);
-    string degrade(DonneesTR data, EtatCom etatCom);
-    string dmdGPS(DonneesTR data, EtatCom etatCom);
-    string gps(DonneesTR data, EtatCom etatCom);
-    string dormir(DonneesTR data, EtatCom etatCom);
-    //TM typeMessage;
-    
+    string normal(DonneesTR data);
+    string degrade(DonneesTR data);
+    string dmdGPS(DonneesTR data);
+    string gps(DonneesTR data);
+    string dormir(DonneesTR data);    
 };
 
 #endif /* MESSAGE_H */

@@ -1,30 +1,47 @@
 #include "GPS.h"
-#include "HTR.h"
+#include "Bluetooth.h"
 
-GPS* gpsDateEtHeure;
-HTR* htr;
+Bluetooth* bluetooth;
+GPS* gps;
 
-void setup() 
+void setup()
 {
-  Serial.begin(9600);
+  delay(9000);
+  
+  gps = new GPS();
+  bluetooth = new Bluetooth();
+  
+  Serial.begin(115200);
   Serial1.begin(9600);
+  
   configureInterrupt_timer4_1ms();
+  Serial.println("Test intégration Bluetooth et GPS\n");
+  Serial.println(bluetooth->connexion("B22B,1C,70EA6"),BIN);
+  delay(2000);
+  Serial.println(bluetooth->isActif());
   
-  gpsDateEtHeure = new GPS();
-  htr = new HTR(gpsDateEtHeure);
-  
+
 }
 
-void loop() 
+void loop()
 {
+  
+    gps->maj();
+  
+  if(gps->isDispo()){
+    Serial.println("-------------------------");
+    Serial.println(gps->getLatitude(),6);
+    Serial.println(gps->getLongitude(),6);
+    
+    Serial.println(gps->getDatation().tm_mday);
+    Serial.println(gps->getDatation().tm_mon);
+    Serial.println(gps->getDatation().tm_year);
 
-  gpsDateEtHeure->maj();
-  if(gpsDateEtHeure->isDispo()){
-    Serial.println(htr->lire().tm_mday);
-    Serial.println(htr->lire().tm_mon);
-    Serial.println(htr->lire().tm_year);
+    
   }
+
 }
+
 
 
 
@@ -38,7 +55,7 @@ void TC4_Handler()                              // Interrupt Service Routine (IS
   // Check for overflow (OVF) interrupt
   if (TC4->COUNT16.INTFLAG.bit.OVF && TC4->COUNT16.INTENSET.bit.OVF)             
   {
-    char c = gpsDateEtHeure->readDATA();
+    char c = gps->readDATA();
     REG_TC4_INTFLAG = TC_INTFLAG_OVF;         // Clear the OVF interrupt flag
   }
 }
@@ -81,3 +98,10 @@ void configureInterrupt_timer4_1ms()
                    TC_CTRLA_ENABLE;               // Enable TC4
   while (TC4->COUNT16.STATUS.bit.SYNCBUSY);       // Wait for synchronization
 }
+
+void SERCOM3_Handler()
+{
+  bluetooth->getLiaisonBT()->IrqHandler();
+}
+
+

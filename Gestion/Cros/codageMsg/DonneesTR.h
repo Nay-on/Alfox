@@ -18,8 +18,9 @@ private:
     int regimeMax;
     float latitudeGPS;
     float longitudeGPS;
-    tm dateGPS;
     tm dateHTR;
+    bool OBDactif;
+    bool bluetoothActif;
 
 public:
     void razStat();
@@ -44,8 +45,6 @@ public:
 
     tm   getDateHTR();
 
-    tm   getDateGPS();
-
     void setVitesse(int vitesse);       // met à jour la DistanceParcourue
 
     void setConsommation(int consommation);
@@ -57,12 +56,16 @@ public:
     //void majDistance(GPS gps);          // met à jour la DistanceParcourue 
                                         // si pas de bluetooth
     void setDateHTR(tm dateHTR);
-
-    void setDateGPS(tm dateGPS);
     
     int getDefaut(int numero);
     
+    bool getOBD2Actif();
     
+    bool setOBD2Actif();
+    
+    bool getBluetoothActif();
+    
+    bool setBluetoothActif();
 };
 
 #endif

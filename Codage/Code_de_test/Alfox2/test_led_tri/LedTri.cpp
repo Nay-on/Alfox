@@ -23,7 +23,7 @@ void LedTri::setRouge(int lumi){
 void LedTri::setJaune(int lumi){
   // Valeurs à modifier entre 1 et 255 pour varier l'intensité de la LED de couleur.
   analogWrite(ledRougePin, lumi); 
-  analogWrite(ledVertPin, lumi);
+  analogWrite(ledVertPin, lumi/2);
   analogWrite(ledBleuPin, 0);
 }
 

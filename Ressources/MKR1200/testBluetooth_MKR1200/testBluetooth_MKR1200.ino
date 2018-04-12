@@ -37,7 +37,7 @@ void setup()
     serialBT.begin(38400);
     Serial.println("serialBT démarrée à 38400 bauds");
     
-    Serial.println("Envoi des commandes AT");
+    /*Serial.println("Envoi des commandes AT");
     serialBT.println("AT+ROLE=1");
     delay(100);
     serialBT.println("AT+CMODE=1");
@@ -59,7 +59,7 @@ void setup()
        Serial.write(serialBT.read());
     }
     delay(20000);
-    serialBT.println("AT+DISC");
+    serialBT.println("AT+DISC");*/
 }
 
 

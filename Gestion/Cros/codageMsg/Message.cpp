@@ -13,6 +13,7 @@
 
 #include "Message.h"
 #include <stdio.h>
+#include <string.h>
 using namespace std;
 
 Message::Message() {
@@ -28,15 +29,15 @@ Etat Message::decoderEtat(string msg) {
     
 }
 
-string Message::normal(DonneesTR data, EtatCom etatCom) {
-    // NORMAL : TM CO MV ND CD CD KM KM KM CC VM RM
+string Message::normal(DonneesTR data) {
+    // NORMAL : TM CD CD K1 K2 K3 VM VY RM RY CM CY
     byte bMsg[] = {0,0,0,0,0,0,0,0,0,0,0,0};
     // type de trame
-    bMsg[0] = (byte)Etat.NORMAL;
+    bMsg[0] = (byte)(Etat)NORMAL;
     // l'état BT et OBD2, 00 = BT_OFF&OBD2_OFF, 01 = BT_ON&OBD2_OFF, 11 = BT_ON&OBD2_ON
-    bMsg[1] = (byte)etatCom;
+    bMsg[1] = (byte)(((data.getBluetoothActif() ? 1 : 0) << 1) & (data.getOBD2Actif() ? 1 : 0));
     // le mode du véhicule                  // non utilisé !!!
-    bMsg[2] = (byte)etat;
+    bMsg[2] = (byte)(Etat)NORMAL;
     // les pannes valeurs entre 0 et 15
     int nb = 0;
     for (int i = 0; i < 4; i++)
@@ -46,43 +47,56 @@ string Message::normal(DonneesTR data, EtatCom etatCom) {
     bMsg[5] = (byte)((data.getDefaut(2) << 4) | data.getDefaut(3)); 
     // Distance parcourue entre deux messages en m
     bMsg[6] = (byte)(data.getDistanceParcourue()/10000);
-    bMsg[7] = (byte)((data.getDistanceParcourue()%10000)/100);
-    bMsg[8] = (byte)(data.getDistanceParcourue()%100);
+    bMsg[7] = (byte)(((int)data.getDistanceParcourue()%10000)/100);
+    bMsg[8] = (byte)((int)data.getDistanceParcourue()%100);
     // consommation moyenne
-    bMsg[9] = (byte)data->getConsoMoyenne();
+    bMsg[9] = (byte)data.getConsoMoyenne();
     // vitesse moyenne
-    bMsg[10] = (byte)data->getVitesseMoyenne();
+    bMsg[10] = (byte)data.getVitesseMoyenne();
     // regime moyen 
     bMsg[11] = (byte)data.getRegimeMoyen();
-    return string(bMsg);
+    // Convertion en string et return
+    char string[11];
+    memcpy(string, bMsg, sizeof bMsg);
+    string[sizeof bMsg] = '\0';
+    return string;
 }
 
-string Message::degrade(DonneesTR data, EtatCom etatCom) {
-    // DEGRADE : TM CO 00 00 00 00 00 00 00 00 00 00
+string Message::degrade(DonneesTR data) {
+    // DEGRADE : TM OB 00 00 00 00 00 00 00 00 00 00
     byte bMsg[] = {0,0,0,0,0,0,0,0,0,0,0,0};
-    bMsg[0] = (byte)Etat.DEGRADE;
+    bMsg[0] = (byte)(byte)(Etat)DEGRADE;
     // la connexion Bluetooth à l'OBD2
-    bMsg[1] = (byte)etatCom;
-    return string(bMsg);
+    bMsg[1] = (byte)(((data.getBluetoothActif() ? 1 : 0) << 1) & (data.getOBD2Actif() ? 1 : 0));
+    // Conversion en string et return
+    char string[11];
+    memcpy(string, bMsg, sizeof bMsg);
+    string[sizeof bMsg] = '\0';
+    return string;
 }
 
-string Message::dmdGPS(DonneesTR data, EtatCom etatCom) {
-    // DMD_GPS : TM HH MM SS LA LA LA LA LO LO LO LO
-    string msg = GPS(data);
-    byte bMsg[12];
-    strcpy((byte*) bMsg, msg);
-    bMsg[0] = (byte)Etat.DMD_GPS;
-    return string(bMsg);
+string Message::dmdGPS(DonneesTR data) {
+    // DMD_GPS : TM HH MM SS L1 L2 L3 L4 G1 G2 G3 G4
+    string msg = gps(data);
+    // Convertion du string en byte et return
+    char* bMsg = new char[msg.size() + 1];
+    strcpy(bMsg, msg.c_str());
+    bMsg[0] = (byte)(Etat)DMD_GPS;
+    // Convertion en string et return
+    char string[11];
+    memcpy(string, bMsg, sizeof bMsg);
+    string[sizeof bMsg] = '\0';
+    return string;
 }
 
-string Message::gps(DonneesTR data, EtatCom etatCom) {
-     //  GPS : TM HH MM SS LA LA LA LA LO LO LO LO
+string Message::gps(DonneesTR data) {
+     //  GPS : TM HH MM SS L1 L2 L3 L4 G1 G2 G3 G4
     bool negLat = false;
     bool negLg = false;
     float absLat = 0.0;
     float absLg = 0.0;
     byte bMsg[] = {0,0,0,0,0,0,0,0,0,0,0,0};
-    bMsg[0] = (byte)Etat.GPS;
+    bMsg[0] = (byte)(Etat)GPS;
     bMsg[1] = (byte)data.getDateHTR().tm_hour;
     bMsg[2] = (byte)data.getDateHTR().tm_min;
     bMsg[3] = (byte)data.getDateHTR().tm_sec;
@@ -119,14 +133,23 @@ string Message::gps(DonneesTR data, EtatCom etatCom) {
     else
         bMsg[11] &= 0xFE;
 
-    return string(bMsg);
+    // Convertion en string et return
+    char string[11];
+    memcpy(string, bMsg, sizeof bMsg);
+    string[sizeof bMsg] = '\0';
+    return string;
     }
 
-string Message::dormir(DonneesTR data, EtatCom etatCom) {
+string Message::dormir(DonneesTR data) {
     // SLEEP : TM CO 00 00 00 00 00 00 00 00 00 00
-    string msg = degrade(data, etatCom);
-    byte bMsg[12];
-    strcpy((byte*) bMsg, msg);
-    bMsg[0] = (byte)Etat.DORMIR;
-    return string(bMsg);
+    string msg = degrade(data);
+    // Convertion du string en byte et return
+    char* bMsg = new char[msg.size() + 1];
+    strcpy(bMsg, msg.c_str());;
+    bMsg[0] = (byte)(Etat)DORMIR;
+    // Convertion en string et return
+    char string[11];
+    memcpy(string, bMsg, sizeof bMsg);
+    string[sizeof bMsg] = '\0';
+    return string;
 }

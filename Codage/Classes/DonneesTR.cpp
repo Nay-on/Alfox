@@ -118,7 +118,7 @@ float DonneesTR::getDistanceParcourue()
 
 void DonneesTR::majDistance() // d = vt
 {
-  
+  distanceParcourue += 
 }
 
 /*

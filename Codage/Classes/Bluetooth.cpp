@@ -26,9 +26,9 @@ int Bluetooth::connexion(String adresse)
   sommeErreurs += motDePasse();
   sommeErreurs += initialisation();
   sommeErreurs += appairage(adresse);
-  delay(10000);
+  delay(15000);
   sommeErreurs += bind(adresse);
-  sommeErreurs += modeDeconnecte(); 
+  sommeErreurs += modeDeconnecte();
   sommeErreurs += lien(adresse);
 
 
@@ -44,9 +44,10 @@ bool Bluetooth::isActif()
   while (serialBT->available() <= 0);
   while (serialBT->available() > 0) 
   {
-    contenu  += serialBT->read();
+    //contenu  += serialBT->read();
+    contenu.concat(serialBT->read());
   }
-  if (contenu.substring(0,2) == "ATZ")
+  if (contenu.substring(0,3) == "ELM")
   {
     return true;
   }
@@ -136,7 +137,7 @@ int Bluetooth::initialisation()
   {
     contenu += serialBT->read();
   }
-  if (contenu == "79751310")
+  if (contenu == "79751310" )
   {
     return 8;
   } 
@@ -157,7 +158,7 @@ int Bluetooth::appairage(String adresse)
   {
     contenu += serialBT->read();
   }
-  if (contenu == "79751310")
+  if (contenu == "79751310" || contenu == "")
   {
     return 16;
   } 
@@ -212,7 +213,6 @@ int Bluetooth::lien(String adresse)
 {
   String contenu = "";
   serialBT->println("AT+LINK=" + adresse);
-  delay(100);
   while (serialBT->available() <= 0);
   while (serialBT->available() > 0) 
   {

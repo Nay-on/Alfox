@@ -3,7 +3,7 @@
 OBD2::OBD2(Bluetooth* bt){
   
   this->moduleBT = bt;
-  liaisonBT = bt->getLiaisonBT();
+  liaisonBT = moduleBT->getLiaisonBT();
   
 }
 
@@ -18,7 +18,7 @@ String OBD2::lireReponse(){
   String reponse;
   while (Serial.available() > 0) {
     if(liaisonBT->read() != '\n'){
-      reponse == liaisonBT->read();
+      reponse == (String)liaisonBT->read();
     }
   }
   return reponse;

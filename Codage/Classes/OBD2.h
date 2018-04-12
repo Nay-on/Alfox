@@ -6,7 +6,6 @@
 #define __OBD2__
 
 #include <Arduino.h>
-#include <SoftwareSerial.h>
 #include "Bluetooth.h"
 
 

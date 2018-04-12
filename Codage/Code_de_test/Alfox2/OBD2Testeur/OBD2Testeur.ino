@@ -5,7 +5,7 @@ Bluetooth* bluetooth;
 OBD2* obd2;
 
 void setup() {
-  bluetooth = new Bluetooth(2,3);
+  bluetooth = new Bluetooth();
   obd2 = new OBD2(bluetooth);
   bluetooth->connexion("18,e7,1ec629");
 }

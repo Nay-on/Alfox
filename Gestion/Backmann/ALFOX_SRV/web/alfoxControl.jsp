@@ -21,8 +21,8 @@
 
     // traitement des actions possibles
     String action = request.getParameter("action");
-    User user = (User) session.getAttribute("user");
-    // --------------------------------------------------------------------
+    User user = (User) session.getAttribute("");
+    // -------------------------------------user-------------------------------
     if (user == null) {    // user non connecté
         if (action.equals("login_req")) {
             request.getRequestDispatcher("WEB-INF/login_req.jsp").forward(request, response);

@@ -6,6 +6,7 @@ void majDataTR();
 
 String testRegime = "010C0FA0";       //Seulement pour les tests sans bluetooth (1000rpm)         /*   /!\   */   à supprimer pour l'intégration
 String testVitesse = "410D64FF";      //vitesse = 100                                             /*   /!\   */   à supprimer pour l'intégration
+String testConso = "015E0151"
 
 void setup() {
   Serial.begin(115200);
@@ -72,6 +73,8 @@ int lireRegimeMoteur(){
 
 int lireConsomation(){
   //     litres/heure
+  char trameA[testConso.length()+1];
+  char trameB[testRegime.length()+1];
 }
 
 

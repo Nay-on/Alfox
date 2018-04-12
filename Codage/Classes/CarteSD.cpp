@@ -3,7 +3,7 @@
 CarteSD::CarteSD() {
   Serial.println(F("Initialisation!"));
   pinMode(11, OUTPUT); // laisser la broche SS en sortie - obligatoire avec librairie SD
-  if (!SD.begin(8)) { // si la communication commence bien sur le port d'ecriture
+  if (!SD.begin(11)) { // si la communication commence bien sur le port d'ecriture
     Serial.println(F("Initialisation impossible !"));
   }
 

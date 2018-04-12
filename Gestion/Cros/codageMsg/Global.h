@@ -43,6 +43,8 @@ typedef enum { ENTRY, DO, EXIT } Mode;
     Global SigfoxArduino *sigfox; */
 
 Global Etat etat;
+Global Event event;
+Global Mode mode;
 Global long dureeCumulee;
 Global long tempoMessage;
 Global long dureeLoop;

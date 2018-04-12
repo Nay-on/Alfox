@@ -13,6 +13,7 @@
 
 #include "Message.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 using namespace std;
 
@@ -26,35 +27,65 @@ Message::~Message() {
 }
 
 Etat Message::decoderEtat(string msg) {
-    
+    // Message descendant : TM MB OB DD PP
+    // Convertion du string en byte
+    Etat etat = (Etat)atoi(msg.substr(1, 1).c_str());
+    return etat;
+}
+
+string Message::nouveau(Etat etat, DonneesTR data) {
+    switch (etat) {
+        case NORMAL :
+            normal(data);
+            break;
+        case DEGRADE:
+            degrade(data);
+            break;
+        case DMD_GPS:
+            dmdGPS(data);
+            break;
+        case GPS :
+            gps(data);
+            break;
+        case DORMIR:
+            dormir(data);
+            break;
+        default:
+            break;    
+    }    
 }
 
 string Message::normal(DonneesTR data) {
     // NORMAL : TM CD CD K1 K2 K3 VM VY RM RY CM CY
+    
     byte bMsg[] = {0,0,0,0,0,0,0,0,0,0,0,0};
-    // type de trame
-    bMsg[0] = (byte)(Etat)NORMAL;
-    // l'état BT et OBD2, 00 = BT_OFF&OBD2_OFF, 01 = BT_ON&OBD2_OFF, 11 = BT_ON&OBD2_ON
-    bMsg[1] = (byte)(((data.getBluetoothActif() ? 1 : 0) << 1) & (data.getOBD2Actif() ? 1 : 0));
-    // le mode du véhicule                  // non utilisé !!!
-    bMsg[2] = (byte)(Etat)NORMAL;
+    // TM = OB1 OB2 ND1 ND2 TM1 TM2 TM3 TM4
+    // OB = état BT et OBD2, 00 = BT_OFF&OBD2_OFF, 01 = BT_ON&OBD2_OFF, 11 = BT_ON&OBD2_ON
+    bMsg[0] = (byte)(((data.getBluetoothActif() ? 1 : 0) << 1) & (data.getOBD2Actif() ? 1 : 0));
+    // NB = nb défauts
+    bMsg[0] = bMsg[0] << 2 & (byte)data.getNbDefauts();
+    // TM = Type de message
+    bMsg[0] = bMsg[0] << 4 & (byte)decoderEtat();
     // les pannes valeurs entre 0 et 15
-    int nb = 0;
-    for (int i = 0; i < 4; i++)
-        nb += (data.getDefaut(i) > 0 ? 1 : 0);
-    bMsg[3] = (byte)nb;            // pas de panne
-    bMsg[4] = (byte)((data.getDefaut(0) << 4) | data.getDefaut(1));
-    bMsg[5] = (byte)((data.getDefaut(2) << 4) | data.getDefaut(3)); 
+    bMsg[1] = (byte)((data.getDefaut(0) << 4) | data.getDefaut(1));
+    bMsg[2] = (byte)((data.getDefaut(2) << 4) | data.getDefaut(3)); 
     // Distance parcourue entre deux messages en m
-    bMsg[6] = (byte)(data.getDistanceParcourue()/10000);
-    bMsg[7] = (byte)(((int)data.getDistanceParcourue()%10000)/100);
-    bMsg[8] = (byte)((int)data.getDistanceParcourue()%100);
-    // consommation moyenne
-    bMsg[9] = (byte)data.getConsoMoyenne();
+    bMsg[3] = (byte)(data.getDistanceParcourue()/10000);
+    bMsg[4] = (byte)(((int)data.getDistanceParcourue()%10000)/100);
+    bMsg[5] = (byte)((int)data.getDistanceParcourue()%100);
+    // vitesse max
+    bMsg[6] = (byte)data.getVitesseMax();
     // vitesse moyenne
-    bMsg[10] = (byte)data.getVitesseMoyenne();
+    bMsg[7] = (byte)data.getVitesseMoyenne();
+    // regime max 
+    bMsg[8] = (byte)data.getRegimeMax();
     // regime moyen 
-    bMsg[11] = (byte)data.getRegimeMoyen();
+    bMsg[9] = (byte)data.getRegimeMoyen();
+    // consommation max
+    bMsg[10] = (byte)data.getConsoMax();
+    // consommation moyenne
+    bMsg[11] = (byte)data.getConsoMoyenne();
+    
     // Convertion en string et return
     char string[11];
     memcpy(string, bMsg, sizeof bMsg);
@@ -64,9 +95,10 @@ string Message::normal(DonneesTR data) {
 
 string Message::degrade(DonneesTR data) {
     // DEGRADE : TM OB 00 00 00 00 00 00 00 00 00 00
+    
     byte bMsg[] = {0,0,0,0,0,0,0,0,0,0,0,0};
-    bMsg[0] = (byte)(byte)(Etat)DEGRADE;
-    // la connexion Bluetooth à l'OBD2
+    bMsg[0] = (byte)decoderEtat();
+    // OB = état BT et OBD2, 00 = BT_OFF&OBD2_OFF, 01 = BT_ON&OBD2_OFF, 11 = BT_ON&OBD2_ON
     bMsg[1] = (byte)(((data.getBluetoothActif() ? 1 : 0) << 1) & (data.getOBD2Actif() ? 1 : 0));
     // Conversion en string et return
     char string[11];
@@ -81,7 +113,7 @@ string Message::dmdGPS(DonneesTR data) {
     // Convertion du string en byte et return
     char* bMsg = new char[msg.size() + 1];
     strcpy(bMsg, msg.c_str());
-    bMsg[0] = (byte)(Etat)DMD_GPS;
+    bMsg[0] = (byte)decoderEtat();
     // Convertion en string et return
     char string[11];
     memcpy(string, bMsg, sizeof bMsg);
@@ -96,7 +128,7 @@ string Message::gps(DonneesTR data) {
     float absLat = 0.0;
     float absLg = 0.0;
     byte bMsg[] = {0,0,0,0,0,0,0,0,0,0,0,0};
-    bMsg[0] = (byte)(Etat)GPS;
+    bMsg[0] = (byte)decoderEtat();
     bMsg[1] = (byte)data.getDateHTR().tm_hour;
     bMsg[2] = (byte)data.getDateHTR().tm_min;
     bMsg[3] = (byte)data.getDateHTR().tm_sec;
@@ -145,8 +177,8 @@ string Message::dormir(DonneesTR data) {
     string msg = degrade(data);
     // Convertion du string en byte et return
     char* bMsg = new char[msg.size() + 1];
-    strcpy(bMsg, msg.c_str());;
-    bMsg[0] = (byte)(Etat)DORMIR;
+    strcpy(bMsg, msg.c_str());
+    bMsg[0] = (byte)decoderEtat();
     // Convertion en string et return
     char string[11];
     memcpy(string, bMsg, sizeof bMsg);

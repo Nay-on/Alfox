@@ -12,20 +12,9 @@
  */
 
 #include "Global.h"
-#include "time.h"
 #include "OBD2.h"
 #include "DonneesTR.h"
 #include <string>
- 
-using namespace std;
- 
- 
-int main()
-{
-    string maChaine; //Création d'un objet 'maChaine' de type string
- 
-    return 0;
-}
 
 #ifndef MESSAGE_H
 #define MESSAGE_H

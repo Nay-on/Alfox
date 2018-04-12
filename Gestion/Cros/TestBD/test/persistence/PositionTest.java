@@ -60,7 +60,7 @@ public class PositionTest {
         System.out.println("save");
         Connection con = ConnexionMySQL.newConnexion();
         Position result = Position.getById(con, 1);
-        result.setLatitude(43.546266);
+        result.setLatitude(43.546266); 
         result.save(con);
         result = Position.getById(con, 1);
         assertEquals(43.546266, result.getLatitude(), 0.000001);

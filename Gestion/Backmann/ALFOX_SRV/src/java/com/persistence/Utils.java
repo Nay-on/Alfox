@@ -6,7 +6,7 @@
  * et en particulier l'encryptage du mot de passe par la méthode 'MD5'
  */
 
-package com.persistence;
+package persistence;
 
 import java.security.MessageDigest;
 import java.sql.Timestamp;
@@ -99,6 +99,18 @@ public final class Utils {
         }
     }
     
+    
+    
+    public static Timestamp stringToTimestamp(String dateIn) throws Exception {
+        //Méthode de conversion d'un String vers un Timestamp.
+        //Nécessaire à l'utilisation des méthodes setDateVidange() et setDateControleTechnique()
+        //qui ne peuvent pas reçevoir de Timestamp en paramètre.
+        String dt = dateIn;
+	Date date = staticDateStandard.parse(dt);
+	java.sql.Timestamp timestamp = new java.sql.Timestamp(date.getTime());
+        return timestamp;
+    }
+    
     /**
      * A function that gives the string conversion for a SQL request
      * patch some value because of bugs in the SQL INPUT instruction
@@ -124,10 +136,14 @@ public final class Utils {
             if (pVal instanceof Integer) { 
                 lResult = String.valueOf((Integer)pVal);
             }
+            if (pVal instanceof Long) { 
+                lResult = String.valueOf(pVal);
+            }
             if (pVal instanceof Double) {
-                // rounded to two decimal places
-                double roundedValue = Math.rint(((Double)pVal) * 100.0) / 100.0;
-                lResult = String.valueOf(roundedValue);
+                lResult = String.valueOf(pVal);
+            }
+            if (pVal instanceof Float) {
+                lResult = String.valueOf(pVal);
             }
             if (pVal instanceof Boolean) { 
                 lResult = String.valueOf((Boolean)pVal);

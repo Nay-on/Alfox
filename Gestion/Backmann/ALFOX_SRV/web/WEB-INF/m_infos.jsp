@@ -3,7 +3,8 @@
     Description  : page d'infos de la maintenance
     Created on : Mars 2018
 --%>
-
+<%@page import="com.persistence.ConnexionMySQL"%>
+<%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -26,13 +27,15 @@
                     <p class="mess">Nombre de message restants : 3/4</p>
                     <form class="form">
                         <div class="ui-field-contain">
-                            <label class="label" for="select-native-1">Véhicule :</label>
-                            <select name="select-native-1" id="select-native-1">
-                                <option value="1">DF-412-EZ</option>
-                                <option value="2">EF-324-ES</option>
-                                <option value="3">JF-311-DE</option>
-                                <option value="4">FE-899-EX</option>
-                            </select>
+                            <script type='javascript'>
+                                <label class="label" for="select-native-1">Véhicule :</label>
+                                <select name="select-native-1" id="select-native-1">
+                                    <option value="1"></option>
+                                    <option value="2">EF-324-ES</option>
+                                    <option value="3">JF-311-DE</option>
+                                    <option value="4">FE-899-EX</option>
+                                </select>
+                            </script>
                         </div>
                         <input value="2018-03-14" id="date" type="date">
                     </form>

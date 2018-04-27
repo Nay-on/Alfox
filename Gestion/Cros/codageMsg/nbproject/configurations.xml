@@ -7,7 +7,6 @@
       <itemPath>DonneesTR.h</itemPath>
       <itemPath>Global.h</itemPath>
       <itemPath>Message.h</itemPath>
-      <itemPath>MessageSrv.h</itemPath>
       <itemPath>OBD2.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -53,8 +52,6 @@
       </item>
       <item path="MessageSrv.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="MessageSrv.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="OBD2.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
@@ -89,8 +86,6 @@
       <item path="Message.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="MessageSrv.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="MessageSrv.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="OBD2.h" ex="false" tool="3" flavor2="0">
       </item>

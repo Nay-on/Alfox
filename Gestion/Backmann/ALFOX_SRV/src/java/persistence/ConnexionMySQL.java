@@ -4,7 +4,7 @@
  * Cette table gère l'accès à la BD alfox
  */
 
-package com.persistence;
+package persistence;
 
 import java.sql.*;
 
@@ -23,7 +23,7 @@ public class ConnexionMySQL {
     /** driverDst : MySQl driver  */
     private static String driver    = "com.mysql.jdbc.Driver";
     /** url : ConnexionMySQL URL */
-    private static String url       = "jdbc:mysql://localhost:3306/alfox?zeroDateTimeBehavior=convertToNull";
+    private static String url       = "jdbc:mysql://10.10.80.01:3306/alfox?zeroDateTimeBehavior=convertToNull";
 // ---------------------------------------------------------------------
     /** userName : eventskytracker */
     private static String userName  = "responsable";

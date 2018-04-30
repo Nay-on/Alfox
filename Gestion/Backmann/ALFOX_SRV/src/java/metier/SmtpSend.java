@@ -5,7 +5,7 @@
     Author      : TS SNIR Colomiers
 */
 
-package com.metier;
+package metier;
 
 import java.util.Properties;
 import java.util.Date;

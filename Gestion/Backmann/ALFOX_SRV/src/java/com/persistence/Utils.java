@@ -6,7 +6,7 @@
  * et en particulier l'encryptage du mot de passe par la méthode 'MD5'
  */
 
-package persistence;
+package com.persistence;
 
 import java.security.MessageDigest;
 import java.sql.Timestamp;

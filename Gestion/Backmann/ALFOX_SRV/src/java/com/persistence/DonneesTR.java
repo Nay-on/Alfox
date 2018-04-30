@@ -5,7 +5,7 @@
  * Cette table stocke les données TR
  */
 
-package persistence;
+package com.persistence;
 
 import java.sql.*;
 

@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Accueil</title> 
+        <title>Acceuil</title> 
         <%@ include file="/includes/header.jspf" %>
     </head>
     <body>

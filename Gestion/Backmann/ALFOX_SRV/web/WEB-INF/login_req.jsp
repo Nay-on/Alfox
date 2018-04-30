@@ -3,19 +3,18 @@
     Description : recoit par Ajax le mot de passe pour identifier et se connecter
 --%>
 
-<%@page import="metier.*"%>
+<%@page import="com.metier.*"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="persistence.*"%>
+<%@page import="com.persistence.*"%>
 
 <%
     Connection con = (Connection) session.getAttribute("con");
-    if (con == null) {
+    if (con == null)
         con = ConnexionMySQL.newConnexion();
-        session.setAttribute("con", con);
-    }
+    session.setAttribute("con", con);
     // on récupère le mdp saisi
     String password = request.getParameter("mdp");
-    String pwd2 = persistence.Utils.encryptPassword(password);
+    String pwd2 = com.persistence.Utils.encryptPassword(password);
     User user = User.getByMotDePasse(con, pwd2);
     // la personne existe t'elle ?
     if (user != null) {                 
@@ -27,4 +26,3 @@
         request.getRequestDispatcher("../index.jsp?message=pbLogin").forward(request, response);
     }
 %>
- 

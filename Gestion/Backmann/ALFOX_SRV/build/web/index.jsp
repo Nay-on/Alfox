@@ -40,7 +40,7 @@
                         %>
                     </div>
                     <br/><br/><br/>
-                    <form id="formLogin" method="post" action="alfoxControl.jsp">
+                    <form id="formLogin" class="form" method="post" action="alfoxControl.jsp">
                         <div data-role="fieldcontain">
                             <label for="mdp">Mot de passe:</label>
                             <input type="password" name="mdp" id="mdp"/>

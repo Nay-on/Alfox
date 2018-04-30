@@ -3,9 +3,9 @@
     Description : recoit par Ajax le mot de passe pour identifier et se connecter
 --%>
 
-<%@page import="com.metier.*"%>
+<%@page import="metier.*"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="com.persistence.*"%>
+<%@page import="persistence.*"%>
 
 <%
     Connection con = (Connection) session.getAttribute("con");
@@ -15,7 +15,7 @@
     }
     // on récupère le mdp saisi
     String password = request.getParameter("mdp");
-    String pwd2 = com.persistence.Utils.encryptPassword(password);
+    String pwd2 = persistence.Utils.encryptPassword(password);
     User user = User.getByMotDePasse(con, pwd2);
     // la personne existe t'elle ?
     if (user != null) {                 

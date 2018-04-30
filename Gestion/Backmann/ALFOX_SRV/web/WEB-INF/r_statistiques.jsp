@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="com.persistence.ConnexionMySQL"%>
+<%@page import="persistence.ConnexionMySQL"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="" %>>
 <!DOCTYPE html>

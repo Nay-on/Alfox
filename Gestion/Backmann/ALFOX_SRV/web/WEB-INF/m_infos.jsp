@@ -3,7 +3,7 @@
     Description  : page d'infos de la maintenance
     Created on : Mars 2018
 --%>
-<%@page import="com.persistence.ConnexionMySQL"%>
+<%@page import="persistence.ConnexionMySQL"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

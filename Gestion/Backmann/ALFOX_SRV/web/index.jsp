@@ -25,7 +25,7 @@
             <div role="main" class="ui-content">
                 <center>
                     <br/><br/><br/>
-                    <h2>Suivi et maintenance d'une flotte de véhicules.</h2>
+                    <h2>Suivi et maintenance d'une flotte de véhicules V0.2</h2>
                     <br/><br/>
                     <div class="logo"><img src="images/logo.png"/></div>  
                     <br/>
@@ -40,7 +40,7 @@
                         %>
                     </div>
                     <br/><br/><br/>
-                    <form id="formLogin" method="post" action="alfoxControl.jsp">
+                    <form id="formLogin" class="form" method="post" action="alfoxControl.jsp">
                         <div data-role="fieldcontain">
                             <label for="mdp">Mot de passe:</label>
                             <input type="password" name="mdp" id="mdp"/>

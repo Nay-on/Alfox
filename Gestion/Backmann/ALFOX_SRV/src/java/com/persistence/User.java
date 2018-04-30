@@ -5,7 +5,7 @@
  * Cette table stocke les infos sur les utilisateurs connus du logiciel
  */
 
-package persistence;
+package com.persistence;
 
 import java.sql.*;
 

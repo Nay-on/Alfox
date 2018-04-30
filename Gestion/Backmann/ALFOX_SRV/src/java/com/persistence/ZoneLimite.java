@@ -5,7 +5,7 @@
  * Cette table stocke les zones limites connus du logiciel
  */
 
-package persistence;
+package com.persistence;
 
 import java.sql.*;
 

@@ -5,7 +5,7 @@
  * Cette table stocke les points définissant chaque zone
  */
 
-package persistence;
+package com.persistence;
 
 import java.sql.*;
 import java.util.ArrayList;

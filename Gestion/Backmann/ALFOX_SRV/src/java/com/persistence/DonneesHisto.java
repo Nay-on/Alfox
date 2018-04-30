@@ -5,7 +5,7 @@
  * Cette table stocke les données enregistrées par la SD
  */
 
-package persistence;
+package com.persistence;
 
 import java.sql.*;
 

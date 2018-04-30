@@ -4,7 +4,7 @@
  * Description : Classe interface de la table vehicule
  * Cette table stocke les infos sur les véhicules connus du logiciel
  */
-package persistence;
+package com.persistence;
 
 import java.sql.*;
 import java.util.ArrayList;

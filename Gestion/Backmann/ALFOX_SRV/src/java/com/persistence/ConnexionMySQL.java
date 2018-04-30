@@ -26,9 +26,9 @@ public class ConnexionMySQL {
     private static String url       = "jdbc:mysql://localhost:3306/alfox?zeroDateTimeBehavior=convertToNull";
 // ---------------------------------------------------------------------
     /** userName : eventskytracker */
-    private static String userName  = "responsable";
+    private static String userName  = "alfox";
     /** password : estNovae31 */
-    private static String password  = "responsable";
+    private static String password  = "alfox31";
     /** destination connection on the database */
     private static Connection conn  = null;
     

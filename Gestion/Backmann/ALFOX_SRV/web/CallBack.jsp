@@ -7,8 +7,8 @@
 
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="metier.*"%>
-<%@page import="persistence.*"%>
+<%@page import="com.metier.*"%>
+<%@page import="com.persistence.*"%>
 
 
 <%

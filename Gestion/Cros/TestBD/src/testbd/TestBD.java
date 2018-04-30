@@ -27,7 +27,7 @@ public class TestBD {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         try {
             Connection con = ConnexionMySQL.newConnexion();
             
@@ -232,5 +232,5 @@ public class TestBD {
         System.out.print(donneesTR.getLatitude() + ";");
         System.out.print(donneesTR.getLongitude() + ";");
         System.out.println(donneesTR.getDistanceParcourue() + ";");
+    }*/
     }
-}

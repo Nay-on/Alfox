@@ -42,7 +42,11 @@ create table donneesTR (
     Latitude decimal(9,6) not null, 
     Longitude decimal(9,6) not null, 
     DistanceParcourue bigint(20) not null, 
-    VehiculeID int(10) not null, 
+    SeqNumber int(10) not null,
+    Snr decimal(5,2) not null,
+    Rssi decimal(5,2) not null,
+    AvgSnr decimal(5,2) not null,
+    Device varchar(255) not null,
     primary key (ID)
 ) ;
 

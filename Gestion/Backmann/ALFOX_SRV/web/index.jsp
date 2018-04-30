@@ -25,7 +25,7 @@
             <div role="main" class="ui-content">
                 <center>
                     <br/><br/><br/>
-                    <h2>Suivi et maintenance d'une flotte de véhicules.</h2>
+                    <h2>Suivi et maintenance d'une flotte de véhicules V0.2</h2>
                     <br/><br/>
                     <div class="logo"><img src="images/logo.png"/></div>  
                     <br/>

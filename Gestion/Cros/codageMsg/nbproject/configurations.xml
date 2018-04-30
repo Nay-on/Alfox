@@ -17,7 +17,6 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>Message.cpp</itemPath>
-      <itemPath>MessageSrv.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -49,8 +48,6 @@
       <item path="Message.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Message.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="MessageSrv.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="OBD2.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -84,8 +81,6 @@
       <item path="Message.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Message.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="MessageSrv.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="OBD2.h" ex="false" tool="3" flavor2="0">
       </item>

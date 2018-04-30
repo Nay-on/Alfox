@@ -28,7 +28,7 @@ Message::~Message() {
 
 Etat Message::decoderEtat(string msg) {
     // Message descendant : TM MB OB DD PP
-    // Convertion du string en byte
+    // Convertion de l'élément 1 du string en byte
     Etat etat = (Etat)atoi(msg.substr(1, 1).c_str());
     return etat;
 }

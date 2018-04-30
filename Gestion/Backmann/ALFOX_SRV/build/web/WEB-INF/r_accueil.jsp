@@ -76,7 +76,7 @@
                     <br/><br/><br/>
                 </center>
             </div>
-            <%@include file="/includes/footer.jspf" %>
+            <%@include file="/includes/footer.jspf"%>
         </div>
     </body>
 </html>

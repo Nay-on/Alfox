@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Acceuil</title> 
+        <title>Accueil</title> 
         <%@ include file="/includes/header.jspf" %>
     </head>
     <body>

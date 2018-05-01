@@ -26,11 +26,11 @@ public class DonneesTR {
     private double    latitude;         // non null
     private double    longitude;        // non null
     private long      distanceParcourue;// non null
-    private int       seqNumber;        // non null
-    private float     snr;              // non null
-    private float     rssi;             // non null
-    private float     avgSnr;           // non null
-    private static String    device;           // non null
+    private int       seqNumber;        // non null, unique
+    private double    snr;              // non null
+    private double    rssi;             // non null
+    private double    avgSnr;           // non null
+    private static String device;           // non null, unique
     
     /**
      * Créer un nouvel objet persistant 
@@ -66,8 +66,8 @@ public class DonneesTR {
             int vitesse, int regime, int consommation, int vitesseMax, int regimeMax,
                 int consoMax, int nbDefauts, int defaut1, int defaut2, int defaut3, 
                     int defaut4, double latitude, double longitude,
-                        long distanceParcourue, int seqNumber, float snr, float rssi,
-                            float avgSnr, String device)  throws Exception {
+                        long distanceParcourue, int seqNumber, double snr, double rssi,
+                            double avgSnr, String device)  throws Exception {
         DonneesTR donneesTR = new DonneesTR(mode, datation, vitesse, regime, 
             consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1,
                 defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue,
@@ -109,7 +109,7 @@ public class DonneesTR {
      * @throws SQLException impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
-        String queryString = "delete from donneesTR, vehicule where Datation='" + datation + "' and device = vehicule.IdSigfox and vehicule.IdSigfox = '" + device + "'";
+        String queryString = "delete from donneesTR where Datation='" + datation + "' and device = '" + device + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString);
         return true;
@@ -159,7 +159,7 @@ public class DonneesTR {
      * @throws java.lang.Exception
      */
     public static DonneesTR getByDatation(Connection con, String datation) throws Exception {
-        String queryString = "select * from donneesTR, vehicule where Datation='" + datation + "' and device = vehicule.IdSigfox and vehicule.IdSigfox = '" + device + "'";
+        String queryString = "select * from donneesTR where Datation='" + datation + "' and device = '" + device + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
@@ -190,9 +190,9 @@ public class DonneesTR {
             double    lLongitude = result.getDouble("Longitude");
             long      lDistanceParcourue = result.getLong("DistanceParcourue");
             int       lSeqNumber = result.getInt("SeqNumber");
-            float     lSnr = result.getFloat("Snr");
-            float     lRssi = result.getFloat("Rssi");
-            float     lAvgSnr = result.getFloat("AvgSnr");
+            double     lSnr = result.getDouble("Snr");
+            double     lRssi = result.getDouble("Rssi");
+            double     lAvgSnr = result.getDouble("AvgSnr");
             String    lDevice = result.getString("Device");
             return    new DonneesTR(lMode, lDatation, lVitesse, lRegime, lConsommation, 
                 lVitesseMax, lRegimeMax, lConsoMax, lNbDefauts, lDefaut1, lDefaut2, 
@@ -207,7 +207,7 @@ public class DonneesTR {
             int vitesse, int regime, int consommation, int vitesseMax, int regimeMax,
                 int consoMax, int nbDefauts, int defaut1, int defaut2, int defaut3, 
                     int defaut4, double latitude, double longitude, long distanceParcourue,
-                        int seqNumber, float snr, float rssi, float avgSnr, String device) {
+                        int seqNumber, double snr, double rssi, double avgSnr, String device) {
         this.mode = mode;
         this.datation = datation;
         this.vitesse = vitesse;
@@ -288,24 +288,24 @@ public class DonneesTR {
         return distanceParcourue;
     }
     
-    public long getSeqNumber() {
-        return distanceParcourue;
+    public int getSeqNumber() {
+        return seqNumber;
     }
     
-    public long getSnr() {
-        return distanceParcourue;
+    public double getSnr() {
+        return snr;
     }
     
-    public long getRssi() {
-        return distanceParcourue;
+    public double getRssi() {
+        return rssi;
     }
     
-    public long getAvgSnr() {
-        return distanceParcourue;
+    public double getAvgSnr() {
+        return avgSnr;
     }
     
-    public long getDevice() {
-        return distanceParcourue;
+    public String getDevice() {
+        return device;
     }
 
     /**

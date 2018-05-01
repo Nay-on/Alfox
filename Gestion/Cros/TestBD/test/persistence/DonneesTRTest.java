@@ -57,8 +57,12 @@ public class DonneesTRTest {
         double latitude = 40.123456;
         double longitude = 50.123456;
         long distanceParcourue = 50;
-        int vehiculeID = 1;
-        DonneesTR result = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue, vehiculeID);
+        int seqNumber = 52;
+        double snr = 123.45;
+        double rssi = 123.56;
+        double avgSnr = 123.67;
+        String device = "1";
+        DonneesTR result = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue, seqNumber, snr, rssi, avgSnr, device);
         assertEquals(Utils.stringToTimestamp("2017/03/22 12:00:00.0"), result.getDatation());
         result.delete(con);
     }
@@ -86,8 +90,12 @@ public class DonneesTRTest {
         double latitude = 40.123456;
         double longitude = 50.123456;
         long distanceParcourue = 50;
-        int vehiculeID = 1;
-        DonneesTR instance = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue, vehiculeID);
+        int seqNumber = 52;
+        double snr = 123.45;
+        double rssi = 123.56;
+        double avgSnr = 123.67;
+        String device = "1";
+        DonneesTR instance = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue, seqNumber, snr, rssi, avgSnr, device);
         instance.save(con);
         assertEquals(50, instance.getVitesse());
         instance.delete(con);
@@ -280,5 +288,59 @@ public class DonneesTRTest {
         DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals(20, instance.getDistanceParcourue());
     }
-    
+
+    /**
+     * Test of getSeqNumber method, of class DonneesTR.
+     */
+    @Test
+    public void testGetSeqNumber() throws Exception {
+        System.out.println("getSeqNumber");
+        Connection con = ConnexionMySQL.newConnexion();
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
+        assertEquals(1, instance.getSeqNumber());
+    }
+
+    /**
+     * Test of getSnr method, of class DonneesTR.
+     */
+    @Test
+    public void testGetSnr() throws Exception {
+        System.out.println("getSnr");
+        Connection con = ConnexionMySQL.newConnexion();
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
+        assertEquals(123.45, instance.getSnr(), 0.01);
+    }
+
+    /**
+     * Test of getRssi method, of class DonneesTR.
+     */
+    @Test
+    public void testGetRssi() throws Exception {
+        System.out.println("getRssi");
+        Connection con = ConnexionMySQL.newConnexion();
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
+        assertEquals(123.56, instance.getRssi(), 0.01);
+    }
+
+    /**
+     * Test of getAvgSnr method, of class DonneesTR.
+     */
+    @Test
+    public void testGetAvgSnr() throws Exception {
+        System.out.println("getAvgSnr");
+        Connection con = ConnexionMySQL.newConnexion();
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
+        assertEquals(123.78, instance.getAvgSnr(), 0.01);
+    }
+
+    /**
+     * Test of getDevice method, of class DonneesTR.
+     */
+    @Test
+    public void testGetDevice() throws Exception {
+        System.out.println("getDevice");
+        Connection con = ConnexionMySQL.newConnexion();
+        DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
+        assertEquals("1", instance.getDevice());
+    }
 }

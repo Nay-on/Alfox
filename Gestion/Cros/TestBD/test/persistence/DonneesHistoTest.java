@@ -281,102 +281,14 @@ public class DonneesHistoTest {
     }
 
     /**
-     * Test of delete method, of class DonneesHisto.
+     * Test of getVehiculeID method, of class DonneesHisto.
      */
     @Test
-    public void testDelete() throws Exception {
-        System.out.println("delete");
-        Connection con = null;
-        DonneesHisto instance = null;
-        boolean expResult = false;
-        boolean result = instance.delete(con);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getSeqNumber method, of class DonneesHisto.
-     */
-    @Test
-    public void testGetSeqNumber() {
-        System.out.println("getSeqNumber");
-        DonneesHisto instance = null;
-        long expResult = 0L;
-        long result = instance.getSeqNumber();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getSnr method, of class DonneesHisto.
-     */
-    @Test
-    public void testGetSnr() {
-        System.out.println("getSnr");
-        DonneesHisto instance = null;
-        long expResult = 0L;
-        long result = instance.getSnr();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getRssi method, of class DonneesHisto.
-     */
-    @Test
-    public void testGetRssi() {
-        System.out.println("getRssi");
-        DonneesHisto instance = null;
-        long expResult = 0L;
-        long result = instance.getRssi();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getAvgSnr method, of class DonneesHisto.
-     */
-    @Test
-    public void testGetAvgSnr() {
-        System.out.println("getAvgSnr");
-        DonneesHisto instance = null;
-        long expResult = 0L;
-        long result = instance.getAvgSnr();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getDevice method, of class DonneesHisto.
-     */
-    @Test
-    public void testGetDevice() {
-        System.out.println("getDevice");
-        DonneesHisto instance = null;
-        long expResult = 0L;
-        long result = instance.getDevice();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of toString method, of class DonneesHisto.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        DonneesHisto instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetVehiculeID() throws Exception {
+        System.out.println("getVehiculeID");
+        Connection con = ConnexionMySQL.newConnexion();
+        DonneesHisto instance = DonneesHisto.getByDatation(con, "2018/01/03 17:42:37.0");
+        assertEquals(1, instance.getVehiculeID());
     }
     
 }

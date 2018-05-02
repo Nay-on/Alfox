@@ -23,18 +23,18 @@ using namespace std;
 typedef unsigned char   byte;
 
 class Message {
-public:
-    Message();
-    Message(const Message& orig);
-    virtual ~Message();
-    Etat decoderEtat(string msg);
-    string nouveau(Etat etat, DonneesTR data);
-private:
-    string normal(DonneesTR data);
-    string degrade(DonneesTR data);
-    string dmdGPS(DonneesTR data);
-    string gps(DonneesTR data);
-    string dormir(DonneesTR data);    
+    public:
+        Message();
+        Message(const Message& orig);
+        virtual ~Message();
+        static Etat decoderEtat(string msg);
+        static string nouveau(Etat etat, DonneesTR data);
+    private:
+        static string normal(DonneesTR data);
+        static string degrade(DonneesTR data);
+        static string dmdGPS(DonneesTR data);
+        static string gps(DonneesTR data);
+        static string dormir(DonneesTR data);    
 };
 
 #endif /* MESSAGE_H */

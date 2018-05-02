@@ -1,5 +1,6 @@
 #ifndef DONNEESTR_H
 #define DONNEESTR_H
+#include <time.h>
 
 class DonneesTR {
 

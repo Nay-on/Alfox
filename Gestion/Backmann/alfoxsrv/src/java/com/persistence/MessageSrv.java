@@ -57,17 +57,43 @@ public class MessageSrv {
             String date = dateFormat.format(actuelle);
             Timestamp datation = Utils.stringToTimestamp(date);
             // Vitesse
-            
+            int vitesse = (int)b[7];
+            // Régime
+            int regime = (int)b[9];
             // Consommation
             int consommation = (int)b[11];
+            // Vitesse max
+            int vitesseMax = (int)b[5];
+            // Régime max
+            int regimeMax = (int)b[8];
+            // Consommation max
+            int consoMax = (int)b[10];
+            // Nombre défauts
+            int nbDefauts = (int)(b[0] & 0x03);
+            // Défauts
+            int defaut1 = (int)(b[1] & 0xC0);   
+            int defaut2 = (int)(b[1] & 0x30);   
+            int defaut3 = (int)(b[1] & 0xC);   
+            int defaut4 = (int)(b[1] & 0x03);
+            // Latitude
+            double latitude = 0.0;
+            // Longitude
+            double longitude = 0.0;
+            // Distance parcourue
+            long distanceParcourue = 0;
+            // SeqNumber
+            int seqNumber = 0;
+            // Snr
+            double snr = 0.0;
+            // Rssi
+            double rssi = 0.0;
+            // AvgSnr
+            double avgSnr = 0.0;
+            // Device 
+            String device = "0";
+            // Création de l'entrée dans la BD
+            DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue, seqNumber, snr, rssi, avgSnr, device);
             
-            
-            DonneesTR.create(con, mode, datation, consommation, 
-            int vitesse, int regime, int consommation, int vitesseMax, int regimeMax,
-                int consoMax, int nbDefauts, int defaut1, int defaut2, int defaut3, 
-                    int defaut4, double latitude, double longitude,
-                        long distanceParcourue, int seqNumber, float snr, float rssi,
-                            float avgSnr, String device);
             texte = "N> CD:" + (int)b[1] + " MV:" + (int)b[2] + " ND:" + (int)b[3]
                     + " CD:" + (int)b[4] + " CD:" + (int)b[5] 
                     + " KM:" + (int)(b[6]*10000 + b[7]*100 + b[8])

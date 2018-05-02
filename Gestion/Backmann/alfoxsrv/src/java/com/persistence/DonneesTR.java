@@ -30,7 +30,7 @@ public class DonneesTR {
     private double    snr;              // non null
     private double    rssi;             // non null
     private double    avgSnr;           // non null
-    private static String device;           // non null, unique
+    private String    device;           // non null, unique
     
     /**
      * Créer un nouvel objet persistant 
@@ -109,7 +109,7 @@ public class DonneesTR {
      * @throws SQLException impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
-        String queryString = "delete from donneesTR where Datation='" + datation + "' and device = '" + device + "'";
+        String queryString = "delete from donneesTR where Datation='" + datation + "' and Device = '" + device + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString);
         return true;

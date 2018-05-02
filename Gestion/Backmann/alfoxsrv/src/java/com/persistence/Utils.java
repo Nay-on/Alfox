@@ -11,8 +11,9 @@ package com.persistence;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
 import java.text.*;
-import java.util.Date;
-import java.util.Random;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * Static tools for BDClass for BD
@@ -35,7 +36,6 @@ public final class Utils {
      * encode un mot de passe, pas de décryptage possible
      * pour le comparer il faut encoder la proposition
     */
-    
     public static String encryptPassword( String password ) {
        String encrypted = "";
        try {
@@ -51,7 +51,11 @@ public final class Utils {
        }
        catch( Exception e ) { }
        return encrypted.toUpperCase(); 
-   }
+    }
+    
+    public static Timestamp getDateDuJour() throws Exception {
+     return stringToTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
+    }
     
     /**
      * A function that parse the result of a Date column request and

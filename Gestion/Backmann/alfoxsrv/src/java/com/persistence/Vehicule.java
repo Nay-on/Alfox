@@ -172,7 +172,45 @@ public class Vehicule {
             throw new Exception("Aucune donnée TR");
         }
     }
-
+    
+    public int getAgeMoyenFlotte(Connection con) throws Exception {
+        long ms = 0;
+        Timestamp dateDuJour = Utils.getDateDuJour();
+        String queryString = "select * from vehicule";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<Timestamp> lstDateMiseEnService = new ArrayList<>();
+        while (lResult.next()) {
+            lstDateMiseEnService.add(lResult.getTimestamp("DateMiseEnService"));
+        }
+        for (int i = 0 ; i <= lstDateMiseEnService.size() ; i++) {
+            ms = ms + (dateDuJour.getTime() - lstDateMiseEnService.get(i).getTime()); 
+        }
+        int jour = (int)(ms / 86400000);
+        return jour/lstDateMiseEnService.size();
+    }
+    
+    public int nbVehiculesDehors(Connection con) throws Exception {
+        int nbVehiculesDehors = 0;
+        String queryString = "select * from vehicule";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<Vehicule> lstVehicule = new ArrayList<>();
+        while (lResult.next()) {
+            lstVehicule.add(creerParRequete(lResult));
+        }
+        for (int i = 0 ; i <= lstVehicule.size() ; i++) {
+            if (lstVehicule.get(i).isDehors(con) == true) {
+                nbVehiculesDehors += 1;
+            }
+        }
+        return nbVehiculesDehors;
+    }
+    
     // Obligation de passer par la méthode getLastDatation() avant
     // Met à jour horsZone
     public boolean isDehors(Connection con) throws Exception {

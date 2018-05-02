@@ -1,3 +1,7 @@
+<%@page import="com.persistence.Vehicule"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.persistence.ConnexionMySQL"%>
+<%@page import="java.sql.Connection"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,10 +9,16 @@
         <%@ include file="/includes/header.jspf" %>
     </head>
     <body>
+        <% 
+            Connection con = (Connection) session.getAttribute("con");
+            if (con == null)
+                con = ConnexionMySQL.newConnexion();
+            session.setAttribute("con", con);
+        %>
         <div data-role="page" id="page1">
             <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" 
                  data-theme="a" data-position="fixed" data-fullscreen="true">
-                <h1><img id="logoHeader" src="../images/alcisLogo.png"/>Statistiques</h1>
+                <h1><img id="logoHeader" src="images/alcisLogo.png"/>Statistiques</h1>
             </div>
             
             <div role="main" class="ui-content">
@@ -120,10 +130,14 @@
                         <div class="ui-field-contain">
                             <label class="label" for="select-native-1">Véhicule :</label>
                             <select name="select-native-1" id="select-native-1">
-                                <option value="1">DF-412-EZ</option>
-                                <option value="2">EF-324-ES</option>
-                                <option value="3">JF-311-DE</option>
-                                <option value="4">FE-899-EX</option>
+                            <% 
+                                // recup l'immatriculation des véhicules
+                                ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
+                                int nb = Vehicule.size(con);
+                                for (int i = 0; i< nb; i++) {
+                                    out.print("<option value='1'>" + immatriculations.get(i) + "</option>");
+                                }
+                            %>
                             </select>
                         </div>
                     </form>

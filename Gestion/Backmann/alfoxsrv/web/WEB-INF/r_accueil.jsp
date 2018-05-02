@@ -43,7 +43,11 @@
                         <div class="card">
                             <div class="cardTitre">Age moyen</div>
                             <div class="container">
-                                <div id="cam" class="cardValeur"></div>
+                                <div id="cam" class="cardValeur">
+                                    <%
+                                        
+                                    %>
+                                </div>
                                 <div class="cardUnite">ans</div>
                             </div>
                         </div>

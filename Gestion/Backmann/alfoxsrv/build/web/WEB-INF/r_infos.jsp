@@ -31,9 +31,9 @@
                 <% 
                     
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
-                    //Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-                    //DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox());
-                    //out.print("Mode : " + dtr.getMode());
+                    Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
+                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox());
+                    out.print("Mode : " + dtr.getMode());
                 %>
                 </p>
                 <a href="#panelVehicules" 
@@ -58,7 +58,7 @@
                              
                             </select>
                         </div>
-                        <input value="2018-03-14" id="date" type="date">
+                        <input value="2018-05-03" id="date" type="date">
                     </form>
                     <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
                     <thead>
@@ -75,8 +75,7 @@
                     <tbody>
                         <% 
                             // recup la liste des données tr pour ce véhicule et cette date
-                            
-                            for (int i = 1; i<= 100; i++) {
+                            for (int i = 1; i<= 144; i++) {
                                 out.print("<tr><td>" + i + "</td>");
                                 out.print("<td></td>");
                                 out.print("<td>" + 3200 + "</td>");

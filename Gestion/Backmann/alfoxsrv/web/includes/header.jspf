@@ -1,0 +1,18 @@
+<%-- head.jspf --%>
+<%@ page pageEncoding="UTF-8" %>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<link rel="stylesheet" href="js/jquery.mobile/jquery.mobile-1.4.5.min.css">
+
+<%-- theme personnalisé à cette adresse : http://themeroller.jquerymobile.com --%>
+<link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" href="css/alfoxTheme.css">
+<link rel="stylesheet" href="css/alfox.css">
+
+<script type="text/javascript" src="js/jquery/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.mobile/jquery.mobile-1.4.5.min.js"></script>

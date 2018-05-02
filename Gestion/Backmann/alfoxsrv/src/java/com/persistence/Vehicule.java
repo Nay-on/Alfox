@@ -119,6 +119,19 @@ public class Vehicule {
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }
+    
+    public static ArrayList<String> getImmatriculations(Connection con) throws Exception {
+        String queryString = "select Immatriculation from vehicule order by Immatriculation";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<String> lstImmatriculation = new ArrayList<>();
+        while (lResult.next()) {
+            lstImmatriculation.add(lResult.getString("Immatriculation"));
+        }
+        return lstImmatriculation;
+    }
 
     /**
      * Retourne un vehicule trouve par son immatriculation, saved is true

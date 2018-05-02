@@ -49,13 +49,20 @@ public class MessageSrv {
         }
         else if ((int)b[0] == TM.NORMAL.ordinal()) {
             // NORMAL : TM CD CD K1 K2 K3 VM VY RM RY CM CY
+            // Mode boitîer
             String  mode = "NORMAL";
+            // Datation
             Date actuelle = new Date();
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String date = dateFormat.format(actuelle);
             Timestamp datation = Utils.stringToTimestamp(date);
+            // Vitesse
             
-            DonneesTR.create(con, mode, datation,
+            // Consommation
+            int consommation = (int)b[11];
+            
+            
+            DonneesTR.create(con, mode, datation, consommation, 
             int vitesse, int regime, int consommation, int vitesseMax, int regimeMax,
                 int consoMax, int nbDefauts, int defaut1, int defaut2, int defaut3, 
                     int defaut4, double latitude, double longitude,

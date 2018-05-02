@@ -154,12 +154,12 @@ public class DonneesTR {
     /**
      * Retourne une donneesTR trouve par sa date, saved is true
      * @param con
-     * @param  datation date de donneesTR a trouver
-     * @return donneesTR trouv" par date
+     * @param  immatriculation date de donneesTR a trouver
+     * @return donneesTR trouv" par immatriculation
      * @throws java.lang.Exception
      */
-    public static DonneesTR getByDatation(Connection con, String datation) throws Exception {
-        String queryString = "select * from donneesTR where Datation='" + datation + "' and Device = '" + device + "'";
+    public static DonneesTR getLastByImmatriculation(Connection con, String idSigfox) throws Exception {
+        String queryString = "select * from donneesTR where Device = '" + idSigfox + "' order by Datation desc limit 1";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);

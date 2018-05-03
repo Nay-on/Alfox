@@ -190,6 +190,12 @@ public class Vehicule {
         return totalKm / lstVehicule.size();
     }
     
+    public static double getKmMoyenMensuelFlotte(Connection con) throws Exception {
+        double kmMoyenFlotte = Vehicule.getKmMoyenFlotte(con);
+        int ageMoyenFlotte = (int)(Vehicule.getAgeMoyenFlotte(con) / 30);
+        return kmMoyenFlotte / ageMoyenFlotte;
+    }
+    
     public static int getAgeMoyenFlotte(Connection con) throws Exception {
         long ms = 0;
         Timestamp dateDuJour = Utils.getDateDuJour();

@@ -1,18 +1,26 @@
 
 #include "Bluetooth.h"
 
-Bluetooth::Bluetooth(/*Uart* serialBluetooth*/) 
+Bluetooth::Bluetooth(int pinAlim, int pinEn) 
 {
+  this->pinAlim=pinAlim;
+  this->pinEn=pinEn;
   serialBT= new Uart (&sercom3, 7, 6, SERCOM_RX_PAD_3, UART_TX_PAD_2);
   pinPeripheral(6, PIO_SERCOM_ALT); //Tx
   pinPeripheral(7, PIO_SERCOM_ALT); //Rx
-  //serialBT = serialBluetooth; 
-  delay(5000);
+  pinMode(pinAlim, OUTPUT); //Base Transistor
+  pinMode(pinEn, OUTPUT); //EN
+  delay(100);
+  digitalWrite(pinEn, HIGH);
+  delay(100);
+  digitalWrite(pinAlim, HIGH);
+  delay(1000);
   serialBT->begin(38400);
 }
 
 int Bluetooth::connexion(String adresse) 
 {
+  this->adresseOBD2=adresse;
   if(this->isActif() == true)
   {
     return 1;
@@ -21,25 +29,38 @@ int Bluetooth::connexion(String adresse)
   {
   int sommeErreurs = 0;
 
+  reinitialiser();
   sommeErreurs += modeMaster();
   sommeErreurs += modeConnexion();
   sommeErreurs += motDePasse();
   sommeErreurs += initialisation();
-  sommeErreurs += appairage(adresse);
-  delay(15000);
-  sommeErreurs += bind(adresse);
+  sommeErreurs += appairage(adresseOBD2);
+  sommeErreurs += bind(adresseOBD2);
   sommeErreurs += modeDeconnecte();
-  sommeErreurs += lien(adresse);
+  sommeErreurs += lien(adresseOBD2);
 
-
-  return sommeErreurs;
+  delay(100);
+  digitalWrite(pinEn, LOW);
+  delay(100);
+  
+    if(this->isActif() == true)
+    {
+      return 1;
+    }
+    else
+    {
+      digitalWrite(pinAlim, 0);
+      delay(1000);
+      digitalWrite(pinAlim, 1);
+    }
+    return sommeErreurs;
   }
 }
 
 bool Bluetooth::isActif() 
 {
   String contenu = "";
-  serialBT->println("ATZ");
+  serialBT->println("ATI");
   delay(100);
   while (serialBT->available() <= 0);
   while (serialBT->available() > 0) 
@@ -63,6 +84,11 @@ bool Bluetooth::isActif()
 Uart* Bluetooth::getLiaisonBT() 
 {
   return serialBT;
+}
+
+int Bluetooth::reinitialiser() 
+{
+  serialBT->println("AT+ORGL");
 }
 
 int Bluetooth::modeMaster() 

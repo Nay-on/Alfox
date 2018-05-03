@@ -9,6 +9,8 @@
 
 #include <Arduino.h>
 #include "wiring_private.h"
+#define PINALIM 0
+#define PINEN 1
 
 class Bluetooth {
 
@@ -22,9 +24,14 @@ class Bluetooth {
     int bind(String adresse);
     int modeDeconnecte();
     int lien(String adresse);
+    int reinitialiser();
+    int pinAlim;
+    int pinEn;
+    String adresseOBD2;
+    
   
   public:
-    Bluetooth(/*Uart* serialBluetooth*/);
+    Bluetooth(int pinAlim, int pinEn);
     ~Bluetooth();
     int connexion(String adresse);
     bool isActif();

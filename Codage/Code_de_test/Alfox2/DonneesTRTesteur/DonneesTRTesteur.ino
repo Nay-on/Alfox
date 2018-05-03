@@ -6,10 +6,11 @@ void majDataTR();
 
 String testRegime = "010C0FA0";       //Seulement pour les tests sans bluetooth (1000rpm)         /*   /!\   */   à supprimer pour l'intégration
 String testVitesse = "410D64FF";      //vitesse = 100                                             /*   /!\   */   à supprimer pour l'intégration
-String testConso = "015E0151"
+String testConso = "015E0151";
 
 void setup() {
   Serial.begin(115200);
+  delay(9000);
   donneesTR = new DonneesTR();
   majDataTR();
   //-----------------------------------------------------------------------------------------------------------//--------------------------//
@@ -40,7 +41,11 @@ void setup() {
   Serial.println(donneesTR->getRegimeMax());                                                                   //                          //
   Serial.println("==================================");                                                        //                          //
   //-----------------------------------------------------------------------------------------------------------//--------------------------//
-  
+  Serial.print("Consomation en L/100KM : ");                                                                   //                          //
+  Serial.println(donneesTR->getConsommation());                                                                //                          //
+  Serial.println("==================================");                                                        //                          //   
+  //-----------------------------------------------------------------------------------------------------------//--------------------------//
+
   }
 
 void loop() {
@@ -51,7 +56,7 @@ void loop() {
 void majDataTR(){
   donneesTR->setVitesse(lireVitesse());
   donneesTR->setRegime(lireRegimeMoteur());
-
+  donneesTR->setConsommation(lireConsomation());
 }
 
 int lireVitesse(){
@@ -71,10 +76,17 @@ int lireRegimeMoteur(){
   return ((a*256)+b)/4;
 }
 
-int lireConsomation(){
-  //     litres/heure
-  char trameA[testConso.length()+1];
-  char trameB[testRegime.length()+1];
+float lireConsomation(){
+  //retourne des litres/heure
+  float conso = 0;
+  char trameC[testConso.length()+1];
+  char trameD[testConso.length()+1];
+  testConso.substring(4,6).toCharArray(trameC,testConso.substring(4,6).length()+1);  //remplacer testRegime par: obd2->demande(C_CONSO);     /*      /!\      */
+  testConso.substring(6,8).toCharArray(trameD,testConso.substring(6,8).length()+1);  //remplacer testRegime par: obd2->demande(C_CONSO);     /*      /!\      */
+  float a = strtoul(trameC,NULL,HEX);
+  float b = strtoul(trameD,NULL,HEX);
+  conso = (256*(a)+(b))/20;
+  return conso;
 }
 
 

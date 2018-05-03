@@ -4,7 +4,11 @@ OBD2::OBD2(Bluetooth* bt){
   
   this->moduleBT = bt;
   liaisonBT = moduleBT->getLiaisonBT();
-  
+  liaisonBT->write("ATS0");
+  liaisonBT->write("ATH0");
+  liaisonBT->write("ATR0");
+
+
 }
 
 int OBD2::demande(int numCode){

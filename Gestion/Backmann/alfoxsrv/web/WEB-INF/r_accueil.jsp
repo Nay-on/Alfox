@@ -44,8 +44,7 @@
                             <div class="cardTitre">Age moyen</div>
                             <div class="container">
                                 <div id="cam" class="cardValeur">
-                                    <% 
-                                    %>
+                                    <%=Vehicule.getAgeMoyenFlotte(con)%>
                                 </div>
                                 <div class="cardUnite">jours</div>
                             </div>

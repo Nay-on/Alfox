@@ -7,6 +7,7 @@ package com.persistence;
 
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -71,12 +72,12 @@ public class VehiculeTest {
     public void testSave() throws Exception {
         System.out.println("save");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
         instance.setCompteurReel(2540.652);
         instance.save(con);
-        instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
         assertEquals(2540.652F, instance.getCompteurReel(), 0.1);
-        instance.setCompteurReel(21526.15);
+        instance.setCompteurReel(40787.0);
         instance.save(con);
     }
 
@@ -87,8 +88,8 @@ public class VehiculeTest {
     public void testGetByImmatriculation() throws Exception {
         System.out.println("getByImmatriculation");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals("AA-000-BB", result.getImmatriculation());
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        assertEquals("ED-592-CY", result.getImmatriculation());
     }
 
     /**
@@ -98,8 +99,8 @@ public class VehiculeTest {
     public void testGetLastDatation() throws Exception {
         System.out.println("getLastDatation");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals(Utils.stringToTimestamp("2018/03/20 05:50:00.0"), result.getLastDatation(con));
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        assertEquals(Utils.stringToTimestamp("2018/03/20 00:50:00.0"), result.getLastDatation(con));
     }
     
     /**
@@ -109,7 +110,7 @@ public class VehiculeTest {
     public void testIsDehors() throws Exception {
         System.out.println("isDehors");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
         assertEquals(false, result.getHorsZone());
     }
 
@@ -120,8 +121,8 @@ public class VehiculeTest {
     public void testGetMarque() throws Exception {
         System.out.println("getMarque");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals("Audi", result.getMarque());
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        assertEquals("Mercedes", result.getMarque());
     }
 
     /**
@@ -131,8 +132,8 @@ public class VehiculeTest {
     public void testGetModele() throws Exception {
         System.out.println("getModele");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals("RS6", result.getModele());
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        assertEquals("Vito", result.getModele());
     }
 
     /**
@@ -142,8 +143,8 @@ public class VehiculeTest {
     public void testGetImmatriculation() throws Exception {
         System.out.println("getImmatriculation");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals("AA-000-BB", result.getImmatriculation());
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        assertEquals("ED-592-CY", result.getImmatriculation());
     }
 
     /**
@@ -153,7 +154,7 @@ public class VehiculeTest {
     public void testGetDateMiseEnService() throws Exception {
         System.out.println("getDateMiseEnService");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
         assertEquals(Utils.stringToTimestamp("2018/01/01 00:00:00.0"), result.getDateMiseEnService());
     }
 
@@ -164,8 +165,8 @@ public class VehiculeTest {
     public void testGetMotorisation() throws Exception {
         System.out.println("getMotorisation");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals("Essence", result.getMotorisation());
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        assertEquals("Diesel", result.getMotorisation());
     }
 
     /**
@@ -175,7 +176,7 @@ public class VehiculeTest {
     public void testGetIdSigfox() throws Exception {
         System.out.println("getIdSigfox");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
         assertEquals("1", result.getIdSigfox());
     }
 
@@ -186,7 +187,7 @@ public class VehiculeTest {
     public void testGetDateVidange() throws Exception {
         System.out.println("getDateVidange");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
         assertEquals(Utils.stringToTimestamp("2018/01/01 00:00:00.0"), result.getDateVidange());
     }
 
@@ -197,8 +198,8 @@ public class VehiculeTest {
     public void testGetKmVidange() throws Exception {
         System.out.println("getKmVidange");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals(30000, result.getKmVidange());
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        assertEquals(40787, result.getKmVidange());
     }
 
     /**
@@ -208,7 +209,7 @@ public class VehiculeTest {
     public void testGetHorsZone() throws Exception {
         System.out.println("getHorsZone");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
         assertEquals(false, result.getHorsZone());
     }
 
@@ -219,7 +220,7 @@ public class VehiculeTest {
     public void testGetTauxUtilisation() throws Exception {
         System.out.println("getTauxUtilisation");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
         assertEquals(100, result.getTauxUtilisation());
     }
 
@@ -230,7 +231,7 @@ public class VehiculeTest {
     public void testGetAProbleme() throws Exception {
         System.out.println("getAProbleme");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
         assertEquals(false, result.getAProbleme());
     }
 
@@ -241,8 +242,8 @@ public class VehiculeTest {
     public void testGetCompteurReel() throws Exception {
         System.out.println("getCompteurReel");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
-        assertEquals(result.getCompteurReel(), 21526.15F, 0.1);
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        assertEquals(result.getCompteurReel(), 40787.0F, 0.1);
     }
 
     /**
@@ -252,7 +253,7 @@ public class VehiculeTest {
     public void testGetDateControleTechnique() throws Exception {
         System.out.println("getDateControleTechnique");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
         assertEquals(Utils.stringToTimestamp("2020/01/01 00:00:00.0"), result.getDateControleTechnique());
     }
 
@@ -263,11 +264,11 @@ public class VehiculeTest {
     public void testSetKmVidange() throws Exception {
         System.out.println("setKmVidange");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
         instance.setKmVidange(400);
         instance.save(con);
         assertEquals(instance.getKmVidange(), 400);
-        instance.setKmVidange(30000);
+        instance.setKmVidange(40787);
         instance.save(con);
     }
 
@@ -278,7 +279,7 @@ public class VehiculeTest {
     public void testSetDateVidange() throws Exception {
         System.out.println("setDateVidange");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
         instance.setDateVidange("2020/05/05 00:00:00");
         instance.save(con);
         assertEquals(Utils.stringToTimestamp("2020/05/05 00:00:00.0"), instance.getDateVidange());
@@ -293,7 +294,7 @@ public class VehiculeTest {
     public void testSetHorsZone() throws Exception {
         System.out.println("setHorsZone");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
         instance.setHorsZone(true);
         instance.save(con);
         assertEquals(instance.getHorsZone(), true);
@@ -308,7 +309,7 @@ public class VehiculeTest {
     public void testSetTauxUtilisation() throws Exception {
         System.out.println("setTauxUtilisation");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
         instance.setTauxUtilisation(13);
         instance.save(con);
         assertEquals(instance.getTauxUtilisation(), 13);
@@ -323,7 +324,7 @@ public class VehiculeTest {
     public void testSetAProbleme() throws Exception {
         System.out.println("setAProbleme");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
         instance.setAProbleme(true);
         instance.save(con);
         assertEquals(instance.getAProbleme(), true);
@@ -338,11 +339,11 @@ public class VehiculeTest {
     public void testSetCompteurReel() throws Exception {
         System.out.println("setCompteurReel");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
         instance.setCompteurReel(45270.31F);
         instance.save(con);
         assertEquals(instance.getCompteurReel(), 45270.31F, 0.01);
-        instance.setCompteurReel(21526.15F);
+        instance.setCompteurReel(40787.0F);
         instance.save(con);
     }
 
@@ -353,11 +354,79 @@ public class VehiculeTest {
     public void testSetDateControleTechnique() throws Exception {
         System.out.println("setDateControleTechnique");
         Connection con = ConnexionMySQL.newConnexion();
-        Vehicule instance = Vehicule.getByImmatriculation(con, "AA-000-BB");
+        Vehicule instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
         instance.setDateControleTechnique("2020/05/05 00:00:00");
         instance.save(con);
         assertEquals(Utils.stringToTimestamp("2020/05/05 00:00:00.0"), instance.getDateControleTechnique());
         instance.setDateControleTechnique("2020/01/01 00:00:00");
         instance.save(con);
     }    
+
+    /**
+     * Test of getImmatriculations method, of class Vehicule.
+     */
+    @Test
+    public void testGetImmatriculations() throws Exception {
+        System.out.println("getImmatriculations");
+        Connection con = ConnexionMySQL.newConnexion();
+        ArrayList<String> result = Vehicule.getImmatriculations(con);
+        assertEquals(8, result.size());
+        assertEquals("ED-592-CY", result.get(0));
+        assertEquals("EM-862-ML", result.get(7));
+    }
+
+    /**
+     * Test of getKmMoyenFlotte method, of class Vehicule.
+     */
+    @Test
+    public void testGetKmMoyenFlotte() throws Exception {
+        System.out.println("getKmMoyenFlotte");
+        Connection con = ConnexionMySQL.newConnexion();
+        double result = Vehicule.getKmMoyenFlotte(con);
+        assertEquals(66377.625, result, 0.001);
+    }
+
+    /**
+     * Test of getKmMoyenMensuelFlotte method, of class Vehicule.
+     */
+    @Test
+    public void testGetKmMoyenMensuelFlotte() throws Exception {
+        System.out.println("getKmMoyenMensuelFlotte");
+        Connection con = ConnexionMySQL.newConnexion();
+        double result = Vehicule.getKmMoyenMensuelFlotte(con);
+        assertEquals(16594.40625, result, 0.00001);
+    }
+
+    /**
+     * Test of getAgeMoyenFlotte method, of class Vehicule.
+     */
+    @Test
+    public void testGetAgeMoyenFlotte() throws Exception {
+        System.out.println("getAgeMoyenFlotte");
+        Connection con = ConnexionMySQL.newConnexion();
+        int result = Vehicule.getAgeMoyenFlotte(con);
+        assertEquals(122, result);
+    }
+
+    /**
+     * Test of nbVehiculesDehors method, of class Vehicule.
+     */
+    @Test
+    public void testNbVehiculesDehors() throws Exception {
+        System.out.println("nbVehiculesDehors");
+        Connection con = ConnexionMySQL.newConnexion();
+        int result = Vehicule.nbVehiculesDehors(con);
+        assertEquals(8, result);
+    }
+
+    /**
+     * Test of size method, of class Vehicule.
+     */
+    @Test
+    public void testSize() throws Exception {
+        System.out.println("size");
+        Connection con = ConnexionMySQL.newConnexion();
+        int result = Vehicule.size(con);
+        assertEquals(8, result);
+    }
 }

@@ -96,7 +96,7 @@ create table loueur (
 create table contrat (
     ID int(10) not null auto_increment, 
     LoueurID int(10) not null, 
-    VehiculeID int(10) not null, 
+    Device varchar(255) not null, 
     ZoneLimiteID int(10), 
     Numero varchar(255) not null unique, 
     DateCreation datetime not null, 
@@ -130,8 +130,8 @@ alter table position
     add constraint FKPosition217606 foreign key (ZoneLimiteID) references zoneLimite (ID);
 
 alter table contrat 
-    add index FKContrat433214 (VehiculeID), 
-    add constraint FKContrat433214 foreign key (VehiculeID) references vehicule (ID);
+    add index FKContrat433214 (Device), 
+    add constraint FKContrat433214 foreign key (Device) references vehicule (IdSigfox);
 
 alter table contrat 
     add index FKContrat81038 (LoueurID), 
@@ -195,9 +195,15 @@ insert into position (ordre, ZoneLimiteID, latitude, longitude) values
 
 
 
-insert into contrat (Numero, DateCreation, Modele, Infos, LoueurID, VehiculeID, ZoneLimiteID) values
-    ('C1', '2017/01/01', 'annuel', '', 1, 1, 1),
-    ('C2', '2018/02/02', 'annuel', '', 2, 2, 1);
+insert into contrat (Numero, DateCreation, Modele, Infos, LoueurID, Device, ZoneLimiteID) values
+    ('C1', '2017/01/01', 'annuel', '', 1, '1', 1),
+    ('C2', '2018/02/02', 'annuel', '', 2, '2', 1),
+    ('C3', '2018/02/02', 'annuel', '', 2, '3', 1),
+    ('C4', '2018/02/02', 'annuel', '', 2, '4', 1),
+    ('C5', '2018/02/02', 'annuel', '', 2, '5', 1),
+    ('C6', '2018/02/02', 'annuel', '', 2, '6', 1),
+    ('C7', '2018/02/02', 'annuel', '', 2, '7', 1),
+    ('C8', '2018/02/02', 'annuel', '', 2, '8', 1);
 
 insert into donneesHisto (Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, 
                 NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, LatitudeGPS, LongitudeGPS, DistanceParcourue, VehiculeID) values

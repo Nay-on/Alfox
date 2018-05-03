@@ -157,7 +157,7 @@ public class Vehicule {
 
     public Timestamp getLastDatation(Connection con) throws Exception {
         // Récupération de la date de la dernière donnée TR enregistrée pour le véhicule associé
-        String queryString = "select Datation from donneesTR, vehicule where VehiculeID = vehicule.ID and vehicule.Immatriculation = \""
+        String queryString = "select Datation from donneesTR, vehicule where IdSigfox = donneesTR.Device and vehicule.Immatriculation = \""
                 + this.immatriculation + "\" order by Datation desc limit 1;";
         Statement lStat = con.createStatement( // peut générer une exception si problème avec la requête SQL
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -175,19 +175,19 @@ public class Vehicule {
     
     public static double getKmMoyenFlotte(Connection con) throws Exception {
         double totalKm = 0;
-        String queryString = "select * from vehicule";
+        String queryString = "select CompteurReel from vehicule";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
         ResultSet lResult = lStat.executeQuery(queryString);
-        ArrayList<Vehicule> lstVehicule = new ArrayList<>();
+        ArrayList<Double> lstCompteurReel = new ArrayList<>();
         while (lResult.next()) {
-            lstVehicule.add(creerParRequete(lResult));
+            lstCompteurReel.add(lResult.getDouble("CompteurReel"));
         }
-        for (int i = 0 ; i <= lstVehicule.size() ; i++) {
-            totalKm += lstVehicule.get(i).getCompteurReel();
+        for (int i = 0 ; i < lstCompteurReel.size() ; i++) {
+            totalKm += lstCompteurReel.get(i);
         }
-        return totalKm / lstVehicule.size();
+        return totalKm / lstCompteurReel.size();
     }
     
     public static double getKmMoyenMensuelFlotte(Connection con) throws Exception {
@@ -208,7 +208,7 @@ public class Vehicule {
         while (lResult.next()) {
             lstDateMiseEnService.add(lResult.getTimestamp("DateMiseEnService"));
         }
-        for (int i = 0 ; i <= lstDateMiseEnService.size() ; i++) {
+        for (int i = 0 ; i < lstDateMiseEnService.size() ; i++) {
             ms = ms + (dateDuJour.getTime() - lstDateMiseEnService.get(i).getTime()); 
         }
         int jour = (int)(ms / 86400000);
@@ -226,7 +226,7 @@ public class Vehicule {
         while (lResult.next()) {
             lstVehicule.add(creerParRequete(lResult));
         }
-        for (int i = 0 ; i <= lstVehicule.size() ; i++) {
+        for (int i = 0 ; i < lstVehicule.size() ; i++) {
             if (lstVehicule.get(i).isDehors(con) == true) {
                 nbVehiculesDehors += 1;
             }
@@ -238,7 +238,7 @@ public class Vehicule {
     // Met à jour horsZone
     public boolean isDehors(Connection con) throws Exception {
         //Récupération du tableau de position de la zone associée par le contrat au véhicule
-        String queryString = "select * from position, zoneLimite where  ZoneLimiteID = zoneLimite.ID and Nom = (select Nom from contrat, vehicule, zoneLimite where VehiculeID = vehicule.ID and ZoneLimiteID = zoneLimite.ID and Immatriculation='" + immatriculation + "') order by Ordre";
+        String queryString = "select * from position, zoneLimite where  ZoneLimiteID = zoneLimite.ID and Nom = (select Nom from contrat, vehicule, zoneLimite where Device = vehicule.IdSigfox and ZoneLimiteID = zoneLimite.ID and Immatriculation='" + immatriculation + "') order by Ordre";
         Statement lStat = con.createStatement( //peut générer une exception si problème avec la requête SQL
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
@@ -258,7 +258,7 @@ public class Vehicule {
 
         // Les tableaux sont maintenant des tableaux de doubles !
         // Récupération de la dernière latitude et longitude enregistrée
-        String queryString2 = "select Latitude, Longitude from donneesTR, vehicule where VehiculeID = vehicule.ID and vehicule.Immatriculation = \""
+        String queryString2 = "select Latitude, Longitude from donneesTR, vehicule where Device = vehicule.IdSigfox and vehicule.Immatriculation = \""
                 + this.immatriculation + "\" order by Datation desc limit 1;";
         Statement lStat2 = con.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,

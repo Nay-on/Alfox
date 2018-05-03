@@ -10,7 +10,7 @@ class DonneesTR {
     DonneesTR();
     virtual ~DonneesTR();
     void razStat();
-    int getConsommation();
+    float getConsommation();
     int getConsoMoyenne();
     int getConsoMax();
     int getVitesseMoyenne();
@@ -18,7 +18,7 @@ class DonneesTR {
     int getRegimeMoyen();
     int getRegimeMax();
     void setVitesse(int vitesse);
-    void setConsommation(int consommation);
+    void setConsommation(float consommation);
     void setRegime(int regime);
     float getDistanceParcourue();
     void majDistance();
@@ -35,9 +35,9 @@ class DonneesTR {
     float distanceParcourue;
     int nbDefauts;
     int defauts[4];
-    int consommation;
-    int consoMoyenne;
-    int consoMax;
+    float consommation;
+    float consoMoyenne;
+    float consoMax;
     int vitesse;
     int vitesseMoyenne;
     int vitesseMax;

@@ -35,7 +35,7 @@ void DonneesTR::razStat()
   regimeMax = 0;
 }
 
-int DonneesTR::getConsommation()
+float DonneesTR::getConsommation()
 {
   return consommation;
 }
@@ -91,9 +91,11 @@ void DonneesTR::setVitesse(int vitesse)
 }
 
 
-void DonneesTR::setConsommation(int consommation)
+void DonneesTR::setConsommation(float consommation)
 {
-  this->consommation = consommation;
+  float vitesseFloat = this->vitesse;
+  this->consommation = ((1/vitesseFloat)*(consommation))*100;
+
 }
 
 

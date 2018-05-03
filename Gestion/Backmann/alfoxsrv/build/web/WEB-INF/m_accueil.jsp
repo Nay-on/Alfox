@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Acceuil</title> 
+        <title>Accueil</title> 
         <%@ include file="/includes/header.jspf" %>
     </head>
     <body>
@@ -22,8 +22,31 @@
                 <center>
                     <br/><br/><br/>
                     <h1>Page de la maintenance</h1>
-                    <br/><br/>
-                    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    <div class="grid">
+                        <div class="card">
+                            <div class="cardTitre">Date d'arrivée au garage</div>
+                            <div class="container">
+                                <div id="cnv" class="cardValeur">10 heures</div>
+                                <div class="cardUnite">DF-412-EZ</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="cardTitre">Date d'arrivée au garage</div>
+                            <div class="container">
+                                <div id="cnv" class="cardValeur">2 jours</div>
+                                <div class="cardUnite">EF-324-ES</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="cardTitre">Date d'arrivée au garage</div>
+                            <div class="container">
+                                <div id="cnv" class="cardValeur">23 heures</div>
+                                <div class="cardUnite">JF-311-DE</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br><br><br><br><br><br><br><br>
+                    <br><br><br><br><br><br><br><br><br>
                     <form id="formLogin" method="post" action="alfoxControl.jsp">
                         <input name="action" id="logout" type="hidden" value="logout"/><br/>
                         <button type="submit" id="submitOK" name="submitOK">Déconnexion</button>

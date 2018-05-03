@@ -173,7 +173,24 @@ public class Vehicule {
         }
     }
     
-    public int getAgeMoyenFlotte(Connection con) throws Exception {
+    public static double getKmMoyenFlotte(Connection con) throws Exception {
+        double totalKm = 0;
+        String queryString = "select * from vehicule";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<Vehicule> lstVehicule = new ArrayList<>();
+        while (lResult.next()) {
+            lstVehicule.add(creerParRequete(lResult));
+        }
+        for (int i = 0 ; i <= lstVehicule.size() ; i++) {
+            totalKm += lstVehicule.get(i).getCompteurReel();
+        }
+        return totalKm / lstVehicule.size();
+    }
+    
+    public static int getAgeMoyenFlotte(Connection con) throws Exception {
         long ms = 0;
         Timestamp dateDuJour = Utils.getDateDuJour();
         String queryString = "select * from vehicule";
@@ -192,7 +209,7 @@ public class Vehicule {
         return jour/lstDateMiseEnService.size();
     }
     
-    public int nbVehiculesDehors(Connection con) throws Exception {
+    public static int nbVehiculesDehors(Connection con) throws Exception {
         int nbVehiculesDehors = 0;
         String queryString = "select * from vehicule";
         Statement lStat = con.createStatement(

@@ -429,4 +429,29 @@ public class VehiculeTest {
         int result = Vehicule.size(con);
         assertEquals(8, result);
     }
+
+    /**
+     * Test of getConsoMoyenneFlotte method, of class Vehicule.
+     */
+    @Test
+    public void testGetConsoMoyenneFlotte() throws Exception {
+        System.out.println("getConsoMoyenneFlotte");
+        Connection con = ConnexionMySQL.newConnexion();
+        double result = Vehicule.getConsoMoyenneFlotte(con);
+        assertEquals(7.05, result, 0.01);
+    }
+
+    /**
+     * Test of getConsoMoyenneMensuelleFlotte method, of class Vehicule.
+     */
+    @Test
+    public void testGetConsoMoyenneMensuelleFlotte() throws Exception {
+        System.out.println("getConsoMoyenneMensuelleFlotte");
+        Connection con = ConnexionMySQL.newConnexion();
+        double expResult = 0.0;
+        double result = Vehicule.getConsoMoyenneMensuelleFlotte(con);
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }

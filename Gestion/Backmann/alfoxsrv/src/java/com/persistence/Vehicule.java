@@ -190,6 +190,29 @@ public class Vehicule {
         return totalKm / lstCompteurReel.size();
     }
     
+    public static double getConsoMoyenneFlotte(Connection con) throws Exception {
+        double totalConso = 0;
+        String queryString = "select Consommation from donneesTR";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<Integer> lstConso = new ArrayList<>();
+        while (lResult.next()) {
+            lstConso.add(lResult.getInt("Consommation"));
+        }
+        for (int i = 0 ; i < lstConso.size() ; i++) {
+            totalConso += lstConso.get(i);
+        }
+        return totalConso / lstConso.size();
+    }
+    
+    public static double getConsoMoyenneMensuelleFlotte(Connection con) throws Exception {
+        double consoMoyenneFlotte = Vehicule.getConsoMoyenneFlotte(con);
+        int ageMoyenFlotte = (int)(Vehicule.getAgeMoyenFlotte(con) / 30);
+        return consoMoyenneFlotte / ageMoyenFlotte;
+    }
+    
     public static double getKmMoyenMensuelFlotte(Connection con) throws Exception {
         double kmMoyenFlotte = Vehicule.getKmMoyenFlotte(con);
         int ageMoyenFlotte = (int)(Vehicule.getAgeMoyenFlotte(con) / 30);

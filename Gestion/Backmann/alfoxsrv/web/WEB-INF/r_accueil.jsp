@@ -4,10 +4,12 @@
     Created on : Mars 2018
 --%>
 
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="com.persistence.ConnexionMySQL"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="com.persistence.Vehicule"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.math.BigDecimal" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,12 +17,14 @@
         <%@ include file="/includes/header.jspf" %>
     </head>
     <body>
+        
         <% 
             Connection con = (Connection) session.getAttribute("con");
             if (con == null)
                 con = ConnexionMySQL.newConnexion();
             session.setAttribute("con", con);
         %>
+        
         <div data-role="page" id="page1">
             <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" 
                  data-theme="a" data-position="fixed" data-fullscreen="true">
@@ -52,28 +56,43 @@
                         <div class="card">
                             <div class="cardTitre">Nombre de véhicules hors zone</div>
                             <div class="container">
-                                <div id="cnvhz" class="cardValeur">3</div>
+                                <div id="cnvhz" class="cardValeur">
+                                    <%=Vehicule.nbVehiculesDehors(con)%>
+                                </div>
                                 <div class="cardUnite">véhicules</div>
                             </div>
                         </div>
                         <div class="card">
                             <div class="cardTitre">Kilométrage moyen</div>
                             <div class="container">
-                                <div id="ckm" class="cardValeur">32 456</div>
+                                <div id="ckm" class="cardValeur">
+                                    <%
+                                        DecimalFormat df = new DecimalFormat("#.##");
+                                        out.print(df.format(Vehicule.getKmMoyenFlotte(con)));
+                                    %>
+                                </div>
                                 <div class="cardUnite">km</div>
                             </div>
                         </div>
                         <div class="card">
                             <div class="cardTitre">Kilométrage mensuel moyen</div>
                             <div class="container">
-                                <div id="ckmm" class="cardValeur">1 834</div>
+                                <div id="ckmm" class="cardValeur">
+                                    <%
+                                        out.print(df.format(Vehicule.getKmMoyenMensuelFlotte(con)));
+                                    %>
+                                </div>
                                 <div class="cardUnite">km/mois</div>
                             </div>
                         </div>
                         <div class="card">
                             <div class="cardTitre">Conso. mensuelle moyenne</div>
                             <div class="container">
-                                <div id="ccmm" class="cardValeur">6,3</div>
+                                <div id="ccmm" class="cardValeur">
+                                    <%
+                                        out.print(df.format(Vehicule.getConsoMoyenneMensuelleFlotte(con)));
+                                    %>
+                                </div>
                                 <div class="cardUnite">l/100km</div>
                             </div>
                         </div>

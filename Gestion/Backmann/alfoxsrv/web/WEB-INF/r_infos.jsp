@@ -63,30 +63,32 @@
                     <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
                     <thead>
                         <tr>
-                          <th data-priority="1">Num</th>
+                          <th data-priority="1">Numéro</th>
                           <th data-priority="2">Date</th>
-                          <th data-priority="2">Km</th>
-                          <th data-priority="3">VitMoy</th>
-                          <th data-priority="3">Conso</th>
+                          <th data-priority="2">Kilométrage</th>
+                          <th data-priority="3">Vitesse Moyenne</th>
+                          <th data-priority="3">Consommation Moyenne</th>
                           <th data-priority="4">Latitude</th>
                           <th data-priority="4">Longitude</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% 
+                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getIdSigfox(), "2018-03-20");
                             // recup la liste des données tr pour ce véhicule et cette date
-                            for (int i = 1; i<= 144; i++) {
+                            for (int i = 0; i<donnees.size(); i++) {
                                 out.print("<tr><td>" + i + "</td>");
-                                out.print("<td></td>");
-                                out.print("<td>" + 3200 + "</td>");
-                                out.print("<td>54</td>");
-                                out.print("<td>6,3</td>");
-                                out.print("<td>36,123456</td>");
-                                out.print("<td>01,123456</td> </tr>");
+                                out.print("<td>" + donnees.get(i).getDatation() + "</td>");
+                                out.print("<td>" + donnees.get(i).getDistanceParcourue() + "</td>");
+                                out.print("<td>" + donnees.get(i).getVitesse() + "</td>");
+                                out.print("<td>" + donnees.get(i).getConsommation() + "</td>");
+                                out.print("<td>" + donnees.get(i).getLatitude() + "</td>");
+                                out.print("<td>" + donnees.get(i).getLongitude() + "</td> </tr>");
                             }
                         %>
                     </tbody>
                     </table>
+                    <br/><br/><br/><br/><br/>
                 </center>
             </div>
             <div id="panelVehicules" data-role="panel" data-position="right"  

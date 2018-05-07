@@ -172,6 +172,20 @@ public class DonneesTR {
             return null;
     }
     
+    public static DonneesTR getByDate(Connection con, String idSigfox, Timestamp dateDonnees) throws Exception {
+        String queryString = "select * from donneesTR where Device = idSigfox and Datation between '" + dateDonnees + "00:00:00' and '" + dateDonnees + "23:59:59' order by Datation desc";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        // y en a t'il au moins un ?
+        if (lResult.next()) {
+            return creerParRequete(lResult);
+        }
+        else
+            return null;
+    }
+    
     private static DonneesTR creerParRequete(ResultSet result) throws Exception {
             String    lMode  = result.getString("Mode");
             Timestamp lDatation = result.getTimestamp("Datation");

@@ -4,7 +4,14 @@
     Created on : Mars 2018
 --%>
 
+<%@page import="com.persistence.DonneesTR"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="com.persistence.ConnexionMySQL"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="com.persistence.Vehicule"%>
+<%@page import="java.math.BigDecimal" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,6 +19,12 @@
         <%@ include file="/includes/header.jspf" %>
     </head>
     <body>
+        <% 
+            Connection con = (Connection) session.getAttribute("con");
+            if (con == null)
+                con = ConnexionMySQL.newConnexion();
+            session.setAttribute("con", con);
+        %>
         <div data-role="page" id="page1">
             <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" 
                  data-theme="a" data-position="fixed" data-fullscreen="true">
@@ -20,13 +33,17 @@
             
             <div role="main" class="ui-content">
                 <center>
+                    <% 
+                        ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
+                        Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
+                    %>
                     <br/><br/><br/>
                     <h1>Page de la maintenance</h1>
                     <div class="grid">
                         <div class="card">
                             <div class="cardTitre">Date d'arrivée au garage</div>
                             <div class="container">
-                                <div id="cnv" class="cardValeur">10 heures</div>
+                                <div id="cnv" class="cardValeur"><%= vehicule.getTempsAlcis(con) %> minutes</div>
                                 <div class="cardUnite">DF-412-EZ</div>
                             </div>
                         </div>

@@ -8,6 +8,7 @@
 package com.persistence;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DonneesTR {
     private String    mode;             // non null
@@ -172,18 +173,18 @@ public class DonneesTR {
             return null;
     }
     
-    public static DonneesTR getByDate(Connection con, String idSigfox, String dateDonnees) throws Exception {
+    public static ArrayList<DonneesTR> getByDate(Connection con, String idSigfox, String dateDonnees) throws Exception {
         String queryString = "select * from donneesTR where Device = idSigfox and Datation between '" + dateDonnees + "00:00:00' and '" + dateDonnees + "23:59:59' order by Datation desc";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
         ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<DonneesTR> lstDonneesTR = new ArrayList<>();
         // y en a t'il au moins un ?
-        if (lResult.next()) {
-            return creerParRequete(lResult);
+        while (lResult.next()) {
+            lstDonneesTR.add(creerParRequete(lResult));
         }
-        else
-            return null;
+        return lstDonneesTR;
     }
     
     private static DonneesTR creerParRequete(ResultSet result) throws Exception {

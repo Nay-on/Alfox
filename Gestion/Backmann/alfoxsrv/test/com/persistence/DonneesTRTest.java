@@ -348,4 +348,64 @@ public class DonneesTRTest {
         DonneesTR instance = DonneesTR.getByDatation(con, "2018/03/20 00:00:00");
         assertEquals("1", instance.getDevice());
     }
+
+    /**
+     * Test of delete method, of class DonneesTR.
+     */
+    @Test
+    public void testDelete() throws Exception {
+        System.out.println("delete");
+        Connection con = null;
+        DonneesTR instance = null;
+        boolean expResult = false;
+        boolean result = instance.delete(con);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getLastByImmatriculation method, of class DonneesTR.
+     */
+    @Test
+    public void testGetLastByImmatriculation() throws Exception {
+        System.out.println("getLastByImmatriculation");
+        Connection con = null;
+        String idSigfox = "";
+        DonneesTR expResult = null;
+        DonneesTR result = DonneesTR.getLastByImmatriculation(con, idSigfox);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getByDate method, of class DonneesTR.
+     */
+    @Test
+    public void testGetByDate() throws Exception {
+        System.out.println("getByDate");
+        Connection con = null;
+        String idSigfox = "";
+        String dateDonnees = "";
+        DonneesTR expResult = null;
+        DonneesTR result = DonneesTR.getByDate(con, idSigfox, dateDonnees);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of toString method, of class DonneesTR.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        DonneesTR instance = null;
+        String expResult = "";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }

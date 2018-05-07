@@ -172,7 +172,7 @@ public class DonneesTR {
             return null;
     }
     
-    public static DonneesTR getByDate(Connection con, String idSigfox, Timestamp dateDonnees) throws Exception {
+    public static DonneesTR getByDate(Connection con, String idSigfox, String dateDonnees) throws Exception {
         String queryString = "select * from donneesTR where Device = idSigfox and Datation between '" + dateDonnees + "00:00:00' and '" + dateDonnees + "23:59:59' order by Datation desc";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 

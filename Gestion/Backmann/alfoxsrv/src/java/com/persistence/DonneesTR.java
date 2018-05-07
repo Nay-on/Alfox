@@ -174,7 +174,7 @@ public class DonneesTR {
     }
     
     public static ArrayList<DonneesTR> getByDate(Connection con, String idSigfox, String dateDonnees) throws Exception {
-        String queryString = "select * from donneesTR where Device = idSigfox and Datation between '" + dateDonnees + "00:00:00' and '" + dateDonnees + "23:59:59' order by Datation desc";
+        String queryString = "select * from donneesTR where Device = '" + idSigfox + "' and Datation between '" + dateDonnees + " 00:00:00' and '" + dateDonnees + " 23:59:59' order by Datation desc";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);

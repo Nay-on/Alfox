@@ -58,7 +58,7 @@
                              
                             </select>
                         </div>
-                        <input value="2018-05-03" id="date" type="date">
+                        <input value="2018-05-09" id="date" type="date">
                     </form>
                     <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
                     <thead>
@@ -79,9 +79,9 @@
                             for (int i = 0; i<donnees.size(); i++) {
                                 out.print("<tr><td>" + i + "</td>");
                                 out.print("<td>" + donnees.get(i).getDatation() + "</td>");
-                                out.print("<td>" + donnees.get(i).getDistanceParcourue() + "</td>");
-                                out.print("<td>" + donnees.get(i).getVitesse() + "</td>");
-                                out.print("<td>" + donnees.get(i).getConsommation() + "</td>");
+                                out.print("<td>" + donnees.get(i).getDistanceParcourue() + " km" + "</td>");
+                                out.print("<td>" + donnees.get(i).getVitesse() + " km/h" +"</td>");
+                                out.print("<td>" + donnees.get(i).getConsommation() + " l/100" + "</td>");
                                 out.print("<td>" + donnees.get(i).getLatitude() + "</td>");
                                 out.print("<td>" + donnees.get(i).getLongitude() + "</td> </tr>");
                             }

@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Backmann/alfoxsrv/src/java/com/persistence/MessageSrv.java</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Backmann/alfoxsrv/web/WEB-INF/SQLScripts/10_init_base.sql</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Backmann/alfoxsrv/src/java/com/persistence/Vehicule.java</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Backmann/alfoxsrv/src/java/com/persistence/DonneesTR.java</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Backmann/alfoxsrv/test/com/persistence/DonneesTRTest.java</file>
-            <file>file:/home/snir2g1/Bureau/Projet_ALFOX_1/Alfox/Gestion/Backmann/alfoxsrv/test/com/persistence/VehiculeTest.java</file>
+            <file>file:/home/snir2g1/Bureau/Alfox/Alfox/Gestion/Backmann/alfoxsrv/web/WEB-INF/m_accueil.jsp</file>
+            <file>file:/home/snir2g1/Bureau/Alfox/Alfox/Gestion/Backmann/alfoxsrv/web/WEB-INF/r_infos.jsp</file>
+            <file>file:/home/snir2g1/Bureau/Alfox/Alfox/Gestion/Backmann/alfoxsrv/web/WEB-INF/r_accueil.jsp</file>
         </group>
     </open-files>
 </project-private>

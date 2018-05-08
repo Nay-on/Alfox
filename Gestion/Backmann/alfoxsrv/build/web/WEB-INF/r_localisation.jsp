@@ -4,6 +4,11 @@
     Created on : Mars 2018
 --%>
 
+<%@page import="com.persistence.DonneesTR"%>
+<%@page import="com.persistence.Vehicule"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.persistence.ConnexionMySQL"%>
+<%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,6 +17,15 @@
         <%@ include file="/includes/header.jspf" %>
     </head>
     <body>
+        <% 
+            Connection con = (Connection) session.getAttribute("con");
+            if (con == null)
+                con = ConnexionMySQL.newConnexion();
+            session.setAttribute("con", con);
+            ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
+            Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
+            DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox());
+        %>
         <div data-role="page" id="page1">
             <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" 
                  data-theme="a" data-position="fixed" data-fullscreen="true">
@@ -64,135 +78,91 @@
                  data-position-fixed="true" data-display="push">
             <div data-role="collapsibleset" data-inset="false">
                 <div data-role="collapsible">
-                    <h3>1 : AA-324-EF</h3>
+                    <h3>1 : ED-592-CY</h3>
                     <ul data-role="listview" data-icon="false">
                         <li data-role="list-divider">Samedi 14 Février 2018</li>
                         <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 123546km</li>
-                        <li data-icon="false">ConsoMoy : 7,2l</li>
-                        <li data-icon="false">VitMoy : 63km/h</li>
-                        <li data-icon="false">RégimeMoy : 2500tpm</li>
+                        <li data-icon="false">Compteur : <%= vehicule.getCompteurReel() + " km" %></li>
+                        <li data-icon="false">ConsoMoy : <%= dtr.getConsommation() + " l"%></li>
+                        <li data-icon="false">VitMoy : <%= dtr.getVitesse() +" km/h"%></li>
+                        <li data-icon="false">RégimeMoy : <%= dtr.getRegime() + " tpm" %></li>
                     </ul>
                 </div>
                 <div data-role="collapsible">
-                    <h3>2 : BB-834-GD</h3>
+                    <h3>2 : ED-593-VS</h3>
                     <ul data-role="listview">
                         <li data-role="list-divider">Jeudi 12 Février 2018</li>
                         <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 19546km</li>
-                        <li data-icon="false">ConsoMoy : 6,3l</li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                        <li data-icon="false">Compteur : <%= vehicule.getCompteurReel() + " km" %></li>
+                        <li data-icon="false">ConsoMoy : <%= dtr.getConsommation() + " l"%></li>
+                        <li data-icon="false">VitMoy : <%= dtr.getVitesse() +" km/h"%></li>
+                        <li data-icon="false">RégimeMoy : <%= dtr.getRegime() + " tpm" %></li>
                     </ul>
                 </div>
                 <div data-role="collapsible">
-                    <h3>3 : BB-834-GD</h3>
+                    <h3>3 : EE-239-QM</h3>
                     <ul data-role="listview">
                         <li data-role="list-divider">Jeudi 12 Février 2018</li>
                         <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false"><a href="#">Compteur : 19546km</a></li>
-                        <li data-icon="false"><a href="#">ConsoMoy : 6,3l</a></li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                        <li data-icon="false">Compteur : <%= vehicule.getCompteurReel() + " km" %></li>
+                        <li data-icon="false">ConsoMoy : <%= dtr.getConsommation() + " l"%></li>
+                        <li data-icon="false">VitMoy : <%= dtr.getVitesse() +" km/h"%></li>
+                        <li data-icon="false">RégimeMoy : <%= dtr.getRegime() + " tpm" %></li>
                     </ul>
                 </div>
                 <div data-role="collapsible">
-                    <h3>4 : BB-834-GD</h3>
+                    <h3>4 : EE-300-QM</h3>
                     <ul data-role="listview">
                         <li data-role="list-divider">Jeudi 12 Février 2018</li>
                         <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 19546km</li>
-                        <li data-icon="false">ConsoMoy : 6,3l</li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                        <li data-icon="false">Compteur : <%= vehicule.getCompteurReel() + " km" %></li>
+                        <li data-icon="false">ConsoMoy : <%= dtr.getConsommation() + " l"%></li>
+                        <li data-icon="false">VitMoy : <%= dtr.getVitesse() +" km/h"%></li>
+                        <li data-icon="false">RégimeMoy : <%= dtr.getRegime() + " tpm" %></li>
                     </ul>
                 </div>
                 <div data-role="collapsible">
-                    <h3>4 : BB-834-GD</h3>
+                    <h3>5 : EK-462-GX</h3>
                     <ul data-role="listview">
                         <li data-role="list-divider">Jeudi 12 Février 2018</li>
                         <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 19546km</li>
-                        <li data-icon="false">ConsoMoy : 6,3l</li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                        <li data-icon="false">Compteur : <%= vehicule.getCompteurReel() + " km" %></li>
+                        <li data-icon="false">ConsoMoy : <%= dtr.getConsommation() + " l"%></li>
+                        <li data-icon="false">VitMoy : <%= dtr.getVitesse() +" km/h"%></li>
+                        <li data-icon="false">RégimeMoy : <%= dtr.getRegime() + " tpm" %></li>
                     </ul>
                 </div>
                 <div data-role="collapsible">
-                    <h3>4 : BB-834-GD</h3>
+                    <h3>6 : EM-045-BC</h3>
                     <ul data-role="listview">
                         <li data-role="list-divider">Jeudi 12 Février 2018</li>
                         <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 19546km</li>
-                        <li data-icon="false">ConsoMoy : 6,3l</li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                        <li data-icon="false">Compteur : <%= vehicule.getCompteurReel() + " km" %></li>
+                        <li data-icon="false">ConsoMoy : <%= dtr.getConsommation() + " l"%></li>
+                        <li data-icon="false">VitMoy : <%= dtr.getVitesse() +" km/h"%></li>
+                        <li data-icon="false">RégimeMoy : <%= dtr.getRegime() + " tpm" %></li>
                     </ul>
                 </div>
                 <div data-role="collapsible">
-                    <h3>4 : BB-834-GD</h3>
+                    <h3>7 : EM-150-BE</h3>
                     <ul data-role="listview">
                         <li data-role="list-divider">Jeudi 12 Février 2018</li>
                         <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 19546km</li>
-                        <li data-icon="false">ConsoMoy : 6,3l</li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                        <li data-icon="false">Compteur : <%= vehicule.getCompteurReel() + " km" %></li>
+                        <li data-icon="false">ConsoMoy : <%= dtr.getConsommation() + " l"%></li>
+                        <li data-icon="false">VitMoy : <%= dtr.getVitesse() +" km/h"%></li>
+                        <li data-icon="false">RégimeMoy : <%= dtr.getRegime() + " tpm" %></li>
                     </ul>
                 </div>
                 <div data-role="collapsible">
-                    <h3>4 : BB-834-GD</h3>
+                    <h3>8 : EM-862-ML</h3>
                     <ul data-role="listview">
                         <li data-role="list-divider">Jeudi 12 Février 2018</li>
                         <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 19546km</li>
-                        <li data-icon="false">ConsoMoy : 6,3l</li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
-                    </ul>
-                </div>
-                <div data-role="collapsible">
-                    <h3>4 : BB-834-GD</h3>
-                    <ul data-role="listview">
-                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
-                        <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 19546km</li>
-                        <li data-icon="false">ConsoMoy : 6,3l</li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
-                    </ul>
-                </div>
-                <div data-role="collapsible">
-                    <h3>4 : BB-834-GD</h3>
-                    <ul data-role="listview">
-                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
-                        <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 19546km</li>
-                        <li data-icon="false">ConsoMoy : 6,3l</li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
-                    </ul>
-                </div>
-                <div data-role="collapsible">
-                    <h3>4 : BB-834-GD</h3>
-                    <ul data-role="listview">
-                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
-                        <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 19546km</li>
-                        <li data-icon="false">ConsoMoy : 6,3l</li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
-                    </ul>
-                </div>
-                <div data-role="collapsible">
-                    <h3>4 : BB-834-GD</h3>
-                    <ul data-role="listview">
-                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
-                        <li data-icon="false"><a href="#">Centrer</a></li>
-                        <li data-icon="false">Compteur : 19546km</li>
-                        <li data-icon="false">ConsoMoy : 6,3l</li>
-                        <li data-icon="false">VitMoy : 56km/h</li>
-                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                        <li data-icon="false">Compteur : <%= vehicule.getCompteurReel() + " km" %></li>
+                        <li data-icon="false">ConsoMoy : <%= dtr.getConsommation() + " l"%></li>
+                        <li data-icon="false">VitMoy : <%= dtr.getVitesse() +" km/h"%></li>
+                        <li data-icon="false">RégimeMoy : <%= dtr.getRegime() + " tpm" %></li>
                     </ul>
                 </div>
             </div>

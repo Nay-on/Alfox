@@ -311,65 +311,6 @@ public class Vehicule {
         horsZone = isDehors;
         return !isDehors;
     }
-    
-    public int getTempsAlcis(Connection con) throws Exception {
-        int temps = 0; // Temps en minutes
-        //Récupération du tableau de position de la zone associée par le contrat au véhicule
-        String queryString = "select * from position, zoneLimite where  ZoneLimiteID = zoneLimite.ID and Nom = (select Nom from contrat, vehicule, zoneLimite where Device = vehicule.IdSigfox and ZoneLimiteID = 'Alcis' and Immatriculation='" + immatriculation + "') order by Ordre";
-        Statement lStat = con.createStatement( //peut générer une exception si problème avec la requête SQL
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-        ResultSet lResult = lStat.executeQuery(queryString);
-        // On met les points dans 2 collections Arraylist de Dloat
-        // Dloat avec un D majuscule est une classe !)
-        ArrayList<Double> xap = new ArrayList<>();
-        ArrayList<Double> yap = new ArrayList<>();
-        while (lResult.next()) {
-            xap.add(lResult.getDouble("Latitude"));
-            yap.add(lResult.getDouble("Longitude"));
-        }
-        // On transforme les collections en tableaux d'objets
-        int nbPoints = xap.size();
-        Double[] xtp = xap.toArray(new Double[0]);
-        Double[] ytp = yap.toArray(new Double[0]);
-
-        // Les tableaux sont maintenant des tableaux de doubles !
-        // Récupération de la dernière latitude et longitude enregistrée
-        String queryString2 = "select Latitude, Longitude from donneesTR, vehicule where Device = vehicule.IdSigfox and vehicule.Immatriculation = \""
-                + this.immatriculation + "\" order by Datation desc limit 1;";
-        Statement lStat2 = con.createStatement(
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
-        ResultSet req = lStat2.executeQuery(queryString2);
-        double latitude = 0;
-        double longitude = 0;
-        // Si il y a une donnée on récupère la latitude et longitude
-        if (req.next()) {
-            latitude = req.getDouble("Latitude");
-            longitude = req.getDouble("Longitude");
-        }// Sinon on génère une exception
-        else {
-            throw new Exception("Aucune donnée TR");
-        }
-        // On vérifie que le point se situe dans la zone
-
-        int i, j;
-        boolean isDehors = false;
-        for (i = 0, j = nbPoints - 1; i < nbPoints; j = i++) {
-            if ((((ytp[i] <= longitude) && (longitude < ytp[j])) || ((ytp[j] <= longitude) && (longitude < ytp[i])))
-                    && (latitude < (xtp[j] - xtp[i]) * (longitude - ytp[i]) / (ytp[j] - ytp[i]) + xtp[i])) {
-                isDehors = !isDehors;
-            }
-        }
-        
-        if (!isDehors == false) {
-            temps += 10; // On ajoute l'intervalle entre 2 messages : 10 min
-        }
-        else {
-            temps = 0;
-        }
-        return temps;
-    }
 
     private static Vehicule creerParRequete(ResultSet result) throws Exception {
         String lMarque = result.getString("Marque");

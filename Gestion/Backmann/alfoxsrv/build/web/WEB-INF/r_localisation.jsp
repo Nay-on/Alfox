@@ -57,6 +57,7 @@
                 <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAteLjItiBvWdZJNOm97mU-jWaqtJ857Fc&callback=initMap">
                 </script>
+                <br/><br/><br/>
             </div>        
             <%@include file="/includes/footer.jspf" %>
           

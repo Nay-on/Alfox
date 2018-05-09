@@ -28,5 +28,5 @@
     float rssi= Float.parseFloat(request.getParameter("rssi"));
     float avgSnr = Float.parseFloat(request.getParameter("avgSnr"));
     
-    DonneesTR.create(con, data, datation, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, latitude, longitude, 0, 0);
+    DonneesTR.create(con, data, datation, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0.0, 0, 0);
 %>

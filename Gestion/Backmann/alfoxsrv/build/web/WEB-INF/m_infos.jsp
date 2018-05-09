@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Acceuil</title> 
+        <title>Accueil</title> 
         <%@ include file="/includes/header.jspf" %>
     </head>
     <body>
@@ -29,7 +29,6 @@
                 <h1><img id="logoHeader" src="images/alcisLogo.png"/>Infos</h1>
                 <p class="mode" >
                 <% 
-                    
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
                     DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox());

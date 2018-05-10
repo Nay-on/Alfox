@@ -362,4 +362,17 @@ public class DonneesTRTest {
         assertEquals(110, result.get(0).getVitesse());
         assertEquals(35, result.get(5).getVitesse());
     }
+
+    /**
+     * Test of getDonneesVehicule method, of class DonneesTR.
+     */
+    @Test
+    public void testGetDonneesVehicule() throws Exception {
+        System.out.println("getDonneesVehicule");
+        Connection con = ConnexionMySQL.newConnexion();
+        ArrayList<DonneesTR> result = DonneesTR.getDonneesVehicule(con, "1");
+        assertEquals(6, result.size());
+        assertEquals(110, result.get(0).getVitesse());
+        assertEquals(35, result.get(5).getVitesse());
+    }
 }

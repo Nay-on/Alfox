@@ -311,6 +311,40 @@ public class Vehicule {
         horsZone = isDehors;
         return !isDehors;
     }
+    
+    public static int getTempsAlcis(Connection con, String idSigfox) throws Exception {
+        long tempsAlcisEnMs = 0;
+        int tempsAlcisEnM = 0;
+        // On récupère la date et heure actuelle
+        Timestamp dateJour = Utils.getDateDuJour();
+        // On défini la position d'ALCIS (5km*5km)
+        double latMin = 43.555692;
+        double latMax = 43.646065;
+        double lgMin = 1.465021;
+        double lgMax = 1.591707;
+        // Récupération des donnéesTR associées au véhicule passé en paramètre
+        ArrayList<DonneesTR> lstDonneesTR = DonneesTR.getDonneesVehicule(con, idSigfox);
+        // On regarde si la dernière donnée donne le véhicule chez Alcis
+        double lat0 = lstDonneesTR.get(0).getLatitude();
+        double lg0 = lstDonneesTR.get(0).getLongitude();
+        if ((lat0 >= latMin) && (lat0 <= latMax) && (lg0 >= lgMin) && (lg0 <= lgMax)) {
+            // Si oui on récupère la dernière date à laquelle le véhicule était en dehors d'Alcis
+            int i = 1;
+            while ((lstDonneesTR.get(i).getLatitude() >= latMin) && (lstDonneesTR.get(i).getLatitude() <= latMax) && (lstDonneesTR.get(i).getLongitude() >= lgMin) && (lstDonneesTR.get(i).getLongitude() <= lgMax)) {
+                i++;
+            }
+            Timestamp dateDernierePosAlcis = lstDonneesTR.get(i+1).getDatation();
+            tempsAlcisEnMs = dateJour.getTime() - dateDernierePosAlcis.getTime();
+            tempsAlcisEnM = (int)(tempsAlcisEnMs / 60000);
+            if (tempsAlcisEnM < 60) {
+                tempsAlcisEnM = 0;
+            }
+        }
+        else {
+            tempsAlcisEnM = 0;
+        }
+        return tempsAlcisEnM;
+    }
 
     private static Vehicule creerParRequete(ResultSet result) throws Exception {
         String lMarque = result.getString("Marque");

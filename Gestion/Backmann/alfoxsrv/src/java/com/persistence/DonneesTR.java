@@ -146,7 +146,6 @@ public class DonneesTR {
                 + " AvgSnr =" + Utils.toString(avgSnr) + "," 
                 + " Device =" + Utils.toString(device)
                 + " where Datation ='" + datation + "'"
-                + " and device = vehicule.Idsigfox "
                 + " and device ='" + device + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
@@ -187,29 +186,18 @@ public class DonneesTR {
         return lstDonneesTR;
     }
     
-    public int getTempsAlcis(Connection con) throws Exception {
-        // On récupère la date et heure actuelle
-        Timestamp dateJour = Utils.getDateDuJour();
-        // On défini la position d'ALCIS (5km*5km)
-        double latMin = 43.555692;
-        double latMax = 43.646065;
-        double lgMin = 1.465021;
-        double lgMax = 1.591707;
-        // Récupération des donnéesTR associées au véhicule
-        String queryString = "SELECT * FROM donneesTR WHERE Device = '"+ device +"' order by Datation desc";
-        Statement lStat = con.createStatement( //peut générer une exception si problème avec la requête SQL
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY);
+    public static ArrayList<DonneesTR> getDonneesVehicule(Connection con, String idSigfox) throws Exception {
+        String queryString = "select * from donneesTR where Device = '" + idSigfox + "' order by Datation desc";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
         ResultSet lResult = lStat.executeQuery(queryString);
-        // On met les points dans 2 collections Arraylist de Dloat
-        // Dloat avec un D majuscule est une classe !)
         ArrayList<DonneesTR> lstDonneesTR = new ArrayList<>();
+        // y en a t'il au moins un ?
         while (lResult.next()) {
             lstDonneesTR.add(creerParRequete(lResult));
         }
-        if (lstDonneesTR.get(0).getLatitude() => latMin && lstDonneesTR.get(0).getLatitude() <= latMax) {
-            
-        }
+        return lstDonneesTR;
     }
     
     private static DonneesTR creerParRequete(ResultSet result) throws Exception {

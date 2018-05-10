@@ -14,6 +14,9 @@ public class Contrat {
     private Timestamp dateCreation;     // non null
     private String    modele;
     private String    infos;
+    private int       loueurID;         // non null
+    private String    device;           // non null
+    private int       zoneLimiteID;
     
     /**
      * Créer un nouvel objet persistant 
@@ -23,7 +26,7 @@ public class Contrat {
      * @param modele
      * @param infos
      * @param loueurID
-     * @param vehiculeID
+     * @param device
      * @param zoneLimiteID
      * @return 
      * @ return un contrat si le numero est unique sinon null
@@ -32,17 +35,17 @@ public class Contrat {
      * 
      */
     static public Contrat create(Connection con, String numero, Timestamp dateCreation, String modele, String infos,
-        int loueurID, int vehiculeID, int zoneLimiteID) throws Exception {
-        Contrat contrat = new Contrat(numero, dateCreation, modele, infos);
+        int loueurID, String device, int zoneLimiteID) throws Exception {
+        Contrat contrat = new Contrat(numero, dateCreation, modele, infos, loueurID, device, zoneLimiteID);
         
         String queryString =
-         "insert into contrat (Numero, DateCreation, Modele, Infos, LoueurID, VehiculeID, ZoneLimiteID ) values ("
+         "insert into contrat (Numero, DateCreation, Modele, Infos, LoueurID, Device, ZoneLimiteID ) values ("
                 + Utils.toString(numero) + ", " 
                 + Utils.toString(dateCreation) + ", " 
                 + Utils.toString(modele) + ", " 
                 + Utils.toString(infos) + ", " 
                 + Utils.toString(loueurID) + ", " 
-                + Utils.toString(vehiculeID) + ", " 
+                + Utils.toString(device) + ", " 
                 + Utils.toString(zoneLimiteID) 
           + ")";
         Statement lStat = con.createStatement();
@@ -60,7 +63,10 @@ public class Contrat {
          "update contrat set "
                 + " DateCreation = " + Utils.toString(dateCreation) + "," 
                 + " Modele = " + Utils.toString(modele) + ","  
-                + " Infos = " + Utils.toString(infos)
+                + " Infos = " + Utils.toString(infos) + "," 
+                + " LoueurID = " + Utils.toString(loueurID) + "," 
+                + " Device = " + Utils.toString(device) + "," 
+                + " ZoneLimiteID = " + Utils.toString(zoneLimiteID)
                 + " where Numero ='" + numero + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
@@ -105,17 +111,24 @@ public class Contrat {
             Timestamp lDateCreation = result.getTimestamp("DateCreation");
             String    lModele = result.getString("Modele");
             String    lInfos = result.getString("Infos");
-            return    new Contrat(lNumero,lDateCreation, lModele, lInfos);
+            int       lLoueurID = result.getInt("LoueurID");
+            String    lDevice = result.getString("Device");
+            int       lZoneLimiteID = result.getInt("ZoneLimiteID");
+            return    new Contrat(lNumero,lDateCreation, lModele, lInfos, lLoueurID, lDevice, lZoneLimiteID);
     }
     
     /**
      * Cree et initialise completement Contrat
      */
-    private Contrat(String numero, Timestamp dateCreation, String modele, String infos) {
+    private Contrat(String numero, Timestamp dateCreation, String modele, String infos, int loueurID,
+            String device, int zoneLimiteID) {
         this.numero = numero;
         this.dateCreation = dateCreation;
         this.modele = modele;
         this.infos = infos;
+        this.loueurID = loueurID;
+        this.device = device;
+        this.zoneLimiteID = zoneLimiteID;
     }
     
     // --------------------- les assesseurs ----------------------------
@@ -133,6 +146,18 @@ public class Contrat {
     public String getInfos() {
         return infos;
     }
+    
+    public int getLoueurID() {
+        return loueurID;
+    }
+    
+    public String getDevice() {
+        return device;
+    }
+    
+    public int getZoneLimiteID() {
+        return zoneLimiteID;
+    }
 
     public void setType(String modele) throws Exception {
         this.modele = modele;
@@ -140,6 +165,18 @@ public class Contrat {
 
     public void setInfos(String infos) throws Exception {
         this.infos = infos;
+    }
+    
+    public void setLoueurID(int loueurID) throws Exception {
+        this.loueurID = loueurID;
+    }
+
+    public void setDevice(String device) throws Exception {
+        this.device = device;
+    }
+    
+    public void setZoneLimiteID(int zoneLimiteID) throws Exception {
+        this.zoneLimiteID = zoneLimiteID;
     }
     
     /**

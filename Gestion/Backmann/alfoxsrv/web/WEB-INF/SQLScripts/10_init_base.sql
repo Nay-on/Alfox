@@ -96,7 +96,7 @@ create table loueur (
 create table contrat (
     ID int(10) not null auto_increment, 
     LoueurID int(10) not null, 
-    Device varchar(255) not null, 
+    Device varchar(255) not null,
     ZoneLimiteID int(10), 
     Numero varchar(255) not null unique, 
     DateCreation datetime not null, 

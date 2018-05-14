@@ -85,7 +85,7 @@ float lireConsomation(){
   testConso.substring(6,8).toCharArray(trameD,testConso.substring(6,8).length()+1);  //remplacer testRegime par: obd2->demande(C_CONSO);     /*      /!\      */
   float a = strtoul(trameC,NULL,HEX);
   float b = strtoul(trameD,NULL,HEX);
-  conso = (256*(a)+(b))/20;
+  conso = ((256*(a)+(b))/20);
   return conso;
 }
 

@@ -13,17 +13,18 @@ OBD2::OBD2(Bluetooth* bt){
 }
 
 String OBD2::demande(TCode numCode){
-  liaisonBT->print(code[numCode]);
+  liaisonBT->println(code[numCode]);
+  delay(100);
   String a = lireReponse();
-  return a/*.toInt()*/;
-  
+  return a;
+  liaisonBT->readStringUntil('\n');
 }
 
 String OBD2::lireReponse(){
   String reponse;
   while (Serial.available() > 0) {
     if(liaisonBT->read() != '\n'){
-      reponse == (String)liaisonBT->read();
+      reponse += (String)liaisonBT->read();
     }
   }
   return reponse;

@@ -1,5 +1,5 @@
 #include "Bluetooth.h"
-#include "avdweb_SAMDtimer.h"
+//#include "avdweb_SAMDtimer.h"
 
 
 Bluetooth* bluetooth;
@@ -9,7 +9,7 @@ boolean NL = true;
 
 void setup() {
   //Configuration du Timer/WatchDog
-  SAMDtimer *timerWatchBT = new SAMDtimer(4,compter_1mn,1e6);
+  //SAMDtimer *timerWatchBT = new SAMDtimer(4,compter_1mn,1e6);
   
   Serial.begin(115200);
   delay(10000);
@@ -27,7 +27,9 @@ void setup() {
 
   //Pour le module HC-06
   //Serial.println(bluetooth->connexion("0013,12,267317"),BIN);
-
+  //Pour le Simulateur
+  //Serial.println(bluetooth->connexion("E094,67,48C348"),BIN);
+  
   delay(5000);
   Serial.print("Is actif ? : ");
   Serial.println(bluetooth->isActif(),BIN);

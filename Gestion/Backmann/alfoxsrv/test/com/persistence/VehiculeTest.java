@@ -100,7 +100,7 @@ public class VehiculeTest {
         System.out.println("getLastDatation");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
-        assertEquals(Utils.stringToTimestamp("2018/03/20 00:50:00.0"), result.getLastDatation(con));
+        assertEquals(Utils.stringToTimestamp("2018/03/20 01:10:00.0"), result.getLastDatation(con));
     }
     
     /**
@@ -405,7 +405,7 @@ public class VehiculeTest {
         System.out.println("getAgeMoyenFlotte");
         Connection con = ConnexionMySQL.newConnexion();
         int result = Vehicule.getAgeMoyenFlotte(con);
-        assertEquals(123, result);
+        assertEquals(133, result);
     }
 
     /**
@@ -438,7 +438,7 @@ public class VehiculeTest {
         System.out.println("getConsoMoyenneFlotte");
         Connection con = ConnexionMySQL.newConnexion();
         double result = Vehicule.getConsoMoyenneFlotte(con);
-        assertEquals(7.05, result, 0.01);
+        assertEquals(7.21, result, 0.01);
     }
 
     /**
@@ -448,10 +448,18 @@ public class VehiculeTest {
     public void testGetConsoMoyenneMensuelleFlotte() throws Exception {
         System.out.println("getConsoMoyenneMensuelleFlotte");
         Connection con = ConnexionMySQL.newConnexion();
-        double expResult = 0.0;
         double result = Vehicule.getConsoMoyenneMensuelleFlotte(con);
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(1.80, result, 0.01);
+    }
+
+    /**
+     * Test of getTempsAlcis method, of class Vehicule.
+     */
+    @Test
+    public void testGetTempsAlcis() throws Exception {
+        System.out.println("getTempsAlcis");
+        Connection con = ConnexionMySQL.newConnexion();
+        int result = Vehicule.getTempsAlcis(con, "4");
+        assertEquals(5, result);
     }
 }

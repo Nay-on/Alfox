@@ -8,7 +8,10 @@
 #include <Arduino.h>
 #include "Bluetooth.h"
 
-
+    typedef enum {
+      C_VITESSE, C_CONSOMMATION, C_REGIME, C_DEFAUT
+    } TCode;
+    
 class OBD2
 {
 
@@ -24,11 +27,11 @@ class OBD2
 		/** Constructeur **/
 		OBD2(Bluetooth* bt);
     bool isConnected();
-    int demande(int numCode);
+    String demande(TCode numCode);
+    float lireConsomation();
+    int lireRegimeMoteur();
+    int lireVitesse();
 
-    typedef enum {
-      C_VITESSE, C_CONSOMMATION, C_REGIME, C_DEFAUT
-    } TCode;
     
 };
 

@@ -13,20 +13,20 @@ import java.util.ArrayList;
 public class DonneesTR {
     private String    mode;             // non null
     private Timestamp datation;         // non null
-    private int       vitesse;          // non null
-    private int       regime;           // non null
-    private int       consommation;     // non null
-    private int       vitesseMax;       // non null
-    private int       regimeMax;        // non null
-    private int       consoMax;         // non null
-    private int       nbDefauts;        // non null
-    private int       defaut1;          // non null
-    private int       defaut2;          // non null
-    private int       defaut3;          // non null
-    private int       defaut4;          // non null
-    private double    latitude;         // non null
-    private double    longitude;        // non null
-    private long      distanceParcourue;// non null
+    private int       vitesse;  
+    private int       regime;           
+    private int       consommation;   
+    private int       vitesseMax;      
+    private int       regimeMax;        
+    private int       consoMax;         
+    private int       nbDefauts;        
+    private int       defaut1;          
+    private int       defaut2;      
+    private int       defaut3;        
+    private int       defaut4;  
+    private double    latitude;     
+    private double    longitude;     
+    private long      distanceParcourue;
     private int       seqNumber;        // non null, unique
     private double    snr;              // non null
     private double    rssi;             // non null
@@ -74,30 +74,63 @@ public class DonneesTR {
                 defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue,
                     seqNumber, snr, rssi, avgSnr, device);
         
-        String queryString =
-         "insert into donneesTR (Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, DistanceParcourue, SeqNumber, Snr, Rssi, AvgSnr, Device) values ("
-                + Utils.toString(mode) + ", " 
-                + Utils.toString(datation) + ", " 
-                + Utils.toString(vitesse) + ", "
-                + Utils.toString(regime) + ", " 
-                + Utils.toString(consommation) + ", " 
-                + Utils.toString(vitesseMax) + ", " 
-                + Utils.toString(regimeMax) + ", " 
-                + Utils.toString(consoMax) + ", "
-                + Utils.toString(nbDefauts) + ", " 
-                + Utils.toString(defaut1) + ", " 
-                + Utils.toString(defaut2) + ", " 
-                + Utils.toString(defaut3) + ", " 
-                + Utils.toString(defaut4) + ", " 
-                + Utils.toString(latitude) + ", "
-                + Utils.toString(longitude) + ", " 
-                + Utils.toString(distanceParcourue) + ", " 
-                + Utils.toString(seqNumber) + ", "
-                + Utils.toString(snr) + ", "
-                + Utils.toString(rssi) + ", "
-                + Utils.toString(avgSnr) + ", "
-                + Utils.toString(device)
-          + ")";
+        String queryString;
+        if (mode == "NORMAL") {
+            queryString =
+             "insert into donneesTR (Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, DistanceParcourue, SeqNumber, Snr, Rssi, AvgSnr, Device) values ("
+                    + Utils.toString(mode) + ", " 
+                    + Utils.toString(datation) + ", " 
+                    + Utils.toString(vitesse) + ", "
+                    + Utils.toString(regime) + ", " 
+                    + Utils.toString(consommation) + ", " 
+                    + Utils.toString(vitesseMax) + ", " 
+                    + Utils.toString(regimeMax) + ", " 
+                    + Utils.toString(consoMax) + ", "
+                    + Utils.toString(nbDefauts) + ", " 
+                    + Utils.toString(defaut1) + ", " 
+                    + Utils.toString(defaut2) + ", " 
+                    + Utils.toString(defaut3) + ", " 
+                    + Utils.toString(defaut4) + ", " 
+                    + Utils.toString(latitude) + ", "
+                    + Utils.toString(longitude) + ", " 
+                    + Utils.toString(distanceParcourue) + ", " 
+                    + Utils.toString(seqNumber) + ", "
+                    + Utils.toString(snr) + ", "
+                    + Utils.toString(rssi) + ", "
+                    + Utils.toString(avgSnr) + ", "
+                    + Utils.toString(device)
+              + ")";
+        }
+        else  if ((mode == "DMD_GPS") || (mode == "GPS")) {
+            queryString =
+             "insert into donneesTR (Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, DistanceParcourue, SeqNumber, Snr, Rssi, AvgSnr, Device) values ("
+                    + Utils.toString(mode) + ", " 
+                    + Utils.toString(datation) + ", "
+                    + "NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,"
+                    + Utils.toString(latitude) + ", "
+                    + Utils.toString(longitude) + ", " 
+                    + "NULL, " 
+                    + Utils.toString(seqNumber) + ", "
+                    + Utils.toString(snr) + ", "
+                    + Utils.toString(rssi) + ", "
+                    + Utils.toString(avgSnr) + ", "
+                    + Utils.toString(device)
+              + ")";
+        }
+        else {
+            queryString =
+             "insert into donneesTR (Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, DistanceParcourue, SeqNumber, Snr, Rssi, AvgSnr, Device) values ("
+                    + Utils.toString(mode) + ", " 
+                    + Utils.toString(datation) + ", "
+                    + "NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL," 
+                    + Utils.toString(distanceParcourue) + ", " 
+                    + Utils.toString(seqNumber) + ", "
+                    + Utils.toString(snr) + ", "
+                    + Utils.toString(rssi) + ", "
+                    + Utils.toString(avgSnr) + ", "
+                    + Utils.toString(device)
+              + ")";
+        }
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
         return donneesTR;
@@ -275,8 +308,8 @@ public class DonneesTR {
         return regime;
     }
     
-    public int getConsommation() {
-        return consommation;
+    public double getConsommation() {
+        return consommation/10;
     }
 
     public int getVitesseMax() {
@@ -285,8 +318,8 @@ public class DonneesTR {
     public int getRegimeMax() {
         return regimeMax;
     }
-    public int getConsoMax() {
-        return consoMax;
+    public double getConsoMax() {
+        return consoMax/10;
     }
     public int getNbDefauts() {
         return nbDefauts;

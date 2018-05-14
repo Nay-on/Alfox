@@ -47,7 +47,7 @@ public class DonneesTRTest {
     public void testCreate() throws Exception {
         System.out.println("create");
         Connection con = ConnexionMySQL.newConnexion();
-        String mode = "STANDARD";
+        String mode = "NORMAL";
         Timestamp datation = Utils.stringToTimestamp("2017/03/22 12:00:00");
         int vitesse = 50;
         int regime = 1800;
@@ -80,7 +80,7 @@ public class DonneesTRTest {
     public void testSave() throws Exception {
         System.out.println("save");
         Connection con = ConnexionMySQL.newConnexion();
-        String mode = "STANDARD";
+        String mode = "NORMAL";
         Timestamp datation = Utils.stringToTimestamp("2017/03/22 12:00:00");
         int vitesse = 50;
         int regime = 1800;
@@ -115,7 +115,7 @@ public class DonneesTRTest {
         System.out.println("getMode");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals("STANDARD", instance.getMode());
+        assertEquals("NORMAL", instance.getMode());
     }
 
     /**
@@ -126,7 +126,7 @@ public class DonneesTRTest {
         System.out.println("getDatation");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(Utils.stringToTimestamp("2018/03/20 00:50:00.0"), instance.getDatation());
+        assertEquals(Utils.stringToTimestamp("2018/03/20 01:10:00.0"), instance.getDatation());
     }
 
     /**
@@ -137,7 +137,7 @@ public class DonneesTRTest {
         System.out.println("getVitesse");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(110, instance.getVitesse());
+        assertEquals(26, instance.getVitesse());
     }
 
     /**
@@ -148,7 +148,7 @@ public class DonneesTRTest {
         System.out.println("getRegime");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(3235, instance.getRegime());
+        assertEquals(1589, instance.getRegime());
     }
 
     /**
@@ -157,10 +157,9 @@ public class DonneesTRTest {
     @Test
     public void testGetConsommation() throws Exception {
         System.out.println("getConsommation");
-        System.out.println("getConsommation");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(9, instance.getConsommation());
+        assertEquals(1.0, instance.getConsommation(), 0.1);
     }
 
     /**
@@ -171,7 +170,7 @@ public class DonneesTRTest {
         System.out.println("getVitesseMax");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(78, instance.getVitesseMax());
+        assertEquals(62, instance.getVitesseMax());
     }
 
     /**
@@ -182,7 +181,7 @@ public class DonneesTRTest {
         System.out.println("getRegimeMax");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(3281, instance.getRegimeMax());
+        assertEquals(3495, instance.getRegimeMax());
     }
 
     /**
@@ -193,7 +192,7 @@ public class DonneesTRTest {
         System.out.println("getConsoMax");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(32, instance.getConsoMax());
+        assertEquals(2.0, instance.getConsoMax(), 0.1);
     }
 
     /**
@@ -215,7 +214,7 @@ public class DonneesTRTest {
         System.out.println("getDefaut1");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(158, instance.getDefaut1());
+        assertEquals(71, instance.getDefaut1());
     }
 
     /**
@@ -226,7 +225,7 @@ public class DonneesTRTest {
         System.out.println("getDefaut2");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(147, instance.getDefaut2());
+        assertEquals(29, instance.getDefaut2());
     }
 
     /**
@@ -237,7 +236,7 @@ public class DonneesTRTest {
         System.out.println("getDefaut3");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(185, instance.getDefaut3());
+        assertEquals(26, instance.getDefaut3());
     }
 
     /**
@@ -248,7 +247,7 @@ public class DonneesTRTest {
         System.out.println("getDefaut4");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(136, instance.getDefaut4());
+        assertEquals(199, instance.getDefaut4());
     }
 
     /**
@@ -259,7 +258,7 @@ public class DonneesTRTest {
         System.out.println("getLatitude");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(42.870164, instance.getLatitude(), 0.00001);
+        assertEquals(13.930618, instance.getLatitude(), 0.00001);
     }
 
     /**
@@ -270,7 +269,7 @@ public class DonneesTRTest {
         System.out.println("getLongitude");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(17.555737, instance.getLongitude(), 0.00001);
+        assertEquals(4.677368, instance.getLongitude(), 0.00001);
     }
 
     /**
@@ -281,7 +280,7 @@ public class DonneesTRTest {
         System.out.println("getDistanceParcourue");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(9, instance.getDistanceParcourue());
+        assertEquals(18, instance.getDistanceParcourue());
     }
 
     /**
@@ -292,7 +291,7 @@ public class DonneesTRTest {
         System.out.println("getSeqNumber");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(6, instance.getSeqNumber());
+        assertEquals(8, instance.getSeqNumber());
     }
 
     /**
@@ -347,7 +346,7 @@ public class DonneesTRTest {
         System.out.println("getLastByImmatriculation");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR result = DonneesTR.getLastByImmatriculation(con, "1");
-        assertEquals(Utils.stringToTimestamp("2018/03/20 00:50:00.0"), result.getDatation());
+        assertEquals(Utils.stringToTimestamp("2018/03/20 01:10:00.0"), result.getDatation());
     }
 
     /**
@@ -358,9 +357,9 @@ public class DonneesTRTest {
         System.out.println("getByDate");
         Connection con = ConnexionMySQL.newConnexion();
         ArrayList<DonneesTR> result = DonneesTR.getByDate(con, "1", "2018-03-20");
-        assertEquals(6, result.size());
-        assertEquals(110, result.get(0).getVitesse());
-        assertEquals(35, result.get(5).getVitesse());
+        assertEquals(8, result.size());
+        assertEquals(26, result.get(0).getVitesse());
+        assertEquals(36, result.get(5).getVitesse());
     }
 
     /**
@@ -371,8 +370,8 @@ public class DonneesTRTest {
         System.out.println("getDonneesVehicule");
         Connection con = ConnexionMySQL.newConnexion();
         ArrayList<DonneesTR> result = DonneesTR.getDonneesVehicule(con, "1");
-        assertEquals(6, result.size());
-        assertEquals(110, result.get(0).getVitesse());
-        assertEquals(35, result.get(5).getVitesse());
+        assertEquals(8, result.size());
+        assertEquals(26, result.get(0).getVitesse());
+        assertEquals(36, result.get(5).getVitesse());
     }
 }

@@ -330,14 +330,16 @@ public class Vehicule {
         if ((lat0 >= latMin) && (lat0 <= latMax) && (lg0 >= lgMin) && (lg0 <= lgMax)) {
             // Si oui on récupère la dernière date à laquelle le véhicule était en dehors d'Alcis
             int i = 1;
-            while ((lstDonneesTR.get(i).getLatitude() >= latMin) && (lstDonneesTR.get(i).getLatitude() <= latMax) && (lstDonneesTR.get(i).getLongitude() >= lgMin) && (lstDonneesTR.get(i).getLongitude() <= lgMax)) {
+            while ((i < lstDonneesTR.size()) && (lstDonneesTR.get(i).getLatitude() >= latMin) && (lstDonneesTR.get(i).getLatitude() <= latMax) && (lstDonneesTR.get(i).getLongitude() >= lgMin) && (lstDonneesTR.get(i).getLongitude() <= lgMax)) {
                 i++;
             }
-            Timestamp dateDernierePosAlcis = lstDonneesTR.get(i+1).getDatation();
+            if (i >= lstDonneesTR.size()) 
+                i--;
+            Timestamp dateDernierePosAlcis = lstDonneesTR.get(i).getDatation(); // On récupère la date
             tempsAlcisEnMs = dateJour.getTime() - dateDernierePosAlcis.getTime();
             tempsAlcisEnM = (int)(tempsAlcisEnMs / 60000);
             if (tempsAlcisEnM < 60) {
-                tempsAlcisEnM = 0;
+                tempsAlcisEnM = 0; // Si le véhicule y est depuis moins d'une heure on ne le considère pas
             }
         }
         else {

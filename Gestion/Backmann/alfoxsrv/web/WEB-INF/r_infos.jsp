@@ -4,6 +4,7 @@
     Created on : Mars 2018
 --%>
 
+<%@page import="java.sql.Timestamp"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.persistence.Vehicule"%>
 <%@page import="com.persistence.DonneesTR"%>
@@ -15,6 +16,7 @@
     <head>
         <title>Acceuil</title> 
         <%@ include file="/includes/header.jspf" %>
+        <script type="text/javascript" src="js/alfox.js"></script>
     </head>
     <body>
         <% 
@@ -29,36 +31,35 @@
                 <h1><img id="logoHeader" src="images/alcisLogo.png"/>Infos</h1>
                 <p class="mode" >
                 <% 
-                    
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
                     DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox());
                     out.print("Mode : " + dtr.getMode());
+                    Timestamp date = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox()).getDatation();
                 %>
                 </p>
                 <a href="#panelVehicules" 
                    class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear ui-btn-right">
                 </a>
             </div>
-            
             <div role="main" class="ui-content">
                 <center>
                     <p class="mess">Nombre de message restants : 3/4</p>
                     <form class="form" >
                         <div class="ui-field-contain">
-                            <label class="label" for="select-native-1">Véhicule :</label>
-                            <select name="select-native-1" id="select-native-1">
+                            <label class="label" for="infosSelectImmatriculation">Véhicule :</label>
+                            <select name="infosSelectImmatriculation" id="infosSelectImmatriculation">
                         <% 
                             // recup l'immatriculation des véhicules
                             int nb = Vehicule.size(con);
                             for (int i = 0; i< nb; i++) {
-                                out.print("<option value='1'>" + immatriculations.get(i) + "</option>");
+                                out.print("<option value='" + immatriculations.get(i) + "'>" + immatriculations.get(i) + "</option>");
                             }
                         %>
-                             
                             </select>
                         </div>
-                        <input value="2018-05-09" id="date" type="date">
+                        <input value=date id="dateSelect" type="date">
+                        
                     </form>
                     <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
                     <thead>
@@ -72,7 +73,7 @@
                           <th data-priority="4">Longitude</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="infosTR">
                         <% 
                             ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getIdSigfox(), "2018-03-20");
                             // recup la liste des données tr pour ce véhicule et cette date

@@ -44,6 +44,8 @@
                 request.getRequestDispatcher("WEB-INF/r_statistiques.jsp").forward(request, response);
             } else if (action.equals("gestion")) {
                 request.getRequestDispatcher("WEB-INF/r_gestion.jsp").forward(request, response);
+            } else if (action.equals("r_infosByImmaAndDate")) {
+                request.getRequestDispatcher("WEB-INF/ajax_infosByImmaAndDate.jsp").forward(request, response);
             } else if (action.equals("logout")) {
                 session.invalidate();   // fermeture de la session (plus de user ni de connexion)
                 request.getRequestDispatcher("index.jsp").forward(request, response);

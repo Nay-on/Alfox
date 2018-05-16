@@ -7,7 +7,8 @@
 package com.persistence;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.Date;
 
 public class Vehicule {
 
@@ -221,7 +222,7 @@ public class Vehicule {
     
     public static int getAgeMoyenFlotte(Connection con) throws Exception {
         long ms = 0;
-        Timestamp dateDuJour = Utils.getDateDuJour();
+        Date now = new java.util.Date();
         String queryString = "select * from vehicule";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
@@ -232,7 +233,7 @@ public class Vehicule {
             lstDateMiseEnService.add(lResult.getTimestamp("DateMiseEnService"));
         }
         for (int i = 0 ; i < lstDateMiseEnService.size() ; i++) {
-            ms = ms + (dateDuJour.getTime() - lstDateMiseEnService.get(i).getTime()); 
+            ms = ms + (now.getTime() - lstDateMiseEnService.get(i).getTime()); 
         }
         int jour = (int)(ms / 86400000);
         return jour/lstDateMiseEnService.size();
@@ -316,7 +317,7 @@ public class Vehicule {
         long tempsAlcisEnMs = 0;
         int tempsAlcisEnM = 0;
         // On récupère la date et heure actuelle
-        Timestamp dateJour = Utils.getDateDuJour();
+        Date now = new java.util.Date();
         // On défini la position d'ALCIS (5km*5km)
         double latMin = 43.555692;
         double latMax = 43.646065;
@@ -336,7 +337,7 @@ public class Vehicule {
             if (i >= lstDonneesTR.size()) 
                 i--;
             Timestamp dateDernierePosAlcis = lstDonneesTR.get(i).getDatation(); // On récupère la date
-            tempsAlcisEnMs = dateJour.getTime() - dateDernierePosAlcis.getTime();
+            tempsAlcisEnMs = now.getTime() - dateDernierePosAlcis.getTime();
             tempsAlcisEnM = (int)(tempsAlcisEnMs / 60000);
             if (tempsAlcisEnM < 60) {
                 tempsAlcisEnM = 0; // Si le véhicule y est depuis moins d'une heure on ne le considère pas

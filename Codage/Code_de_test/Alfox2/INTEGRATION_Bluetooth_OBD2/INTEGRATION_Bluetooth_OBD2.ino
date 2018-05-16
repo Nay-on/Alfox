@@ -16,7 +16,7 @@ void setup()
   bluetooth = new Bluetooth(PINALIM, PINEN);
   delay(10000);
   Serial.println("Connexion bluetooth");
-  int resultatConnexion = bluetooth->connexion("E094,67,48C348");
+  int resultatConnexion = bluetooth->connexion("B22B,1C,70EA6");
   Serial.println(resultatConnexion,BIN);
   delay(5000);
   Serial.println("Création OBD2");

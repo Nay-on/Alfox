@@ -4,7 +4,6 @@
     Created on : Mars 2018
 --%>
 
-<%@page import="java.sql.Timestamp"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.persistence.Vehicule"%>
 <%@page import="com.persistence.DonneesTR"%>
@@ -14,7 +13,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Acceuil</title> 
+        <title>Accueil</title> 
         <%@ include file="/includes/header.jspf" %>
         <script type="text/javascript" src="js/alfox.js"></script>
     </head>
@@ -35,7 +34,6 @@
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
                     DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox());
                     out.print("Mode : " + dtr.getMode());
-                    Timestamp date = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox()).getDatation();
                 %>
                 </p>
                 <a href="#panelVehicules" 
@@ -58,7 +56,7 @@
                         %>
                             </select>
                         </div>
-                        <input value=date id="dateSelect" type="date">
+                        <input value="2018-05-16" id="dateSelect" type="date">
                         
                     </form>
                     <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
@@ -101,7 +99,7 @@
                         <div data-role="popup" id="positionWindow" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode DORMIR ?</p>
                                 <button class="ok" style="width: 200px">OK</button>
-                                <button class="annuler" style="width: 200px">Annuler</button>
+                                <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
                         </div>
                     </a>
                     <a href="#positionWindow1" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
@@ -109,7 +107,7 @@
                         <div data-role="popup" id="positionWindow1" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode GPS ?</p>
                             <button class="ok" style="width: 200px">OK</button>
-                            <button class="annuler" style="width: 200px">Annuler</button>
+                            <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
                         </div>
                     </a>
                     <a href="#positionWindow2" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
@@ -117,7 +115,7 @@
                         <div data-role="popup" id="positionWindow2" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode Demande GPS ?</p>
                             <button class="ok" style="width: 200px">OK</button>
-                            <button class="annuler" style="width: 200px">Annuler</button>
+                            <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
                         </div>
                     </a>
                     <a href="#positionWindow3" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
@@ -125,7 +123,7 @@
                         <div data-role="popup" id="positionWindow3" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode RESET ?</p>
                             <button class="ok" style="width: 200px">OK</button>
-                            <button class="annuler" style="width: 200px">Annuler</button>
+                            <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
                         </div>
                     </a>
                 </div>

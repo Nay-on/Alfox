@@ -19,28 +19,42 @@ void setup()
 {  
   Serial.begin(115200);
   carteSD = new CarteSD();
+  
 #ifdef DEBUG
   Serial.println("Test bluetooth et obd2");
 #endif
+
   delay(1000);
+  
 #ifdef DEBUG
   Serial.println("Création bluetooth");
 #endif
+
   bluetooth = new Bluetooth(PINALIM, PINEN);
   delay(5000);
+  
 #ifdef DEBUG
   Serial.println("Connexion bluetooth");
 #endif
+
+  //ELM327 (Bleu)
   int resultatConnexion = bluetooth->connexion("2017,11,7030A");
+  //Simulateur
+  //int resultatConnexion = bluetooth->connexion("E094,67,48C348");    
+  
+  
 #ifdef DEBUG
   Serial.println(resultatConnexion,BIN);
 #endif
+
   delay(5000);
+  
 #ifdef DEBUG
   Serial.print("Is actif? : ");
   Serial.println(bluetooth->isActif());
   Serial.println("Création OBD2");
 #endif
+
   obd2 = new OBD2(bluetooth);
   initial = millis();
 }

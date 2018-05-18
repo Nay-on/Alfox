@@ -174,8 +174,8 @@ int Bluetooth::appairage(String adresse)
 {
   String contenu = "";
   Serial.println("Apparaige");
-  serialBT->println("AT+PAIR=" + adresse + ",10");
-  delay(5000);
+  serialBT->println("AT+PAIR=" + adresse + ",10");//10 par défaut
+  delay(5000);//5000 par défaut
   while (serialBT->available() <= 0);
   while (serialBT->available() > 0) 
   {
@@ -242,7 +242,7 @@ int Bluetooth::lien(String adresse)
   String contenu = "";
   Serial.println("Link");
   serialBT->println("AT+LINK=" + adresse);
-  delay(10000);
+  delay(10000);//10000 par défaut
   while (serialBT->available() <= 0);
   while (serialBT->available() > 0) 
   {

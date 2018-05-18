@@ -22,13 +22,13 @@ void setup() {
   //Serial.println(bluetooth->connexion("B22B,1C,70EA6"),BIN);
 
   //Pour le module bleu OBD2
-  int resultatConnexion = bluetooth->connexion("2017,11,7030A");
-  Serial.println(resultatConnexion,BIN);
+  //int resultatConnexion = bluetooth->connexion("2017,11,7030A");
+  //Serial.println(resultatConnexion,BIN);
 
   //Pour le module HC-06
   //Serial.println(bluetooth->connexion("0013,12,267317"),BIN);
   //Pour le Simulateur
-  //Serial.println(bluetooth->connexion("E094,67,48C348"),BIN);
+  Serial.println(bluetooth->connexion("18,E7,1EC629"),BIN);
   
   delay(5000);
   Serial.print("Is actif ? : ");

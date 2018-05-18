@@ -40,7 +40,7 @@ void setup()
   //ELM327 (Bleu)
   int resultatConnexion = bluetooth->connexion("2017,11,7030A");
   //Simulateur
-  //int resultatConnexion = bluetooth->connexion("E094,67,48C348");    
+  //int resultatConnexion = bluetooth->connexion("18,E7,1EC629");    
   
   
 #ifdef DEBUG

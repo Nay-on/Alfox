@@ -1,9 +1,9 @@
 #include "CarteSD.h"
 
 CarteSD::CarteSD() {
-  Serial.println(F("Initialisation!"));
-  pinMode(11, OUTPUT); // laisser la broche SS en sortie - obligatoire avec librairie SD
-  if (!SD.begin(11)) { // si la communication commence bien sur le port d'ecriture
+  Serial.println(F("Initialisation!"));                // debug 
+  pinMode(11, OUTPUT);                                 // laisser la broche SS en sortie - obligatoire avec librairie SD
+  if (!SD.begin(11)) {                                 // si la communication commence bien sur le port d'ecriture
     Serial.println(F("Initialisation impossible !"));
   }
 
@@ -13,34 +13,35 @@ CarteSD::CarteSD() {
 CarteSD::~CarteSD() {
 
 }
-// bloque la lercture mais non bloquant au final
-String CarteSD::lire() {
-  fichierSD = SD.open(nomFichier);
-  Serial.println(fichierSD.name());
+                                                        // bloque la lercture mais non bloquant au final
+String CarteSD::lire(String nomFichierALire) {
+  fichierSD = SD.open(nomFichierALire);                 //ouverture du fichier
+  //Serial.println(fichierSD.name());                   // debug
   if (fichierSD) {
-    while (fichierSD.available()) {
-      Serial.write(fichierSD.read());
+    while (fichierSD.available()) {                     // tant qu'il y as quelque chose de non lus dans le fichier
+      Serial.write(fichierSD.read());                   // lecture du fichier
     }
-    fichierSD.close();
+    fichierSD.close();                                  // fermeture du fichier
   }
-  // si le ficheir n'est pas ouver afficher une erreur d'ouverture
+                                                        // si le ficheir n'est pas ouver afficher une erreur d'ouverture
   else {
-    Serial.println("erreur d'ouverture");
+    Serial.println("erreur d'ouverture");               // debug
   }
 }
 
 // OK
 void CarteSD::ecrire(DonneesTR* dTR)
 {
-  fichierSD = SD.open(nomFichier, FILE_WRITE);
-  if (fichierSD) {
-    Serial.println(fichierSD.name());
-    fichierSD.println("# " + String(dTR->getConsommation()) + "   " + String(dTR->getConsoMax()) + "   " + String(dTR->getVitesseMax()) + "   " + String(dTR->getVitesseMoyenne()) + "   " + String(dTR->getRegimeMax()) + "   ");
-    fichierSD.close();
-    Serial.println("ecriture");
+  fichierSD = SD.open(nomFichier, FILE_WRITE);          // ouverture du fichier en ecriture et creation si il n'existe pas 
+  if (fichierSD) {// si l'ouverture as réussie
+    Serial.println(fichierSD.name());                   // debug
+    fichierSD.println("# " + String(dTR->getConsommation()) + String(dTR->getVitesseMax()) + "   " + String(dTR->getVitesseMoyenne()) + "   " + String(dTR->getRegimeMax()) + "   "+ String(dTR->getRegimeMoyen()) + "   ");
+                                                        // ecriture des donnée 
+    fichierSD.close();                                  // fermeture du fichier
+    Serial.println("ecriture");                         // debug
   }
   else  {
-    Serial.println("erreur d'ecriture");
+    Serial.println("erreur d'ecriture");                // debug 
   }
 }
 
@@ -49,19 +50,19 @@ void CarteSD::ecrire(DonneesTR* dTR)
 void CarteSD::effacer()
 {
 
-  while (true) {
+  while (true) {                                         // boucle pour le programem recurcif 
 
-    File entry = fichierRacineSD.openNextFile(FILE_WRITE);
-    if (! entry)
+    File entry = fichierRacineSD.openNextFile(FILE_WRITE); // ouverture de la carte SD a la racine 
+    if (! entry)                                        // si l'ouverture as bien marcher 
     {
-      if (numTabs == 0)
-        Serial.println("liste des fichier complète");
-      return;
+      if (numTabs == 0)                                 // nombre de dossier depuis la deja passé
+        Serial.println("liste des fichier complète");   // debug
+      return;                                           // sortie de la boucle 
     }
-    for (uint8_t i = 0; i < numTabs; i++)
+    for (uint8_t i = 0; i < numTabs; i++) 
       Serial.print('\t');
     Serial.print(entry.name());
-    if (entry.isDirectory())
+    if (entry.isDirectory())                             //cette boucle sert a faire la liste des fichier 
     {
       Serial.println("/");
       numTabs = numTabs + 1;
@@ -88,17 +89,16 @@ bool CarteSD::isFull() {
   printDirectory(fichierRacineSD, 0);
   fichierSD.close();
   Serial.println("place utilisée " + String(placePrise));
-  if (placePrise < 8589934080) { // taille de la carte moins une marge de 512 octet par securité
-    return true; // si la carte est plaine retourne vrais
+  if (placePrise < 8589934080) {                          // taille de la carte moins une marge de 512 octet par securité
+    return true;                                          // si la carte est plaine retourne vrais
   }
   else {
-    return false; // sinon retourne faux 
+    return false;                                         // sinon retourne faux 
   }
 
 }
 
 
-//TODO
 void CarteSD::effacerOldData()
 {
   //rechercher nom le plus vieux puis utiliser supprimerFichier
@@ -109,29 +109,29 @@ void CarteSD::effacerOldData()
 }
 
 
-//fonction ok et tester nececite l'ajout d'un fichier a la base de la carte pour la suite
+                                                          //fonction ok et tester nececite l'ajout d'un fichier a la base de la carte pour la suite
 bool CarteSD::nouveauFichier(String nom)
 {
   if (SD.exists(nom)) {
-    Serial.println(F("le fichier existe déjà"));
-    nomFichier = nom;
-    fichierRacineSD = SD.open("/");
-    return true;
+    Serial.println(F("le fichier existe déjà"));          // debug
+    nomFichier = nom;                                     // nom du fichier journalier
+    fichierRacineSD = SD.open("/");                       //nom du fichier racine
+    return true;                                          // le fichier existe bien
   }
-  else {
-    fichierSD = SD.open(nom, FILE_WRITE);
-    if (fichierSD) {
-      fichierSD.println("Heure   KM       CMOY  NBDF  CD1    CD2    CD3    CD4   VMX   VMOY  RMX    RMOY");
-      Serial.println(fichierSD.name());
-      fichierSD.close();
-      Serial.println("création réussi");
+  else {                                                  // si le ficheir n'exitste pas 
+    fichierSD = SD.open(nom, FILE_WRITE);                 // creation et ouverture en ecriture
+    if (fichierSD) {                                      // si le fichier as bien été crée
+      fichierSD.println("  KM       CMOY  NBDF  CD1    CD2    CD3    CD4   VMX   VMOY  RMX    RMOY"); // entête
+      Serial.println(fichierSD.name());                   // debug
+      fichierSD.close();                                  // fermeture
+      Serial.println("création réussi");                  // debug
     }
-    else {
-      Serial.println(F("erreur de creation"));
+    else {                                                // si la création as echouer
+      Serial.println(F("erreur de creation"));            // debug
 
-      return false;
+      return false;                                       //le ficheir n'as pas bien été crée
     }
-    fichierRacineSD = SD.open("/");
+    fichierRacineSD = SD.open("/");                       // ouverture du fichier
 
     nomFichier = nom;
     Serial.println(nomFichier);
@@ -143,17 +143,17 @@ bool CarteSD::nouveauFichier(String nom)
 
 bool CarteSD::supprimerFichier(String nom)
 {
-  if (SD.exists(nom)) {
-    SD.remove(nom);
+  if (SD.exists(nom)) {                                   // si le fichier existe 
+    SD.remove(nom);                                       // suppression
   }
-  return SD.exists(nom);
+  return SD.exists(nom);                                  // retourne etat fichier si il existe ou non 
 }
 
 
-
+                                                          // code recuperer d'internet qui permet de faire la liste de tout le fichier 
 void CarteSD::printDirectory(File dir, int numTabs)
 {
-  // ne fonctionne que si il y as un dossier a la racine de la carte SD
+                                                          //code recuperer sur le site internet arduino classe SD
   while (true) {
 
     File entry = dir.openNextFile();

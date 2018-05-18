@@ -27,21 +27,21 @@ int Bluetooth::connexion(String adresse)
   }
   else
   {
-  int sommeErreurs = 0;
+    int sommeErreurs = 0;
 
-  reinitialiser();
-  sommeErreurs += modeMaster();
-  sommeErreurs += modeConnexion();
-  sommeErreurs += motDePasse();
-  sommeErreurs += initialisation();
-  sommeErreurs += appairage(adresseOBD2);
-  sommeErreurs += bind(adresseOBD2);
-  sommeErreurs += modeDeconnecte();
-  sommeErreurs += lien(adresseOBD2);
+    reinitialiser();
+    sommeErreurs += modeMaster();
+    sommeErreurs += modeConnexion();
+    sommeErreurs += motDePasse();
+    sommeErreurs += initialisation();
+    sommeErreurs += appairage(adresseOBD2);
+    sommeErreurs += bind(adresseOBD2);
+    sommeErreurs += modeDeconnecte();
+    sommeErreurs += lien(adresseOBD2);
 
-  delay(100);
-  digitalWrite(pinEn, LOW);
-  delay(100);
+    /*delay(100);
+    //digitalWrite(pinEn, LOW);
+    //delay(100);
   
     if(this->isActif() == true)
     {
@@ -52,7 +52,7 @@ int Bluetooth::connexion(String adresse)
       digitalWrite(pinAlim, 0);
       delay(1000);
       digitalWrite(pinAlim, 1);
-    }
+    }*/
     return sommeErreurs;
   }
 }
@@ -63,20 +63,16 @@ bool Bluetooth::isActif()
   serialBT->println("ATI");
   delay(100);
   while (serialBT->available() <= 0);
-  while (serialBT->available() > 0) 
-  {
-    //contenu  += serialBT->read();
-    contenu.concat(serialBT->read());
-  }
-  if (contenu.substring(0,6) == "697677")
+  contenu = serialBT->readStringUntil('>');
+  if (contenu.substring(0, 3) == "ELM")
   {
     return true;
   }
-  else 
+  else
   {
     return false;
   }
-
+  //serialBT->flush();
 
 }
 

@@ -10,7 +10,7 @@ class CarteSD {
 public:
     CarteSD();
     virtual ~CarteSD();
-    String lire();
+    String lire(String fichierALire);  
     void ecrire(DonneesTR* dTR);
     void effacer();
     bool isFull();
@@ -21,12 +21,12 @@ public:
 
     
 private:
-    String nomFichier;
-    File fichierSD;
-    File fichierRacineSD;
-    File dir;
-    int placePrise=0;
-     int numTabs =0;
+    String nomFichier;// nom du fichier journalier 
+    File fichierSD;// fichier journaliers ( change chaque jours) 
+    File fichierRacineSD;// normalement "/"
+    File dir; // fichier temporaire lors de la liste de tout les fichier
+    int placePrise=0; // utiliser dans is full
+    int numTabs =0; // utiliser chaque fois que l'on fait une liste de fichier permet de partir de la racine 
 };
 
 #endif /* CARTESD_H */

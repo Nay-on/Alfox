@@ -8,9 +8,13 @@
 #include <Arduino.h>
 #include "Bluetooth.h"
 
-    typedef enum {
-      C_VITESSE, C_CONSOMMATION, C_REGIME, C_DEFAUT
-    } TCode;
+#define DEBUT_POIDS_FORT 6
+#define FIN_POIDS_FORT 8
+#define DEBUT_POIDS_FAIBLE 9
+#define FIN_POIDS_FAIBLE 11
+
+
+typedef enum {C_VITESSE, C_CONSOMMATION, C_REGIME, C_DEFAUT, C_VERSION} TCode;
     
 class OBD2
 {
@@ -19,9 +23,7 @@ class OBD2
     
     Bluetooth* moduleBT;
     Uart* liaisonBT;
-    
-    String lireReponse();
-    String code[4] = {"010D", "015E", "010C", "CODE_DEFAUT_NONDEF" };
+    String code[5] = {"010D", "015E", "010C", "CODE_DEFAUT_NONDEF" ,"ATI"};
   
 	public:
 		/** Constructeur **/
@@ -31,8 +33,7 @@ class OBD2
     float lireConsomation();
     int lireRegimeMoteur();
     int lireVitesse();
-
-    
+    String lireReponse();
 };
 
 #endif

@@ -51,14 +51,14 @@ OBD2::OBD2(Bluetooth* bt){
   this->moduleBT = bt;
   liaisonBT = moduleBT->getLiaisonBT();
   liaisonBT->flush();
-  liaisonBT->println("AT S0");
-  Serial.println(lireReponse());
-  liaisonBT->println("AT");
-  Serial.println(lireReponse());
-  liaisonBT->println("AT H0");
-  Serial.println(lireReponse());  
-  liaisonBT->println("AT R0");
-  Serial.println(lireReponse());
+  //liaisonBT->println("AT S0");
+  //Serial.println(lireReponse());
+  //liaisonBT->println("AT");
+  //Serial.println(lireReponse());
+  //liaisonBT->println("AT H0");
+  //Serial.println(lireReponse());  
+  //liaisonBT->println("AT R0");
+  //Serial.println(lireReponse());
   liaisonBT->println("AT SP0");
   Serial.println(lireReponse());
 }

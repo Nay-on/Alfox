@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/snir2g1/Bureau/Alfox/Gestion/Backmann/alfoxsrv/web/WEB-INF/r_accueil.jsp</file>
-            <file>file:/home/snir2g1/Bureau/Alfox/Gestion/Backmann/alfoxsrv/web/WEB-INF/r_infos.jsp</file>
-            <file>file:/home/snir2g1/Bureau/Alfox/Gestion/Backmann/alfoxsrv/web/js/alfox.js</file>
+            <file>file:/home/snir2g1/Bureau/Alfox/Gestion/Backmann/alfoxsrv/src/java/com/persistence/ConnexionMySQL.java</file>
+            <file>file:/home/snir2g1/Bureau/Alfox/Gestion/Backmann/alfoxsrv/web/index.jsp</file>
+            <file>file:/home/snir2g1/Bureau/Alfox/Gestion/Backmann/alfoxsrv/web/WEB-INF/login_req.jsp</file>
+            <file>file:/home/snir2g1/Bureau/Alfox/Gestion/Backmann/alfoxsrv/src/java/com/persistence/Utils.java</file>
+            <file>file:/home/snir2g1/Bureau/Alfox/Gestion/Backmann/alfoxsrv/web/alfoxControl.jsp</file>
         </group>
     </open-files>
 </project-private>

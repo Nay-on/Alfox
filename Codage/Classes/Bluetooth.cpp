@@ -61,9 +61,8 @@ bool Bluetooth::isActif()
 {
   String contenu = "";
   serialBT->println("ATI");
-  delay(100);
   while (serialBT->available() <= 0);
-  contenu = serialBT->readStringUntil('>');
+  contenu = serialBT->readStringUntil('\n');
   if (contenu.substring(0, 3) == "ELM")
   {
     return true;
@@ -91,13 +90,9 @@ int Bluetooth::modeMaster()
 {
   String contenu = "";
   serialBT->println("AT+ROLE=1");
-  delay(100);
   while (serialBT->available() <= 0);
-  while (serialBT->available() > 0) 
-  {
-    contenu += serialBT->read();
-  }
-  if (contenu == "79751310")
+  contenu = serialBT->readStringUntil('\n');
+  if (contenu == "OK")
   {
     return 1;
   } 
@@ -111,13 +106,9 @@ int Bluetooth::modeConnexion()
 {
   String contenu = "";
   serialBT->println("AT+CMODE=1");
-  delay(100);
   while (serialBT->available() <= 0);
-  while (serialBT->available() > 0) 
-  {
-    contenu += serialBT->read();
-  }
-  if (contenu == "79751310")
+  contenu = serialBT->readStringUntil('\n');
+  if (contenu == "OK")
   {
     return 2;
   } 
@@ -132,13 +123,9 @@ int Bluetooth::motDePasse()
 {
   String contenu = "";
   serialBT->println("AT+PSWD=1234");
-  delay(100);
   while (serialBT->available() <= 0);
-  while (serialBT->available() > 0) 
-  {
-    contenu += serialBT->read();
-  }
-  if (contenu == "79751310")
+  contenu = serialBT->readStringUntil('\n');
+  if (contenu == "OK")
   {
     return 4;
   } 
@@ -153,13 +140,9 @@ int Bluetooth::initialisation()
 {
   String contenu = "";
   serialBT->println("AT+INIT");
-  delay(200);
   while (serialBT->available() <= 0);
-  while (serialBT->available() > 0) 
-  {
-    contenu += serialBT->read();
-  }
-  if (contenu == "79751310" )
+  contenu = serialBT->readStringUntil('\n');
+  if (contenu == "OK" )
   {
     return 8;
   } 
@@ -173,17 +156,20 @@ int Bluetooth::initialisation()
 int Bluetooth::appairage(String adresse) 
 {
   String contenu = "";
-  Serial.println("Apparaige");
+  Serial.println("Appairage");
   serialBT->println("AT+PAIR=" + adresse + ",10");//10 par défaut
-  delay(5000);//5000 par défaut
+  while (serialBT->available() <= 0);
+  contenu = serialBT->readStringUntil('\n');
+  Serial.println(contenu);
+  /*delay(5000);//5000 par défaut
   while (serialBT->available() <= 0);
   while (serialBT->available() > 0) 
   {
     contenu += serialBT->read();
   }
   Serial.println(contenu);
-
-  if (contenu == "79751310" )//|| contenu == "")
+  */
+  if (contenu == "OK" )
   {
     return 16;
   } 
@@ -199,15 +185,10 @@ int Bluetooth::bind(String adresse)
   String contenu = "";
   Serial.println("Bind");
   serialBT->println("AT+BIND=" + adresse);
-  delay(5000);
   while (serialBT->available() <= 0);
-  while (serialBT->available() > 0) 
-  {
-    contenu += serialBT->read();
-  }
+  contenu = serialBT->readStringUntil('\n');
   Serial.println(contenu);
-
-  if (contenu == "79751310")
+  if (contenu == "OK")
   {
     return 32;
   } 
@@ -221,13 +202,9 @@ int Bluetooth::modeDeconnecte()
 {
   String contenu = "";
   serialBT->println("AT+CMODE=0");
-  delay(100);
   while (serialBT->available() <= 0);
-  while (serialBT->available() > 0) 
-  {
-    contenu += serialBT->read();
-  }
-  if (contenu == "79751310")
+  contenu = serialBT->readStringUntil('\n');
+  if (contenu == "OK")
   {
     return 64;
   } 
@@ -242,14 +219,10 @@ int Bluetooth::lien(String adresse)
   String contenu = "";
   Serial.println("Link");
   serialBT->println("AT+LINK=" + adresse);
-  delay(10000);//10000 par défaut
   while (serialBT->available() <= 0);
-  while (serialBT->available() > 0) 
-  {
-    contenu += serialBT->read();
-  }
+  contenu = serialBT->readStringUntil('\n');
   Serial.println(contenu);
-  if (contenu == "79751310")
+  if (contenu == "OK")
   {
     return 128;
   } 

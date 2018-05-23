@@ -78,7 +78,7 @@ public class VehiculeTest {
         instance.setCompteurReel(2540.652);
         instance.save(con);
         instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
-        assertEquals(2540.652F, instance.getCompteurReel(), 0.1);
+        assertEquals(2540.652, instance.getCompteurReel(), 0.1);
         instance.setCompteurReel(40787.0);
         instance.save(con);
     }

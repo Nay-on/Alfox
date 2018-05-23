@@ -33,7 +33,6 @@
     float avgSnr = Float.parseFloat(request.getParameter("avgSnr"));
     // traitement de la trame utile des données
     String data = request.getParameter("data");
-    data = "d1011e002a00af57381c5c43";
     DonneesTR.saveData(con, data, datation, latitude, longitude, 
                                     device, seqNumber, snr, rssi, avgSnr);
 %>

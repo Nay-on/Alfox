@@ -3,6 +3,8 @@
 #include "OBD2.h"
 #include "CarteSD.h"
 #include "GPS.h"
+#include "LedTri.h"
+
 //#define DEBUG
 #define PERIODE_ECH 5000 //en millisecondes
 
@@ -11,6 +13,7 @@ OBD2* obd2;
 DonneesTR* donneesTR;
 CarteSD* carteSD;
 GPS* gps;
+LedTri* maLed;
 
 char c = ' ';
 boolean NL = true;
@@ -22,7 +25,8 @@ void setup()
   Serial.begin(115200);
   carteSD = new CarteSD();
   gps = new GPS();
-  
+  maLed = new LedTri(redLedPin, greenLedPin, blueLedPin);
+  maLed->setCouleur(magenta, 125);
   configureInterrupt_timer4_1ms();
   
 #ifdef DEBUG
@@ -71,12 +75,6 @@ void loop()
       majDataTR();
       gps->maj();
       periode = millis() - initial;
-    //delay(5000);
-/*    if (bluetooth->getLiaisonBT()->available())
-    {
-      c = bluetooth->getLiaisonBT()->read();
-      Serial.write(c);
-    }*/
     if (periode >= PERIODE_ECH)
     {
       Serial.println("___________________________________ODB2");
@@ -104,7 +102,6 @@ void loop()
       Serial.print((gps->getDatation().tm_mon)+1);
       Serial.print('/');
       Serial.println(gps->getDatation().tm_year);
-      
   }
 }
 

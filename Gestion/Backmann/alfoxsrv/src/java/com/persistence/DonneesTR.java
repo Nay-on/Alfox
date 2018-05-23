@@ -82,7 +82,11 @@ public class DonneesTR {
         String queryString;
         if (mode == "NORMAL") {
             queryString
-                    = "insert into donneesTR (Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, DistanceParcourue, SeqNumber, Snr, Rssi, AvgSnr, Device) values ("
+                    = "insert into donneesTR (Mode, Datation, Vitesse, Regime, "
+                    + "Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, "
+                    + "Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, "
+                    + "DistanceParcourue, SeqNumber, Snr, Rssi, AvgSnr, Device) "
+                    + "values ("
                     + Utils.toString(mode) + ", "
                     + Utils.toString(datation) + ", "
                     + Utils.toString(vitesse) + ", "
@@ -107,13 +111,19 @@ public class DonneesTR {
                     + ")";
         } else if ((mode == "DMD_GPS") || (mode == "GPS")) {
             queryString
-                    = "insert into donneesTR (Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, DistanceParcourue, SeqNumber, Snr, Rssi, AvgSnr, Device) values ("
+                    = "insert into donneesTR (Mode, Datation, Vitesse, Regime, "
+                    + "Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, "
+                    + "Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, "
+                    + "DistanceParcourue, SeqNumber, Snr, Rssi, AvgSnr, Device) "
+                    + "values ("
                     + Utils.toString(mode) + ", "
                     + Utils.toString(datation) + ", "
-                    + "NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,"
+                    + "NULL,NULL,"
+                    + "NULL,NULL,NULL,NULL,NULL,"
+                    + "NULL,NULL,NULL,NULL,"
                     + Utils.toString(latitude) + ", "
                     + Utils.toString(longitude) + ", "
-                    + "NULL, "
+                    + Utils.toString(distanceParcourue) + ", "
                     + Utils.toString(seqNumber) + ", "
                     + Utils.toString(snr) + ", "
                     + Utils.toString(rssi) + ", "
@@ -122,10 +132,16 @@ public class DonneesTR {
                     + ")";
         } else {
             queryString
-                    = "insert into donneesTR (Mode, Datation, Vitesse, Regime, Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, DistanceParcourue, SeqNumber, Snr, Rssi, AvgSnr, Device) values ("
+                    = "insert into donneesTR (Mode, Datation, Vitesse, Regime, "
+                    + "Consommation, VitesseMax, RegimeMax, ConsoMax, NbDefauts, "
+                    + "Defaut1, Defaut2, Defaut3, Defaut4, Latitude, Longitude, "
+                    + "DistanceParcourue, SeqNumber, Snr, Rssi, AvgSnr, Device) "
+                    + "values ("
                     + Utils.toString(mode) + ", "
                     + Utils.toString(datation) + ", "
-                    + "NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,"
+                    + "NULL,NULL,"
+                    + "NULL,NULL,NULL,NULL,NULL,"
+                    + "NULL,NULL,NULL,NULL,NULL,NULL,"
                     + Utils.toString(distanceParcourue) + ", "
                     + Utils.toString(seqNumber) + ", "
                     + Utils.toString(snr) + ", "
@@ -208,6 +224,9 @@ public class DonneesTR {
             // DMD_GPS : TM K1 K2 K3 LA LA LA LA LO LO LO LO
             boolean negLat = false;
             boolean negLg = false;
+            
+            // gestion du signe des données GPS.
+            distanceParcourue = bData[1] * 10000 + bData[2] * 100 + bData[3];
 
             if ((bData[7] & 0x01) != 0) {
                 bData[7] &= 0xFE;
@@ -217,8 +236,6 @@ public class DonneesTR {
                 bData[11] &= 0xFE;
                 negLg = true;
             }
-            distanceParcourue = bData[1] * 10000 + bData[2] * 100 + bData[3];
-
             double lat = (float) bData[4] + (float) bData[5] / 100
                     + (float) bData[6] / 10000 + (float) bData[7] / 1000000;
             if (negLat) {
@@ -232,7 +249,7 @@ public class DonneesTR {
             DonneesTR donneesTR = create(con, mode, datation,
                     vitesseMoy, regimeMoy, consoMoy, vitesseMax, regimeMax, consoMax,
                     nbDefauts, defaut1, defaut2, defaut3, defaut4,
-                    latitude, longitude, distanceParcourue,
+                    lat, lg, distanceParcourue,
                     seqNumber, snr, rssi, avgSnr, device);
         }
     }

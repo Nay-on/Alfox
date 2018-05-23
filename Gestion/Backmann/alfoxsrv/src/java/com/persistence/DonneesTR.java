@@ -225,9 +225,9 @@ public class DonneesTR {
             boolean negLat = false;
             boolean negLg = false;
             
-            // gestion du signe des données GPS.
             distanceParcourue = bData[1] * 10000 + bData[2] * 100 + bData[3];
 
+            // gestion du signe des données GPS.
             if ((bData[7] & 0x01) != 0) {
                 bData[7] &= 0xFE;
                 negLat = true;

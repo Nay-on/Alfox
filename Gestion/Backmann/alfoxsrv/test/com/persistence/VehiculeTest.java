@@ -58,9 +58,11 @@ public class VehiculeTest {
         boolean horsZone = false;
         int tauxUtilisation = 0;
         boolean aProbleme = false;
-        float compteurReel = 50.0F;
+        double compteurReel = 50.0;
         Timestamp dateControleTechnique = Utils.stringToTimestamp("2020/03/26 00:00:00");
-        Vehicule result = Vehicule.create(con, marque, modele, immatriculation, dateMiseEnService, motorisation, idSigfox, dateVidange, kmVidange, horsZone, tauxUtilisation, aProbleme, compteurReel, dateControleTechnique);
+        Vehicule result = Vehicule.create(con, marque, modele, immatriculation, dateMiseEnService, 
+                motorisation, idSigfox, dateVidange, kmVidange, horsZone, tauxUtilisation, 
+                aProbleme, compteurReel, dateControleTechnique);
         assertEquals("DS5", result.getModele());
         result.delete(con);
     }
@@ -405,7 +407,7 @@ public class VehiculeTest {
         System.out.println("getAgeMoyenFlotte");
         Connection con = ConnexionMySQL.newConnexion();
         int result = Vehicule.getAgeMoyenFlotte(con);
-        assertEquals(135, result);
+        assertEquals(142, result);
     }
 
     /**

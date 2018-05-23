@@ -43,7 +43,7 @@
                         <div class="card">
                             <div class="cardTitre">Date d'arrivée au garage</div>
                             <div class="container">
-                                <div id="cnv" class="cardValeur"><%= vehicule.getTempsAlcis(con) %> minutes</div>
+                                <div id="cnv" class="cardValeur">10 heures</div>
                                 <div class="cardUnite">DF-412-EZ</div>
                             </div>
                         </div>

@@ -16,7 +16,7 @@
         con = ConnexionMySQL.newConnexion();
     session.setAttribute("con", con);
     
-    // retourne par Ajax les infos de la galaxie concernée
+    // retourne par Ajax les infos ddu véhicule concerné
     String immatriculation = request.getParameter("immatriculation");
     String date = request.getParameter("date");
     String idSigfox = Vehicule.getByImmatriculation(con, immatriculation).getIdSigfox();

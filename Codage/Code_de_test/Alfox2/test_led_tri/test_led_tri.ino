@@ -1,7 +1,7 @@
-#include "LedTri.h"
+  #include "LedTri.h"
 
 
-LedTri* maLed = new LedTri(9, 10, 11);
+LedTri* maLed = new LedTri(redLedPin, greenLedPin, blueLedPin);
 
 
 

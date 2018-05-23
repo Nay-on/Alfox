@@ -19,3 +19,17 @@ seqNumber (int): the sequence number of the message if available
 
 
 http://194.254.25.155/callback.jsp?id={device}&seqNumber={seqNumber}&time={time}&data={data}&lat={lat}&lng={lng}&snr={snr}&rssi={rssi}&avgSnr={avgSnr}
+
+
+
+
+
+VRAI URL:
+
+http://194.254.25.155:8080/alfoxsrv/CallBack.jsp?id=1D2289&seqNumber=220&time=1526995167&data=d1011e002a00af57381c5c43&lat=44.0&lng=1.0&snr=6.60&rssi=-135.00&avgSnr=14.79
+
+Ou :
+
+http://10.10.80.1:8080/alfoxsrv/CallBack.jsp?id=1D2289&seqNumber=220&time=1526995167&data=d1011e002a00af57381c5c43&lat=44.0&lng=1.0&snr=6.60&rssi=-135.00&avgSnr=14.79
+
+

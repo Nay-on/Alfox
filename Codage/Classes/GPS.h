@@ -14,7 +14,7 @@ class GPS
 		float latitude;
 		float longitude; 
 		struct tm datation;
-    bool available = false;
+		bool available = false;
     
     boolean usingInterrupt = false;
     Adafruit_GPS* gps;
@@ -28,11 +28,11 @@ class GPS
 
 		int maj();
 		float getLatitude() {return latitude;};
-   	float getLongitude() {return longitude;};
+		float getLongitude() {return longitude;};
 		struct tm getDatation() {return datation;};
-   	bool isDispo();
-    char readDATA();
-    struct tm getDatationUltimate();
+		bool isDispo();
+		char readDATA();
+		struct tm getDatationUltimate();
 		
 };
 

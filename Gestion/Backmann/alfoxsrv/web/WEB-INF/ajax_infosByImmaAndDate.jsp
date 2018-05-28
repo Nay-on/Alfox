@@ -10,13 +10,13 @@
 <%@page import="com.persistence.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
+<% // initialisation de la connexion à la BDD
     Connection con = (Connection) session.getAttribute("con");
     if (con == null)
         con = ConnexionMySQL.newConnexion();
     session.setAttribute("con", con);
     
-    // retourne par Ajax les infos ddu véhicule concerné
+    // retourne par Ajax les infos du véhicule concerné
     String immatriculation = request.getParameter("immatriculation");
     String date = request.getParameter("date");
     String idSigfox = Vehicule.getByImmatriculation(con, immatriculation).getIdSigfox();

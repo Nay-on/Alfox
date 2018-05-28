@@ -12,7 +12,7 @@
 <%@page import="com.persistence.*"%>
 <%@page import="com.metier.*"%>
 
-<%
+<% // initialisation de la connexion BDD
     Connection con = (Connection) session.getAttribute("con");
     if (con == null) {
         con = ConnexionMySQL.newConnexion();

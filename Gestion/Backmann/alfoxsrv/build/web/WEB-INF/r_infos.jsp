@@ -29,7 +29,7 @@
                  data-position="fixed">
                 <h1><img id="logoHeader" src="images/alcisLogo.png"/>Infos</h1>
                 <p class="mode" >
-                <% 
+                <%  // Récupération du mode du boitier du véhicule
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(1));
                     DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox());
@@ -45,48 +45,47 @@
                     <p class="mess">Nombre de message restants : 3/4</p>
                     <form class="form" >
                         <div class="ui-field-contain">
-                            <label class="label" for="infosSelectImmatriculation">Véhicule :</label>
-                            <select name="infosSelectImmatriculation" id="infosSelectImmatriculation">
-                        <% 
-                            // recup l'immatriculation des véhicules
-                            int nb = Vehicule.size(con);
-                            for (int i = 0; i< nb; i++) {
-                                out.print("<option value='" + immatriculations.get(i) + "'>" + immatriculations.get(i) + "</option>");
-                            }
-                        %>
-                            </select>
-                        </div>
-                        <input value="2018-05-16" id="dateSelect" type="date">
-                        
-                    </form>
-                    <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
-                    <thead>
-                        <tr>
-                          <th data-priority="1">Numéro</th>
-                          <th data-priority="2">Date</th>
-                          <th data-priority="2">Kilométrage</th>
-                          <th data-priority="3">Vitesse Moyenne</th>
-                          <th data-priority="3">Consommation Moyenne</th>
-                          <th data-priority="4">Latitude</th>
-                          <th data-priority="4">Longitude</th>
-                        </tr>
-                    </thead>
-                    <tbody id="infosTR">
-                        <% 
-                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getIdSigfox(), "2018-03-20");
-                            // recup la liste des données tr pour ce véhicule et cette date
-                            for (int i = 0; i<donnees.size(); i++) {
-                                out.print("<tr><td>" + i + "</td>");
-                                out.print("<td>" + donnees.get(i).getDatation() + "</td>");
-                                out.print("<td>" + donnees.get(i).getDistanceParcourue() + " km" + "</td>");
-                                out.print("<td>" + donnees.get(i).getVitesse() + " km/h" +"</td>");
-                                out.print("<td>" + donnees.get(i).getConsommation() + " l/100" + "</td>");
-                                out.print("<td>" + donnees.get(i).getLatitude() + "</td>");
-                                out.print("<td>" + donnees.get(i).getLongitude() + "</td> </tr>");
-                            }
-                        %>
-                    </tbody>
-                    </table>
+                        <label class="label" for="infosSelectImmatriculation">Véhicule :</label>
+                        <select name="infosSelectImmatriculation" id="infosSelectImmatriculation">
+                    <% 
+                        // recup l'immatriculation des véhicules et les affiche dans une liste déroulante
+                        int nb = Vehicule.size(con);
+                        for (int i = 0; i< nb; i++) {
+                            out.print("<option value='" + immatriculations.get(i) + "'>" + immatriculations.get(i) + "</option>");
+                        }
+                    %>
+                        </select>
+                    </div>
+                    <input value="2018-05-16" id="dateSelect" type="date"> <!--Calendrier pour sélectionner la date des données -->
+                </form>
+                <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
+                <thead>
+                    <tr>
+                      <th data-priority="1">Numéro</th>                <!--Colonnes de données -->
+                      <th data-priority="2">Date</th>
+                      <th data-priority="2">Kilométrage</th>
+                      <th data-priority="3">Vitesse Moyenne</th>
+                      <th data-priority="3">Consommation Moyenne</th>
+                      <th data-priority="4">Latitude</th>
+                      <th data-priority="4">Longitude</th>
+                    </tr>
+                </thead>
+                <tbody id="infosTR">
+                    <%
+                        ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getIdSigfox(), "2018-03-20");
+                        // recup la liste des données tr pour ce véhicule et cette date
+                        for (int i = 0; i<donnees.size(); i++) {
+                            out.print("<tr><td>" + i + "</td>");
+                            out.print("<td>" + donnees.get(i).getDatation() + "</td>");
+                            out.print("<td>" + donnees.get(i).getDistanceParcourue() + " km" + "</td>");
+                            out.print("<td>" + donnees.get(i).getVitesse() + " km/h" +"</td>");
+                            out.print("<td>" + donnees.get(i).getConsommation() + " l/100" + "</td>");
+                            out.print("<td>" + donnees.get(i).getLatitude() + "</td>");
+                            out.print("<td>" + donnees.get(i).getLongitude() + "</td> </tr>");
+                        }
+                    %>
+                </tbody>
+                </table>
                     <br/><br/><br/><br/><br/>
                 </center>
             </div>

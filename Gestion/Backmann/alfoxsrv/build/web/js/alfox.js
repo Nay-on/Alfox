@@ -1,6 +1,6 @@
 $(function() {
-    $("#infosSelectImmatriculation").on("change", infosNewSelect);
-    $("#dateSelect").on("change", infosNewSelect);
+    $("#infosSelectImmatriculation").on("change", infosNewSelect); //appelle la méthode infosNewSelect() au changement de la liste déroulante
+    $("#dateSelect").on("change", infosNewSelect); //appelle la méthode infosNewSelect() au changement de la date
 });
 
 function infosNewSelect() {
@@ -15,13 +15,8 @@ function infosNewSelect() {
         data :  {immatriculation: isi[isi.selectedIndex].value, date: ds.value},
         dataType : 'html',
         success: function(data) {
-           $('#infosTR').html(data);
+           $('#infosTR').html(data); 
         }
-        /*error : function(resultat, statut, erreur) {
-            $('.progressBar').hide();
-            $('#popupTextSendPseudo').text("Impossible de vous envoyer votre pseudo !");
-            $('#popupSendPseudo').popup( "option", "dismissible", true );
-            return false;
-        }*/
     });
 }
+

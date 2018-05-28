@@ -4,30 +4,31 @@ use alfox;
 
 create table donneesHisto (
     ID int(10) not null auto_increment, 
-    Mode varchar(255) not null, 
-    Datation datetime not null, 
-    Vitesse int(10) not null, 
-    Regime int(10) not null, 
-    Consommation int(10) not null, 
-    VitesseMax int(10) not null, 
-    RegimeMax int(10) not null, 
-    ConsoMax int(10) not null, 
-    NbDefauts int(10) not null, 
-    Defaut1 int(10) not null,
-    Defaut2 int(10) not null,
-    Defaut3 int(10) not null,
-    Defaut4 int(10) not null, 
-    LatitudeGPS decimal(9,6) not null, 
-    LongitudeGPS decimal(9,6) not null, 
-    DistanceParcourue bigint(20) not null, 
+    Mode varchar(255), 
+    Datation datetime, 
+    Vitesse int(10), 
+    Regime int(10), 
+    Consommation int(10), 
+    VitesseMax int(10), 
+    RegimeMax int(10), 
+    ConsoMax int(10), 
+    NbDefauts int(10), 
+    Defaut1 int(10),
+    Defaut2 int(10),
+    Defaut3 int(10),
+    Defaut4 int(10), 
+    LatitudeGPS decimal(9,6), 
+    LongitudeGPS decimal(9,6), 
+    DistanceParcourue bigint(20), 
     VehiculeID int(10) not null, 
     primary key (ID)   
 ) ;
 
 create table donneesTR (
     ID int(10) not null auto_increment, 
-    Mode varchar(255) not null, 
-    Datation datetime not null, 
+    SeqNumber int(10),
+    Mode varchar(255), 
+    Datation datetime, 
     Vitesse int(10), 
     Regime int(10),
     Consommation int(10),
@@ -41,12 +42,11 @@ create table donneesTR (
     Defaut4 int(10),
     Latitude decimal(9,6),
     Longitude decimal(9,6),
-    DistanceParcourue bigint(20) not null, 
-    SeqNumber int(10) not null unique,
-    Snr decimal(5,2) not null,
-    Rssi decimal(5,2) not null,
-    AvgSnr decimal(5,2) not null,
-    Device varchar(255) not null,
+    DistanceParcourue bigint(20),
+    Snr decimal(5,2),
+    Rssi decimal(5,2),
+    AvgSnr decimal(5,2),
+    Device varchar(255),
     primary key (ID)
 ) ;
 
@@ -96,7 +96,7 @@ create table loueur (
 create table contrat (
     ID int(10) not null auto_increment, 
     LoueurID int(10) not null, 
-    Device varchar(255) not null,
+    Device int(10) not null,
     ZoneLimiteID int(10), 
     Numero varchar(255) not null unique, 
     DateCreation datetime not null, 
@@ -131,7 +131,7 @@ alter table position
 
 alter table contrat 
     add index FKContrat433214 (Device), 
-    add constraint FKContrat433214 foreign key (Device) references vehicule (IdSigfox);
+    add constraint FKContrat433214 foreign key (Device) references vehicule (ID);
 
 alter table contrat 
     add index FKContrat81038 (LoueurID), 

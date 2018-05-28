@@ -21,50 +21,45 @@ unsigned long periode;
 unsigned long initial;
 
 void setup()
-{  
-  Serial.begin(115200);
-  carteSD = new CarteSD();
-  gps = new GPS();
-  maLed = new LedTri(redLedPin, greenLedPin, blueLedPin);
-  maLed->setCouleur(magenta, 125);
-  configureInterrupt_timer4_1ms();
-  
+{
+  Serial.begin(9600);
+  delay(2500);
 #ifdef DEBUG
   Serial.println("Test bluetooth et obd2");
-#endif
-
-  delay(1000);
-  
-#ifdef DEBUG
   Serial.println("Création bluetooth");
 #endif
-
   bluetooth = new Bluetooth(PINALIM, PINEN);
-  delay(5000);
-  
 #ifdef DEBUG
   Serial.println("Connexion bluetooth");
 #endif
-
   //ELM327 (Bleu)
   int resultatConnexion = bluetooth->connexion("2017,11,7030A");
   //Simulateur
   //int resultatConnexion = bluetooth->connexion("18,E7,1EC629");
   //Pour le module noir KONNWEI
   //Serial.println(bluetooth->connexion("B22B,1C,70EA6"),BIN);
-
   
+  delay(2000);
+  
+  carteSD = new CarteSD();
+  gps = new GPS();
+  maLed = new LedTri(redLedPin, greenLedPin, blueLedPin);
+  configureInterrupt_timer4_1ms();
+
 #ifdef DEBUG
-  Serial.println(resultatConnexion,BIN);
+  Serial.println(resultatConnexion, BIN);
 #endif
 
-  delay(5000);
-  
+  delay(2000);
+
 #ifdef DEBUG
   Serial.print("Is actif? : ");
   Serial.println(bluetooth->isActif());
   Serial.println("Création OBD2");
 #endif
+
+  if (bluetooth->isActif())
+    Serial.println();
 
   obd2 = new OBD2(bluetooth);
   initial = millis();
@@ -72,40 +67,58 @@ void setup()
 
 void loop()
 {
-      majDataTR();
-      gps->maj();
-      periode = millis() - initial;
-    if (periode >= PERIODE_ECH)
-    {
-      Serial.println("___________________________________ODB2");
-      Serial.print("Vitesse : ");
-      Serial.println(obd2->lireVitesse());
-      delay(250);
-      Serial.print("Régime moteur : ");
-      Serial.println(obd2->lireRegimeMoteur());
-      delay(250);
-      Serial.print("Consomation : ");
-      Serial.println(obd2->lireConsomation());
-      initial = millis();
-      Serial.println("___________________________________CarteSD");
-    }
-    carteSD->nouveauFichier("180516.txt");
-    carteSD->ecrire(donneesTR);
-
-    Serial.println("___________________________________GPS");
-    if(gps->isDispo()){
-      Serial.println(gps->getLatitude(),6);
-      Serial.println(gps->getLongitude(),6);
-      
-      Serial.print(gps->getDatation().tm_mday);
-      Serial.print('/');
-      Serial.print((gps->getDatation().tm_mon)+1);
-      Serial.print('/');
-      Serial.println(gps->getDatation().tm_year);
+  maLed->setCouleur(magenta, 125);
+  majDataTR();
+  gps->maj();
+  periode = millis() - initial;
+  if (periode >= PERIODE_ECH)
+  {
+    Serial.println("___________________________________ODB2");
+    Serial.print("Vitesse : ");
+    Serial.println(obd2->lireVitesse());
+    delay(250);
+    maLed->setCouleur(magenta, 125);
+    Serial.print("Régime moteur : ");
+    Serial.println(obd2->lireRegimeMoteur());
+    delay(250);
+    maLed->setCouleur(magenta, 125);
+    Serial.print("Consomation : ");
+    Serial.println(obd2->lireConsomation());
+    initial = millis();
+    Serial.println("___________________________________CarteSD");
   }
+  maLed->setCouleur(magenta, 125);
+  carteSD->nouveauFichier("180516.txt");
+  carteSD->ecrire(donneesTR);
+
+  Serial.println("___________________________________GPS");
+  if (gps->isDispo()) {
+    Serial.println(gps->getLatitude(), 6);
+    Serial.println(gps->getLongitude(), 6);
+    maLed->setCouleur(magenta, 125);
+    Serial.print(gps->getDatation().tm_mday);
+    Serial.print('/');
+    Serial.print((gps->getDatation().tm_mon) + 1);
+    Serial.print('/');
+    Serial.println(gps->getDatation().tm_year);
+  }
+  maLed->setCouleur(magenta, 125);
+
+  if(bluetooth->isActif() == false){
+    delete bluetooth;
+    delete obd2;
+    
+    delay(2500);
+    bluetooth = new Bluetooth(PINALIM, PINEN);
+    //ELM327 (Bleu)
+    int resultatConnexion = bluetooth->connexion("2017,11,7030A");
+    delay(2000);
+    OBD2* obd2 = new OBD2(bluetooth);
+  }
+  
 }
 
-void majDataTR(){
+void majDataTR() {
   donneesTR->setVitesse(obd2->lireVitesse());
   donneesTR->setRegime(obd2->lireRegimeMoteur());
   donneesTR->setConsommation(obd2->lireConsomation());
@@ -117,10 +130,10 @@ void SERCOM3_Handler()
 }
 
 void TC4_Handler()                              // Interrupt Service Routine (ISR) for timer TC4
-{     
-  
+{
+
   // Check for overflow (OVF) interrupt
-  if (TC4->COUNT16.INTFLAG.bit.OVF && TC4->COUNT16.INTENSET.bit.OVF)             
+  if (TC4->COUNT16.INTFLAG.bit.OVF && TC4->COUNT16.INTENSET.bit.OVF)
   {
     char c = gps->readDATA();
     REG_TC4_INTFLAG = TC_INTFLAG_OVF;         // Clear the OVF interrupt flag
@@ -147,7 +160,7 @@ void configureInterrupt_timer4_1ms()
                      GCLK_CLKCTRL_GEN_GCLK4 |     // Select GCLK4
                      GCLK_CLKCTRL_ID_TC4_TC5;     // Feed the GCLK4 to TC4 and TC5
   while (GCLK->STATUS.bit.SYNCBUSY);              // Wait for synchronization
- 
+
   REG_TC4_COUNT16_CC0 = 47999;                    // Le timer compte de 0 à 47999 soit 48000/48000000 = 1 ms, puis déclenche une interruption
   while (TC4->COUNT16.STATUS.bit.SYNCBUSY);       // Wait for synchronization
 
@@ -159,9 +172,9 @@ void configureInterrupt_timer4_1ms()
   REG_TC4_INTFLAG |= TC_INTFLAG_OVF;              // Clear the interrupt flags
   REG_TC4_INTENSET = TC_INTENSET_OVF;             // Enable TC4 interrupts
   // REG_TC4_INTENCLR = TC_INTENCLR_OVF;          // Disable TC4 interrupts
- 
+
   REG_TC4_CTRLA |= TC_CTRLA_PRESCALER_DIV1 |      // On met le présidviseur à 1. Pourrait valoir DIV2, DIC4, DIV8, DIV16, DIV64, DIV256, DIV1024
-                   TC_CTRLA_WAVEGEN_MFRQ |        // Timer 4 en mode "match frequency" (MFRQ) 
+                   TC_CTRLA_WAVEGEN_MFRQ |        // Timer 4 en mode "match frequency" (MFRQ)
                    TC_CTRLA_ENABLE;               // Enable TC4
   while (TC4->COUNT16.STATUS.bit.SYNCBUSY);       // Wait for synchronization
 }

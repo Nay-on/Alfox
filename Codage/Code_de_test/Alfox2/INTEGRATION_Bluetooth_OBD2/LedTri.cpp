@@ -5,7 +5,9 @@ using namespace std;
 LedTri::LedTri(int pLedRougePin, int pLedVertPin, int pLedBleuPin ) {
     ledRougePin = pLedRougePin;
     ledVertPin = pLedVertPin;
-    ledBleuPin = pLedBleuPin;    
+    ledBleuPin = pLedBleuPin;
+    
+    pinMode(BUTTONPIN, INPUT);
     
 }
 
@@ -71,8 +73,21 @@ void LedTri::setCouleur(int rouge, int vert, int bleu){
   analogWrite(ledBleuPin, bleu);
 }
 
+void LedTri::resetCouleur(){
+  // introduit les valeurs des variables précédentes
+  analogWrite(ledRougePin, 0); 
+  analogWrite(ledVertPin, 0);
+  analogWrite(ledBleuPin, 0);
+}
+
+
+
 
 void LedTri::setCouleur(COLOR c, int lumi) {
+    
+  buttonState = digitalRead(BUTTONPIN);
+  delay(150);
+  if(buttonState == HIGH){
     switch (c) {
     case 1:
       setRouge(lumi);
@@ -95,6 +110,9 @@ void LedTri::setCouleur(COLOR c, int lumi) {
     default:
       break;
     }
-    
+    delay(5000);
+    resetCouleur();
+  }else
+    resetCouleur();
 }
 

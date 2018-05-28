@@ -103,6 +103,19 @@ void loop()
     Serial.println(gps->getDatation().tm_year);
   }
   maLed->setCouleur(magenta, 125);
+
+  if(bluetooth->isActif() == false){
+    delete bluetooth;
+    delete obd2;
+    
+    delay(2500);
+    bluetooth = new Bluetooth(PINALIM, PINEN);
+    //ELM327 (Bleu)
+    int resultatConnexion = bluetooth->connexion("2017,11,7030A");
+    delay(2000);
+    OBD2* obd2 = new OBD2(bluetooth);
+  }
+  
 }
 
 void majDataTR() {

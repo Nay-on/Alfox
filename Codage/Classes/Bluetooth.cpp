@@ -244,5 +244,7 @@ int Bluetooth::lien(String adresse)
   }
 }
 
-
+Bluetooth::~Bluetooth(){
+  delete this;
+}
 

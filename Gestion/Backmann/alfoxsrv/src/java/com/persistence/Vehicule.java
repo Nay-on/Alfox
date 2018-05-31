@@ -9,6 +9,7 @@ package com.persistence;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Vehicule {
     private String marque; 
@@ -214,15 +215,39 @@ public class Vehicule {
     }
     
     public static double getConsoMoyenneMensuelleFlotte(Connection con) throws Exception {
-        double consoMoyenneFlotte = Vehicule.getConsoMoyenneFlotte(con);
-        int ageMoyenFlotte = (int)(Vehicule.getAgeMoyenFlotte(con) / 30);
-        return consoMoyenneFlotte / ageMoyenFlotte;
+        double totalConsoMois = 0;
+        Timestamp dateDuJour = Utils.getDateDuJour();
+        String queryString = "select Consommation from donneesTR where MONTH(Datation) = " + (dateDuJour.getMonth()+1);
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<Integer> lstConsoMois = new ArrayList<>();
+        while (lResult.next()) {
+            lstConsoMois.add(lResult.getInt("Consommation"));
+        }
+        for (int i = 0 ; i < lstConsoMois.size() ; i++) {
+            totalConsoMois += lstConsoMois.get(i);
+        }
+        return totalConsoMois / lstConsoMois.size();
     }
     
     public static double getKmMoyenMensuelFlotte(Connection con) throws Exception {
-        double kmMoyenFlotte = Vehicule.getKmMoyenFlotte(con);
-        int ageMoyenFlotte = (int)(Vehicule.getAgeMoyenFlotte(con) / 30);
-        return kmMoyenFlotte / ageMoyenFlotte;
+        double totalKmMois = 0;
+        Timestamp dateDuJour = Utils.getDateDuJour();
+        String queryString = "select Consommation from donneesTR where MONTH(Datation) = " + (dateDuJour.getMonth()+1);
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<Integer> lstKmMois = new ArrayList<>();
+        while (lResult.next()) {
+            lstKmMois.add(lResult.getInt("Consommation"));
+        }
+        for (int i = 0 ; i < lstKmMois.size() ; i++) {
+            totalKmMois += lstKmMois.get(i);
+        }
+        return totalKmMois / lstKmMois.size();
     }
     
     /**
@@ -334,17 +359,91 @@ public class Vehicule {
         return isDehors;
     }
     
+    // Obligation de passer par la méthode getLastDatation() avant
+    public boolean isDehorsGarage(Connection con) throws Exception {
+        // Récupération les positions de la zone associée par le contrat au véhicule
+        String queryString = "select *"
+            + " from position, zoneLimite"
+            + " where  ZoneLimiteID = 1"
+            + " order by Ordre";
+        Statement lStat = con.createStatement( //peut générer une exception si problème avec la requête SQL
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        // On met les points dans 2 collections Arraylist de Double
+        ArrayList<Double> xap = new ArrayList<>();
+        ArrayList<Double> yap = new ArrayList<>();
+        while (lResult.next()) {
+            xap.add(lResult.getDouble("Latitude"));
+            yap.add(lResult.getDouble("Longitude"));
+        }
+        // On transforme les collections en tableaux d'objets
+        int nbPoints = xap.size();
+        Double[] xtp = xap.toArray(new Double[0]);
+        Double[] ytp = yap.toArray(new Double[0]);
+
+        // Les tableaux sont maintenant des tableaux de Double !
+        // Récupération de la dernière latitude et longitude enregistrée
+        String queryString2 = "select Latitude, Longitude"
+                + " from donneesTR, vehicule"
+                + " where donneesTR.VehiculeID = vehicule.ID"
+                + " and vehicule.Immatriculation = '" + immatriculation + "'"
+                + " order by Datation desc limit 1";
+        Statement lStat2 = con.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        ResultSet req = lStat2.executeQuery(queryString2);
+        double latitude = 0;
+        double longitude = 0;
+        // Si il y a une donnée on récupère la latitude et longitude
+        if (req.next()) {
+            latitude = req.getDouble("Latitude");
+            longitude = req.getDouble("Longitude");
+        }// Sinon on génère une exception
+        else {
+            throw new Exception("Aucune donnée TR");
+        }
+        // On vérifie que le point se situe dans la zone
+        int i, j;
+        boolean isDehorsGarage = true;
+        for (i = 0, j = nbPoints - 1; i < nbPoints; j = i++) {
+            if ((((ytp[i] <= longitude) && (longitude < ytp[j])) || ((ytp[j] <= longitude) && (longitude < ytp[i])))
+                    && (latitude < (xtp[j] - xtp[i]) * (longitude - ytp[i]) / (ytp[j] - ytp[i]) + xtp[i])) {
+                isDehorsGarage = !isDehorsGarage;
+            }
+        }
+        return isDehorsGarage;
+    }
+    
     public static int getTempsAlcis(Connection con, String immatriculation) throws Exception {
         long tempsAlcisEnMs = 0;
         int  tempsAlcisEnM = 0;
         // On récupère la date et heure actuelle
         Timestamp dateJour = Utils.getDateDuJour();
-        // On défini la position d'ALCIS (5km*5km)
-        // défini en dur (à mettre dans les zones plus tard
-        double latMin = 43.555692;
-        double latMax = 43.646065;
-        double lgMin = 1.465021;
-        double lgMax = 1.591707;
+        // Récupération les positions de la zone du garage
+        String queryString = "select *"
+            + " from position, zoneLimite"
+            + " where  ZoneLimiteID = 1"
+            + " order by Ordre";
+        Statement lStat = con.createStatement( //peut générer une exception si problème avec la requête SQL
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        // On met les points dans 2 collections Arraylist de Double
+        ArrayList<Double> latGarage = new ArrayList<>();
+        ArrayList<Double> lgGarage = new ArrayList<>();
+        while (lResult.next()) {
+            latGarage.add(lResult.getDouble("Latitude"));
+            lgGarage.add(lResult.getDouble("Longitude"));
+        }
+        // On trie les coordonnées GPS par ordre croissant
+        Collections.sort(latGarage);
+        Collections.sort(lgGarage);
+        
+        double latMin = latGarage.get(0);
+        double latMax = latGarage.get(latGarage.size()-1);
+        double lgMin = lgGarage.get(0);
+        double lgMax = lgGarage.get(lgGarage.size()-1);
         // Récupération des donnéesTR associées au véhicule passé en paramètre
         ArrayList<DonneesTR> lstDonneesTR = DonneesTR.getDonneesVehicule(con, immatriculation);
         // On regarde si la dernière donnée donne le véhicule chez Alcis

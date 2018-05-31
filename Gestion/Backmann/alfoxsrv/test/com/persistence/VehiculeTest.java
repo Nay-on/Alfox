@@ -78,7 +78,7 @@ public class VehiculeTest {
         System.out.println("getLastDatation");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
-        assertEquals(Utils.stringToTimestamp("2018/03/20 01:10:00.0"), result.getLastDatation(con));
+        assertEquals(Utils.stringToTimestamp("2018/05/20 00:00:00.0"), result.getLastDatation(con));
     }
     
     /**
@@ -461,7 +461,7 @@ public class VehiculeTest {
         System.out.println("getConsoMoyenneMensuelleFlotte");
         Connection con = ConnexionMySQL.newConnexion();
         double result = Vehicule.getConsoMoyenneMensuelleFlotte(con);
-        assertEquals(1.44, result, 0.01);
+        assertEquals(6, result, 0.01);
     }
 
     /**

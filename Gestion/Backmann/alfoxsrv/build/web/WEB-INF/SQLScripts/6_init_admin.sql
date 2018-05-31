@@ -7,4 +7,4 @@ use alfox;
 # drop user alfox@localhost;
 create user alfox@localhost identified by 'alfox31';
 
-grant  select,insert,update,delete on alfox.user to alfox@localhost identified by 'alfox31';
+grant  select,insert,update,delete on alfox.* to alfox@localhost identified by 'alfox31';

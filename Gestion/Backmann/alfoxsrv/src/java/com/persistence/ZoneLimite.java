@@ -26,9 +26,10 @@ public class ZoneLimite {
         ZoneLimite zoneLimite = new ZoneLimite(nom);
         
         String queryString =
-         "insert into zoneLimite (Nom) values ("
+         "insert into zoneLimite (Nom)"
+            + " values ("
                 + Utils.toString(nom)
-          + ")";
+            + ")";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
         zoneLimite.ID = ZoneLimite.getByNom(con, nom).getID();
@@ -124,7 +125,6 @@ public class ZoneLimite {
      */
     @Override
     public String toString() {
-        return  " Nom =  " + nom + "\t"
-                + " ";
+        return  " Nom =  " + nom;
     }
 }

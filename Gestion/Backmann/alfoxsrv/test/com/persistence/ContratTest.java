@@ -47,13 +47,13 @@ public class ContratTest {
         System.out.println("create");
         Connection con = ConnexionMySQL.newConnexion();
         Timestamp dateCreation = Utils.stringToTimestamp("2017/10/15 12:00:00");
-        Contrat result = Contrat.create(con, "A3", dateCreation, "m1", "", 2, "2", 1);
+        Contrat result = Contrat.create(con, "A3", dateCreation, "m1", "", 2, 2, 1);
         assertEquals("A3", result.getNumero());
         
         result.delete(con);
         
         dateCreation = Utils.stringToTimestamp("2017/10/15 12:00:00");
-        result = Contrat.create(con, "A4", dateCreation, "m1", "", 1, "1", 1);
+        result = Contrat.create(con, "A4", dateCreation, "m1", "", 1, 1, 1);
         assertEquals("A4", result.getNumero());
         
         result.delete(con);
@@ -174,14 +174,14 @@ public class ContratTest {
     }
 
     /**
-     * Test of getDevice method, of class Contrat.
+     * Test of GetVehiculeID method, of class Contrat.
      */
     @Test
-    public void testGetDevice() throws Exception {
-        System.out.println("getDevice");
+    public void testGetVehiculeID() throws Exception {
+        System.out.println("getVehiculeID");
         Connection con = ConnexionMySQL.newConnexion();
         Contrat instance = Contrat.getByNumero(con, "C2");
-        assertEquals("2", instance.getDevice());
+        assertEquals(2, instance.getVehiculeID());
     }
 
     /**
@@ -192,7 +192,9 @@ public class ContratTest {
         System.out.println("getZoneLimiteID");
         Connection con = ConnexionMySQL.newConnexion();
         Contrat instance = Contrat.getByNumero(con, "C2");
-        assertEquals(1, instance.getZoneLimiteID());
+        assertEquals(2, instance.getZoneLimiteID());
+        instance = Contrat.getByNumero(con, "C5");
+        assertEquals(2, instance.getZoneLimiteID());
     }
 
     /**
@@ -211,17 +213,17 @@ public class ContratTest {
     }
 
     /**
-     * Test of setDevice method, of class Contrat.
+     * Test of SetVehiculeID method, of class Contrat.
      */
     @Test
-    public void testSetDevice() throws Exception {
-        System.out.println("setDevice");
+    public void testSetVehiculeID() throws Exception {
+        System.out.println("setVehiculeID");
         Connection con = ConnexionMySQL.newConnexion();
         Contrat instance = Contrat.getByNumero(con, "C1");
-        instance.setDevice("2");
+        instance.setVehiculeID(2);
         instance.save(con);
-        assertEquals("2", instance.getDevice());
-        instance.setDevice("2");
+        assertEquals(2, instance.getVehiculeID());
+        instance.setVehiculeID(1);
         instance.save(con);
     }
 
@@ -233,10 +235,10 @@ public class ContratTest {
         System.out.println("setZoneLimiteID");
         Connection con = ConnexionMySQL.newConnexion();
         Contrat instance = Contrat.getByNumero(con, "C1");
-        instance.setZoneLimiteID(2);
-        instance.save(con);
-        assertEquals(2, instance.getZoneLimiteID());
         instance.setZoneLimiteID(1);
+        instance.save(con);
+        assertEquals(1, instance.getZoneLimiteID());
+        instance.setZoneLimiteID(2);
         instance.save(con);
     }    
 }

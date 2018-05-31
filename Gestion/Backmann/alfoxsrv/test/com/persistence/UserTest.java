@@ -6,10 +6,6 @@
 package com.persistence;
 
 import java.sql.Connection;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,28 +14,10 @@ import static org.junit.Assert.*;
  * @author acros
  */
 public class UserTest {
-    
-    public UserTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of create method, of class User.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreate() throws Exception {
@@ -55,6 +33,7 @@ public class UserTest {
 
     /**
      * Test of save method, of class User.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSave() throws Exception {
@@ -71,6 +50,7 @@ public class UserTest {
 
     /**
      * Test of getByMotDePasse method, of class User.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetByMotDePasse() throws Exception {
@@ -82,6 +62,7 @@ public class UserTest {
 
     /**
      * Test of getRole method, of class User.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetRole() throws Exception {
@@ -93,28 +74,31 @@ public class UserTest {
 
     /**
      * Test of getMdp method, of class User.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetMdp() throws Exception {
         System.out.println("getMdp");
         Connection con = ConnexionMySQL.newConnexion();
         User instance = User.getByMotDePasse(con, "responsable");
-        assertEquals("responsable", instance.getMdp());
+        assertEquals(Utils.encryptPassword("responsable"), instance.getMdp());
     }
 
     /**
      * Test of getMail method, of class User.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetMail() throws Exception {
         System.out.println("getMail");
         Connection con = ConnexionMySQL.newConnexion();
         User instance = User.getByMotDePasse(con, "maintenance");
-        assertEquals("maintenance@free.fr", instance.getMail());
+        assertEquals("maintenance@gmail.com", instance.getMail());
     }
 
     /**
      * Test of setRole method, of class User.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetRole() throws Exception {
@@ -130,6 +114,7 @@ public class UserTest {
 
     /**
      * Test of setMail method, of class User.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetMail() throws Exception {
@@ -145,6 +130,7 @@ public class UserTest {
 
     /**
      * Test of setMdp method, of class User.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetMdp() throws Exception {

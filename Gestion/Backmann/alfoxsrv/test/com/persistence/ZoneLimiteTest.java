@@ -6,40 +6,17 @@
 package com.persistence;
 
 import java.sql.Connection;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
  * @author acros
  */
 public class ZoneLimiteTest {
-    
-    public ZoneLimiteTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of create method, of class ZoneLimite.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreate() throws Exception {
@@ -53,6 +30,7 @@ public class ZoneLimiteTest {
 
     /**
      * Test of save method, of class ZoneLimite.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSave() throws Exception {
@@ -69,6 +47,7 @@ public class ZoneLimiteTest {
 
     /**
      * Test of getByNom method, of class ZoneLimite.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetByNom() throws Exception {
@@ -80,6 +59,7 @@ public class ZoneLimiteTest {
 
     /**
      * Test of getNom method, of class ZoneLimite.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetNom() throws Exception {
@@ -91,6 +71,7 @@ public class ZoneLimiteTest {
 
     /**
      * Test of setNom method, of class ZoneLimite.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetNom() throws Exception {

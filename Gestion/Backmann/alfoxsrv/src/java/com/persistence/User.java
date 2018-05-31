@@ -30,11 +30,12 @@ public class User {
         User user = new User(role, mdp, mail);
         
         String queryString =
-         "insert into user (Role, Mdp, Mail) values ("
+         "insert into user (Role, Mdp, Mail) "
+            + " values ("
                 + Utils.toString(role) + ", " 
                 + Utils.toString(mdp) + ", " 
                 + Utils.toString(mail)
-          + ")";
+            + ")";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
         return user;
@@ -77,7 +78,9 @@ public class User {
      * @throws java.lang.Exception
      */
     public static User getByMotDePasse(Connection con, String mdp) throws Exception {
-        String queryString = "select * from user where Mdp='" + mdp + "'";
+        // cryptage du mdp
+        String mdpCrypte = Utils.encryptPassword(mdp);
+        String queryString = "select * from user where Mdp='" + mdpCrypte + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);

@@ -6,10 +6,6 @@
 package com.persistence;
 
 import java.sql.Connection;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,28 +14,10 @@ import static org.junit.Assert.*;
  * @author acros
  */
 public class LoueurTest {
-    
-    public LoueurTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of create method, of class Loueur.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreate() throws Exception {
@@ -52,6 +30,7 @@ public class LoueurTest {
 
     /**
      * Test of save method, of class Loueur.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSave() throws Exception {
@@ -68,6 +47,7 @@ public class LoueurTest {
 
     /**
      * Test of getByNom method, of class Loueur.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetByNom() throws Exception {
@@ -79,6 +59,7 @@ public class LoueurTest {
 
     /**
      * Test of getNom method, of class Loueur.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetNom() throws Exception {
@@ -90,6 +71,7 @@ public class LoueurTest {
 
     /**
      * Test of getPrenom method, of class Loueur.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetPrenom() throws Exception {
@@ -101,6 +83,7 @@ public class LoueurTest {
 
     /**
      * Test of getTelephone method, of class Loueur.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetTelephone() throws Exception {
@@ -112,6 +95,7 @@ public class LoueurTest {
 
     /**
      * Test of getMail method, of class Loueur.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetMail() throws Exception {
@@ -123,6 +107,7 @@ public class LoueurTest {
 
     /**
      * Test of setTelephone method, of class Loueur.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetTelephone() throws Exception {
@@ -138,6 +123,7 @@ public class LoueurTest {
 
     /**
      * Test of setMail method, of class Loueur.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetMail() throws Exception {

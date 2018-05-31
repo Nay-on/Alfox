@@ -10,12 +10,12 @@ package com.persistence;
 import java.sql.*;
 
 public class Contrat {
-    private String    numero;           // non null, unique
-    private Timestamp dateCreation;     // non null
+    private String    numero;
+    private Timestamp dateCreation;
     private String    modele;
     private String    infos;
-    private int       loueurID;         // non null
-    private String    device;           // non null
+    private int       loueurID;
+    private int       vehiculeID;
     private int       zoneLimiteID;
     
     /**
@@ -26,7 +26,7 @@ public class Contrat {
      * @param modele
      * @param infos
      * @param loueurID
-     * @param device
+     * @param vehiculeID
      * @param zoneLimiteID
      * @return 
      * @ return un contrat si le numero est unique sinon null
@@ -35,17 +35,17 @@ public class Contrat {
      * 
      */
     static public Contrat create(Connection con, String numero, Timestamp dateCreation, String modele, String infos,
-        int loueurID, String device, int zoneLimiteID) throws Exception {
-        Contrat contrat = new Contrat(numero, dateCreation, modele, infos, loueurID, device, zoneLimiteID);
+        int loueurID, int vehiculeID, int zoneLimiteID) throws Exception {
+        Contrat contrat = new Contrat(numero, dateCreation, modele, infos, loueurID, vehiculeID, zoneLimiteID);
         
         String queryString =
-         "insert into contrat (Numero, DateCreation, Modele, Infos, LoueurID, Device, ZoneLimiteID ) values ("
+         "insert into contrat (Numero, DateCreation, Modele, Infos, LoueurID, VehiculeID, ZoneLimiteID ) values ("
                 + Utils.toString(numero) + ", " 
                 + Utils.toString(dateCreation) + ", " 
                 + Utils.toString(modele) + ", " 
                 + Utils.toString(infos) + ", " 
                 + Utils.toString(loueurID) + ", " 
-                + Utils.toString(device) + ", " 
+                + Utils.toString(vehiculeID) + ", " 
                 + Utils.toString(zoneLimiteID) 
           + ")";
         Statement lStat = con.createStatement();
@@ -65,7 +65,7 @@ public class Contrat {
                 + " Modele = " + Utils.toString(modele) + ","  
                 + " Infos = " + Utils.toString(infos) + "," 
                 + " LoueurID = " + Utils.toString(loueurID) + "," 
-                + " Device = " + Utils.toString(device) + "," 
+                + " VehiculeID = " + Utils.toString(vehiculeID) + "," 
                 + " ZoneLimiteID = " + Utils.toString(zoneLimiteID)
                 + " where Numero ='" + numero + "'";
         Statement lStat = con.createStatement();
@@ -112,22 +112,22 @@ public class Contrat {
             String    lModele = result.getString("Modele");
             String    lInfos = result.getString("Infos");
             int       lLoueurID = result.getInt("LoueurID");
-            String    lDevice = result.getString("Device");
+            int       lVehiculeID = result.getInt("VehiculeID");
             int       lZoneLimiteID = result.getInt("ZoneLimiteID");
-            return    new Contrat(lNumero,lDateCreation, lModele, lInfos, lLoueurID, lDevice, lZoneLimiteID);
+            return    new Contrat(lNumero,lDateCreation, lModele, lInfos, lLoueurID, lVehiculeID, lZoneLimiteID);
     }
     
     /**
      * Cree et initialise completement Contrat
      */
     private Contrat(String numero, Timestamp dateCreation, String modele, String infos, int loueurID,
-            String device, int zoneLimiteID) {
+            int VehiculeID, int zoneLimiteID) {
         this.numero = numero;
         this.dateCreation = dateCreation;
         this.modele = modele;
         this.infos = infos;
         this.loueurID = loueurID;
-        this.device = device;
+        this.vehiculeID = VehiculeID;
         this.zoneLimiteID = zoneLimiteID;
     }
     
@@ -151,8 +151,8 @@ public class Contrat {
         return loueurID;
     }
     
-    public String getDevice() {
-        return device;
+    public int getVehiculeID() {
+        return vehiculeID;
     }
     
     public int getZoneLimiteID() {
@@ -171,8 +171,8 @@ public class Contrat {
         this.loueurID = loueurID;
     }
 
-    public void setDevice(String device) throws Exception {
-        this.device = device;
+    public void setVehiculeID(int VehiculeID) throws Exception {
+        this.vehiculeID = VehiculeID;
     }
     
     public void setZoneLimiteID(int zoneLimiteID) throws Exception {

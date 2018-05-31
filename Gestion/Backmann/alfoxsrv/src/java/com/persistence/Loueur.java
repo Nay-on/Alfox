@@ -32,12 +32,13 @@ public class Loueur {
         Loueur loueur = new Loueur(nom, prenom, telephone, mail);
         
         String queryString =
-         "insert into loueur (Nom, Prenom, Telephone, Mail) values ("
+         "insert into loueur (Nom, Prenom, Telephone, Mail)"
+            + " values ("
                 + Utils.toString(nom) + ", " 
                 + Utils.toString(prenom) + ", " 
                 + Utils.toString(telephone) + ", " 
                 + Utils.toString(mail)
-          + ")";
+            + ")";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
         return loueur;
@@ -69,7 +70,9 @@ public class Loueur {
      * @throws java.lang.Exception
      */
     public static Loueur getByNom(Connection con, String nom, String prenom) throws Exception {
-        String queryString = "select * from loueur where Nom='" + nom + "' and Prenom='" + prenom + "';";
+        String queryString = "select * from loueur"
+            + " where Nom='" + nom + "'"
+            + " and Prenom='" + prenom + "';";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
@@ -89,7 +92,9 @@ public class Loueur {
      * @throws SQLException impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
-        String queryString = "delete from loueur where Nom='" + nom + "' and Prenom='" + prenom + "'";
+        String queryString = "delete from loueur"
+            + " where Nom='" + nom + "'"
+            + " and Prenom='" + prenom + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString);
         return true;

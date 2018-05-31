@@ -32,12 +32,13 @@ public class Position {
         Position position = new Position(zoneID, ordre, latitude, longitude);
         
         String queryString =
-         "insert into position (Ordre, ZoneLimiteID, Latitude, Longitude) values ("
+         "insert into position (Ordre, ZoneLimiteID, Latitude, Longitude)"
+            + " values ("
                 + Utils.toString(ordre) + ", " 
                 + Utils.toString(zoneID) + ", " 
                 + Utils.toString(latitude) + ", " 
                 + Utils.toString(longitude)
-          + ")";
+            + ")";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
         return position;
@@ -95,7 +96,9 @@ public class Position {
      * @throws java.lang.Exception
      */
     public static ArrayList<Position> getByZone(Connection con, int zoneID) throws Exception {
-        String queryString = "select * from position where ZoneLimiteID='" + zoneID + "' order by Ordre";
+        String queryString = "select * from position"
+            + " where ZoneLimiteID='" + zoneID + "'"
+            + " order by Ordre";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);

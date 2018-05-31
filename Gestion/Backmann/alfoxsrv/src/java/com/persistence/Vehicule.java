@@ -3,28 +3,26 @@
  * Fichier : User.java
  * Description : Classe interface de la table vehicule
  * Cette table stocke les infos sur les véhicules connus du logiciel
+ *
  */
 package com.persistence;
 
 import java.sql.*;
-import java.util.*;
-import java.util.Date;
+import java.util.ArrayList;
 
 public class Vehicule {
-
-    private String marque;                          // non null
-    private String modele;                          // non null
-    private String immatriculation;                 // non null, unique
-    private Timestamp dateMiseEnService;            // non null
-    private String motorisation;                    // non null
-    private String idSigfox;                        // unique
+    private String marque; 
+    private String modele; 
+    private String immatriculation;  
+    private Timestamp dateMiseEnService; 
+    private String motorisation;
     private Timestamp dateVidange;
     private int kmVidange;
-    private boolean horsZone;                       // non null
-    private int tauxUtilisation;                    // non null
-    private boolean aProbleme;                      // non null
-    private double compteurReel;                    // non null
-    private Timestamp dateControleTechnique;        // non null
+    private boolean horsZone;  
+    private int tauxUtilisation;  
+    private boolean aProbleme;  
+    private double compteurReel; 
+    private Timestamp dateControleTechnique; 
 
     /**
      * Créer un nouvel objet persistant
@@ -35,7 +33,6 @@ public class Vehicule {
      * @param immatriculation
      * @param dateMiseEnService
      * @param motorisation
-     * @param idSigfox
      * @param dateVidange
      * @param kmVidange
      * @param horsZone
@@ -50,23 +47,26 @@ public class Vehicule {
      *
      */
     static public Vehicule create(Connection con, String marque, String modele,
-            String immatriculation, Timestamp dateMiseEnService,
-                String motorisation, String idSigfox, Timestamp dateVidange,
-                    int kmVidange, boolean horsZone, int tauxUtilisation, boolean aProbleme,
-                        double compteurReel, Timestamp dateControleTechnique) throws Exception {
+        String immatriculation, Timestamp dateMiseEnService,
+        String motorisation, Timestamp dateVidange, int kmVidange, 
+        boolean horsZone, int tauxUtilisation, boolean aProbleme,
+        double compteurReel, Timestamp dateControleTechnique) throws Exception {
         Vehicule vehicule = new Vehicule(marque, modele, immatriculation,
-            dateMiseEnService, motorisation, idSigfox, dateVidange,
+            dateMiseEnService, motorisation, dateVidange,
                 kmVidange, horsZone, tauxUtilisation, aProbleme,
                     compteurReel, dateControleTechnique);
 
-        String queryString
-                = "insert into vehicule (Marque, Modele, Immatriculation, DateMiseEnService, Motorisation, IdSigfox, DateVidange, KmVidange, HorsZone, TauxUtilisation, AProbleme, CompteurReel, DateControleTechnique) values ("
+        String queryString =
+          "insert into vehicule (Marque, Modele, Immatriculation,"
+            + " DateMiseEnService, Motorisation,"
+            + " DateVidange, KmVidange, HorsZone, TauxUtilisation,"
+            + " AProbleme, CompteurReel, DateControleTechnique)"
+            + " values ("
                 + Utils.toString(marque) + ", "
                 + Utils.toString(modele) + ", "
                 + Utils.toString(immatriculation) + ", "
                 + Utils.toString(dateMiseEnService) + ", "
                 + Utils.toString(motorisation) + ", "
-                + Utils.toString(idSigfox) + ", "
                 + Utils.toString(dateVidange) + ", "
                 + Utils.toString(kmVidange) + ", "
                 + Utils.toString(horsZone) + ", "
@@ -74,7 +74,7 @@ public class Vehicule {
                 + Utils.toString(aProbleme) + ", "
                 + Utils.toString(compteurReel) + ", "
                 + Utils.toString(dateControleTechnique)
-                + ")";
+            + ")";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
         return vehicule;
@@ -88,7 +88,8 @@ public class Vehicule {
      * @throws SQLException impossible d'accéder à la ConnexionMySQL
      */
     public boolean delete(Connection con) throws Exception {
-        String queryString = "delete from vehicule where Immatriculation='" + immatriculation + "'";
+        String queryString = "delete from vehicule"
+                + " where Immatriculation='" + immatriculation + "'";
         Statement lStat = con.createStatement();
         lStat.executeUpdate(queryString);
         return true;
@@ -101,14 +102,13 @@ public class Vehicule {
      * @throws Exception impossible d'accéder à la ConnexionMySQL
      */
     public void save(Connection con) throws Exception {
-        String queryString
-                = "update vehicule set "
+        String queryString =
+            "update vehicule set "
                 + " Marque =" + Utils.toString(marque) + ","
                 + " Modele =" + Utils.toString(modele) + ","
                 + " Immatriculation =" + Utils.toString(immatriculation) + ","
                 + " DateMiseEnService =" + Utils.toString(dateMiseEnService) + ","
                 + " Motorisation =" + Utils.toString(motorisation) + ","
-                + " IdSigfox =" + Utils.toString(idSigfox) + ","
                 + " DateVidange =" + Utils.toString(dateVidange) + ","
                 + " KmVidange =" + Utils.toString(kmVidange) + ","
                 + " HorsZone =" + Utils.toString(horsZone) + ","
@@ -122,7 +122,8 @@ public class Vehicule {
     }
     
     public static ArrayList<String> getImmatriculations(Connection con) throws Exception {
-        String queryString = "select Immatriculation from vehicule order by Immatriculation";
+        String queryString = "select Immatriculation from vehicule"
+                                + " order by Immatriculation";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
@@ -143,7 +144,8 @@ public class Vehicule {
      * @throws java.lang.Exception
      */
     public static Vehicule getByImmatriculation(Connection con, String immatriculation) throws Exception {
-        String queryString = "select * from vehicule where Immatriculation='" + immatriculation + "'";
+        String queryString = "select * from vehicule"
+                            + " where Immatriculation='" + immatriculation + "'";
         Statement lStat = con.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
@@ -158,8 +160,11 @@ public class Vehicule {
 
     public Timestamp getLastDatation(Connection con) throws Exception {
         // Récupération de la date de la dernière donnée TR enregistrée pour le véhicule associé
-        String queryString = "select Datation from donneesTR, vehicule where IdSigfox = donneesTR.Device and vehicule.Immatriculation = \""
-                + this.immatriculation + "\" order by Datation desc limit 1;";
+        String queryString = "select Datation"
+                + " from donneesTR, vehicule"
+                + " where donneesTR.VehiculeID = vehicule.ID"
+                + " and vehicule.Immatriculation = '"+ immatriculation + "'"
+                + " order by Datation desc limit 1";
         Statement lStat = con.createStatement( // peut générer une exception si problème avec la requête SQL
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
@@ -220,9 +225,15 @@ public class Vehicule {
         return kmMoyenFlotte / ageMoyenFlotte;
     }
     
+    /**
+     * Retourne l'age de la flotte en jours
+     * @param con
+     * @return
+     * @throws Exception 
+     */
     public static int getAgeMoyenFlotte(Connection con) throws Exception {
-        long ms = 0;
-        Date now = new java.util.Date();
+        long jour = 0;
+        Timestamp dateDuJour = Utils.getDateDuJour();
         String queryString = "select * from vehicule";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
@@ -233,14 +244,14 @@ public class Vehicule {
             lstDateMiseEnService.add(lResult.getTimestamp("DateMiseEnService"));
         }
         for (int i = 0 ; i < lstDateMiseEnService.size() ; i++) {
-            ms = ms + (now.getTime() - lstDateMiseEnService.get(i).getTime()); 
+            jour += (dateDuJour.getTime() - lstDateMiseEnService.get(i).getTime())/ 86400000; 
         }
-        int jour = (int)(ms / 86400000);
-        return jour/lstDateMiseEnService.size();
+        return (int)(jour/lstDateMiseEnService.size());
     }
     
     public static int nbVehiculesDehors(Connection con) throws Exception {
         int nbVehiculesDehors = 0;
+        
         String queryString = "select * from vehicule";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
@@ -251,7 +262,7 @@ public class Vehicule {
             lstVehicule.add(creerParRequete(lResult));
         }
         for (int i = 0 ; i < lstVehicule.size() ; i++) {
-            if (lstVehicule.get(i).isDehors(con) == true) {
+            if (lstVehicule.get(i).isDehors(con)) {
                 nbVehiculesDehors += 1;
             }
         }
@@ -261,14 +272,22 @@ public class Vehicule {
     // Obligation de passer par la méthode getLastDatation() avant
     // Met à jour horsZone
     public boolean isDehors(Connection con) throws Exception {
-        //Récupération du tableau de position de la zone associée par le contrat au véhicule
-        String queryString = "select * from position, zoneLimite where  ZoneLimiteID = zoneLimite.ID and Nom = (select Nom from contrat, vehicule, zoneLimite where Device = vehicule.IdSigfox and ZoneLimiteID = zoneLimite.ID and Immatriculation='" + immatriculation + "') order by Ordre";
+        // Récupération les positions de la zone associée par le contrat au véhicule
+        String queryString = "select *"
+            + " from position, zoneLimite"
+            + " where  ZoneLimiteID = zoneLimite.ID"
+            + " and zoneLimite.Nom = "
+                + "(select distinct zoneLimite.Nom"
+                + " from contrat, vehicule, zoneLimite"
+                + " where contrat.VehiculeID = vehicule.ID"
+                + " and ZoneLimiteID = zoneLimite.ID"
+                + " and Immatriculation='" + immatriculation + "')"
+            + " order by Ordre";
         Statement lStat = con.createStatement( //peut générer une exception si problème avec la requête SQL
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
         ResultSet lResult = lStat.executeQuery(queryString);
-        // On met les points dans 2 collections Arraylist de Dloat
-        // Dloat avec un D majuscule est une classe !)
+        // On met les points dans 2 collections Arraylist de Double
         ArrayList<Double> xap = new ArrayList<>();
         ArrayList<Double> yap = new ArrayList<>();
         while (lResult.next()) {
@@ -280,10 +299,13 @@ public class Vehicule {
         Double[] xtp = xap.toArray(new Double[0]);
         Double[] ytp = yap.toArray(new Double[0]);
 
-        // Les tableaux sont maintenant des tableaux de doubles !
+        // Les tableaux sont maintenant des tableaux de Double !
         // Récupération de la dernière latitude et longitude enregistrée
-        String queryString2 = "select Latitude, Longitude from donneesTR, vehicule where Device = vehicule.IdSigfox and vehicule.Immatriculation = \""
-                + this.immatriculation + "\" order by Datation desc limit 1;";
+        String queryString2 = "select Latitude, Longitude"
+                + " from donneesTR, vehicule"
+                + " where donneesTR.VehiculeID = vehicule.ID"
+                + " and vehicule.Immatriculation = '" + immatriculation + "'"
+                + " order by Datation desc limit 1";
         Statement lStat2 = con.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
@@ -299,9 +321,8 @@ public class Vehicule {
             throw new Exception("Aucune donnée TR");
         }
         // On vérifie que le point se situe dans la zone
-
         int i, j;
-        boolean isDehors = false;
+        boolean isDehors = true;
         for (i = 0, j = nbPoints - 1; i < nbPoints; j = i++) {
             if ((((ytp[i] <= longitude) && (longitude < ytp[j])) || ((ytp[j] <= longitude) && (longitude < ytp[i])))
                     && (latitude < (xtp[j] - xtp[i]) * (longitude - ytp[i]) / (ytp[j] - ytp[i]) + xtp[i])) {
@@ -310,21 +331,22 @@ public class Vehicule {
         }
         // On met à jour horsZone avec la valeur donnée par la méthode isDehors()
         horsZone = isDehors;
-        return !isDehors;
+        return isDehors;
     }
     
-    public static int getTempsAlcis(Connection con, String idSigfox) throws Exception {
+    public static int getTempsAlcis(Connection con, String immatriculation) throws Exception {
         long tempsAlcisEnMs = 0;
-        int tempsAlcisEnM = 0;
+        int  tempsAlcisEnM = 0;
         // On récupère la date et heure actuelle
-        Date now = new java.util.Date();
+        Timestamp dateJour = Utils.getDateDuJour();
         // On défini la position d'ALCIS (5km*5km)
+        // défini en dur (à mettre dans les zones plus tard
         double latMin = 43.555692;
         double latMax = 43.646065;
         double lgMin = 1.465021;
         double lgMax = 1.591707;
         // Récupération des donnéesTR associées au véhicule passé en paramètre
-        ArrayList<DonneesTR> lstDonneesTR = DonneesTR.getDonneesVehicule(con, idSigfox);
+        ArrayList<DonneesTR> lstDonneesTR = DonneesTR.getDonneesVehicule(con, immatriculation);
         // On regarde si la dernière donnée donne le véhicule chez Alcis
         double lat0 = lstDonneesTR.get(0).getLatitude();
         double lg0 = lstDonneesTR.get(0).getLongitude();
@@ -337,7 +359,7 @@ public class Vehicule {
             if (i >= lstDonneesTR.size()) 
                 i--;
             Timestamp dateDernierePosAlcis = lstDonneesTR.get(i).getDatation(); // On récupère la date
-            tempsAlcisEnMs = now.getTime() - dateDernierePosAlcis.getTime();
+            tempsAlcisEnMs = dateJour.getTime() - dateDernierePosAlcis.getTime();
             tempsAlcisEnM = (int)(tempsAlcisEnMs / 60000);
             if (tempsAlcisEnM < 60) {
                 tempsAlcisEnM = 0; // Si le véhicule y est depuis moins d'une heure on ne le considère pas
@@ -355,7 +377,6 @@ public class Vehicule {
         String lImmatriculation = result.getString("Immatriculation");
         Timestamp lDateMiseEnService = result.getTimestamp("DateMiseEnService");
         String lMotorisation = result.getString("Motorisation");
-        String lIdSigfox = result.getString("IdSigfox");
         Timestamp lDateVidange = result.getTimestamp("DateVidange");
         int lKmVidange = result.getInt("KmVidange");
         boolean lHorsZone = result.getBoolean("HorsZone");
@@ -364,9 +385,8 @@ public class Vehicule {
         double lCompteurReel = result.getDouble("CompteurReel");
         Timestamp lDateControleTechnique = result.getTimestamp("DateControleTechnique");
         return new Vehicule(lMarque, lModele, lImmatriculation, lDateMiseEnService,
-                lMotorisation, lIdSigfox, lDateVidange, lKmVidange,
-                lHorsZone, lTauxUtilisation, lAProbleme, lCompteurReel,
-                lDateControleTechnique);
+            lMotorisation, lDateVidange, lKmVidange, lHorsZone, lTauxUtilisation,
+                lAProbleme, lCompteurReel, lDateControleTechnique);
     }
     
      
@@ -393,15 +413,14 @@ public class Vehicule {
      */
     private Vehicule(String marque, String modele,
             String immatriculation, Timestamp dateMiseEnService,
-            String motorisation, String idSigfox, Timestamp dateVidange,
-            int kmVidange, boolean horsZone, int tauxUtilisation, boolean aProbleme,
+            String motorisation, Timestamp dateVidange, int kmVidange, 
+            boolean horsZone, int tauxUtilisation, boolean aProbleme,
             double compteurReel, Timestamp dateControleTechnique) {
         this.marque = marque;
         this.modele = modele;
         this.immatriculation = immatriculation;
         this.dateMiseEnService = dateMiseEnService;
         this.motorisation = motorisation;
-        this.idSigfox = idSigfox;
         this.dateVidange = dateVidange;
         this.kmVidange = kmVidange;
         this.horsZone = horsZone;
@@ -430,10 +449,6 @@ public class Vehicule {
 
     public String getMotorisation() {
         return motorisation;
-    }
-
-    public String getIdSigfox() {
-        return idSigfox;
     }
 
     public Timestamp getDateVidange() {
@@ -500,18 +515,16 @@ public class Vehicule {
     @Override
     public String toString() {
         return " Marque = " + Utils.toString(marque) + "\t"
-                + " Modele = " + Utils.toString(modele)
-                + " Immatriculation = " + Utils.toString(immatriculation)
-                + " DateMiseEnService = " + Utils.toString(dateMiseEnService)
-                + " Motorisation = " + Utils.toString(motorisation)
-                + " IdSigfox = " + Utils.toString(idSigfox)
-                + " DateVidange = " + Utils.toString(dateVidange)
-                + " KmVidange = " + Utils.toString(kmVidange)
-                + " HorsZone = " + Utils.toString(horsZone)
-                + " TauxUtilisation = " + Utils.toString(tauxUtilisation)
-                + " AProbleme = " + Utils.toString(aProbleme)
-                + " CompteurReel = " + Utils.toString(compteurReel)
-                + " DateControleTechnique = " + Utils.toString(dateControleTechnique)
-                + " ";
+            + " Modele = " + Utils.toString(modele)
+            + " Immatriculation = " + Utils.toString(immatriculation)
+            + " DateMiseEnService = " + Utils.toString(dateMiseEnService)
+            + " Motorisation = " + Utils.toString(motorisation)
+            + " DateVidange = " + Utils.toString(dateVidange)
+            + " KmVidange = " + Utils.toString(kmVidange)
+            + " HorsZone = " + Utils.toString(horsZone)
+            + " TauxUtilisation = " + Utils.toString(tauxUtilisation)
+            + " AProbleme = " + Utils.toString(aProbleme)
+            + " CompteurReel = " + Utils.toString(compteurReel)
+            + " DateControleTechnique = " + Utils.toString(dateControleTechnique);
     }
 }

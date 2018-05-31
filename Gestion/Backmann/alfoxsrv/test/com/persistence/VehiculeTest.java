@@ -8,40 +8,16 @@ package com.persistence;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
  * @author acros
  */
 public class VehiculeTest {
-    
-    public VehiculeTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of create method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreate() throws Exception {
@@ -52,23 +28,21 @@ public class VehiculeTest {
         String immatriculation = "DD-000-EE";
         Timestamp dateMiseEnService = Utils.stringToTimestamp("2018/03/26 00:00:00");
         String motorisation = "Diesel";
-        String idSigfox = "0123";
         Timestamp dateVidange = Utils.stringToTimestamp("2018/05/26 00:00:00");
         int kmVidange = 0;
         boolean horsZone = false;
         int tauxUtilisation = 0;
         boolean aProbleme = false;
-        double compteurReel = 50.0;
+        float compteurReel = 50.0F;
         Timestamp dateControleTechnique = Utils.stringToTimestamp("2020/03/26 00:00:00");
-        Vehicule result = Vehicule.create(con, marque, modele, immatriculation, dateMiseEnService, 
-                motorisation, idSigfox, dateVidange, kmVidange, horsZone, tauxUtilisation, 
-                aProbleme, compteurReel, dateControleTechnique);
+        Vehicule result = Vehicule.create(con, marque, modele, immatriculation, dateMiseEnService, motorisation, dateVidange, kmVidange, horsZone, tauxUtilisation, aProbleme, compteurReel, dateControleTechnique);
         assertEquals("DS5", result.getModele());
         result.delete(con);
     }
 
     /**
      * Test of save method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSave() throws Exception {
@@ -78,13 +52,14 @@ public class VehiculeTest {
         instance.setCompteurReel(2540.652);
         instance.save(con);
         instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
-        assertEquals(2540.652, instance.getCompteurReel(), 0.1);
+        assertEquals(2540.652F, instance.getCompteurReel(), 0.1);
         instance.setCompteurReel(40787.0);
         instance.save(con);
     }
 
     /**
      * Test of getByImmatriculation method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetByImmatriculation() throws Exception {
@@ -96,6 +71,7 @@ public class VehiculeTest {
 
     /**
      * Test of getLastDatation method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetLastDatation() throws Exception {
@@ -107,17 +83,48 @@ public class VehiculeTest {
     
     /**
      * Test of isDehors method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testIsDehors() throws Exception {
         System.out.println("isDehors");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
-        assertEquals(false, result.getHorsZone());
+        assertEquals(false, result.isDehors(con));
+        result = Vehicule.getByImmatriculation(con, "ED-593-VS");
+        assertEquals(false, result.isDehors(con));
+        result = Vehicule.getByImmatriculation(con, "EE-239-QM");
+        assertEquals(false, result.isDehors(con));
+        
+        // A vérifier celui là, car il est juste à l'Est de Balma !!!
+        result = Vehicule.getByImmatriculation(con, "EE-300-QM");
+        assertEquals(true, result.isDehors(con));
+        
+        result = Vehicule.getByImmatriculation(con, "EK-462-GX");
+        assertEquals(true, result.isDehors(con));
+        result = Vehicule.getByImmatriculation(con, "EM-045-BC");
+        assertEquals(true, result.isDehors(con));
+        result = Vehicule.getByImmatriculation(con, "EM-150-BE");
+        assertEquals(true, result.isDehors(con));
+        result = Vehicule.getByImmatriculation(con, "EM-862-ML");
+        assertEquals(true, result.isDehors(con));
     }
 
     /**
+     * Test of nbVehiculesDehors method, of class Vehicule.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testNbVehiculesDehors() throws Exception {
+        System.out.println("nbVehiculesDehors");
+        Connection con = ConnexionMySQL.newConnexion();
+        int result = Vehicule.nbVehiculesDehors(con);
+        assertEquals(5, result);
+    }
+    
+    /**
      * Test of getMarque method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetMarque() throws Exception {
@@ -129,6 +136,7 @@ public class VehiculeTest {
 
     /**
      * Test of getModele method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetModele() throws Exception {
@@ -140,6 +148,7 @@ public class VehiculeTest {
 
     /**
      * Test of getImmatriculation method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetImmatriculation() throws Exception {
@@ -151,6 +160,7 @@ public class VehiculeTest {
 
     /**
      * Test of getDateMiseEnService method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetDateMiseEnService() throws Exception {
@@ -162,6 +172,7 @@ public class VehiculeTest {
 
     /**
      * Test of getMotorisation method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetMotorisation() throws Exception {
@@ -172,18 +183,8 @@ public class VehiculeTest {
     }
 
     /**
-     * Test of getIdSigfox method, of class Vehicule.
-     */
-    @Test
-    public void testGetIdSigfox() throws Exception {
-        System.out.println("getIdSigfox");
-        Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
-        assertEquals("1", result.getIdSigfox());
-    }
-
-    /**
      * Test of getDateVidange method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetDateVidange() throws Exception {
@@ -195,6 +196,7 @@ public class VehiculeTest {
 
     /**
      * Test of getKmVidange method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetKmVidange() throws Exception {
@@ -206,6 +208,7 @@ public class VehiculeTest {
 
     /**
      * Test of getHorsZone method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetHorsZone() throws Exception {
@@ -217,6 +220,7 @@ public class VehiculeTest {
 
     /**
      * Test of getTauxUtilisation method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetTauxUtilisation() throws Exception {
@@ -228,6 +232,7 @@ public class VehiculeTest {
 
     /**
      * Test of getAProbleme method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetAProbleme() throws Exception {
@@ -239,6 +244,7 @@ public class VehiculeTest {
 
     /**
      * Test of getCompteurReel method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetCompteurReel() throws Exception {
@@ -250,6 +256,7 @@ public class VehiculeTest {
 
     /**
      * Test of getDateControleTechnique method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetDateControleTechnique() throws Exception {
@@ -261,6 +268,7 @@ public class VehiculeTest {
 
     /**
      * Test of kmVidange method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetKmVidange() throws Exception {
@@ -276,6 +284,7 @@ public class VehiculeTest {
 
     /**
      * Test of setDateVidange method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetDateVidange() throws Exception {
@@ -291,6 +300,7 @@ public class VehiculeTest {
 
     /**
      * Test of setHorsZone method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetHorsZone() throws Exception {
@@ -306,6 +316,7 @@ public class VehiculeTest {
 
     /**
      * Test of setTauxUtilisation method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetTauxUtilisation() throws Exception {
@@ -321,6 +332,7 @@ public class VehiculeTest {
 
     /**
      * Test of setAProbleme method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetAProbleme() throws Exception {
@@ -336,6 +348,7 @@ public class VehiculeTest {
 
     /**
      * Test of setCompteurReel method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetCompteurReel() throws Exception {
@@ -351,6 +364,7 @@ public class VehiculeTest {
 
     /**
      * Test of setDateControleTechnique method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSetDateControleTechnique() throws Exception {
@@ -366,6 +380,7 @@ public class VehiculeTest {
 
     /**
      * Test of getImmatriculations method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetImmatriculations() throws Exception {
@@ -379,6 +394,7 @@ public class VehiculeTest {
 
     /**
      * Test of getKmMoyenFlotte method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetKmMoyenFlotte() throws Exception {
@@ -390,39 +406,31 @@ public class VehiculeTest {
 
     /**
      * Test of getKmMoyenMensuelFlotte method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetKmMoyenMensuelFlotte() throws Exception {
         System.out.println("getKmMoyenMensuelFlotte");
         Connection con = ConnexionMySQL.newConnexion();
         double result = Vehicule.getKmMoyenMensuelFlotte(con);
-        assertEquals(16594.40625, result, 0.00001);
+        assertEquals(13275.525, result, 0.00001);
     }
 
     /**
      * Test of getAgeMoyenFlotte method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetAgeMoyenFlotte() throws Exception {
         System.out.println("getAgeMoyenFlotte");
         Connection con = ConnexionMySQL.newConnexion();
         int result = Vehicule.getAgeMoyenFlotte(con);
-        assertEquals(142, result);
-    }
-
-    /**
-     * Test of nbVehiculesDehors method, of class Vehicule.
-     */
-    @Test
-    public void testNbVehiculesDehors() throws Exception {
-        System.out.println("nbVehiculesDehors");
-        Connection con = ConnexionMySQL.newConnexion();
-        int result = Vehicule.nbVehiculesDehors(con);
-        assertEquals(8, result);
+        assertEquals(150, result);  // le 30 Mai 2018
     }
 
     /**
      * Test of size method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSize() throws Exception {
@@ -434,6 +442,7 @@ public class VehiculeTest {
 
     /**
      * Test of getConsoMoyenneFlotte method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetConsoMoyenneFlotte() throws Exception {
@@ -445,23 +454,29 @@ public class VehiculeTest {
 
     /**
      * Test of getConsoMoyenneMensuelleFlotte method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetConsoMoyenneMensuelleFlotte() throws Exception {
         System.out.println("getConsoMoyenneMensuelleFlotte");
         Connection con = ConnexionMySQL.newConnexion();
         double result = Vehicule.getConsoMoyenneMensuelleFlotte(con);
-        assertEquals(1.80, result, 0.01);
+        assertEquals(1.44, result, 0.01);
     }
 
     /**
      * Test of getTempsAlcis method, of class Vehicule.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetTempsAlcis() throws Exception {
         System.out.println("getTempsAlcis");
         Connection con = ConnexionMySQL.newConnexion();
-        int result = Vehicule.getTempsAlcis(con, "4");
-        assertEquals(5, result);
+        int result = Vehicule.getTempsAlcis(con, "EE-300-QM");
+        // au garage depuis le 20 mars
+        // (12 + 30 + 28)*24*60 = 100 800 mn au 29 Mai
+        // (12 + 30 + 31 + 30)*24*60 = 148 320 au 31 Juin
+        assertTrue(result > 100800);
+        assertTrue(result < 148320);
     }
 }

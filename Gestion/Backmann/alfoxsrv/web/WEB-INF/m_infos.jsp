@@ -32,7 +32,7 @@
                 <% 
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox());
+                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
                     out.print("Mode : " + dtr.getMode());
                 %>
                 </p>

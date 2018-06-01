@@ -19,7 +19,7 @@
     // retourne par Ajax les infos du véhicule concerné
     String immatriculation = request.getParameter("immatriculation");
     String date = request.getParameter("date");
-    String idSigfox = Vehicule.getByImmatriculation(con, immatriculation).getIdSigfox();
+    String idSigfox = Vehicule.getByImmatriculation(con, immatriculation).getImmatriculation();
     ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, idSigfox, date);
     for (int i = 0; i < donnees.size(); i++) {
         out.print("<tr><td>" + i + "</td>");

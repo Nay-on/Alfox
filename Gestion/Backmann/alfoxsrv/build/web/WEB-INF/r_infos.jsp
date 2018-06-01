@@ -32,7 +32,7 @@
                 <%  // Récupération du mode du boitier du véhicule
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(1));
-                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getIdSigfox());
+                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
                     out.print("Mode : " + dtr.getMode());
                 %>
                 </p>

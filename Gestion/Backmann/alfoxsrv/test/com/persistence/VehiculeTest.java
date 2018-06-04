@@ -78,7 +78,7 @@ public class VehiculeTest {
         System.out.println("getLastDatation");
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
-        assertEquals(Utils.stringToTimestamp("2018/05/20 00:00:00.0"), result.getLastDatation(con));
+        assertEquals(Utils.stringToTimestamp("2018/03/20 01:10:00.0"), result.getLastDatation(con));
     }
     
     /**
@@ -400,8 +400,8 @@ public class VehiculeTest {
     public void testGetKmMoyenFlotte() throws Exception {
         System.out.println("getKmMoyenFlotte");
         Connection con = ConnexionMySQL.newConnexion();
-        double result = Vehicule.getKmMoyenFlotte(con);
-        assertEquals(66377.625, result, 0.001);
+        int result = Vehicule.getKmMoyenFlotte(con);
+        assertEquals(66377, result);
     }
 
     /**
@@ -412,8 +412,8 @@ public class VehiculeTest {
     public void testGetKmMoyenMensuelFlotte() throws Exception {
         System.out.println("getKmMoyenMensuelFlotte");
         Connection con = ConnexionMySQL.newConnexion();
-        double result = Vehicule.getKmMoyenMensuelFlotte(con);
-        assertEquals(13275.525, result, 0.00001);
+        int result = Vehicule.getKmMoyenMensuelFlotte(con);
+        assertEquals(13275, result);
     }
 
     /**
@@ -425,7 +425,7 @@ public class VehiculeTest {
         System.out.println("getAgeMoyenFlotte");
         Connection con = ConnexionMySQL.newConnexion();
         int result = Vehicule.getAgeMoyenFlotte(con);
-        assertEquals(150, result);  // le 30 Mai 2018
+        assertEquals(154, result);  // le 30 Mai 2018
     }
 
     /**
@@ -448,8 +448,8 @@ public class VehiculeTest {
     public void testGetConsoMoyenneFlotte() throws Exception {
         System.out.println("getConsoMoyenneFlotte");
         Connection con = ConnexionMySQL.newConnexion();
-        double result = Vehicule.getConsoMoyenneFlotte(con);
-        assertEquals(7.21, result, 0.01);
+        int result = Vehicule.getConsoMoyenneFlotte(con);
+        assertEquals(66, result);
     }
 
     /**
@@ -460,8 +460,8 @@ public class VehiculeTest {
     public void testGetConsoMoyenneMensuelleFlotte() throws Exception {
         System.out.println("getConsoMoyenneMensuelleFlotte");
         Connection con = ConnexionMySQL.newConnexion();
-        double result = Vehicule.getConsoMoyenneMensuelleFlotte(con);
-        assertEquals(6, result, 0.01);
+        int result = Vehicule.getConsoMoyenneMensuelleFlotte(con);
+        assertEquals(13, result);
     }
 
     /**

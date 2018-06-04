@@ -8,6 +8,7 @@
 package com.persistence;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ZoneLimite {
     private int ID;         // la clef primaire
@@ -63,6 +64,31 @@ public class ZoneLimite {
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }
     
+    public static int size(Connection con) throws Exception {
+        String queryString = "select count(*) as count from zoneLimite";
+        Statement lStat = con.createStatement(
+                                            ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                            ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        if (lResult.next())
+            return (lResult.getInt("count"));
+        else 
+            return 0;
+    }
+    
+    public static ArrayList<ZoneLimite> getLstZone(Connection con) throws Exception {
+        String queryString = "select * from zoneLimite";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<ZoneLimite> lstZone = new ArrayList<>();
+        while (lResult.next()) {
+            lstZone.add(creerParRequete(lResult));
+        }
+        return lstZone;
+    }
+    
     /**
      * Retourne une zoneLimite trouve par son nom, saved is true
      * @param con
@@ -71,7 +97,7 @@ public class ZoneLimite {
      * @throws java.lang.Exception
      */
     public static ZoneLimite getByNom(Connection con, String nom) throws Exception {
-        String queryString = "select * from zoneLimite where Nom='" + nom + "';";
+        String queryString = "select * from zoneLimite where Nom='" + nom + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);
@@ -82,6 +108,43 @@ public class ZoneLimite {
         }
         else
             return null;
+    }
+    
+    public static double getLatCentre(Connection con, String nom) throws Exception {
+        String queryString = "select min(Latitude) as minLat,"
+                + " max(Latitude) as maxLat"
+                + " from position, zoneLimite where Nom = '" + nom + "'"
+                + " and zoneLimite.ID = ZoneLimiteID";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        
+        if (lResult.next()) {
+            double minLat = lResult.getDouble("minLat");
+            double maxLat = lResult.getDouble("maxLat");
+            return (minLat + maxLat) / 2;
+        }
+        else
+            return 0.0;
+    }
+    
+    public static double getLgCentre(Connection con, String nom) throws Exception {
+        String queryString = "select min(Longitude) as minLg, max(Longitude)"
+                +" as maxLg from position, zoneLimite where Nom = '" + nom
+                + "' and zoneLimite.ID = ZoneLimiteID";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        
+        if (lResult.next()) {
+            double minLg = lResult.getDouble("minLg");
+            double maxLg = lResult.getDouble("maxLg");
+            return (minLg + maxLg) / 2;
+        }
+        else
+            return 0.0;
     }
     
     private static ZoneLimite creerParRequete(ResultSet result) throws Exception {

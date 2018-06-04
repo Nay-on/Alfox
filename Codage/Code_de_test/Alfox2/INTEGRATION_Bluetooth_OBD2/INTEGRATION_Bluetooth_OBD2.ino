@@ -1,4 +1,4 @@
-#include "Bluetooth.h"
+                     #include "Bluetooth.h"
 #include "DonneesTR.h"
 #include "OBD2.h"
 #include "CarteSD.h"
@@ -78,7 +78,7 @@ void loop()
     Serial.println(obd2->lireVitesse());
     delay(250);
     maLed->setCouleur(magenta, 125);
-    Serial.print("Régime moteur : ");
+    Serial.print("Regime moteur : ");
     Serial.println(obd2->lireRegimeMoteur());
     delay(250);
     maLed->setCouleur(magenta, 125);
@@ -88,7 +88,7 @@ void loop()
     Serial.println("___________________________________CarteSD");
   }
   maLed->setCouleur(magenta, 125);
-  carteSD->nouveauFichier("180516.txt");
+  carteSD->nouveauFichier("180531.txt");
   carteSD->ecrire(donneesTR);
 
   Serial.println("___________________________________GPS");
@@ -104,7 +104,7 @@ void loop()
   }
   maLed->setCouleur(magenta, 125);
 
-  if(bluetooth->isActif() == false){
+  /*if(bluetooth->isActif() == false){
     delete bluetooth;
     delete obd2;
     
@@ -114,7 +114,7 @@ void loop()
     int resultatConnexion = bluetooth->connexion("2017,11,7030A");
     delay(2000);
     OBD2* obd2 = new OBD2(bluetooth);
-  }
+  }*/
   
 }
 

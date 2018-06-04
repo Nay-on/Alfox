@@ -48,7 +48,7 @@
                             <div class="cardTitre">Nombre de véhicules hors zone</div>
                             <div class="container">
                                 <div id="cnvhz" class="cardValeur">
-                                    <%=Vehicule.nbVehiculesDehors(con)%>
+                                    2
                                 </div>
                                 <div class="cardUnite">véhicules</div>
                             </div>

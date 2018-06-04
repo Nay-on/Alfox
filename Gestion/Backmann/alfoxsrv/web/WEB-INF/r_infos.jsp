@@ -33,9 +33,9 @@
                 <% 
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getVehiculeID());
+                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
                     out.print("Mode : " + dtr.getMode());
-                    Timestamp date = DonneesTR.getLastByImmatriculation(con, vehicule.getVehiculeID()).getDatation();
+                    Timestamp date = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation()).getDatation();
                 %>
                 </p>
                 <a href="#panelVehicules" 
@@ -75,7 +75,7 @@
                     </thead>
                     <tbody id="infosTR">
                         <% 
-                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getVehiculeID(), "2018-03-20");
+                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getImmatriculation(), "2018-03-20");
                             // recup la liste des données tr pour ce véhicule et cette date
                             for (int i = 0; i<donnees.size(); i++) {
                                 out.print("<tr><td>" + i + "</td>");

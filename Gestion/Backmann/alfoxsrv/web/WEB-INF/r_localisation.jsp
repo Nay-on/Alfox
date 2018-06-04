@@ -24,7 +24,7 @@
             session.setAttribute("con", con);
             ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
             Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-            DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getVehiculeID());
+            DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
         %>
         <div data-role="page" id="page1">
             <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" 
@@ -50,7 +50,7 @@
                         });
                         var marker = new google.maps.Marker({
                             position: livh,
-                            map: livh
+                            map: map
                         });
                     }
                 </script>

@@ -137,7 +137,7 @@ public class DonneesTRTest {
         System.out.println("getRegime");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "ED-592-CY");
-        assertEquals(21, instance.getRegime());
+        assertEquals(2100, instance.getRegime());
     }
 
     /**
@@ -173,7 +173,7 @@ public class DonneesTRTest {
         System.out.println("getRegimeMax");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "ED-592-CY");
-        assertEquals(34, instance.getRegimeMax());
+        assertEquals(3400, instance.getRegimeMax());
     }
 
     /**

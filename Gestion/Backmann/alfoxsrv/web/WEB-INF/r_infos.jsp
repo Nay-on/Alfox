@@ -33,9 +33,9 @@
                 <% 
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getVehiculeID());
+                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
                     out.print("Mode : " + dtr.getMode());
-                    Timestamp date = DonneesTR.getLastByImmatriculation(con, vehicule.getVehiculeID()).getDatation();
+                    Timestamp date = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation()).getDatation();
                 %>
                 </p>
                 <a href="#panelVehicules" 
@@ -75,7 +75,7 @@
                     </thead>
                     <tbody id="infosTR">
                         <% 
-                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getVehiculeID(), "2018-03-20");
+                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getImmatriculation(), "2018-03-20");
                             // recup la liste des données tr pour ce véhicule et cette date
                             for (int i = 0; i<donnees.size(); i++) {
                                 out.print("<tr><td>" + i + "</td>");
@@ -92,7 +92,7 @@
                     <br/><br/><br/><br/><br/>
                 </center>
             </div>
-            <div id="panelVehicules" data-role="panel" data-position="right"  
+                        <div id="panelVehicules" data-role="panel" data-position="right"  
                  data-position-fixed="true" data-display="push">
                 <p>Changement de mode :</p>
                 <div data-role="collapsibleset" data-inset="false">
@@ -101,7 +101,7 @@
                         <div data-role="popup" id="positionWindow" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode DORMIR ?</p>
                                 <button class="ok" style="width: 200px">OK</button>
-                                <button class="annuler" style="width: 200px">Annuler</button>
+                                <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
                         </div>
                     </a>
                     <a href="#positionWindow1" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
@@ -109,7 +109,7 @@
                         <div data-role="popup" id="positionWindow1" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode GPS ?</p>
                             <button class="ok" style="width: 200px">OK</button>
-                            <button class="annuler" style="width: 200px">Annuler</button>
+                            <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
                         </div>
                     </a>
                     <a href="#positionWindow2" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
@@ -117,7 +117,7 @@
                         <div data-role="popup" id="positionWindow2" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode Demande GPS ?</p>
                             <button class="ok" style="width: 200px">OK</button>
-                            <button class="annuler" style="width: 200px">Annuler</button>
+                            <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
                         </div>
                     </a>
                     <a href="#positionWindow3" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
@@ -125,7 +125,7 @@
                         <div data-role="popup" id="positionWindow3" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode RESET ?</p>
                             <button class="ok" style="width: 200px">OK</button>
-                            <button class="annuler" style="width: 200px">Annuler</button>
+                            <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
                         </div>
                     </a>
                 </div>

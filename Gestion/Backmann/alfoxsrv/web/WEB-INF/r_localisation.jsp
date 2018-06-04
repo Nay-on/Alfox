@@ -24,7 +24,7 @@
             session.setAttribute("con", con);
             ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
             Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-            DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getVehiculeID());
+            DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
         %>
         <div data-role="page" id="page1">
             <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" 
@@ -42,16 +42,29 @@
                 <br/><br/><br/>
                 <div id="map"></div>
                 <script>
+                    var image = {
+                        // Adresse de l'icône personnalisée
+                        url: 'https://png.icons8.com/color/2x/f1-race-car-top-veiw.png'
+                        // Taille de l'icône personnalisée
+                        //size: new google.maps.Size(25, 40)
+                        // Origine de l'image, souvent (0, 0)
+                        /*origin: new google.maps.Point(0,0),
+                        // L'ancre de l'image. Correspond au point de l'image que l'on raccroche à la carte. Par exemple, si votre îcone est un drapeau, cela correspond à son mâts
+                        anchor: new google.maps.Point(0, 20)*/
+                    };
+                    
                     function initMap() {
-                        var livh = {lat:  43.615796, lng: 1.30944};
-                        var map = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 16,
-                            center: livh
-                        });
-                        var marker = new google.maps.Marker({
-                            position: livh,
-                            map: livh
-                        });
+                        //for (int i = 0; i<Vehicule.size(con);i++){
+                            var livh = {lat:<% dtr.getLatitude(); %>, lng:<%dtr.getLongitude();%> };
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                                zoom: 16,
+                                center: livh
+                            });
+                            var marker = new google.maps.Marker({
+                                position: livh,
+                                map: map,
+                                icon: image
+                            });
                     }
                 </script>
                 <script async defer

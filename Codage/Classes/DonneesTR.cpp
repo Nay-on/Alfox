@@ -64,6 +64,12 @@ int DonneesTR::getVitesseMax()
 }
 
 
+int DonneesTR::getVitesse()
+{
+  return vitesse;
+}
+
+
 int DonneesTR::getRegimeMoyen()
 {
 

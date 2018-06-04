@@ -15,7 +15,6 @@
     <head>
         <title>Accueil</title> 
         <%@ include file="/includes/header.jspf" %>
-        <script type="text/javascript" src="js/alfox.js"></script>
     </head>
     <body>
         <% 
@@ -32,7 +31,7 @@
                 <% 
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
+                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getVehiculeID());
                     out.print("Mode : " + dtr.getMode());
                 %>
                 </p>
@@ -40,24 +39,25 @@
                    class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-gear ui-btn-right">
                 </a>
             </div>
+            
             <div role="main" class="ui-content">
                 <center>
                     <p class="mess">Nombre de message restants : 3/4</p>
                     <form class="form" >
                         <div class="ui-field-contain">
-                            <label class="label" for="infosSelectImmatriculation">Véhicule :</label>
-                            <select name="infosSelectImmatriculation" id="infosSelectImmatriculation">
+                            <label class="label" for="select-native-1">Véhicule :</label>
+                            <select name="select-native-1" id="select-native-1">
                         <% 
                             // recup l'immatriculation des véhicules
                             int nb = Vehicule.size(con);
                             for (int i = 0; i< nb; i++) {
-                                out.print("<option value='" + immatriculations.get(i) + "'>" + immatriculations.get(i) + "</option>");
+                                out.print("<option value='1'>" + immatriculations.get(i) + "</option>");
                             }
                         %>
+                             
                             </select>
                         </div>
-                        <input value="2018-05-16" id="dateSelect" type="date">
-                        
+                        <input value="2018-05-09" id="date" type="date">
                     </form>
                     <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
                     <thead>
@@ -71,9 +71,9 @@
                           <th data-priority="4">Longitude</th>
                         </tr>
                     </thead>
-                    <tbody id="mInfosTR">
+                    <tbody>
                         <% 
-                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getIdSigfox(), "2018-03-20");
+                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getVehiculeID(), "2018-03-20");
                             // recup la liste des données tr pour ce véhicule et cette date
                             for (int i = 0; i<donnees.size(); i++) {
                                 out.print("<tr><td>" + i + "</td>");
@@ -99,7 +99,7 @@
                         <div data-role="popup" id="positionWindow" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode DORMIR ?</p>
                                 <button class="ok" style="width: 200px">OK</button>
-                                <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
+                                <button class="annuler" style="width: 200px">Annuler</button>
                         </div>
                     </a>
                     <a href="#positionWindow1" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
@@ -107,7 +107,7 @@
                         <div data-role="popup" id="positionWindow1" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode GPS ?</p>
                             <button class="ok" style="width: 200px">OK</button>
-                            <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
+                            <button class="annuler" style="width: 200px">Annuler</button>
                         </div>
                     </a>
                     <a href="#positionWindow2" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
@@ -115,7 +115,7 @@
                         <div data-role="popup" id="positionWindow2" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode Demande GPS ?</p>
                             <button class="ok" style="width: 200px">OK</button>
-                            <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
+                            <button class="annuler" style="width: 200px">Annuler</button>
                         </div>
                     </a>
                     <a href="#positionWindow3" class="ui-btn ui-btn-a ui-icon-arrow-r ui-btn-icon-left ui-shadow ui-corner-all" data-rel="popup" data-position-to="window">
@@ -123,7 +123,7 @@
                         <div data-role="popup" id="positionWindow3" class="ui-content">
                             <p align="center">Etes-vous sûr de vouloir passer en mode RESET ?</p>
                             <button class="ok" style="width: 200px">OK</button>
-                            <button class="annuler" style="width: 200px" onclick="window.location.href='alfoxControl.jsp?action=infos'">Annuler</button>
+                            <button class="annuler" style="width: 200px">Annuler</button>
                         </div>
                     </a>
                 </div>

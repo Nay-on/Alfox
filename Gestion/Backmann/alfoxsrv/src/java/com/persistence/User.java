@@ -80,8 +80,7 @@ public class User {
     public static User getByMotDePasse(Connection con, String mdp) throws Exception {
         // cryptage du mdp
         String mdpCrypte = Utils.encryptPassword(mdp);
-        //String queryString = "select * from user where Mdp='" + mdpCrypte + "'";
-        String queryString = "select * from user where Mdp='" + mdp + "'";
+        String queryString = "select * from user where Mdp='" + mdpCrypte + "'";
         Statement lStat = con.createStatement(
                                 ResultSet.TYPE_SCROLL_INSENSITIVE, 
                                 ResultSet.CONCUR_READ_ONLY);

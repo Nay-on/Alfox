@@ -45,11 +45,12 @@ public class DonneesTRTest {
         double longitude = 50.123456;
         long distanceParcourue = 50;
         int seqNumber = 52;
-        double snr = 123.45;
-        double rssi = 123.56;
-        double avgSnr = 123.67;
         int VehiculeID = 1;
-        DonneesTR result = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue, seqNumber, snr, rssi, avgSnr, VehiculeID);
+        DonneesTR result = DonneesTR.create(con, mode, seqNumber, datation, 
+                vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, 
+                nbDefauts, defaut1, defaut2, defaut3, defaut4, 
+                0,0,0,0, 
+                latitude, longitude, distanceParcourue, VehiculeID);
         assertEquals(Utils.stringToTimestamp("2017/03/22 12:00:00.0"), result.getDatation());
         result.delete(con);
     }
@@ -79,11 +80,13 @@ public class DonneesTRTest {
         double longitude = 50.123456;
         long distanceParcourue = 50;
         int seqNumber = 53;
-        double snr = 123.45;
-        double rssi = 123.56;
-        double avgSnr = 123.67;
         int VehiculeID = 1;
-        DonneesTR instance = DonneesTR.create(con, mode, datation, vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, nbDefauts, defaut1, defaut2, defaut3, defaut4, latitude, longitude, distanceParcourue, seqNumber, snr, rssi, avgSnr, VehiculeID);
+        DonneesTR instance = DonneesTR.create(con, mode, seqNumber, datation, 
+                vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, 
+                nbDefauts, defaut1, defaut2, defaut3, defaut4, 
+                0, 0, 0, 0,
+                latitude, longitude, distanceParcourue, 
+                VehiculeID);
         instance.save(con);
         assertEquals(50, instance.getVitesse());
         instance.delete(con);
@@ -134,7 +137,7 @@ public class DonneesTRTest {
         System.out.println("getRegime");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "ED-592-CY");
-        assertEquals(1589, instance.getRegime());
+        assertEquals(21, instance.getRegime());
     }
 
     /**
@@ -146,7 +149,7 @@ public class DonneesTRTest {
         System.out.println("getConsommation");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "ED-592-CY");
-        assertEquals(1.0, instance.getConsommation(), 0.1);
+        assertEquals(65, instance.getConsommation());
     }
 
     /**
@@ -170,7 +173,7 @@ public class DonneesTRTest {
         System.out.println("getRegimeMax");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "ED-592-CY");
-        assertEquals(3495, instance.getRegimeMax());
+        assertEquals(34, instance.getRegimeMax());
     }
 
     /**
@@ -182,7 +185,7 @@ public class DonneesTRTest {
         System.out.println("getConsoMax");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "ED-592-CY");
-        assertEquals(2.0, instance.getConsoMax(), 0.1);
+        assertEquals(22, instance.getConsoMax());
     }
 
     /**

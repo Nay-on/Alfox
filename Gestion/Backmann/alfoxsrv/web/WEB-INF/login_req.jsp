@@ -14,8 +14,7 @@
     session.setAttribute("con", con);
     // on récupère le mdp saisi
     String password = request.getParameter("mdp");
-    String pwd2 = com.persistence.Utils.encryptPassword(password);
-    User user = User.getByMotDePasse(con, pwd2);
+    User user = User.getByMotDePasse(con, password);
     // la personne existe t'elle ?
     if (user != null) {                 
         // création du user dans l'objet session de Tomcat

@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Accueil</title> 
+        <title>Acceuil</title> 
         <%@ include file="/includes/header.jspf" %>
     </head>
     <body>
@@ -24,7 +24,7 @@
             session.setAttribute("con", con);
             ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
             Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-            DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
+            DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getVehiculeID());
         %>
         <div data-role="page" id="page1">
             <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" 
@@ -50,7 +50,7 @@
                         });
                         var marker = new google.maps.Marker({
                             position: livh,
-                            map: map
+                            map: livh
                         });
                     }
                 </script>

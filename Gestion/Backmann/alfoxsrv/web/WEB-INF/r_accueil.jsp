@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Accueil</title> 
+        <title>Acceuil</title> 
         <%@ include file="/includes/header.jspf" %>
     </head>
     <body>
@@ -48,7 +48,7 @@
                             <div class="cardTitre">Nombre de véhicules hors zone</div>
                             <div class="container">
                                 <div id="cnvhz" class="cardValeur">
-                                    <%=Vehicule.nbVehiculesDehors(con)%>
+                                    2
                                 </div>
                                 <div class="cardUnite">véhicules</div>
                             </div>
@@ -79,7 +79,7 @@
                             <div class="container">
                                 <div id="ckmm" class="cardValeur">
                                     <%
-                                        out.print(Vehicule.getKmMoyenMensuelFlotte(con));
+                                        out.print(df.format(Vehicule.getKmMoyenMensuelFlotte(con)));
                                     %>
                                 </div>
                                 <div class="cardUnite">km/mois</div>

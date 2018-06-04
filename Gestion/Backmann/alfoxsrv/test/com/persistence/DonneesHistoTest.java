@@ -138,7 +138,7 @@ public class DonneesHistoTest {
         Connection con = ConnexionMySQL.newConnexion();
         DonneesHisto instance = 
             DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(1800, instance.getRegime());
+        assertEquals(34, instance.getRegime());
     }
 
     /**
@@ -177,7 +177,7 @@ public class DonneesHistoTest {
         Connection con = ConnexionMySQL.newConnexion();
         DonneesHisto instance = 
             DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(3600, instance.getRegimeMax());
+        assertEquals(36, instance.getRegimeMax());
     }
 
     /**
@@ -190,7 +190,7 @@ public class DonneesHistoTest {
         Connection con = ConnexionMySQL.newConnexion();
         DonneesHisto instance = 
             DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(250, instance.getConsoMax());
+        assertEquals(67, instance.getConsoMax());
     }
 
     /**

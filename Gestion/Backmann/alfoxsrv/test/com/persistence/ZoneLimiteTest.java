@@ -6,13 +6,34 @@
 package com.persistence;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  * @author acros
  */
 public class ZoneLimiteTest {
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
 
     /**
      * Test of create method, of class ZoneLimite.
@@ -83,5 +104,49 @@ public class ZoneLimiteTest {
         assertEquals(instance.getNom(), "Alcis2");
         instance.setNom("Alcis");
         instance.save(con);
+    }
+
+    /**
+     * Test of getLatCentre method, of class ZoneLimite.
+     */
+    @Test
+    public void testGetLatCentre() throws Exception {
+        System.out.println("getLatCentre");
+        Connection con = ConnexionMySQL.newConnexion();
+        assertEquals(43.600541, ZoneLimite.getLatCentre(con, "Toulouse"), 0.000001);
+    }
+
+    /**
+     * Test of getLgCentre method, of class ZoneLimite.
+     */
+    @Test
+    public void testGetLgCentre() throws Exception {
+        System.out.println("getLgCentre");
+        Connection con = ConnexionMySQL.newConnexion();
+        assertEquals(1.434093, ZoneLimite.getLgCentre(con, "Toulouse"), 0.000001);
+    }
+
+    /**
+     * Test of size method, of class ZoneLimite.
+     */
+    @Test
+    public void testSize() throws Exception {
+        System.out.println("size");
+        Connection con = ConnexionMySQL.newConnexion();
+        int result = ZoneLimite.size(con);
+        assertEquals(2, result);
+    }
+
+    /**
+     * Test of getLstZone method, of class ZoneLimite.
+     */
+    @Test
+    public void testGetLstZone() throws Exception {
+        System.out.println("getLstZone");
+        Connection con = ConnexionMySQL.newConnexion();
+        ArrayList<ZoneLimite> result = ZoneLimite.getLstZone(con);
+        assertEquals(2, result.size());
+        assertEquals("Alcis", result.get(0).getNom());
+        assertEquals("Toulouse", result.get(1).getNom());
     }
 }

@@ -4,6 +4,7 @@
 $(function() {
     $("#infosSelectImmatriculation").on("change", infosNewSelect);
     $("#dateSelect").on("change", infosNewSelect);
+    $("#listeZones li").on("click", centrerZone);
 });
 
 function infosNewSelect() {
@@ -27,4 +28,10 @@ function infosNewSelect() {
             return false;
         }
     });
+}
+
+function centrerZone() {
+    alert($(this).attr("id"));
+    //alert($("#listeZones").item($(this).index()));
+    
 }

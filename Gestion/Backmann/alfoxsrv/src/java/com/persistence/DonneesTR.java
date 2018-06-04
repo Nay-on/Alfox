@@ -226,12 +226,19 @@ public class DonneesTR {
                 // TM K1 K2 K3 00 00 00 00 00 00 00 00
                 queryString =
                     "insert into donneesTR (Mode, SeqNumber, Datation,"
+                    + " Vitesse, Regime, Consommation,"
+                    + " VitesseMax, RegimeMax, ConsoMax,"
+                    + " NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4,"
                     + " Snr, Rssi, AvgSnr, Radius, Latitude, Longitude,"
                     + " DistanceParcourue, VehiculeID) "
                     + " values ("
                     + Utils.toString(mode) + ", "
                     + Utils.toString(seqNumber) + ", "
                     + Utils.toString(datation) + ", "
+                    // pas de données
+                    + " NULL, NULL, NULL, "
+                    + " NULL, NULL, NULL, "
+                    + " NULL, NULL, NULL, NULL, NULL, "    
                     // pas d'infos sur le signal, ni sur la position
                     + " NULL, NULL, NULL, NULL, NULL, NULL, "
                     // autres datas
@@ -243,12 +250,19 @@ public class DonneesTR {
                 // TM K1 K2 K3 00 00 00 00 00 00 00 00
                 queryString =
                     "insert into donneesTR (Mode, SeqNumber, Datation,"
+                    + " Vitesse, Regime, Consommation,"
+                    + " VitesseMax, RegimeMax, ConsoMax,"
+                    + " NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4,"
                     + " Snr, Rssi, AvgSnr, Radius,"
                     + " Latitude, Longitude, DistanceParcourue, VehiculeID)"
                     + " values ("
                     + Utils.toString(mode) + ", "
                     + Utils.toString(seqNumber) + ", "
                     + Utils.toString(datation) + ", "
+                    // pas de données
+                    + " NULL, NULL, NULL, "
+                    + " NULL, NULL, NULL, "
+                    + " NULL, NULL, NULL, NULL, NULL, "    
                     // pas d'infos sur le signal
                     + " NULL, NULL, NULL, NULL, "
                     // autres datas
@@ -277,12 +291,19 @@ public class DonneesTR {
                 }
                 queryString =
                     "insert into donneesTR (Mode, SeqNumber, Datation,"
+                    + " Vitesse, Regime, Consommation,"
+                    + " VitesseMax, RegimeMax, ConsoMax,"
+                    + " NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4,"
                     + " Snr, Rssi, AvgSnr, Radius,"
                     + " Latitude, Longitude, DistanceParcourue, VehiculeID)"
                     + " values ("
                     + Utils.toString(modeActuel) + ", "
                     + Utils.toString(seqNumber) + ", "
                     + Utils.toString(datation) + ", "
+                    // pas de données
+                    + " NULL, NULL, NULL, "
+                    + " NULL, NULL, NULL, "
+                    + " NULL, NULL, NULL, NULL, NULL, "     
                     // pas d'infos sur le signal, ni sur la position
                     + Utils.toString(snr) + ", "
                     + Utils.toString(rssi) + ", "

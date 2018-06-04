@@ -50,7 +50,7 @@
                         });
                         var marker = new google.maps.Marker({
                             position: livh,
-                            map: livh
+                            map: map
                         });
                     }
                 </script>

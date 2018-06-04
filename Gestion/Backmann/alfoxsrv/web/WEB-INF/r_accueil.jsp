@@ -79,7 +79,7 @@
                             <div class="container">
                                 <div id="ckmm" class="cardValeur">
                                     <%
-                                        out.print(df.format(Vehicule.getKmMoyenMensuelFlotte(con)));
+                                        out.print(Vehicule.getKmMoyenMensuelFlotte(con));
                                     %>
                                 </div>
                                 <div class="cardUnite">km/mois</div>

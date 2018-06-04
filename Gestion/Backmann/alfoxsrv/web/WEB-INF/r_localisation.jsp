@@ -51,8 +51,8 @@
                 <script>
                     function initMap() {
                         var map = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 16,
-                            center: {lat: 43.615769, lng:1.309445 },
+                            zoom: 11,
+                            center: {lat: 43.601245, lng:1.445555},
                         });
                         <%
                             for (int i=0;i<immatriculations.size() ;i++) {

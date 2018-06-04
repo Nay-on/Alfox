@@ -4,7 +4,7 @@
 $(function() {
     $("#infosSelectImmatriculation").on("change", infosNewSelect);
     $("#dateSelect").on("change", infosNewSelect);
-    $("#listeZones li").on("click", centrerZone);
+    $("#listeZones").on("click", centrerZone);
 });
 
 function infosNewSelect() {
@@ -32,6 +32,4 @@ function infosNewSelect() {
 
 function centrerZone() {
     alert($(this).attr("id"));
-    
-    
 }

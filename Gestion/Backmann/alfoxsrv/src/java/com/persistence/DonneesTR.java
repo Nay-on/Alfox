@@ -604,7 +604,7 @@ public class DonneesTR {
     }
 
     public int getConsommation() {
-        return consommation;
+        return consommation/10;
     }
 
     public int getVitesseMax() {

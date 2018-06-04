@@ -32,6 +32,6 @@ function infosNewSelect() {
 
 function centrerZone() {
     alert($(this).attr("id"));
-    //alert($("#listeZones").item($(this).index()));
+    
     
 }

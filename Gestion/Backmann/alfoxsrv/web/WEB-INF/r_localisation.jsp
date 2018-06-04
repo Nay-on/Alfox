@@ -78,7 +78,7 @@
                 <li data-role="list-divider">Zones limites :</li>
                 <%
                     for (int i=0;i<ZoneLimite.getLstZone(con).size();i++) {
-                        out.print("<li id=" + ZoneLimite.getLstZone(con).get(i).getNom() + "><a href='#'>" + ZoneLimite.getLstZone(con).get(i).getNom() + "</a></li>");
+                        out.print("<li id=" + ZoneLimite.getLstZone(con).get(i).getNom() + "><a href='#' onClick='javascript:centrerZone(map, " + ZoneLimite.getLatCentre(con, ZoneLimite.getLstZone(con).get(i).getNom()) + "," + ZoneLimite.getLgCentre(con, ZoneLimite.getLstZone(con).get(i).getNom()) +");return false;'>" + ZoneLimite.getLstZone(con).get(i).getNom() + "</a></li>");
                     }
                 %>    
             </ol>

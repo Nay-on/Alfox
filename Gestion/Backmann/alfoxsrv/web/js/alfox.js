@@ -30,6 +30,7 @@ function infosNewSelect() {
     });
 }
 
-function centrerZone() {
-    alert($(this).attr("id"));
+function centrerZone(map, lat, lg) {
+    //alert($(this).attr("id"));
+    $('#map').setCenter(lat, lg);
 }

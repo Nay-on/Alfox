@@ -4,6 +4,7 @@
     Created on : Mars 2018
 --%>
 
+<%@page import="com.persistence.ZoneLimite"%>
 <%@page import="com.persistence.DonneesTR"%>
 <%@page import="com.persistence.Vehicule"%>
 <%@page import="java.util.ArrayList"%>
@@ -45,6 +46,7 @@
             
             <div role="main" class="ui-content">
                 <br/><br/><br/>
+                <!-- map google -->
                 <div id="map"></div>
                 <script>
                     function initMap() {
@@ -53,12 +55,12 @@
                             center: {lat: 43.615769, lng:1.309445 },
                         });
                         <%
-                        for (int i=0;i<immatriculations.size() ;i++) {
-                                out.print("var marker = new google.maps.Marker({");
-                                out.print("position: new google.maps.LatLng(" + lstDtr.get(i).getLatitude() + "," + lstDtr.get(i).getLongitude() + "),");
-                                out.print("map: map");
-                            out.print("});");
-                        }
+                            for (int i=0;i<immatriculations.size() ;i++) {
+                                    out.print("var marker = new google.maps.Marker({");
+                                    out.print("position: new google.maps.LatLng(" + lstDtr.get(i).getLatitude() + "," + lstDtr.get(i).getLongitude() + "),");
+                                    out.print("map: map");
+                                out.print("});");
+                            }
                         %>
                     }
                 </script>
@@ -75,13 +77,10 @@
             <ol id="listeZones" data-role="listview" data-icon="false">
                 <li data-role="list-divider">Zones limites :</li>
                 <%
-                    for (int i=0; )
-                <li id="1"><a href="#">Toulouse</a></li>
-                <li id="2"><a href="#">Sud Ouest</a></li>
-                <li id="3"><a href="#">Paris</a></li>
-                <li id="4"><a href="#">France</a></li>
-                <li id="5"><a href="#">Europe</a></li>
-                %>        
+                    for (int i=0;i<ZoneLimite.getLstZone(con).size();i++) {
+                        out.print("<li id=" + ZoneLimite.getLstZone(con).get(i).getNom() + "><a href='#'>" + ZoneLimite.getLstZone(con).get(i).getNom() + "</a></li>");
+                    }
+                %>    
             </ol>
         </div>
         

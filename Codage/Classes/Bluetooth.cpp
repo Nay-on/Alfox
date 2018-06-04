@@ -29,7 +29,7 @@ int Bluetooth::connexion(String adresse)
   {
     int sommeErreurs = 0;
 
-    reinitialiser();
+    //reinitialiser();
     sommeErreurs += modeMaster();
     sommeErreurs += modeConnexion();
     sommeErreurs += motDePasse();
@@ -167,6 +167,7 @@ int Bluetooth::appairage(String adresse)
   Serial.println("Appairage");
   serialBT->println("AT+PAIR=" + adresse + ",10");//10 par défaut
   //delay(5000);
+  delay(100);
   while (serialBT->available() <= 0);
   /*{
     Serial.println(serialBT->read());

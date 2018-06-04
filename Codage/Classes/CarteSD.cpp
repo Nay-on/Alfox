@@ -35,7 +35,7 @@ void CarteSD::ecrire(DonneesTR* dTR)
   fichierSD = SD.open(nomFichier, FILE_WRITE);          // ouverture du fichier en ecriture et creation si il n'existe pas 
   if (fichierSD) {// si l'ouverture as réussie
     Serial.println(fichierSD.name());                   // debug
-    fichierSD.println("# " + String(dTR->getConsommation()) + String(dTR->getVitesseMax()) + "   " + String(dTR->getVitesseMoyenne()) + "   " + String(dTR->getRegimeMax()) + "   "+ String(dTR->getRegimeMoyen()) + "   ");
+    fichierSD.println("# " + String(dTR->getConsommation()) +"  "+ String(dTR->getVitesse()));
                                                         // ecriture des donnée 
     fichierSD.close();                                  // fermeture du fichier
     Serial.println("ecriture");                         // debug

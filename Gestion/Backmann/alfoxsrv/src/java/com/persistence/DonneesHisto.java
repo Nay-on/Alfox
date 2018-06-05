@@ -8,6 +8,7 @@
 package com.persistence;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DonneesHisto {
     private String    mode;
@@ -138,29 +139,61 @@ public class DonneesHisto {
         lStat.executeUpdate(queryString, Statement.NO_GENERATED_KEYS);
     }
     
-    /**
-     * Retourne un donneesHisto trouve par sa date, saved is true
-     * @param con
-     * @param datation date de donneesHisto a trouver
-     * @param immatriculation
-     * @return donneesHisto trouvé par date
-     * @throws java.lang.Exception
-     */
-    public static DonneesHisto getByDatation(Connection con, String datation, String immatriculation) throws Exception {
-        String queryString = "select * from donneesHisto,vehicule" 
-                            + " where Datation='" + datation + "'"
-                            + " and Immatriculation = '" + immatriculation + "'"
-                            + " and donneesHisto.VehiculeID = vehicule.ID";
+    public static DonneesHisto getLastByImmatriculation(Connection con,
+            String immatriculation) throws Exception {
+        String queryString = "select * from donneesHisto,vehicule"
+                + " where Immatriculation = '" + immatriculation + "'"
+                + " and vehicule.ID = donneesHisto.VehiculeID"
+                + " order by Datation desc limit 1";
         Statement lStat = con.createStatement(
-                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
-                                ResultSet.CONCUR_READ_ONLY);
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
         ResultSet lResult = lStat.executeQuery(queryString);
         // y en a t'il au moins un ?
         if (lResult.next()) {
             return creerParRequete(lResult);
-        }
-        else
+        } else {
             return null;
+        }
+    }
+
+    public static ArrayList<DonneesHisto> getByDate(Connection con,
+            String immatriculation, String dateDonnees) throws Exception {
+        String queryString = "select * from donneesHisto,vehicule"
+                + " where Immatriculation = '" + immatriculation + "'"
+                + " and vehicule.ID = donneesHisto.VehiculeID"
+                + " and Datation between '" + dateDonnees + " 00:00:00'"
+                + " and '" + dateDonnees + " 23:59:59'"
+                + " order by Datation desc";
+
+        Statement lStat = con.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<DonneesHisto> lstDonneesHisto = new ArrayList<>();
+        // y en a t'il au moins un ?
+        while (lResult.next()) {
+            lstDonneesHisto.add(creerParRequete(lResult));
+        }
+        return lstDonneesHisto;
+    }
+
+    public static ArrayList<DonneesHisto> getDonneesVehicule(Connection con,
+            String immatriculation) throws Exception {
+        String queryString = "select * from donneesHisto,vehicule"
+                + " where Immatriculation = '" + immatriculation + "'"
+                + " and vehicule.ID = donneesHisto.VehiculeID"
+                + " order by Datation desc";
+        Statement lStat = con.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<DonneesHisto> lstDonneesHisto = new ArrayList<>();
+        // y en a t'il au moins un ?
+        while (lResult.next()) {
+            lstDonneesHisto.add(creerParRequete(lResult));
+        }
+        return lstDonneesHisto;
     }
     
     private static DonneesHisto creerParRequete(ResultSet result) throws Exception {

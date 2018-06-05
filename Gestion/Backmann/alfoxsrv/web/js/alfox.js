@@ -4,6 +4,7 @@
 $(function() {
     $("#infosSelectImmatriculation").on("change", infosNewSelect);
     $("#dateSelect").on("change", infosNewSelect);
+    $("#listeZones").on("click", centrerZone);
 });
 
 function infosNewSelect() {
@@ -27,4 +28,9 @@ function infosNewSelect() {
             return false;
         }
     });
+}
+
+function centrerZone(map, lat, lg) {
+    //alert($(this).attr("id"));
+    $('#map').setCenter(lat, lg);
 }

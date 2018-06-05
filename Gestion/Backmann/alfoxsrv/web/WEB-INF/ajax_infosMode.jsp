@@ -1,6 +1,6 @@
 <%-- 
     Document   : ajax_infosByImmaAndDate
-    Created on : 14 mai 2018, 11:00:42
+    Created on : 5 juin 2018, 11:00:42
     Author     : snir2g1
 --%>
 
@@ -17,22 +17,9 @@
     session.setAttribute("con", con);
     
     // retourne par Ajax les infos du véhicule concerné
-    String immatriculation = request.getParameter("immatriculation");
-    String date = request.getParameter("date");
     String mode = request.getParameter("mode");
-    String idSigfox = Vehicule.getByImmatriculation(con, immatriculation).getImmatriculation();
-    ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, idSigfox, date);
     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
     DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
     out.print("Mode : " + dtr.getMode());
-    for (int i = 0; i < donnees.size(); i++) {
-        out.print("<tr><td>" + i + "</td>");
-        out.print("<td>" + donnees.get(i).getDatation() + "</td>");
-        out.print("<td>" + donnees.get(i).getDistanceParcourue() + " km" + "</td>");
-        out.print("<td>" + donnees.get(i).getVitesse() + " km/h" +"</td>");
-        out.print("<td>" + donnees.get(i).getConsommation() + " l/100" + "</td>");
-        out.print("<td>" + donnees.get(i).getLatitude() + "</td>");
-        out.print("<td>" + donnees.get(i).getLongitude() + "</td> </tr>");
-    }
 %>

@@ -1,4 +1,4 @@
-                     #include "Bluetooth.h"
+#include "Bluetooth.h"
 #include "DonneesTR.h"
 #include "OBD2.h"
 #include "CarteSD.h"
@@ -67,7 +67,6 @@ void setup()
 
 void loop()
 {
-  maLed->setCouleur(magenta, 125);
   majDataTR();
   gps->maj();
   periode = millis() - initial;
@@ -77,17 +76,14 @@ void loop()
     Serial.print("Vitesse : ");
     Serial.println(obd2->lireVitesse());
     delay(250);
-    maLed->setCouleur(magenta, 125);
     Serial.print("Regime moteur : ");
     Serial.println(obd2->lireRegimeMoteur());
     delay(250);
-    maLed->setCouleur(magenta, 125);
     Serial.print("Consomation : ");
     Serial.println(obd2->lireConsomation());
     initial = millis();
     Serial.println("___________________________________CarteSD");
   }
-  maLed->setCouleur(magenta, 125);
   carteSD->nouveauFichier("180531.txt");
   carteSD->ecrire(donneesTR);
 
@@ -95,15 +91,13 @@ void loop()
   if (gps->isDispo()) {
     Serial.println(gps->getLatitude(), 6);
     Serial.println(gps->getLongitude(), 6);
-    maLed->setCouleur(magenta, 125);
     Serial.print(gps->getDatation().tm_mday);
     Serial.print('/');
     Serial.print((gps->getDatation().tm_mon) + 1);
     Serial.print('/');
     Serial.println(gps->getDatation().tm_year);
   }
-  maLed->setCouleur(magenta, 125);
-
+  
   /*if(bluetooth->isActif() == false){
     delete bluetooth;
     delete obd2;

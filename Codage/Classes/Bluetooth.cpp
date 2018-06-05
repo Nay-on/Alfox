@@ -61,17 +61,18 @@ bool Bluetooth::isActif()
 {
   String contenu = "";
   serialBT->println("ATI");
-  /*while (serialBT->available() <= 0){Serial.print(serialBT->read());};
-  contenu = serialBT->readStringUntil('\n');*/
+  /*while (serialBT->available() <= 0){Serial.print(serialBT->read());};*/
+  //contenu = serialBT->readStringUntil('\n');
   delay(5000);//5000 par défaut
   while (serialBT->available() <= 0);
   while (serialBT->available() > 0) 
   {
     contenu += serialBT->read();
   }
-  Serial.println(contenu);
   
-  if (contenu.substring(0, 3) == "ELM")
+  //Serial.println(contenu);
+  
+  if (contenu.substring(0, 3) == "697")
   {
     return true;
   }

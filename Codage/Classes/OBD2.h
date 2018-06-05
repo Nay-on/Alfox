@@ -1,12 +1,9 @@
-/*
-  Librairie SoftwareSerial dans IDE ARDUINO aller dans Croquis > Inclurenune Blibliothèque >
-  Gérer les Blibliothèques > Chercher "SowtwareSerial" > installer.
-*/
 #ifndef __OBD2__
 #define __OBD2__
 
 #include <Arduino.h>
 #include "Bluetooth.h"
+#include "LiaisonSimulateur.h"
 
 #define DEBUT_POIDS_FORT 6
 #define FIN_POIDS_FORT 8
@@ -28,6 +25,7 @@ class OBD2
 	public:
 		/** Constructeur **/
 		OBD2(Bluetooth* bt);
+    OBD2(LiaisonSimulateur* liaison);
     bool isConnected();
     String demande(TCode numCode);
     float lireConsomation();

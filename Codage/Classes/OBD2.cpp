@@ -81,11 +81,6 @@ String OBD2::lireReponse(){
 
 int OBD2::lireVitesse(){
   String reponse = demande(C_VITESSE);
-  
-  //char trame[demande(C_VITESSE).length()+1];       //remplacer testVitesse par: obd2->demande(C_VITESSE).length()+1;     /*      /!\      */
-  //demande(C_VITESSE).substring(4, 6).toCharArray(trame,demande(C_VITESSE).substring(4, 6).length()+1); //remplacer testVitesse par: obd2->demande(C_VITESSE);     /*      /!\      */
-  //int a = strtoul(trame,NULL,16);
-  //return a;*/
    //Si la vitesse n'est pas suffisante, pas de donnée, on renvoie -1
   if (reponse.substring(0,7) == "NO DATA")
     return -1;
@@ -102,13 +97,6 @@ int OBD2::lireVitesse(){
 }
 
 int OBD2::lireRegimeMoteur(){
-  /*char trameA[demande(C_REGIME).length()+1];        //remplacer testRegime par: obd2->demande(C_REGIME);    
-  char trameB[demande(C_REGIME).length()+1];        //remplacer testRegime par: obd2->demande(C_REGIME);    
-  demande(C_REGIME).substring(4,6).toCharArray(trameA,demande(C_REGIME).substring(4,6).length()+1);  //remplacer testRegime par: obd2->demande(C_REGIME);     
-  demande(C_REGIME).substring(6,8).toCharArray(trameB,demande(C_REGIME).substring(6,8).length()+1);  //remplacer testRegime par: obd2->demande(C_REGIME);     
-  int a = strtoul(trameA,NULL,16);
-  int b = strtoul(trameB,NULL,16);
-  */
   String reponse = demande(C_REGIME);
 
   //Si le moteur n'est pas démarré on renvoie -1
@@ -135,16 +123,6 @@ int OBD2::lireRegimeMoteur(){
 }
 
 float OBD2::lireConsomation(){
-  //retourne des litres/heure
-  /*float conso = 0;
-  char trameC[demande(C_CONSOMMATION).length()+1];
-  char trameD[demande(C_CONSOMMATION).length()+1];
-  demande(C_CONSOMMATION).substring(4,6).toCharArray(trameC,demande(C_CONSOMMATION).substring(4,6).length()+1);  //remplacer testRegime par: obd2->demande(C_CONSO);     /*      /!\     
-  demande(C_CONSOMMATION).substring(6,8).toCharArray(trameD,demande(C_CONSOMMATION).substring(6,8).length()+1);  //remplacer testRegime par: obd2->demande(C_CONSO);     /*      /!\      
-  float a = strtoul(trameC,NULL,HEX);
-  float b = strtoul(trameD,NULL,HEX);
-  conso = ((256*(a)+(b))/20);
-  return conso;*/
   String reponse = demande(C_CONSOMMATION);
   
   //Si la vitesse n'est pas suffisante, pas de donnée, on renvoie -1

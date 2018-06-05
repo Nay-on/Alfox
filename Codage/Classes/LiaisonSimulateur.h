@@ -1,12 +1,12 @@
-#ifndef __BLUETOOTH__
-#define __BLUETOOTH__
+#ifndef __LIAISONSIMULATEUR__
+#define __LIAISONSIMULATEUR__
 
 #include <Arduino.h>
 #include "wiring_private.h"
 #define PINALIM 0
 #define PINEN 1
 
-class Bluetooth {
+class LiaisonSimulateur {
 
   private :
     Uart* serialBT;
@@ -25,8 +25,8 @@ class Bluetooth {
     
   
   public:
-    Bluetooth(int pinAlim, int pinEn);
-    ~Bluetooth();
+    LiaisonSimulateur(int pinAlim, int pinEn);
+    ~LiaisonSimulateur();
     int connexion(String adresse);
     bool isActif();
     Uart* getLiaisonBT();

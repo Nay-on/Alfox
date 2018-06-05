@@ -20,13 +20,13 @@ function infosNewSelect() {
         dataType : 'html',
         success: function(data) {
            $('#infosTR').html(data);
-        },
-        error : function(resultat, statut, erreur) {
+        }
+        /*error : function(resultat, statut, erreur) {
             $('.progressBar').hide();
             $('#popupTextSendPseudo').text("Impossible de vous envoyer votre pseudo !");
             $('#popupSendPseudo').popup( "option", "dismissible", true );
             return false;
-        }
+        }*/
     });
 }
 

@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Acceuil</title> 
+        <title>Accueil</title> 
         <%@ include file="/includes/header.jspf" %>
         <script type="text/javascript" src="js/alfox.js"></script>
     </head>

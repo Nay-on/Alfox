@@ -4,6 +4,7 @@
     Created on : Mars 2018
 --%>
 
+<%@page import="com.persistence.Utils"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.persistence.Vehicule"%>
 <%@page import="com.persistence.DonneesTR"%>
@@ -32,7 +33,14 @@
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
                     DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
-                    out.print("Mode : " + dtr.getMode());
+                    ArrayList<Vehicule> lstVehicule = new ArrayList<>();
+                    ArrayList<DonneesTR> lstDtr = new ArrayList<>();
+                    for (int i=0;i<immatriculations.size();i++) {
+                        lstVehicule.add(Vehicule.getByImmatriculation(con, immatriculations.get(i)));
+                        lstDtr.add(DonneesTR.getLastByImmatriculation(con, lstVehicule.get(i).getImmatriculation()));
+                        out.print("Mode : " + lstDtr.get(i).getMode());
+                    }
+                    
                 %>
                 </p>
                 <a href="#panelVehicules" 
@@ -57,7 +65,7 @@
                              
                             </select>
                         </div>
-                        <input value="2018-05-09" id="date" type="date">
+                        <input value="<%Utils.toString(Utils.getDateDuJourSansTime());%>" id="date" type="date">
                     </form>
                     <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
                     <thead>
@@ -73,7 +81,7 @@
                     </thead>
                     <tbody>
                         <% 
-                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getImmatriculation(), "2018-03-20");
+                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getImmatriculation(), Utils.toString(Utils.getDateDuJourSansTime()));
                             // recup la liste des données tr pour ce véhicule et cette date
                             for (int i = 0; i<donnees.size(); i++) {
                                 out.print("<tr><td>" + i + "</td>");

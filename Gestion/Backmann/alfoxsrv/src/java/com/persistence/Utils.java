@@ -57,6 +57,10 @@ public final class Utils {
      return stringToTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
     }
     
+    public static Timestamp getDateDuJourSansTime() throws Exception {
+     return stringToTimestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+    }
+    
     /**
      * A function that parse the result of a Date column request and
      * return the Date or 'null' if the result is an empty string (for DB)

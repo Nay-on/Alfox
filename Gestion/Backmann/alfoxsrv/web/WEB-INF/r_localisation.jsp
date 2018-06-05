@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Acceuil</title> 
+        <title>Accueil</title> 
         <%@ include file="/includes/header.jspf" %>
         <script type="text/javascript" src="js/alfox.js"></script>
     </head>
@@ -49,16 +49,28 @@
                 <!-- map google -->
                 <div id="map"></div>
                 <script>
+                    var image = {
+                        // Adresse de l'icône personnalisée
+                        url: 'https://png.icons8.com/windows/2x/f1-race-car-side-view.png'
+                        // Taille de l'icône personnalisée
+                        //scaledSize: new google.maps.Size(50, 50)
+                        // Origine de l'image, souvent (0, 0)
+                        //origin: new google.maps.Point(0,0),
+                        // L'ancre de l'image. Correspond au point de l'image que l'on raccroche à la carte. Par exemple, si votre îcone est un drapeau, cela correspond à son mâts
+                        //anchor: new google.maps.Point(0, 20)
+                    };
+                    
                     function initMap() {
                         var map = new google.maps.Map(document.getElementById('map'), {
                             zoom: 11,
-                            center: {lat: 43.601245, lng:1.445555},
+                            center: {lat: 43.601245, lng:1.445555}
                         });
                         <%
                             for (int i=0;i<immatriculations.size() ;i++) {
-                                    out.print("var marker = new google.maps.Marker({");
-                                    out.print("position: new google.maps.LatLng(" + lstDtr.get(i).getLatitude() + "," + lstDtr.get(i).getLongitude() + "),");
-                                    out.print("map: map");
+                                out.print("var marker = new google.maps.Marker({");
+                                out.print("position: new google.maps.LatLng(" + lstDtr.get(i).getLatitude() + "," + lstDtr.get(i).getLongitude() + "),");
+                                out.print("map: map,");
+                                out.print("icon: image");
                                 out.print("});");
                             }
                         %>

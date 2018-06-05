@@ -4,7 +4,7 @@
 
 $(function() {
     $("#infosSelectImmatriculation").on("change", infosNewSelect);
-    $("#infosSelectImmatriculation").on("change", infosNewSelect);
+    //$("#infosSelectImmatriculation").on("change", infosMode);
     $("#dateSelect").on("change", infosNewSelect);
     $("#listeZones").on("click", centrerZone);
 });
@@ -12,6 +12,7 @@ $(function() {
 function infosNewSelect() {
     isi = document.getElementById("infosSelectImmatriculation");
     ds  = document.getElementById("dateSelect");
+    md = document.getElementsByClassName("mode");
     // alert(isi[isi.selectedIndex].value + " " + ds.value);
     // $('#infosTR').html(isi[isi.selectedIndex].value + " " + ds.value);
 
@@ -22,6 +23,8 @@ function infosNewSelect() {
         dataType : 'html',
         success: function(data) {
            $('#infosTR').html(data);
+           $('.mode').html(data);
+
         }
         /*error : function(resultat, statut, erreur) {
             $('.progressBar').hide();
@@ -37,22 +40,20 @@ function centrerZone(map, lat, lg) {
     $('#map').setCenter(lat, lg);
 }
 
-function infosMode(){
+/*function infosMode(){
     
-
     isi = document.getElementById("infosSelectImmatriculation");
-    ds  = document.getElementById("dateSelect");
-    mode = document.getElementsByClassName("mode");
-    
+    md = document.getElementsByClassName("mode");
+    alert($(md.value));
     $.ajax({
-        url  : 'alfoxControl.jsp?action=r_infosByImmaAndDate',
+        url  : 'alfoxControl.jsp?action=ajax_infosMode',
         type : 'POST',
-        data :  {immatriculation: isi[isi.selectedIndex].value, date: ds.value},
+        data :  {immatriculation: isi[isi.selectedIndex].value, mode: md.value},
         dataType : 'html',
         success: function(data) {
            $('.mode').html(data);
         }
     });
-}
+}*/
 
     

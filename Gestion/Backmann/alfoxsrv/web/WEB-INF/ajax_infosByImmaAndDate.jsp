@@ -19,13 +19,12 @@
     // retourne par Ajax les infos du véhicule concerné
     String immatriculation = request.getParameter("immatriculation");
     String date = request.getParameter("date");
-    String mode = request.getParameter("mode");
     String idSigfox = Vehicule.getByImmatriculation(con, immatriculation).getImmatriculation();
     ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, idSigfox, date);
     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
     DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
-    out.print("Mode : " + dtr.getMode());
+    
     for (int i = 0; i < donnees.size(); i++) {
         out.print("<tr><td>" + i + "</td>");
         out.print("<td>" + donnees.get(i).getDatation() + "</td>");
@@ -35,4 +34,5 @@
         out.print("<td>" + donnees.get(i).getLatitude() + "</td>");
         out.print("<td>" + donnees.get(i).getLongitude() + "</td> </tr>");
     }
+    out.print("Mode : " + dtr.getMode());
 %>

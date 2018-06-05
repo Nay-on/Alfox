@@ -17,9 +17,12 @@
     session.setAttribute("con", con);
     
     // retourne par Ajax les infos du véhicule concerné
+    String immatriculation = request.getParameter("immatriculation");
     String mode = request.getParameter("mode");
     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
     DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
-    out.print("Mode : " + dtr.getMode());
+    for (int i = 0; i < Vehicule.size(con); i++) {
+        out.print("Mode : " + dtr.getMode());
+    }
 %>

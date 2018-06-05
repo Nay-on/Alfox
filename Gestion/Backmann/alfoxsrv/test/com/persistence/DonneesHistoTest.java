@@ -7,14 +7,35 @@ package com.persistence;
 
 import java.sql.Connection;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  *
  * @author acros
  */
 public class DonneesHistoTest {
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
     /**
      * Test of create method, of class DonneesHisto.
      * @throws java.lang.Exception
@@ -75,19 +96,6 @@ public class DonneesHistoTest {
         assertEquals(50, instance.getVitesse());
         instance.delete(con);
     }
-    
-    /**
-     * Test of getByDatation method, of class DonneesHisto.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testGetByDatation() throws Exception {
-        System.out.println("getByDatation");
-        Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto result = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(Utils.stringToTimestamp("2018/01/03 17:42:37"), result.getDatation());
-    }
 
     /**
      * Test of getMode method, of class DonneesHisto.
@@ -97,8 +105,7 @@ public class DonneesHistoTest {
     public void testGetMode() throws Exception {
         System.out.println("getMode");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
         assertEquals("NORMAL", instance.getMode());
     }
 
@@ -110,9 +117,8 @@ public class DonneesHistoTest {
     public void testGetDatation() throws Exception{
         System.out.println("getDatation");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(Utils.stringToTimestamp("2018/01/03 17:42:37.0"), instance.getDatation());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(Utils.stringToTimestamp("2018/03/20 01:10:00.0"), instance.getDatation());
     }
 
     /**
@@ -123,9 +129,8 @@ public class DonneesHistoTest {
     public void testGetVitesse() throws Exception{
         System.out.println("getVitesse");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(50, instance.getVitesse());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(26, instance.getVitesse());
     }
 
     /**
@@ -136,9 +141,8 @@ public class DonneesHistoTest {
     public void testGetRegime() throws Exception{
         System.out.println("getRegime");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(34, instance.getRegime());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(2100, instance.getRegime());
     }
 
     /**
@@ -149,9 +153,8 @@ public class DonneesHistoTest {
     public void testGetConsommation() throws Exception {
         System.out.println("getConsommation");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance =
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(62, instance.getConsommation());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(65, instance.getConsommation());
     }
 
     /**
@@ -162,9 +165,8 @@ public class DonneesHistoTest {
     public void testGetVitesseMax() throws Exception {
         System.out.println("getVitesseMax");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con,"2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(136, instance.getVitesseMax());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(62, instance.getVitesseMax());
     }
 
     /**
@@ -175,9 +177,8 @@ public class DonneesHistoTest {
     public void testGetRegimeMax() throws Exception{
         System.out.println("getRegimeMax");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(36, instance.getRegimeMax());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(3400, instance.getRegimeMax());
     }
 
     /**
@@ -188,9 +189,8 @@ public class DonneesHistoTest {
     public void testGetConsoMax() throws Exception {
         System.out.println("getConsoMax");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(67, instance.getConsoMax());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(22, instance.getConsoMax());
     }
 
     /**
@@ -200,9 +200,8 @@ public class DonneesHistoTest {
     public void testGetNbDefauts() throws Exception {
         System.out.println("getNbDefauts");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(0, instance.getNbDefauts());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(4, instance.getNbDefauts());
     }
 
     /**
@@ -213,9 +212,8 @@ public class DonneesHistoTest {
     public void testGetDefaut1() throws Exception {
         System.out.println("getDefaut1");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(0, instance.getDefaut1());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(71, instance.getDefaut1());
     }
 
     /**
@@ -226,9 +224,8 @@ public class DonneesHistoTest {
     public void testGetDefaut2() throws Exception {
         System.out.println("getDefaut2");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(0, instance.getDefaut2());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(29, instance.getDefaut2());
     }
 
     /**
@@ -239,9 +236,8 @@ public class DonneesHistoTest {
     public void testGetDefaut3() throws Exception{
         System.out.println("getDefaut3");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(0, instance.getDefaut3());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(26, instance.getDefaut3());
     }
 
     /**
@@ -252,9 +248,8 @@ public class DonneesHistoTest {
     public void testGetDefaut4() throws Exception{
         System.out.println("getDefaut4");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(0, instance.getDefaut4());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(199, instance.getDefaut4());
     }
 
     /**
@@ -265,9 +260,8 @@ public class DonneesHistoTest {
     public void testGetLatitudeGPS() throws Exception {
         System.out.println("getLatitudeGPS");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(40.564345, instance.getLatitudeGPS(), 0.00001);
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(43.593468, instance.getLatitudeGPS(), 0.00001);
     }
 
     /**
@@ -278,9 +272,8 @@ public class DonneesHistoTest {
     public void testGetLongitudeGPS() throws Exception {
         System.out.println("getLongitudeGPS");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(50.654734, instance.getLongitudeGPS(), 0.00001);
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(1.414471, instance.getLongitudeGPS(), 0.00001);
     }
 
     /**
@@ -291,9 +284,8 @@ public class DonneesHistoTest {
     public void testGetDistanceParcourue() throws Exception {
         System.out.println("getDistanceParcourue");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
-        assertEquals(7, instance.getDistanceParcourue());
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(18, instance.getDistanceParcourue());
     }
 
     /**
@@ -304,9 +296,44 @@ public class DonneesHistoTest {
     public void testGetVehiculeID() throws Exception {
         System.out.println("getVehiculeID");
         Connection con = ConnexionMySQL.newConnexion();
-        DonneesHisto instance = 
-            DonneesHisto.getByDatation(con, "2018/01/03 17:42:37","ED-592-CY");
+        DonneesHisto instance = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
         assertEquals(1, instance.getVehiculeID());
     }
-    
+
+    /**
+     * Test of getLastByImmatriculation method, of class DonneesHisto.
+     */
+    @Test
+    public void testGetLastByImmatriculation() throws Exception {
+        System.out.println("getLastByImmatriculation");
+        Connection con = ConnexionMySQL.newConnexion();
+        DonneesHisto result = DonneesHisto.getLastByImmatriculation(con, "ED-592-CY");
+        assertEquals(Utils.stringToTimestamp("2018/03/20 01:10:00.0"), result.getDatation());
+    }
+
+    /**
+     * Test of getByDate method, of class DonneesHisto.
+     */
+    @Test
+    public void testGetByDate() throws Exception {
+        System.out.println("getByDate");
+        Connection con = ConnexionMySQL.newConnexion();
+        ArrayList<DonneesHisto> result = DonneesHisto.getByDate(con, "ED-592-CY", "2018-03-20");
+        assertEquals(8, result.size());
+        assertEquals(26, result.get(0).getVitesse());
+        assertEquals(36, result.get(5).getVitesse());
+    }
+
+    /**
+     * Test of getDonneesVehicule method, of class DonneesHisto.
+     */
+    @Test
+    public void testGetDonneesVehicule() throws Exception {
+        System.out.println("getDonneesVehicule");
+        Connection con = ConnexionMySQL.newConnexion();
+        ArrayList<DonneesHisto> result = DonneesHisto.getDonneesVehicule(con, "ED-592-CY");
+        assertEquals(8,  result.size());
+        assertEquals(26, result.get(0).getVitesse());
+        assertEquals(36, result.get(5).getVitesse());
+    }    
 }

@@ -7,7 +7,7 @@
 <%@page import="com.persistence.Utils"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.persistence.Vehicule"%>
-<%@page import="com.persistence.DonneesTR"%>
+<%@page import="com.persistence.DonneesHisto"%>
 <%@page import="com.persistence.ConnexionMySQL"%>
 <%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -32,15 +32,13 @@
                 <% 
                     ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
                     Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-                    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
+                    DonneesHisto dhisto = DonneesHisto.getLastByImmatriculation(con, vehicule.getImmatriculation());
                     ArrayList<Vehicule> lstVehicule = new ArrayList<>();
-                    ArrayList<DonneesTR> lstDtr = new ArrayList<>();
+                    ArrayList<DonneesHisto> lstDhisto = new ArrayList<>();
                     for (int i=0;i<immatriculations.size();i++) {
                         lstVehicule.add(Vehicule.getByImmatriculation(con, immatriculations.get(i)));
-                        lstDtr.add(DonneesTR.getLastByImmatriculation(con, lstVehicule.get(i).getImmatriculation()));
-                        out.print("Mode : " + lstDtr.get(i).getMode());
+                        lstDhisto.add(DonneesHisto.getLastByImmatriculation(con, lstVehicule.get(i).getImmatriculation()));
                     }
-                    
                 %>
                 </p>
                 <a href="#panelVehicules" 
@@ -59,13 +57,13 @@
                             // recup l'immatriculation des véhicules
                             int nb = Vehicule.size(con);
                             for (int i = 0; i< nb; i++) {
-                                out.print("<option value='1'>" + immatriculations.get(i) + "</option>");
+                                out.print("<option value=" + (i+1) + ">" + immatriculations.get(i) + "</option>");
                             }
                         %>
                              
                             </select>
                         </div>
-                        <input value="<%Utils.toString(Utils.getDateDuJourSansTime());%>" id="date" type="date">
+                        <input value="2018-03-20" id="date" type="date">
                     </form>
                     <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">
                     <thead>
@@ -81,7 +79,7 @@
                     </thead>
                     <tbody>
                         <% 
-                            ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, vehicule.getImmatriculation(), Utils.toString(Utils.getDateDuJourSansTime()));
+                            ArrayList<DonneesHisto> donnees = DonneesHisto.getByDate(con, vehicule.getImmatriculation(), "2018-01-03");
                             // recup la liste des données tr pour ce véhicule et cette date
                             for (int i = 0; i<donnees.size(); i++) {
                                 out.print("<tr><td>" + i + "</td>");
@@ -89,8 +87,8 @@
                                 out.print("<td>" + donnees.get(i).getDistanceParcourue() + " km" + "</td>");
                                 out.print("<td>" + donnees.get(i).getVitesse() + " km/h" +"</td>");
                                 out.print("<td>" + donnees.get(i).getConsommation() + " l/100" + "</td>");
-                                out.print("<td>" + donnees.get(i).getLatitude() + "</td>");
-                                out.print("<td>" + donnees.get(i).getLongitude() + "</td> </tr>");
+                                out.print("<td>" + donnees.get(i).getLatitudeGPS()+ "</td>");
+                                out.print("<td>" + donnees.get(i).getLongitudeGPS() + "</td> </tr>");
                             }
                         %>
                     </tbody>

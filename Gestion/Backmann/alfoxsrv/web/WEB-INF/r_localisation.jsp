@@ -16,7 +16,8 @@
     <head>
         <title>Accueil</title> 
         <%@ include file="/includes/header.jspf" %>
-        <script type="text/javascript" src="js/alfox.js"></script>
+        <script type="text/javascript" src="js/map.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAteLjItiBvWdZJNOm97mU-jWaqtJ857Fc&callback=initialize"> </script>
     </head>
     <body>
         <% 
@@ -46,39 +47,9 @@
             
             <div role="main" class="ui-content">
                 <br/><br/><br/>
+                <div id="test"></div>
                 <!-- map google -->
                 <div id="map"></div>
-                <script>
-                    var image = {
-                        // Adresse de l'icône personnalisée
-                        url: 'https://png.icons8.com/windows/2x/f1-race-car-side-view.png'
-                        // Taille de l'icône personnalisée
-                        //scaledSize: new google.maps.Size(50, 50)
-                        // Origine de l'image, souvent (0, 0)
-                        //origin: new google.maps.Point(0,0),
-                        // L'ancre de l'image. Correspond au point de l'image que l'on raccroche à la carte. Par exemple, si votre îcone est un drapeau, cela correspond à son mâts
-                        //anchor: new google.maps.Point(0, 20)
-                    };
-                    
-                    function initMap() {
-                        var map = new google.maps.Map(document.getElementById('map'), {
-                            zoom: 11,
-                            center: {lat: 43.601245, lng:1.445555}
-                        });
-                        <%
-                            for (int i=0;i<immatriculations.size() ;i++) {
-                                out.print("var marker = new google.maps.Marker({");
-                                out.print("position: new google.maps.LatLng(" + lstDtr.get(i).getLatitude() + "," + lstDtr.get(i).getLongitude() + "),");
-                                out.print("map: map,");
-                                out.print("icon: image");
-                                out.print("});");
-                            }
-                        %>
-                    }
-                </script>
-                <script async defer
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAteLjItiBvWdZJNOm97mU-jWaqtJ857Fc&callback=initMap">
-                </script>
                 <br/><br/><br/>
             </div>        
             <%@include file="/includes/footer.jspf" %>
@@ -90,7 +61,9 @@
                 <li data-role="list-divider">Zones limites :</li>
                 <%
                     for (int i=0;i<ZoneLimite.getLstZone(con).size();i++) {
-                        out.print("<li id=" + ZoneLimite.getLstZone(con).get(i).getNom() + "><a href='#' onClick='javascript:centrerZone(map, " + ZoneLimite.getLatCentre(con, ZoneLimite.getLstZone(con).get(i).getNom()) + "," + ZoneLimite.getLgCentre(con, ZoneLimite.getLstZone(con).get(i).getNom()) +");return false;'>" + ZoneLimite.getLstZone(con).get(i).getNom() + "</a></li>");
+                        out.print("<li id=" + ZoneLimite.getLstZone(con).get(i).getNom() 
+                                + "><a href='#'>" +  ZoneLimite.getLstZone(con).get(i).getNom()
+                                + "</a></li>");
                     }
                 %>    
             </ol>
@@ -106,7 +79,7 @@
                     out.print("<div data-role='collapsible'>");
                     out.print("<h3>" + (i+1) + " : " + lstVehicule.get(i).getImmatriculation() + "</h3>");
                     out.print("<ul data-role='listview' data-icon='false'>");
-                    out.print("<li data-icon='false'><a href='#'>Centrer</a></li>");
+                    out.print("<li id=" +  lstVehicule.get(i).getImmatriculation() + " data-icon='false'><a href='#'>Centrer</a></li>");
                     out.print("<li data-icon='false'>Compteur : " + lstVehicule.get(i).getCompteurReel() + " km</li>");
                     out.print("<li data-icon='false'>ConsoMoy : " + lstDtr.get(i).getConsommation() + " l</li>");
                     out.print("<li data-icon='false'>VitMoy : " + lstDtr.get(i).getVitesse() + " km/h</li>");

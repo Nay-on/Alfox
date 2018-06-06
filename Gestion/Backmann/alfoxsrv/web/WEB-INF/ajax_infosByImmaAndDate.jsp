@@ -21,18 +21,17 @@
     String date = request.getParameter("date");
     String idSigfox = Vehicule.getByImmatriculation(con, immatriculation).getImmatriculation();
     ArrayList<DonneesTR> donnees = DonneesTR.getByDate(con, idSigfox, date);
-    ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
-    Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
     
     for (int i = 0; i < donnees.size(); i++) {
+        DonneesTR dtr = donnees.get(i);
         out.print("<tr><td>" + i + "</td>");
-        out.print("<td>" + donnees.get(i).getDatation() + "</td>");
-        out.print("<td>" + donnees.get(i).getDistanceParcourue() + " km" + "</td>");
-        out.print("<td>" + donnees.get(i).getVitesse() + " km/h" +"</td>");
-        out.print("<td>" + donnees.get(i).getConsommation() + " l/100" + "</td>");
-        out.print("<td>" + donnees.get(i).getLatitude() + "</td>");
-        out.print("<td>" + donnees.get(i).getLongitude() + "</td> </tr>");
+        out.print("<td>" + dtr.getDatation() + "</td>");
+        out.print("<td>" + dtr.getDistanceParcourue() + " km" + "</td>");
+        out.print("<td>" + dtr.getVitesse() + " km/h" +"</td>");
+        out.print("<td>" + dtr.getConsommation() + " l/100" + "</td>");
+        out.print("<td>" + dtr.getLatitude() + "</td>");
+        out.print("<td>" + dtr.getLongitude() + "</td> </tr>");
     }
-    out.print("Mode : " + dtr.getMode());
+    String strMode = donnees.get(0).getMode();
+    out.print("||" + strMode);
 %>

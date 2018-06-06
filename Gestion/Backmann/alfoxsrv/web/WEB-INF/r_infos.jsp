@@ -4,6 +4,7 @@
     Created on : Mars 2018
 --%>
 
+<%@page import="java.util.Calendar"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.persistence.Vehicule"%>
@@ -58,7 +59,11 @@
                         %>
                             </select>
                         </div>
-                        <input value=date id="dateSelect" type="date">
+                        <input value="<%
+                                Timestamp ts = vehicule.getLastDatation(con);
+                                String[] parts = ts.toString().split(" ");
+                                out.print(parts[0]);
+                            %>" id="dateSelect" type="date">
                         
                     </form>
                     <table data-role="table" id="movie-table-custom" data-mode="reflow" class="table-stripe movie-list ui-responsive">

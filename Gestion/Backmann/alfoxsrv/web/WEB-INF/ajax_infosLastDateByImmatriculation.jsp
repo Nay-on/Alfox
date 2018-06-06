@@ -1,9 +1,10 @@
 <%-- 
-    Document   : ajax_infosByImmaAndDate
+    Document   : ajax_infosLastDateByImmatriculation
     Created on : 5 juin 2018, 11:00:42
     Author     : snir2g1
 --%>
 
+<%@page import="java.sql.Timestamp"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="com.persistence.ConnexionMySQL"%>
@@ -16,13 +17,9 @@
         con = ConnexionMySQL.newConnexion();
     session.setAttribute("con", con);
     
-    // retourne par Ajax les infos du véhicule concerné
+    // retourne par Ajax le dernier jour enregistré pour un vehicule
     String immatriculation = request.getParameter("immatriculation");
-    String mode = request.getParameter("mode");
-    ArrayList<String> immatriculations = Vehicule.getImmatriculations(con);
-    Vehicule vehicule =  Vehicule.getByImmatriculation(con, immatriculations.get(0));
-    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, vehicule.getImmatriculation());
-    for (int i = 0; i < Vehicule.size(con); i++) {
-        out.print("Mode : " + dtr.getMode());
-    }
+    DonneesTR dtr = DonneesTR.getLastByImmatriculation(con, immatriculation);
+    String[] parts = dtr.getDatation().toString().split(" ");
+    out.print("||" + parts[0] + "||");
 %>

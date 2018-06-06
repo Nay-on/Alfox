@@ -25,7 +25,7 @@ function infosNewImmaSelect() {
 function infosNewDateSelect() {
     isi = document.getElementById("infosSelectImmatriculation");
     ds = document.getElementById("dateSelect");
-    // alert(isi[isi.selectedIndex].value + " " + ds.value);
+    //alert(isi[isi.selectedIndex].value + " " + ds.value);
     // $('#infosTR').html(isi[isi.selectedIndex].value + " " + ds.value);
 
     $.ajax({

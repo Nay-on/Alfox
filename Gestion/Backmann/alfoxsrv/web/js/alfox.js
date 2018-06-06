@@ -38,11 +38,5 @@ function infosNewDateSelect() {
             $('#infosTR').html(tabInfos[0]);
             $('.mode').html("Mode : " + tabInfos[1]);
         }
-        /*error : function(resultat, statut, erreur) {
-         $('.progressBar').hide();
-         $('#popupTextSendPseudo').text("Impossible de vous envoyer votre pseudo !");
-         $('#popupSendPseudo').popup( "option", "dismissible", true );
-         return false;
-         }*/
     });
 }

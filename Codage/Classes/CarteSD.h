@@ -11,6 +11,7 @@ public:
     CarteSD();
     virtual ~CarteSD();
     String lire(String fichierALire);  
+    String lire(File* fichierSD); 
     void ecrire(DonneesTR* dTR);
     void effacer();
     bool isFull();
@@ -18,7 +19,8 @@ public:
     bool nouveauFichier(String nom);
     bool supprimerFichier(String nom);
     void printDirectory(File dir, int numTabs);
-
+    void extraction(String dir,int numTabs);
+    void extractionRacine();
     
 private:
     String nomFichier;// nom du fichier journalier 

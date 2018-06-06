@@ -1,41 +1,82 @@
 #include "CarteSD.h"
 
+
+//-----------------------------------------------------
+//------- Constructeur --------------------------------
+//-----------------------------------------------------
 CarteSD::CarteSD() {
-  //Serial.println(F("Initialisation!"));                // debug 
+  Serial.println(F("Initialisation!"));                // debug 
   pinMode(11, OUTPUT);                                 // laisser la broche SS en sortie - obligatoire avec librairie SD
   if (!SD.begin(11)) {                                 // si la communication commence bien sur le port d'ecriture
     Serial.println(F("Initialisation impossible !"));
   }
+  fichierRacineSD = SD.open("/"); 
 
 
 }
+
+
+//-----------------------------------------------------
+//------- Destructeur  --------------------------------
+//-----------------------------------------------------
+
 
 CarteSD::~CarteSD() {
 
 }
-                                                        // bloque la lercture mais non bloquant au final
+//-----------------------------------------------------
+//------- méthode de lecture avec nom du fichier ------
+//-----------------------------------------------------                                                     // bloque la lercture mais non bloquant au final
 String CarteSD::lire(String nomFichierALire) {
   fichierSD = SD.open(nomFichierALire);                 //ouverture du fichier
   //Serial.println(fichierSD.name());                   // debug
   if (fichierSD) {
-    while (fichierSD.available()) {                     // tant qu'il y as quelque chose de non lus dans le fichier
+    while (fichierSD.available()) {                     // tant qu'il y as des donnnées non lus dans le fichier
       Serial.write(fichierSD.read());                   // lecture du fichier
     }
     fichierSD.close();                                  // fermeture du fichier
   }
-                                                        // si le ficheir n'est pas ouver afficher une erreur d'ouverture
+                                                        // si le fichier n'est pas ouver afficher une erreur d'ouverture
   else {
     Serial.println("erreur d'ouverture");               // debug
   }
+  return "OK";
 }
 
-// OK
+//-----------------------------------------------------
+//------- Méthode de lecture avec descripteur de fichier 
+//-----------------------------------------------------
+String CarteSD::lire(File* fichierSD) {
+                //ouverture du fichier
+  //Serial.println(fichierSD.name());                   // debug
+  if (*fichierSD) {
+    while (fichierSD->available()) {                     // tant qu'il y a des donnnées non lus dans le fichier
+      Serial.write(fichierSD->read());                   // lecture du fichier
+    }
+    Serial.println("sortie de la boucle while de la lecture");
+  }
+                                                        // si le fichier n'est pas ouver afficher une erreur d'ouverture
+  else {
+    Serial.println("descripteur de fichier incorrect");               // debug
+  }
+  return "OK";
+}
+
+
+
+
+
+//-----------------------------------------------------
+//------- méthode d'ecriture --------------------------
+//-----------------------------------------------------
+
+
 void CarteSD::ecrire(DonneesTR* dTR)
 {
   fichierSD = SD.open(nomFichier, FILE_WRITE);          // ouverture du fichier en ecriture et creation si il n'existe pas 
   if (fichierSD) {// si l'ouverture as réussie
     Serial.println(fichierSD.name());                   // debug
-    fichierSD.println("# " + String(dTR->getConsommation()) +"  "+ String(dTR->getVitesse()));
+    fichierSD.println("# " + String(dTR->getConsoMoyenne()) + "   " + String(dTR->getConsoMax()) + "   " + String(dTR->getVitesseMax()) + "   " + String(dTR->getVitesseMoyenne()) + "   " + String(dTR->getRegimeMax()) + "   ");
                                                         // ecriture des donnée 
     fichierSD.close();                                  // fermeture du fichier
     Serial.println("ecriture");                         // debug
@@ -45,7 +86,9 @@ void CarteSD::ecrire(DonneesTR* dTR)
   }
 }
 
-
+//-----------------------------------------------------
+//------- méthode d'effacement ------------------------
+//-----------------------------------------------------
 
 void CarteSD::effacer()
 {
@@ -83,6 +126,10 @@ void CarteSD::effacer()
 
 
 
+//-----------------------------------------------------
+//------- méthode  qui permet de savoir la place prise-
+//-----------------------------------------------------
+
 bool CarteSD::isFull() {
   Serial.println("liste Fichier");
   fichierRacineSD = SD.open("/", FILE_WRITE);
@@ -99,6 +146,10 @@ bool CarteSD::isFull() {
 }
 
 
+//-----------------------------------------------------
+//------- méthode non utilisé --------------------------------
+//-----------------------------------------------------
+
 void CarteSD::effacerOldData()
 {
   //rechercher nom le plus vieux puis utiliser supprimerFichier
@@ -108,14 +159,16 @@ void CarteSD::effacerOldData()
   // pour resumer on fait liste fichier et on recupère le dernier mais test a faire pour ordre listeFile 
 }
 
-
+//-----------------------------------------------------
+//------- méthode de création de fichier --------------
+//-----------------------------------------------------
                                                           //fonction ok et tester nececite l'ajout d'un fichier a la base de la carte pour la suite
 bool CarteSD::nouveauFichier(String nom)
 {
   if (SD.exists(nom)) {
     Serial.println(F("le fichier existe déjà"));          // debug
     nomFichier = nom;                                     // nom du fichier journalier
-    fichierRacineSD = SD.open("/");                       //nom du fichier racine
+    //fichierRacineSD = SD.open("/");                       //nom du fichier racine
     return true;                                          // le fichier existe bien
   }
   else {                                                  // si le ficheir n'exitste pas 
@@ -131,7 +184,7 @@ bool CarteSD::nouveauFichier(String nom)
 
       return false;                                       //le ficheir n'as pas bien été crée
     }
-    fichierRacineSD = SD.open("/");                       // ouverture du fichier
+    //fichierRacineSD = SD.open("/");                       // ouverture du fichier
 
     nomFichier = nom;
     Serial.println(nomFichier);
@@ -139,7 +192,9 @@ bool CarteSD::nouveauFichier(String nom)
   }
 }
 
-
+//-----------------------------------------------------
+//------- méthode de supression des fichier -----------
+//-----------------------------------------------------
 
 bool CarteSD::supprimerFichier(String nom)
 {
@@ -150,8 +205,80 @@ bool CarteSD::supprimerFichier(String nom)
 }
 
 
-                                                          // code recuperer d'internet qui permet de faire la liste de tout le fichier 
-void CarteSD::printDirectory(File dir, int numTabs)
+//-----------------------------------------------------
+//------- méthode d'extraction des données de la SD  --
+//-----------------------------------------------------
+
+void CarteSD::extraction(String dir,int numTabs)
+{
+  Serial.println("entrée dans la méthode extraction"); 
+  File entry = SD.open(dir);//code recuperer sur le site internet arduino classe SD
+  while (true) {
+   
+    entry = entry.openNextFile();
+    Serial.println(entry.name());
+    if (! entry)
+    {
+      if (numTabs == 0)
+        Serial.println("liste des fichier complète");
+      return;
+    }
+    for (uint8_t i = 0; i < numTabs; i++)
+      Serial.print('\t');
+    Serial.print(entry.name());
+    if (entry.isDirectory())
+    {
+      Serial.println("/");
+      extraction(entry.name(), numTabs + 1);
+    }
+    else
+    {
+      lire(entry.name());
+    }
+    entry.close();
+  }
+}
+
+//-----------------------------------------------------
+//------- méthode d'extraction des donnée de la Racine SD 
+//-----------------------------------------------------
+
+void CarteSD::extractionRacine(){
+  Serial.println("entrée dans la méthode extraction");
+  
+  File dir = SD.open(fichierRacineSD.name());
+  Serial.println(fichierRacineSD.name());
+  
+  dir.rewindDirectory();
+  Serial.println(dir.name());
+  while(true){
+    File entry = dir.openNextFile();
+    Serial.println(entry.name());
+    if(!entry){
+      Serial.println("liste complète");
+      return;
+    }
+    else{
+      Serial.println(entry.name());
+      lire(&entry);
+      Serial.println("sortie de la méthode lire");
+    }
+    entry.close();
+    Serial.println("fermeture de entry");
+  }
+  dir.close();
+  Serial.println("fermeture de dir");
+}
+
+//-----------------------------------------------------
+//------- méthode qui permet de faire la liste des fichier sur la carte 
+//-----------------------------------------------------
+
+
+                                                          
+void CarteSD::printDirectory(File dir, int numTabs) // code recuperer d'internet qui permet de faire la liste de tout le fichier 
+// dir = le fichier ou l'on veut commencer l'arboraissance  numTabs= le nombre de répertoire en dessous du répertoir actuel
+
 {
                                                           //code recuperer sur le site internet arduino classe SD
   while (true) {

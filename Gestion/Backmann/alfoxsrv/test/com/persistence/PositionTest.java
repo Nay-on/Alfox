@@ -60,8 +60,8 @@ public class PositionTest {
         System.out.println("getByZone");
         Connection con = ConnexionMySQL.newConnexion();
         ArrayList<Position> result = Position.getByZone(con, 2);
-        assertEquals(result.size(), 8);
-        assertEquals(43.659971, result.get(2).getLatitude(), 0.000001);
+        assertEquals(result.size(), 10);
+        assertEquals(43.798589, result.get(2).getLatitude(), 0.000001);
     }
     
     /**
@@ -85,7 +85,7 @@ public class PositionTest {
         System.out.println("getLatitude");
         Connection con = ConnexionMySQL.newConnexion();
         ArrayList<Position> result = Position.getByZone(con, 2);
-        assertEquals(43.546231, result.get(0).getLatitude(), 0.000001);
+        assertEquals(44.087321, result.get(0).getLatitude(), 0.000001);
     }
 
     /**
@@ -97,7 +97,7 @@ public class PositionTest {
         System.out.println("getLongitude");
         Connection con = ConnexionMySQL.newConnexion();
         ArrayList<Position> result = Position.getByZone(con, 2);
-        assertEquals(1.350065, result.get(0).getLongitude(), 0.000001);
+        assertEquals(1.338782, result.get(0).getLongitude(), 0.000001);
     }
 
     /**

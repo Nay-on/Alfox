@@ -597,7 +597,8 @@ public class DonneesTR {
     }
 
     public int getConsommation() {
-        return consommation;
+        // Conversion de la conso de dL en L
+        return consommation/10;
     }
 
     public int getVitesseMax() {
@@ -609,7 +610,8 @@ public class DonneesTR {
     }
 
     public int getConsoMax() {
-        return consoMax;
+        // Conversion de la conso de dL en L
+        return consoMax/10;
     }
 
     public int getNbDefauts() {

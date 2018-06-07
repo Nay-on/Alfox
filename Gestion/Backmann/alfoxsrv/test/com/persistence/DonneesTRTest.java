@@ -160,7 +160,7 @@ public class DonneesTRTest {
         System.out.println("getConsommation");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "ED-592-CY");
-        assertEquals(65, instance.getConsommation());
+        assertEquals(6, instance.getConsommation());
     }
 
     /**
@@ -196,7 +196,7 @@ public class DonneesTRTest {
         System.out.println("getConsoMax");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "ED-592-CY");
-        assertEquals(22, instance.getConsoMax());
+        assertEquals(2, instance.getConsoMax());
     }
 
     /**

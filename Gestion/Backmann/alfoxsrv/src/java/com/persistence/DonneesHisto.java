@@ -262,7 +262,8 @@ public class DonneesHisto {
     }
     
     public int getConsommation() {
-        return consommation;
+        // Conversion de la conso de dL en L
+        return consommation/10;
     }
 
     public int getVitesseMax() {
@@ -272,7 +273,8 @@ public class DonneesHisto {
         return regimeMax;
     }
     public int getConsoMax() {
-        return consoMax;
+        // Conversion de la conso de dL en L
+        return consoMax/10;
     }
     public int getNbDefauts() {
         return nbDefauts;

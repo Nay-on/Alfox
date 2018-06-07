@@ -113,7 +113,7 @@ public class ZoneLimiteTest {
     public void testGetLatCentre() throws Exception {
         System.out.println("getLatCentre");
         Connection con = ConnexionMySQL.newConnexion();
-        assertEquals(43.600541, ZoneLimite.getLatCentre(con, "Toulouse"), 0.000001);
+        assertEquals(43.473456, ZoneLimite.getLatCentre(con, "Toulouse"), 0.000001);
     }
 
     /**
@@ -123,7 +123,7 @@ public class ZoneLimiteTest {
     public void testGetLgCentre() throws Exception {
         System.out.println("getLgCentre");
         Connection con = ConnexionMySQL.newConnexion();
-        assertEquals(1.434093, ZoneLimite.getLgCentre(con, "Toulouse"), 0.000001);
+        assertEquals(1.499457, ZoneLimite.getLgCentre(con, "Toulouse"), 0.000001);
     }
 
     /**

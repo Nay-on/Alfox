@@ -98,7 +98,7 @@ public class VehiculeTest {
         
         // A vérifier celui là, car il est juste à l'Est de Balma !!!
         result = Vehicule.getByImmatriculation(con, "EE-300-QM");
-        assertEquals(true, result.isDehors(con));
+        assertEquals(false, result.isDehors(con));
         
         result = Vehicule.getByImmatriculation(con, "EK-462-GX");
         assertEquals(true, result.isDehors(con));
@@ -119,7 +119,7 @@ public class VehiculeTest {
         System.out.println("nbVehiculesDehors");
         Connection con = ConnexionMySQL.newConnexion();
         int result = Vehicule.nbVehiculesDehors(con);
-        assertEquals(5, result);
+        assertEquals(4, result);
     }
     
     /**

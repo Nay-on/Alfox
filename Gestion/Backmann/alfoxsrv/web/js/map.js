@@ -36,7 +36,7 @@ function initialize() {
                     path.push(new google.maps.LatLng(tabInfos[i], tabInfos[i+1]));
                 }
                 // la 1er coordonnée pour fermer le polygone
-                // path.push(new google.maps.LatLng(tabInfos[2], tabInfos[3]));
+                path.push(new google.maps.LatLng(tabInfos[2], tabInfos[3]));
             }
         }
     });
@@ -61,7 +61,7 @@ function initialize() {
             }
             // pour lire un marker
             //markers[0].getTitle();
-            markers[0].setPosition(new google.maps.LatLng(43.612189, 1.336579));
+            // markers[0].setPosition(new google.maps.LatLng(43.612189, 1.336579));
         }
     });
 }

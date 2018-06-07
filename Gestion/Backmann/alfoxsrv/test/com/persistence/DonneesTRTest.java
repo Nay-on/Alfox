@@ -41,6 +41,12 @@ public class DonneesTRTest {
         int defaut2 = 0;
         int defaut3 = 0;
         int defaut4 = 0;
+        double latitudeGPS = 40.123456;
+        double longitudeGPS = 50.123456;
+        double snr = 0.0;
+        double rssi = 0.0;
+        double avgSnr = 0.0;
+        int radius = 0;
         double latitude = 40.123456;
         double longitude = 50.123456;
         long distanceParcourue = 50;
@@ -49,7 +55,7 @@ public class DonneesTRTest {
         DonneesTR result = DonneesTR.create(con, mode, seqNumber, datation, 
                 vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, 
                 nbDefauts, defaut1, defaut2, defaut3, defaut4, 
-                0,0,0,0, 
+                latitudeGPS, longitudeGPS, snr, rssi, avgSnr, radius,
                 latitude, longitude, distanceParcourue, VehiculeID);
         assertEquals(Utils.stringToTimestamp("2017/03/22 12:00:00.0"), result.getDatation());
         result.delete(con);
@@ -76,6 +82,12 @@ public class DonneesTRTest {
         int defaut2 = 0;
         int defaut3 = 0;
         int defaut4 = 0;
+        double latitudeGPS = 40.123456;
+        double longitudeGPS = 50.123456;
+        double snr = 0.0;
+        double rssi = 0.0;
+        double avgSnr = 0.0;
+        int radius = 0;
         double latitude = 40.123456;
         double longitude = 50.123456;
         long distanceParcourue = 50;
@@ -84,9 +96,8 @@ public class DonneesTRTest {
         DonneesTR instance = DonneesTR.create(con, mode, seqNumber, datation, 
                 vitesse, regime, consommation, vitesseMax, regimeMax, consoMax, 
                 nbDefauts, defaut1, defaut2, defaut3, defaut4, 
-                0, 0, 0, 0,
-                latitude, longitude, distanceParcourue, 
-                VehiculeID);
+                latitudeGPS, longitudeGPS, snr, rssi, avgSnr, radius,
+                latitude, longitude, distanceParcourue, VehiculeID);
         instance.save(con);
         assertEquals(50, instance.getVitesse());
         instance.delete(con);

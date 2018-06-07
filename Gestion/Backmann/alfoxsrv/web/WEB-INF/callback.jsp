@@ -103,7 +103,16 @@ format, up to 8 digits. The downlink data must be 8 bytes in hexadecimal format.
         String data = request.getParameter("data");
         // le saveData regarde si l'enregistrement pour ce message 
         // existe déjà (création ou update)
-        DonneesTR.saveData(con,sigfoxID,seqNumber,datation,data);
+        String mode = DonneesTR.saveData(con,sigfoxID,seqNumber,datation,data);
+        
+        // downlink message
+        String ack = request.getParameter("ack");
+        if (ack != null) {
+            if (mode.equals("NORMAL")) 
+                out.print("{ \"" + sigfoxID + "\" : {\"downlinkData\" : \"0102030405060708\" }}");
+            else
+                out.print("{ \"" + sigfoxID + "\" : {\"noData\" : true }}");
+        }
     }
     else if (callBackType.equals("GEOLOC")) {
         double latitude = Double.parseDouble(request.getParameter("lat"));

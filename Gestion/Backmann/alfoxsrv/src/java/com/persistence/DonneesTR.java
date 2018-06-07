@@ -38,6 +38,8 @@ public class DonneesTR {
     private int defaut2;
     private int defaut3;
     private int defaut4;
+    private double latitudeGPS;
+    private double longitudeGPS;
     private double latitude;
     private double longitude;
     private int radius;
@@ -66,6 +68,8 @@ public class DonneesTR {
      * @param defaut3
      * @param defaut4
      * @param latitude
+     * @param latitudeGPS
+     * @param longitudeGPS
      * @param longitude
      * @param distanceParcourue
      * @param seqNumber
@@ -85,6 +89,7 @@ public class DonneesTR {
             int vitesse, int regime, int consommation,
             int vitesseMax, int regimeMax, int consoMax,
             int nbDefauts, int defaut1, int defaut2, int defaut3, int defaut4,
+            double latitudeGPS, double longitudeGPS,
             double snr, double rssi, double avgSnr, int radius,
             double latitude, double longitude,
             long distanceParcourue, int vehiculeID) throws Exception {
@@ -93,6 +98,7 @@ public class DonneesTR {
                 vitesse, regime, consommation,
                 vitesseMax, regimeMax, consoMax,
                 nbDefauts, defaut1, defaut2, defaut3, defaut4,
+                latitudeGPS, longitudeGPS,
                 snr, rssi, avgSnr, radius,
                 latitude, longitude, distanceParcourue, vehiculeID);
         // la sauvegarde est maintenant faite dans save()
@@ -141,7 +147,7 @@ public class DonneesTR {
             // mode de l'enregistrement (utile pour "GEO")
             String modeActuel = lResult.getString("Mode");
             
-            if (mode == "NORMAL") {
+            if (mode.equals("NORMAL")) {
                 // datas véhicule et kilométrage
                 // NORMAL : TM K1 K2 K3 CD CD VX VM RX RM CX CM
                 queryString = "update donneesTR set "
@@ -159,25 +165,23 @@ public class DonneesTR {
                         + " Defaut4 =" + Utils.toString(defaut4) + ","
                         + " DistanceParcourue =" + Utils.toString(distanceParcourue)
                         + " where ID=" + id;
-            } else if ((mode == "DEGRADE") || (mode == "INIT") || (mode == "DORMIR")) {
+            } else if ((mode.equals("DEGRADE")) || (mode.equals("INIT")) || (mode.equals("DORMIR"))) {
                 // kilométrage seulement
                 // TM K1 K2 K3 00 00 00 00 00 00 00 00
                 queryString = "update donneesTR set "
                         + " Mode =" + Utils.toString(mode) + ","
                         + " DistanceParcourue =" + Utils.toString(distanceParcourue)
                         + " where ID=" + id;
-            } else if ((mode == "DMD_GPS") || (mode == "GPS")) {
+            } else if ((mode.equals("DMD_GPS")) || (mode.equals("GPS"))) {
                 // datas position GPS et kilométrage
                 // DMD_GPS : TM K1 K2 K3 LA LA LA LA LO LO LO LO
                 queryString = "update donneesTR set "
                         + " Mode =" + Utils.toString(mode) + ","
-                        + " Latitude =" + Utils.toString(latitude) + ","
-                        + " Longitude =" + Utils.toString(longitude) + ","
+                        + " LatitudeGPS =" + Utils.toString(latitudeGPS) + ","
+                        + " LongitudeGPS =" + Utils.toString(longitudeGPS) + ","
                         + " DistanceParcourue =" + Utils.toString(distanceParcourue)
                         + " where ID=" + id;
-            // on ne doit pas écraser la position GPS si c'est le mode enregistré !
-            } else if ((mode == "GEO") 
-                &&  (modeActuel != "DMD_GPS") && (modeActuel != "GPS")) {
+            } else if (mode.equals("GEO")) {
                 queryString = "update donneesTR set "
                         + " Snr =" + snr + ","
                         + " Rssi =" + rssi + ","
@@ -189,7 +193,7 @@ public class DonneesTR {
             }
         }
         else {  // si il n'existe pas encore, on le crée
-            if (mode == "NORMAL") {
+            if (mode.equals("NORMAL")) {
                 // datas véhicule et kilométrage
                 // NORMAL : TM K1 K2 K3 CD CD VX VM RX RM CX CM
                 queryString =
@@ -221,57 +225,43 @@ public class DonneesTR {
                     + Utils.toString(distanceParcourue) + ", "
                     + Utils.toString(vehiculeID)
                     + ")";
-            } else if ((mode == "DEGRADE") || (mode == "INIT") || (mode == "DORMIR")) {
+            } else if ((mode.equals("DEGRADE")) || (mode.equals("INIT")) || (mode.equals("DORMIR"))) {
                 // kilométrage seulement
                 // TM K1 K2 K3 00 00 00 00 00 00 00 00
                 queryString =
                     "insert into donneesTR (Mode, SeqNumber, Datation,"
-                    + " Vitesse, Regime, Consommation,"
-                    + " VitesseMax, RegimeMax, ConsoMax,"
-                    + " NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4,"
                     + " Snr, Rssi, AvgSnr, Radius, Latitude, Longitude,"
                     + " DistanceParcourue, VehiculeID) "
                     + " values ("
                     + Utils.toString(mode) + ", "
                     + Utils.toString(seqNumber) + ", "
                     + Utils.toString(datation) + ", "
-                    // pas de données
-                    + " NULL, NULL, NULL, "
-                    + " NULL, NULL, NULL, "
-                    + " NULL, NULL, NULL, NULL, NULL, "    
                     // pas d'infos sur le signal, ni sur la position
                     + " NULL, NULL, NULL, NULL, NULL, NULL, "
                     // autres datas
                     + Utils.toString(distanceParcourue) + ", "
                     + Utils.toString(vehiculeID)
                     + ")";
-            } else if ((mode == "DMD_GPS") || (mode == "GPS")) {
+            } else if ((mode.equals("DMD_GPS")) || (mode.equals("GPS"))) {
                 // kilométrage seulement
                 // TM K1 K2 K3 00 00 00 00 00 00 00 00
                 queryString =
                     "insert into donneesTR (Mode, SeqNumber, Datation,"
-                    + " Vitesse, Regime, Consommation,"
-                    + " VitesseMax, RegimeMax, ConsoMax,"
-                    + " NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4,"
                     + " Snr, Rssi, AvgSnr, Radius,"
-                    + " Latitude, Longitude, DistanceParcourue, VehiculeID)"
+                    + " LatitudeGPS, LongitudeGPS, DistanceParcourue, VehiculeID)"
                     + " values ("
                     + Utils.toString(mode) + ", "
                     + Utils.toString(seqNumber) + ", "
                     + Utils.toString(datation) + ", "
-                    // pas de données
-                    + " NULL, NULL, NULL, "
-                    + " NULL, NULL, NULL, "
-                    + " NULL, NULL, NULL, NULL, NULL, "    
                     // pas d'infos sur le signal
                     + " NULL, NULL, NULL, NULL, "
                     // autres datas
-                    + Utils.toString(latitude) + ", "
-                    + Utils.toString(longitude) + ", "
+                    + Utils.toString(latitudeGPS) + ", "
+                    + Utils.toString(longitudeGPS) + ", "
                     + Utils.toString(distanceParcourue) + ", "
                     + Utils.toString(vehiculeID)
                     + ")";
-            } else if (mode == "GEO") {
+            } else if (mode.equals("GEO")) {
                 // il faut récupérer le dernier mode pour l'ajouter ici
                 // car on ne le connait pas encore
                 queryString = "select Mode from donneesTR"
@@ -291,19 +281,12 @@ public class DonneesTR {
                 }
                 queryString =
                     "insert into donneesTR (Mode, SeqNumber, Datation,"
-                    + " Vitesse, Regime, Consommation,"
-                    + " VitesseMax, RegimeMax, ConsoMax,"
-                    + " NbDefauts, Defaut1, Defaut2, Defaut3, Defaut4,"
                     + " Snr, Rssi, AvgSnr, Radius,"
                     + " Latitude, Longitude, DistanceParcourue, VehiculeID)"
                     + " values ("
                     + Utils.toString(modeActuel) + ", "
                     + Utils.toString(seqNumber) + ", "
                     + Utils.toString(datation) + ", "
-                    // pas de données
-                    + " NULL, NULL, NULL, "
-                    + " NULL, NULL, NULL, "
-                    + " NULL, NULL, NULL, NULL, NULL, "     
                     // pas d'infos sur le signal, ni sur la position
                     + Utils.toString(snr) + ", "
                     + Utils.toString(rssi) + ", "
@@ -327,19 +310,21 @@ public class DonneesTR {
      * @param seqNumber
      * @param datation
      * @param data
+     * @return 
      * @throws Exception 
      */
-    public static void saveData(Connection con, String sigfoxID, int seqNumber,
+    public static String saveData(Connection con, String sigfoxID, int seqNumber,
             Timestamp datation, String data) throws Exception {
         int vitesseMoy = 0, regimeMoy = 0, consoMoy = 0, vitesseMax = 0,
                 regimeMax = 0, consoMax = 0;
         int defaut1 = 0, defaut2 = 0, defaut3 = 0, defaut4 = 0;
         long distanceParcourue = 0L;
         double latitudeGPS = 0, longitudeGPS = 0;
+        double latitude = 0, longitude = 0;
         Boitier boitier = Boitier.getByID(con, sigfoxID);
         if (boitier == null) {
             // le boitier n'existe pas ???
-            return;
+            return "ERREUR";
         }
         int vehiculeID = boitier.getVehiculeID();
         // conversion de la chaine hexa en tableau de byte
@@ -356,7 +341,7 @@ public class DonneesTR {
         isDefaut = (bData[0] & 0x10 >> 4) != 0;
         String mode = "";
         mode = sMode[bData[0] & 0x0F];
-        if (mode == "NORMAL") {
+        if (mode.equals("NORMAL")) {
             // datas véhicule et kilométrage
             // NORMAL : TM K1 K2 K3 CD CD VX VM RX RM CX CM
             distanceParcourue = bData[1] * 10000 + bData[2] * 100 + bData[3];
@@ -384,11 +369,11 @@ public class DonneesTR {
             if (consoMoy < 0) {
                 consoMoy = 256 + consoMoy;
             }
-        } else if ((mode == "DEGRADE") || (mode == "INIT") || (mode == "DORMIR")) {
+        } else if ((mode.equals("DEGRADE")) || (mode.equals("INIT")) || (mode.equals("DORMIR"))) {
             // kilométrage seulement
             // TM K1 K2 K3 00 00 00 00 00 00 00 00
             distanceParcourue = bData[1] * 10000 + bData[2] * 100 + bData[3];
-        } else if ((mode == "DMD_GPS") || (mode == "GPS")) {
+        } else if ((mode.equals("DMD_GPS")) || (mode.equals("GPS"))) {
             // datas position GPS et kilométrage
             // DMD_GPS : TM K1 K2 K3 LA LA LA LA LO LO LO LO
             distanceParcourue = bData[1] * 10000 + bData[2] * 100 + bData[3];
@@ -414,15 +399,17 @@ public class DonneesTR {
                 longitudeGPS = -longitudeGPS;
             }
         } else {
-            return;     // mode inconnu
+            return "ERREUR";     // mode inconnu
         }
         // crée un objet donnéesTR avec des données Diffèrentes suivant le mode
         create(con, mode, seqNumber, datation,
                 vitesseMoy, regimeMoy, consoMoy,
                 vitesseMax, regimeMax, consoMax,
                 nbDefauts, defaut1, defaut2, defaut3, defaut4,
-                0, 0, 0, 0, latitudeGPS, longitudeGPS,
+                latitudeGPS, longitudeGPS,
+                0, 0, 0, 0, latitude, longitude,
                 distanceParcourue, vehiculeID);
+        return mode;
     }
     
     /**
@@ -452,7 +439,7 @@ public class DonneesTR {
         int vehiculeID = boitier.getVehiculeID();
 
         create(con, "GEO", seqNumber, datation,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0, 0.0,
             snr, rssi, avgSnr, radius,
             latitudeSigfox, longitudeSigfox, 0, vehiculeID);
     }
@@ -537,6 +524,8 @@ public class DonneesTR {
         int lDefaut2 = result.getInt("Defaut2");
         int lDefaut3 = result.getInt("Defaut3");
         int lDefaut4 = result.getInt("Defaut4");
+        double lLatitudeGPS = result.getDouble("LatitudeGPS");
+        double lLongitudeGPS = result.getDouble("LongitudeGPS");
         double lSnr = result.getDouble("Snr");
         double lRssi = result.getDouble("Rssi");
         double lAvgSnr = result.getDouble("AvgSnr");
@@ -549,6 +538,7 @@ public class DonneesTR {
                 lVitesse, lRegime, lConsommation,
                 lVitesseMax, lRegimeMax, lConsoMax,
                 lNbDefauts, lDefaut1, lDefaut2, lDefaut3, lDefaut4,
+                lLatitudeGPS, lLongitudeGPS,
                 lSnr, lRssi, lAvgSnr, lRadius,
                 lLatitude, lLongitude, lDistanceParcourue, lVehiculeID);
     }
@@ -560,6 +550,7 @@ public class DonneesTR {
             int vitesse, int regime, int consommation,
             int vitesseMax, int regimeMax, int consoMax,
             int nbDefauts, int defaut1, int defaut2, int defaut3, int defaut4,
+            double latitudeGPS, double longitudeGPS, 
             double snr, double rssi, double avgSnr, int radius,
             double latitude, double longitude, long distanceParcourue, int vehiculeID) {
         this.mode = mode;
@@ -576,6 +567,8 @@ public class DonneesTR {
         this.defaut2 = defaut2;
         this.defaut3 = defaut3;
         this.defaut4 = defaut4;
+        this.latitudeGPS = latitudeGPS;
+        this.longitudeGPS = longitudeGPS;
         this.snr = snr;
         this.rssi = rssi;
         this.avgSnr = avgSnr;
@@ -604,7 +597,7 @@ public class DonneesTR {
     }
 
     public int getConsommation() {
-        return consommation/10;
+        return consommation;
     }
 
     public int getVitesseMax() {
@@ -637,6 +630,14 @@ public class DonneesTR {
 
     public int getDefaut4() {
         return defaut4;
+    }
+
+    public double getLatitudeGPS() {
+        return latitudeGPS;
+    }
+
+    public double getLongitudeGPS() {
+        return longitudeGPS;
     }
 
     public double getLatitude() {
@@ -696,12 +697,14 @@ public class DonneesTR {
             + " Defaut2 = " + Utils.toString(defaut2)
             + " Defaut3 = " + Utils.toString(defaut3)
             + " Defaut4 = " + Utils.toString(defaut4)
+            + " LatitudeGPS = " + Utils.toString(latitudeGPS)
+            + " LongitudeGPS = " + Utils.toString(longitudeGPS)
+            + " Latitude = " + Utils.toString(latitude)
+            + " Longitude = " + Utils.toString(longitude)
             + " Snr = " + Utils.toString(snr)
             + " Rssi = " + Utils.toString(rssi)
             + " AvgSnr = " + Utils.toString(snr)
             + " Radius = " + Utils.toString(radius)
-            + " Latitude = " + Utils.toString(latitude)
-            + " Longitude = " + Utils.toString(longitude)
             + " DistanceParcourue = " + Utils.toString(distanceParcourue)
             + " VehiculeID = " + Utils.toString(vehiculeID);
     }

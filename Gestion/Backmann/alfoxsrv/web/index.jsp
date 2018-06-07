@@ -26,7 +26,7 @@
                 <center>
 
                     <br/><br/><br/>
-                    <h2>Suivi et maintenance d'une flotte de véhicules V0.51</h2>
+                    <h2>Suivi et maintenance d'une flotte de véhicules V0.52</h2>
                     <br/><br/>
                     <div class="logo"><img src="images/logo.png"/></div>  
                     <br/>
@@ -49,7 +49,7 @@
                         <input name="action" id="login" type="hidden" value="login_req"/><br/>
                         <button type="submit" id="submitOK" name="submitOK">OK</button>
                     </form>
-                    <p class="mini">V0.1 - Mars 2018<br/>Développement : BTS SNIR Lycée V.Hugo Colomiers</p>
+                    <p class="mini">V0.52 - Mars 2018<br/>Développement : BTS SNIR Lycée V.Hugo Colomiers</p>
                 </center>
             </div>
         </div>

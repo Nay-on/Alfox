@@ -1,5 +1,6 @@
 
 var map;
+var markers = [];
 
 // --------------------- callback ----------------------- 
 
@@ -13,6 +14,33 @@ function initialize() {
         zoom: 11,
         center: {lat: 43.601245, lng: 1.445555}
     });
+    // dessine les zones sur la map
+    $.ajax({
+        url: 'alfoxControl.jsp?action=r_getZones',
+        type: 'POST',
+        data: {},
+        dataType: 'html',
+        success: function (data) {
+            var tabZones = data.split("##");
+            for (i = 1; i < tabZones.length - 1; i++) {
+                var tabInfos = tabZones[i].split("||");
+                var nom = tabInfos[1];
+                poly = new google.maps.Polyline({
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2
+                });
+                poly.setMap(map);
+                var path = poly.getPath();
+                for (var i = 2; i < tabInfos.length - 1; i = i + 2) {
+                    path.push(new google.maps.LatLng(tabInfos[i], tabInfos[i+1]));
+                }
+                // la 1er coordonnée pour fermer le polygone
+                // path.push(new google.maps.LatLng(tabInfos[2], tabInfos[3]));
+            }
+        }
+    });
+    // place les véhicules sur la map
     $.ajax({
         url: 'alfoxControl.jsp?action=r_getVehiculesPositions',
         type: 'POST',
@@ -22,10 +50,18 @@ function initialize() {
             var tabInfos = data.split("||");
             for (var i = 1; i < tabInfos.length - 1; i = i + 3) {
                 var marker = new google.maps.Marker({
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 10,
                     position: new google.maps.LatLng(tabInfos[i+1], tabInfos[i+2]),
-                    map: map
+                    map: map,
+                    title: tabInfos[i]
                 });
+                
+                markers.push(marker);
             }
+            // pour lire un marker
+            //markers[0].getTitle();
+            markers[0].setPosition(new google.maps.LatLng(43.612189, 1.336579));
         }
     });
 }
@@ -62,35 +98,6 @@ function centrerZone() {
         dataType: 'html',
         success: function (data) {
             var tabInfos = data.split("||");
-            newLat = parseFloat(tabInfos[1]);
-            newLng = parseFloat(tabInfos[2]);
-            map.setCenter({
-		lat : newLat,
-		lng : newLng
-            });
-            $("#panelZones").panel("close");
-            tracerZone();
-        }
-    });
-}
-
-function tracerZone() {
-    //alert($(this).attr("id"));
-    var nomZone = $(this).attr("id");
-
-    $.ajax({
-        url: 'alfoxControl.jsp?action=r_getCenterByZoneName',
-        type: 'POST',
-        data: {zoneName: nomZone},
-        dataType: 'html',
-        success: function (data) {
-            var tabInfos = data.split("||");
-            var flightPlanCoordinates = [lat: {tabInfos[1], lng: tabInfos[1]}];
-            for (var i= 0 ; i < tabInfos.lenght -1 ; i = i + 2) {
-                newLat = parseFloat(tabInfos[1]);
-                newLng = parseFloat(tabInfos[2]);
-                
-            }
             newLat = parseFloat(tabInfos[1]);
             newLng = parseFloat(tabInfos[2]);
             map.setCenter({

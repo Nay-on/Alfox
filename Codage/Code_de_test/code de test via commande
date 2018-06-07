@@ -1,0 +1,76 @@
+enum MODE {creation, ecriture, lecture , supression , taille, extraction};
+
+String chaineTest;
+int modeDemander=0;
+bool affichageMenu = false;
+
+void setup() {
+}
+
+
+void loop() {
+    if(!affichageMenu){
+       Serial.println();
+       delay(10);
+       Serial.println();
+       delay(10);
+       Serial.println("mode 1 = creation");
+       delay(10);
+       Serial.println("mode 2 = ecriture");
+       delay(10);
+       Serial.println("mode 3 = lecture");
+       delay(10);
+       Serial.println("mode 4 = supression");
+       delay(10);
+       Serial.println("mode 5 = taille");
+       delay(10);
+       Serial.println("mode 6 = extraction");
+       delay(10);
+       Serial.println();
+       delay(10);
+       Serial.println();
+       delay(10);
+       affichageMenu=true;
+    }
+    delay(100);
+    while (Serial.available()) { // tant que des caractères sont en attente d'être lus
+        char c = Serial.read(); // on lit le charactère
+        chaineTest = c;
+        modeDemander = chaineTest.toInt();
+    }
+
+    delay(1000);
+    
+    switch (modeDemander){ 
+        case 1 :
+
+            modeDemander = 0;
+            affichageMenu=false;
+        break;
+        case 2 :
+ 
+            modeDemander = 0;
+            affichageMenu=false;
+        break;
+        case 3 :
+      
+            modeDemander = 0;
+            affichageMenu=false;
+        break;
+        case 4 :
+    
+            modeDemander = 0;
+            affichageMenu=false;
+        break;
+        case 5 :
+        
+            modeDemander = 0;
+            affichageMenu=false;
+        break;
+        case 6 :
+        
+            modeDemander = 0;
+            affichageMenu=false;
+        break;    
+      }   
+}

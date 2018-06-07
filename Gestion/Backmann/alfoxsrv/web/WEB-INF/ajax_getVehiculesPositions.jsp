@@ -31,7 +31,7 @@
             lstDtr.add(DonneesTR.getLastByImmatriculation(con, lstVehicule.get(i).getImmatriculation()));
         }
         for (int i = 0; i < lstVehicule.size(); i++) {
-            out.print("||" + lstVehicule.get(i).getImmatriculation() + "||" + lstDtr.get(i).getLatitude() + "||" + lstDtr.get(i).getLongitude());
+            out.print("||" + lstVehicule.get(i).getHorsZone() + "||" + lstVehicule.get(i).getAProbleme() + "||" + lstDtr.get(i).getMode() + "||" + lstVehicule.get(i).getImmatriculation() + "||" + lstDtr.get(i).getLatitude() + "||" + lstDtr.get(i).getLongitude());
         }
         out.print("||");
     }

@@ -48,13 +48,52 @@ function initialize() {
         dataType: 'html',
         success: function (data) {
             var tabInfos = data.split("||");
-            for (var i = 1; i < tabInfos.length - 1; i = i + 3) {
+            for (var i = 1; i < tabInfos.length - 1; i = i + 6) {
+                var mode;
+                var couleur;
+                /*
+                var horsZone = Boolean(tabInfos[i]);
+                var isPanne = Boolean(tabInfos[i+1]);
+                */
+                switch (tabInfos[i+2]) {
+                    case 'NORMAL':
+                        mode = 'N';
+                        break;
+                    case ('GPS' || 'DMD_GPS'):
+                        mode = 'G';
+                        break;
+                    case 'INIT':
+                        mode = 'I';
+                        break;
+                    case 'DEGRADE':
+                        mode = 'D';
+                        break;
+                    case 'DORMIR':
+                        mode = 'S';
+                        break;
+                }
+                /*
+                switch (horsZone && isPanne) {
+                    case (horsZone == true):
+                        couleur = 'red';
+                        break;
+                    case ((horsZone == false) && (isPanne == true)):
+                        couleur = 'orange';
+                        break;
+                }
+                */
                 var marker = new google.maps.Marker({
+                    icon: {
                     path: google.maps.SymbolPath.CIRCLE,
                     scale: 10,
-                    position: new google.maps.LatLng(tabInfos[i+1], tabInfos[i+2]),
+                    fillOpacity: 1,
+                    fillColor: couleur,
+                    strokeColor: couleur
+                    },
+                    position: new google.maps.LatLng(tabInfos[i+4], tabInfos[i+5]),
                     map: map,
-                    title: tabInfos[i]
+                    title: tabInfos[i+3],
+                    label: {text: mode, color: "white", fontWeight: "bold", fontSize: "18px"}
                 });
                 
                 markers.push(marker);

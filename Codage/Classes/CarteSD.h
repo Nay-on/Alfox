@@ -10,9 +10,9 @@ class CarteSD {
 public:
     CarteSD();
     virtual ~CarteSD();
-    String lire(String fichierALire);  
-    String lire(File* fichierSD); 
-    void ecrire(DonneesTR* dTR);
+    bool lire(String fichierALire);  
+    bool lire(File* fichierSD); 
+    bool ecrire(DonneesTR* dTR);
     void effacer();
     bool isFull();
     void effacerOldData();

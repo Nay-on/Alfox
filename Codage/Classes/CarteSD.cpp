@@ -27,7 +27,7 @@ CarteSD::~CarteSD() {
 //-----------------------------------------------------
 //------- méthode de lecture avec nom du fichier ------
 //-----------------------------------------------------                                                     // bloque la lercture mais non bloquant au final
-String CarteSD::lire(String nomFichierALire) {
+bool CarteSD::lire(String nomFichierALire) {
   fichierSD = SD.open(nomFichierALire);                 //ouverture du fichier
   //Serial.println(fichierSD.name());                   // debug
   if (fichierSD) {
@@ -35,31 +35,35 @@ String CarteSD::lire(String nomFichierALire) {
       Serial.write(fichierSD.read());                   // lecture du fichier
     }
     fichierSD.close();                                  // fermeture du fichier
+    return true;
   }
                                                         // si le fichier n'est pas ouver afficher une erreur d'ouverture
   else {
-    Serial.println("erreur d'ouverture");               // debug
+    //Serial.println("erreur d'ouverture");               // debug
+    return false;
   }
-  return "OK";
+  
 }
 
 //-----------------------------------------------------
 //------- Méthode de lecture avec descripteur de fichier 
 //-----------------------------------------------------
-String CarteSD::lire(File* fichierSD) {
+bool CarteSD::lire(File* fichierSD) {
                 //ouverture du fichier
   //Serial.println(fichierSD.name());                   // debug
   if (*fichierSD) {
     while (fichierSD->available()) {                     // tant qu'il y a des donnnées non lus dans le fichier
       Serial.write(fichierSD->read());                   // lecture du fichier
     }
-    Serial.println("sortie de la boucle while de la lecture");
+    //Serial.println("sortie de la boucle while de la lecture"); // debug
+    return true;
   }
                                                         // si le fichier n'est pas ouver afficher une erreur d'ouverture
   else {
-    Serial.println("descripteur de fichier incorrect");               // debug
+    //Serial.println("descripteur de fichier incorrect");               // debug
+    return false;
   }
-  return "OK";
+
 }
 
 
@@ -71,18 +75,21 @@ String CarteSD::lire(File* fichierSD) {
 //-----------------------------------------------------
 
 
-void CarteSD::ecrire(DonneesTR* dTR)
+bool CarteSD::ecrire(DonneesTR* dTR)
 {
   fichierSD = SD.open(nomFichier, FILE_WRITE);          // ouverture du fichier en ecriture et creation si il n'existe pas 
   if (fichierSD) {// si l'ouverture as réussie
-    Serial.println(fichierSD.name());                   // debug
+    //Serial.println(fichierSD.name());                   // debug
     fichierSD.println("# " + String(dTR->getConsoMoyenne()) + "   " + String(dTR->getConsoMax()) + "   " + String(dTR->getVitesseMax()) + "   " + String(dTR->getVitesseMoyenne()) + "   " + String(dTR->getRegimeMax()) + "   ");
                                                         // ecriture des donnée 
     fichierSD.close();                                  // fermeture du fichier
-    Serial.println("ecriture");                         // debug
+    
+    //Serial.println("ecriture");                         // debug
+    return true;
   }
   else  {
-    Serial.println("erreur d'ecriture");                // debug 
+    //Serial.println("erreur d'ecriture");                // debug
+    return false;
   }
 }
 

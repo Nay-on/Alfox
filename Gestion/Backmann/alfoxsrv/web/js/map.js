@@ -69,6 +69,35 @@ function centrerZone() {
 		lng : newLng
             });
             $("#panelZones").panel("close");
+            tracerZone();
+        }
+    });
+}
+
+function tracerZone() {
+    //alert($(this).attr("id"));
+    var nomZone = $(this).attr("id");
+
+    $.ajax({
+        url: 'alfoxControl.jsp?action=r_getCenterByZoneName',
+        type: 'POST',
+        data: {zoneName: nomZone},
+        dataType: 'html',
+        success: function (data) {
+            var tabInfos = data.split("||");
+            var flightPlanCoordinates = [lat: {tabInfos[1], lng: tabInfos[1]}];
+            for (var i= 0 ; i < tabInfos.lenght -1 ; i = i + 2) {
+                newLat = parseFloat(tabInfos[1]);
+                newLng = parseFloat(tabInfos[2]);
+                
+            }
+            newLat = parseFloat(tabInfos[1]);
+            newLng = parseFloat(tabInfos[2]);
+            map.setCenter({
+		lat : newLat,
+		lng : newLng
+            });
+            $("#panelZones").panel("close");
         }
     });
 }

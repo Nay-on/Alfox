@@ -89,6 +89,42 @@ public class ZoneLimite {
         return lstZone;
     }
     
+    public static ArrayList<Double> getLatByZone(Connection con, String nom) throws Exception {
+        String queryString = "select * from position, zoneLimite"
+            + " where position.ZoneLimiteID= zoneLimite.ID" 
+            + " and zoneLimite.Nom = '"
+            + nom
+            + "'"    
+            + " order by Ordre";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<Double> lstLatByZone = new ArrayList<>();
+        while (lResult.next()) {
+            lstLatByZone.add(lResult.getDouble("Latitude"));
+        }
+        return lstLatByZone;
+    }
+    
+    public static ArrayList<Double> getLgByZone(Connection con, String nom) throws Exception {
+        String queryString = "select * from position, zoneLimite"
+            + " where position.ZoneLimiteID = zoneLimite.ID" 
+            + " and zoneLimite.Nom = '"
+            + nom
+            + "'"    
+            + " order by Ordre";
+        Statement lStat = con.createStatement(
+                                ResultSet.TYPE_SCROLL_INSENSITIVE, 
+                                ResultSet.CONCUR_READ_ONLY);
+        ResultSet lResult = lStat.executeQuery(queryString);
+        ArrayList<Double> lstLgByZone = new ArrayList<>();
+        while (lResult.next()) {
+            lstLgByZone.add(lResult.getDouble("Longitude"));
+        }
+        return lstLgByZone;
+    }
+    
     /**
      * Retourne une zoneLimite trouve par son nom, saved is true
      * @param con

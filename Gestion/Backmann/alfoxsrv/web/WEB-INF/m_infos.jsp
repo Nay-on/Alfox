@@ -48,7 +48,7 @@
             
             <div role="main" class="ui-content">
                 <center>
-                    <p class="mess">Nombre de message restants : 3/4</p>
+                    <p class="mess"></p>
                     <form class="form" >
                         <div class="ui-field-contain">
                             <label class="label" for="select-native-1">Véhicule :</label>

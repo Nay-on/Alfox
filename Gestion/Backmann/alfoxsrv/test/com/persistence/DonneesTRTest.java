@@ -112,7 +112,7 @@ public class DonneesTRTest {
         System.out.println("getMode");
         Connection con = ConnexionMySQL.newConnexion();
         DonneesTR instance = DonneesTR.getLastByImmatriculation(con, "ED-592-CY");
-        assertEquals("NORMAL", instance.getMode());
+        assertEquals("GPS", instance.getMode());
     }
 
     /**

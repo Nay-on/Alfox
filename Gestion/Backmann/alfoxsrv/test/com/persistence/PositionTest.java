@@ -47,7 +47,7 @@ public class PositionTest {
         result = Position.getById(con, 1);
         assertEquals(43.546266, result.getLatitude(), 0.000001);
         // on restitue l'état initial
-        result.setLatitude(43.546231);
+        result.setLatitude(43.604014);
         result.save(con);
     }
 
@@ -111,10 +111,10 @@ public class PositionTest {
         Position result = Position.getById(con, 2);
         result.setLatitude(43.546266);
         result.save(con);
-        result = Position.getById(con, 1);
-        assertEquals(43.546231, result.getLatitude(), 0.000001);
+        result = Position.getById(con, 2);
+        assertEquals(43.546266, result.getLatitude(), 0.000001);
         // on restitue l'état initial
-        result.setLatitude(43.546231);
+        result.setLatitude(43.601590);
         result.save(con);
     }
 
@@ -132,7 +132,7 @@ public class PositionTest {
         result = Position.getById(con, 2);
         assertEquals(43.546266, result.getLongitude(), 0.000001);
         // on restitue l'état initial
-        result.setLongitude(1.350065);
+        result.setLongitude(1.524203);
         result.save(con);
     }
 }

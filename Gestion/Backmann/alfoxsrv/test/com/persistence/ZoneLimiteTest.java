@@ -149,34 +149,19 @@ public class ZoneLimiteTest {
         assertEquals("Alcis", result.get(0).getNom());
         assertEquals("Toulouse", result.get(1).getNom());
     }
-
+    
     /**
-     * Test of getLatByZone method, of class ZoneLimite.
+     * Test of getZoneLimites method, of class ZoneLimite.
      */
     @Test
-    public void testGetLatByZone() throws Exception {
-        System.out.println("getLatByZone");
+    public void testGetZoneLimites() throws Exception {
+        System.out.println("getZoneLimites");
         Connection con = ConnexionMySQL.newConnexion();
-        ArrayList<Double> result = ZoneLimite.getLatByZone(con, "Alcis");
-        assertEquals(4, result.size());
+        ArrayList<Double> result = ZoneLimite.getZoneLimites(con, "Alcis");
+        assertEquals(8, result.size());
         assertEquals(43.604014, result.get(0), 0.000001);
-        assertEquals(43.601590, result.get(1), 0.000001);
-        assertEquals(43.601920, result.get(2), 0.000001);
-        assertEquals(43.600355, result.get(3), 0.000001);
-    }
-
-    /**
-     * Test of getLgByZone method, of class ZoneLimite.
-     */
-    @Test
-    public void testGetLgByZone() throws Exception {
-        System.out.println("getLgByZone");
-        Connection con = ConnexionMySQL.newConnexion();
-        ArrayList<Double> result = ZoneLimite.getLgByZone(con, "Alcis");
-        assertEquals(4, result.size());
-        assertEquals(1.526581, result.get(0), 0.000001);
-        assertEquals(1.524203, result.get(1), 0.000001);
-        assertEquals(1.530292, result.get(2), 0.000001);
-        assertEquals(1.528461, result.get(3), 0.000001);
+        assertEquals(1.526581, result.get(1), 0.000001);
+        assertEquals(43.600355, result.get(6), 0.000001);
+        assertEquals(1.528461, result.get(7), 0.000001);
     }
 }

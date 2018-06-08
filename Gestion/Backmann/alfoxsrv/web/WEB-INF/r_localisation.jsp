@@ -81,9 +81,9 @@
                     out.print("<ul data-role='listview' data-icon='false'>");
                     out.print("<li id=" +  lstVehicule.get(i).getImmatriculation() + " data-icon='false'><a href='#'>Centrer</a></li>");
                     out.print("<li data-icon='false'>Compteur : " + lstVehicule.get(i).getCompteurReel() + " km</li>");
-                    out.print("<li data-icon='false'>ConsoMoy : " + lstDtr.get(i).getConsommation() + " l</li>");
-                    out.print("<li data-icon='false'>VitMoy : " + lstDtr.get(i).getVitesse() + " km/h</li>");
-                    out.print("<li data-icon='false'>RégimeMoy : " + lstDtr.get(i).getRegime() + " tpm</li>");
+                    out.print("<li data-icon='false'>Conso Moyenne : " + lstDtr.get(i).getConsommation() + " l/100km</li>");
+                    out.print("<li data-icon='false'>Vitesse Moyenne : " + lstDtr.get(i).getVitesse() + " km/h</li>");
+                    out.print("<li data-icon='false'>Régime Moyen : " + lstDtr.get(i).getRegime() + " tpm</li>");
                     out.print("</div>");
                 }
             %>    

@@ -50,11 +50,28 @@ function initialize() {
             var tabInfos = data.split("||");
             for (var i = 1; i < tabInfos.length - 1; i = i + 6) {
                 var mode;
-                var couleur;
-                /*
-                var horsZone = Boolean(tabInfos[i]);
-                var isPanne = Boolean(tabInfos[i+1]);
-                */
+                var couleur = 'black';
+               
+                // tabInfos[i] = isDehors ; tabInfos[i+1] = aProbleme
+                switch (tabInfos[i+1]) {
+                    case 'true':
+                        // Si panne alors marqueur orange
+                        couleur = 'orange';
+                        break;
+                    default:
+                        couleur = couleur;
+                }
+                
+                switch (tabInfos[i]) {
+                    case 'true':
+                        // Si hors zone marqueur rouge
+                        // Si panne + hors zone marqueur rouge
+                        couleur = 'red';
+                        break;
+                    default :
+                        couleur = couleur;
+                }
+                
                 switch (tabInfos[i+2]) {
                     case 'NORMAL':
                         mode = 'N';
@@ -72,16 +89,7 @@ function initialize() {
                         mode = 'S';
                         break;
                 }
-                /*
-                switch (horsZone && isPanne) {
-                    case (horsZone == true):
-                        couleur = 'red';
-                        break;
-                    case ((horsZone == false) && (isPanne == true)):
-                        couleur = 'orange';
-                        break;
-                }
-                */
+                              
                 var marker = new google.maps.Marker({
                     icon: {
                     path: google.maps.SymbolPath.CIRCLE,

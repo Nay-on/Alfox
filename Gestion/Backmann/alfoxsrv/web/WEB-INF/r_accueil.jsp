@@ -48,7 +48,7 @@
                             <div class="cardTitre">Nombre de véhicules hors zone</div>
                             <div class="container">
                                 <div id="cnvhz" class="cardValeur">
-                                    2
+                                    <% out.print(Vehicule.nbVehiculesDehors(con)); %>
                                 </div>
                                 <div class="cardUnite">véhicules</div>
                             </div>
@@ -102,7 +102,7 @@
                         <input name="action" id="logout" type="hidden" value="logout"/><br/>
                         <button type="submit" id="submitOK" name="submitOK">Déconnexion</button>
                     </form>
-                    <p class="mini">V0.1 - Mars 2018<br/>Développement : BTS SNIR Lycée V.Hugo Colomiers</p>
+                    <p class="mini">V0.6 - Mars 2018<br/>Développement : BTS SNIR Lycée V.Hugo Colomiers</p>
                     <br/><br/><br/>
                 </center>
             </div>

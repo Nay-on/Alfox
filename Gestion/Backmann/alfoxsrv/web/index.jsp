@@ -26,7 +26,7 @@
                 <center>
 
                     <br/><br/><br/>
-                    <h2>Suivi et maintenance d'une flotte de véhicules V0.6</h2>
+                    <h2>Suivi et maintenance d'une flotte de véhicules V0.61</h2>
                     <br/><br/>
                     <div class="logo"><img src="images/logo.png"/></div>  
                     <br/>

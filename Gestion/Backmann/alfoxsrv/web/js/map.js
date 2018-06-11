@@ -50,7 +50,7 @@ function initialize() {
             var tabInfos = data.split("||");
             for (var i = 1; i < tabInfos.length - 1; i = i + 6) {
                 var mode;
-                var couleur = 'black';
+                var couleur = 'green';
                
                 // tabInfos[i] = isDehors ; tabInfos[i+1] = aProbleme
                 switch (tabInfos[i+1]) {

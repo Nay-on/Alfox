@@ -10,7 +10,12 @@ Bluetooth::Bluetooth(int pinAlim, int pinEn)
   pinPeripheral(7, PIO_SERCOM_ALT); //Rx
   pinMode(pinAlim, OUTPUT); //Base Transistor
   pinMode(pinEn, OUTPUT); //EN
-  serialBT->begin(38400);
+  //Avec Module BT
+  //serialBT->begin(38400);
+  //Avec OBDSim
+  serialBT->begin(9600);
+  //Parmaétrage du TimeOut à 3s pour certaines réponses
+  serialBT->setTimeout(3000); 
 }
 
 //Déactiver matériellement le module BT
@@ -76,10 +81,24 @@ int Bluetooth::connexion(String adresse)
 bool Bluetooth::isActif() 
 {
   String contenu = "";
-  serialBT->println("ATI");
-  delay(100);
+  serialBT->flush();
+  //serialBT->write("ATE0\n");
+  delay(2000);
+  serialBT->println("ATI\n\r");
+  //delay(100);
   //while (serialBT->available() <= 0);
-  contenu = serialBT->readStringUntil('>');
+  char c;
+  for(;;)
+  {
+    if (serialBT->available())
+    {
+      contenu = serialBT->readStringUntil('>');
+      break;
+    } 
+  }
+  //contenu = serialBT->readStringUntil('>');
+  Serial.println("Réponse pour ATI : "+contenu);
+
   if (contenu.substring(0, 3) == "ELM")
   {
     return true;

@@ -51,6 +51,10 @@ int DonneesTR::getConsoMax()
   return consoMax;
 }
 
+int DonneesTR::getVitesse()
+{
+  return vitesse;
+}
 
 int DonneesTR::getVitesseMoyenne()
 {
@@ -63,6 +67,10 @@ int DonneesTR::getVitesseMax()
   return vitesseMax;
 }
 
+int DonneesTR::getRegime()
+{
+  return regime;
+}
 
 int DonneesTR::getRegimeMoyen()
 {

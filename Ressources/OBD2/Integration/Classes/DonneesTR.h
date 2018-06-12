@@ -13,8 +13,10 @@ class DonneesTR {
     float getConsommation();
     int getConsoMoyenne();
     int getConsoMax();
+    int getVitesse();
     int getVitesseMoyenne();
     int getVitesseMax();
+    int getRegime();
     int getRegimeMoyen();
     int getRegimeMax();
     void setVitesse(int vitesse);

@@ -1,0 +1,2 @@
+/usr/bin/ar cq libckobdsim_random.a  CMakeFiles/ckobdsim_random.dir/generators/random/gen_random.c.o
+/usr/bin/ranlib libckobdsim_random.a

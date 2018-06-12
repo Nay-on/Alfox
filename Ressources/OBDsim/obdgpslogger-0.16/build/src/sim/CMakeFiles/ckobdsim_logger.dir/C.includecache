@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../libs/sqlite3/sqlite3.h
+stdarg.h
+-
+
+../src/obdinfo/obdconvertfunctions.h
+
+../src/obdinfo/obdservicecommands.h
+stdlib.h
+-
+obdconvertfunctions.h
+../src/obdinfo/obdconvertfunctions.h
+
+../src/sim/./datasource.h
+
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/logger/gen_logger.c
+stdlib.h
+-
+stdio.h
+-
+time.h
+-
+sys/time.h
+-
+unistd.h
+-
+string.h
+-
+sqlite3.h
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/logger/sqlite3.h
+obdservicecommands.h
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/logger/obdservicecommands.h
+datasource.h
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/logger/datasource.h
+

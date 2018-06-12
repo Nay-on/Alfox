@@ -1,0 +1,2 @@
+/usr/bin/ar cq libckobdconfigfile.a  CMakeFiles/ckobdconfigfile.dir/obdconfigfile.c.o
+/usr/bin/ranlib libckobdconfigfile.a

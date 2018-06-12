@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ocommeng/obdgpslogger-0.16/src/obdinfo/dtccodes.c
+string.h
+-
+stdio.h
+-
+dtccodes.h
+/home/ocommeng/obdgpslogger-0.16/src/obdinfo/dtccodes.h
+
+/home/ocommeng/obdgpslogger-0.16/src/obdinfo/dtccodes.h
+
+/home/ocommeng/obdgpslogger-0.16/src/obdinfo/obdconvertfunctions.c
+
+/home/ocommeng/obdgpslogger-0.16/src/obdinfo/obdconvertfunctions.h
+
+/home/ocommeng/obdgpslogger-0.16/src/obdinfo/obdrevconvertfunctions.c
+
+/home/ocommeng/obdgpslogger-0.16/src/obdinfo/obdservicecommands.c
+obdservicecommands.h
+/home/ocommeng/obdgpslogger-0.16/src/obdinfo/obdservicecommands.h
+string.h
+-
+stdio.h
+-
+stdlib.h
+-
+
+/home/ocommeng/obdgpslogger-0.16/src/obdinfo/obdservicecommands.h
+stdlib.h
+-
+obdconvertfunctions.h
+/home/ocommeng/obdgpslogger-0.16/src/obdinfo/obdconvertfunctions.h
+

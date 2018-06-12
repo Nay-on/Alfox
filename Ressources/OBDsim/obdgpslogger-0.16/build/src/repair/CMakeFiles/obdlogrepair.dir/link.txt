@@ -1,0 +1,1 @@
+/usr/bin/cc     CMakeFiles/obdlogrepair.dir/obdrepairmain.c.o  -o ../../../bin/obdlogrepair  -L/home/ocommeng/obdgpslogger-0.16/build/src/repair  -L/home/ocommeng/obdgpslogger-0.16/build/libs/sqlite3 -rdynamic libckobdrepair.a ../../libs/sqlite3/libcksqlite.a -lpthread -ldl 

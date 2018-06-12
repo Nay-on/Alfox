@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/sim/./datasource.h
+
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/dlopen/gen_dlopen.c
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+dlfcn.h
+-
+simdl_datasource.h
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/dlopen/simdl_datasource.h
+datasource.h
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/dlopen/datasource.h
+
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/dlopen/simdl_datasource.h
+

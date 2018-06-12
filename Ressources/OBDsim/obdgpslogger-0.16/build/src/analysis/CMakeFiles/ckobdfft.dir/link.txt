@@ -1,0 +1,2 @@
+/usr/bin/ar cq libckobdfft.a  CMakeFiles/ckobdfft.dir/fftwindow.cxx.o
+/usr/bin/ranlib libckobdfft.a

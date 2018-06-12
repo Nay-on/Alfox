@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC   -shared -Wl,-soname,libobdsim_dltest.so -o libobdsim_dltest.so CMakeFiles/obdsim_dltest.dir/generators/dlopen/test/test_dlopen.c.o 

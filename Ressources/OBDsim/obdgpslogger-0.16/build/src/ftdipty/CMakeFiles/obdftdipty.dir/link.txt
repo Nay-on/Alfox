@@ -1,0 +1,1 @@
+/usr/bin/cc     CMakeFiles/obdftdipty.dir/ftdipty.c.o  -o ../../../bin/obdftdipty -rdynamic /usr/lib/x86_64-linux-gnu/./libftdi.so ../conf/libckobdconfigfile.a ../obdinfo/libckobdinfo.a -Wl,-rpath,/usr/lib/x86_64-linux-gnu/.: 

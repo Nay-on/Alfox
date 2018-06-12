@@ -1,0 +1,2 @@
+/usr/bin/ar cq libckobdfl.a  CMakeFiles/ckobdfl.dir/maindisplay.cxx.o CMakeFiles/ckobdfl.dir/convertwindow.cxx.o CMakeFiles/ckobdfl.dir/logwindow.cxx.o CMakeFiles/ckobdfl.dir/gpsdwizard.cxx.o
+/usr/bin/ranlib libckobdfl.a

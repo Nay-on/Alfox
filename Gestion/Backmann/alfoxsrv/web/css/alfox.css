@@ -46,8 +46,8 @@
 /* mise en page de la map Google dans la page localisation */
 #map {
     height: 786px;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
     border-style: solid;
     border-width: 1px;
     border-color: #AAAAAA;

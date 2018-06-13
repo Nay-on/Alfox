@@ -91,6 +91,12 @@
                     request.getRequestDispatcher("WEB-INF/m_infos.jsp").forward(request, response);
                 } else if (action.equals("maintenance")) {
                     request.getRequestDispatcher("WEB-INF/m_maintenance.jsp").forward(request, response);
+                } else if (action.equals("r_getCenterByZoneName")) {
+                    request.getRequestDispatcher("WEB-INF/ajax_getCenterByZoneName.jsp").forward(request, response);
+                } else if (action.equals("r_getVehiculesPositions")) {
+                    request.getRequestDispatcher("WEB-INF/ajax_getVehiculesPositions.jsp").forward(request, response);
+                } else if (action.equals("r_getZones")) {
+                    request.getRequestDispatcher("WEB-INF/ajax_getZones.jsp").forward(request, response);
                 } else if (action.equals("logout")) {
                     session.invalidate();   // fermeture de la session (plus de user ni de connexion)
                     request.getRequestDispatcher("index.jsp").forward(request, response);

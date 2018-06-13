@@ -16,6 +16,7 @@ bool etatEcriture = false;
 bool etatLecture = false;
 bool etatIsFull = false;
 bool etatSuppression = false; 
+bool etatCreation = false;
 void setup() {
   delay(1000);
   carteSD = new CarteSD(); // instanciation de carteSD
@@ -59,7 +60,7 @@ void loop() {
     
     switch (modeDemander){ //permet de réglér les bug de compilation liée a arduino 
         case 1 : // création du fichier
-            bool etatCreation = carteSD->nouveauFichier(nomDuFichier);
+            etatCreation = carteSD->nouveauFichier(nomDuFichier);
             modeDemander = 0;
             affichageMenu=false;
             if(!etatCreation){

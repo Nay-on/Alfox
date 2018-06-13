@@ -1,0 +1,2 @@
+/usr/bin/ar cq libckobdinfo.a  CMakeFiles/ckobdinfo.dir/obdrevconvertfunctions.c.o CMakeFiles/ckobdinfo.dir/obdservicecommands.c.o CMakeFiles/ckobdinfo.dir/obdconvertfunctions.c.o CMakeFiles/ckobdinfo.dir/dtccodes.c.o
+/usr/bin/ranlib libckobdinfo.a

@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/sim/./datasource.h
+
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/socket/gen_socket.c
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+unistd.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+netdb.h
+-
+datasource.h
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/socket/datasource.h
+

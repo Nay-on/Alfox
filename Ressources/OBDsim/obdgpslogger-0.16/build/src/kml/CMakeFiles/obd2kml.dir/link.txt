@@ -1,0 +1,1 @@
+/usr/bin/cc     CMakeFiles/obd2kml.dir/heightandcolor.c.o CMakeFiles/obd2kml.dir/singleheight.c.o CMakeFiles/obd2kml.dir/obdgpskml.c.o CMakeFiles/obd2kml.dir/justgps.c.o  -o ../../../bin/obd2kml  -L/home/ocommeng/obdgpslogger-0.16/build/libs/sqlite3 -rdynamic ../../libs/sqlite3/libcksqlite.a -lpthread -ldl -lm 

@@ -1,0 +1,2 @@
+/usr/bin/ar cq libckobdsim_logger.a  CMakeFiles/ckobdsim_logger.dir/generators/logger/gen_logger.c.o
+/usr/bin/ranlib libckobdsim_logger.a

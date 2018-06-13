@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/obdinfo/obdconvertfunctions.h
+
+../src/obdinfo/obdservicecommands.h
+stdlib.h
+-
+obdconvertfunctions.h
+../src/obdinfo/obdconvertfunctions.h
+
+../src/sim/./datasource.h
+
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/random/gen_random.c
+stdlib.h
+-
+stdio.h
+-
+datasource.h
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/random/datasource.h
+obdservicecommands.h
+/home/ocommeng/obdgpslogger-0.16/src/sim/generators/random/obdservicecommands.h
+

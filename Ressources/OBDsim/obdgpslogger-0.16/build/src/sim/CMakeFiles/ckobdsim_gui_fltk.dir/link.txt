@@ -1,0 +1,2 @@
+/usr/bin/ar cq libckobdsim_gui_fltk.a  CMakeFiles/ckobdsim_gui_fltk.dir/simguifltk.cxx.o
+/usr/bin/ranlib libckobdsim_gui_fltk.a

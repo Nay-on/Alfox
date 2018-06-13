@@ -1,0 +1,2 @@
+/usr/bin/ar cq libckobdsim_error.a  CMakeFiles/ckobdsim_error.dir/generators/error/gen_error.c.o
+/usr/bin/ranlib libckobdsim_error.a

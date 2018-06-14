@@ -5,10 +5,17 @@
 #include "Bluetooth.h"
 #include "LiaisonSimulateur.h"
 
-#define DEBUT_POIDS_FORT 6
+//Communication avec OBD2 réel (Bleu)
+/*#define DEBUT_POIDS_FORT 6 
 #define FIN_POIDS_FORT 8
 #define DEBUT_POIDS_FAIBLE 9
-#define FIN_POIDS_FAIBLE 11
+#define FIN_POIDS_FAIBLE 11*/
+
+//Communication avec le simulateur OBDSim
+#define DEBUT_POIDS_FORT 8 
+#define FIN_POIDS_FORT 10
+#define DEBUT_POIDS_FAIBLE 11
+#define FIN_POIDS_FAIBLE 13
 
 
 typedef enum {C_VITESSE, C_CONSOMMATION, C_REGIME, C_DEFAUT, C_VERSION} TCode;

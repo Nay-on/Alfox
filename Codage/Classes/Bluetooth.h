@@ -6,6 +6,8 @@
 #define PINALIM 0
 #define PINEN 1
 
+enum Mode {commandeAT_ON=0,commandeAT_OFF};
+
 class Bluetooth {
 
   private :
@@ -18,7 +20,7 @@ class Bluetooth {
     int bind(String adresse);
     int modeDeconnecte();
     int lien(String adresse);
-    int reinitialiser();
+    void reinitialiser();
     int pinAlim;
     int pinEn;
     String adresseOBD2;
@@ -27,6 +29,8 @@ class Bluetooth {
   public:
     Bluetooth(int pinAlim, int pinEn);
     ~Bluetooth();
+    void activerModule(Mode mode);
+    void desactiverModule();
     int connexion(String adresse);
     bool isActif();
     Uart* getLiaisonBT();

@@ -16,6 +16,7 @@ class DonneesTR {
     int getVitesseMoyenne();
     int getVitesseMax();
     int getVitesse();
+    int getRegime();
     int getRegimeMoyen();
     int getRegimeMax();
     void setVitesse(int vitesse);

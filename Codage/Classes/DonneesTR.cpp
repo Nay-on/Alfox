@@ -72,7 +72,6 @@ int DonneesTR::getVitesse()
 
 int DonneesTR::getRegimeMoyen()
 {
-
   return regimeMoyen;
 }
 
@@ -82,6 +81,11 @@ int DonneesTR::getRegimeMax()
   return regimeMax;
 }
 
+
+int DonneesTR::getRegime()
+{
+  return regime;
+}
 
 void DonneesTR::setVitesse(int vitesse)
 {

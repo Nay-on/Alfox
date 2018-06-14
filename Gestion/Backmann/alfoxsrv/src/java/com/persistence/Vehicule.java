@@ -353,7 +353,11 @@ public class Vehicule {
         if ((lat0 >= latMin) && (lat0 <= latMax) && (lg0 >= lgMin) && (lg0 <= lgMax)) {
             // Si oui on récupère la dernière date à laquelle le véhicule était en dehors d'Alcis
             int i = 1;
-            while ((i < lstDonneesTR.size()) && (lstDonneesTR.get(i).getLatitude() >= latMin) && (lstDonneesTR.get(i).getLatitude() <= latMax) && (lstDonneesTR.get(i).getLongitude() >= lgMin) && (lstDonneesTR.get(i).getLongitude() <= lgMax)) {
+            while ((i < lstDonneesTR.size())
+                    && (lstDonneesTR.get(i).getLatitude() >= latMin)
+                    && (lstDonneesTR.get(i).getLatitude() <= latMax)
+                    && (lstDonneesTR.get(i).getLongitude() >= lgMin)
+                    && (lstDonneesTR.get(i).getLongitude() <= lgMax)) {
                 i++;
             }
             if (i >= lstDonneesTR.size()) 

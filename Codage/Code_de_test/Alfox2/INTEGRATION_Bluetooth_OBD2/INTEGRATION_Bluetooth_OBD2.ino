@@ -33,16 +33,18 @@ void setup()
   Serial.println("Connexion bluetooth");
 #endif
   //ELM327 (Bleu)
-  int resultatConnexion = bluetooth->connexion("2017,11,7030A");
+  //int resultatConnexion = bluetooth->connexion("2017,11,7030A");
   //Simulateur
-  //int resultatConnexion = bluetooth->connexion("18,E7,1EC629");
+  int resultatConnexion = bluetooth->connexion("0018,E7,1EC629");
   //Pour le module noir KONNWEI
   //Serial.println(bluetooth->connexion("B22B,1C,70EA6"),BIN);
+  //int resultatConnexion = bluetooth->connexion("780C,B8,46F54");
   
   delay(2000);
   
   carteSD = new CarteSD();
   gps = new GPS();
+  donneesTR = new DonneesTR();
   maLed = new LedTri(redLedPin, greenLedPin, blueLedPin);
   configureInterrupt_timer4_1ms();
 
@@ -67,36 +69,37 @@ void setup()
 
 void loop()
 {
-  majDataTR();
-  gps->maj();
+  
   periode = millis() - initial;
   if (periode >= PERIODE_ECH)
   {
+    majDataTR();
+    gps->maj();
+    carteSD->nouveauFichier("180531.txt");
+    carteSD->ecrire(donneesTR);
+    Serial.println("___________________________________GPS");
+    if (gps->isDispo()) 
+    {
+      Serial.println(gps->getLatitude(), 6);
+      Serial.println(gps->getLongitude(), 6);
+      Serial.print(gps->getDatation().tm_mday);
+      Serial.print('/');
+      Serial.print((gps->getDatation().tm_mon) + 1);
+      Serial.print('/');
+      Serial.println(gps->getDatation().tm_year);
+    }
     Serial.println("___________________________________ODB2");
     Serial.print("Vitesse : ");
-    Serial.println(obd2->lireVitesse());
-    delay(250);
+    Serial.println(donneesTR->getVitesse());
     Serial.print("Regime moteur : ");
-    Serial.println(obd2->lireRegimeMoteur());
-    delay(250);
+    Serial.println(donneesTR->getRegime());
     Serial.print("Consomation : ");
-    Serial.println(obd2->lireConsomation());
-    initial = millis();
+    Serial.println(donneesTR->getConsommation());
     Serial.println("___________________________________CarteSD");
+  initial = millis();
   }
-  carteSD->nouveauFichier("180531.txt");
-  carteSD->ecrire(donneesTR);
 
-  Serial.println("___________________________________GPS");
-  if (gps->isDispo()) {
-    Serial.println(gps->getLatitude(), 6);
-    Serial.println(gps->getLongitude(), 6);
-    Serial.print(gps->getDatation().tm_mday);
-    Serial.print('/');
-    Serial.print((gps->getDatation().tm_mon) + 1);
-    Serial.print('/');
-    Serial.println(gps->getDatation().tm_year);
-  }
+  
   
   /*if(bluetooth->isActif() == false){
     delete bluetooth;
@@ -114,8 +117,11 @@ void loop()
 
 void majDataTR() {
   donneesTR->setVitesse(obd2->lireVitesse());
+  delay(250);
   donneesTR->setRegime(obd2->lireRegimeMoteur());
+  delay(250);
   donneesTR->setConsommation(obd2->lireConsomation());
+  delay(250);
 }
 
 void SERCOM3_Handler()

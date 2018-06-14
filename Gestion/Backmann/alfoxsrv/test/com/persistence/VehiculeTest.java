@@ -22,7 +22,9 @@ public class VehiculeTest {
     @Test
     public void testCreate() throws Exception {
         System.out.println("create");
+        // Init de la connexion SQL
         Connection con = ConnexionMySQL.newConnexion();
+        // Init des attributs de Vehicules
         String marque = "Citroën";
         String modele = "DS5";
         String immatriculation = "DD-000-EE";
@@ -35,8 +37,14 @@ public class VehiculeTest {
         boolean aProbleme = false;
         float compteurReel = 50.0F;
         Timestamp dateControleTechnique = Utils.stringToTimestamp("2020/03/26 00:00:00");
-        Vehicule result = Vehicule.create(con, marque, modele, immatriculation, dateMiseEnService, motorisation, dateVidange, kmVidange, horsZone, tauxUtilisation, aProbleme, compteurReel, dateControleTechnique);
+        // Création de Vehicule
+        Vehicule result = Vehicule.create(con, marque, modele, immatriculation, 
+                dateMiseEnService, motorisation, dateVidange, kmVidange, 
+                horsZone, tauxUtilisation, aProbleme, compteurReel, 
+                dateControleTechnique);
+        // Test
         assertEquals("DS5", result.getModele());
+        // Suppresion de Vehicule
         result.delete(con);
     }
 
@@ -47,13 +55,21 @@ public class VehiculeTest {
     @Test
     public void testSave() throws Exception {
         System.out.println("save");
+        // Init de la connexion SQL
         Connection con = ConnexionMySQL.newConnexion();
+        // Obtention d'un Vehicule par sont immatriculation
         Vehicule instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        // Changement d'un de ses attributs
         instance.setCompteurReel(2540.652);
+        // Update de la BD
         instance.save(con);
+        // Recupération du même Vehicule
         instance = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        // Test
         assertEquals(2540.652F, instance.getCompteurReel(), 0.1);
+        // Réattribution de la valeur précédente
         instance.setCompteurReel(40787.0);
+        // Sauvegarde
         instance.save(con);
     }
 
@@ -64,9 +80,62 @@ public class VehiculeTest {
     @Test
     public void testGetByImmatriculation() throws Exception {
         System.out.println("getByImmatriculation");
+        // Init de la connexion SQL
         Connection con = ConnexionMySQL.newConnexion();
+        // Récupération d'un Vehicule par son immatriculation
         Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        // Test
         assertEquals("ED-592-CY", result.getImmatriculation());
+    }
+    
+    /**
+     * Test of isDehors method, of class Vehicule.
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testIsDehors() throws Exception {
+        System.out.println("isDehors");
+        // Init de la connexion SQL
+        Connection con = ConnexionMySQL.newConnexion();
+        // Récupération d'un véhicule
+        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
+        // Test
+        assertEquals(false, result.isDehors(con));
+        
+        // Récupération d'un véhicule
+        result = Vehicule.getByImmatriculation(con, "ED-593-VS");
+        // Test
+        assertEquals(false, result.isDehors(con));
+        
+        // Récupération d'un véhicule
+        result = Vehicule.getByImmatriculation(con, "EE-239-QM");
+        // Test
+        assertEquals(false, result.isDehors(con));
+        
+        // Récupération d'un véhicule
+        result = Vehicule.getByImmatriculation(con, "EE-300-QM");
+        // Test
+        assertEquals(false, result.isDehors(con));
+        
+        // Récupération d'un véhicule
+        result = Vehicule.getByImmatriculation(con, "EK-462-GX");
+        // Test
+        assertEquals(true, result.isDehors(con));
+        
+        // Récupération d'un véhicule
+        result = Vehicule.getByImmatriculation(con, "EM-045-BC");
+        // Test
+        assertEquals(true, result.isDehors(con));
+        
+        // Récupération d'un véhicule
+        result = Vehicule.getByImmatriculation(con, "EM-150-BE");
+        // Test
+        assertEquals(true, result.isDehors(con));
+        
+        // Récupération d'un véhicule
+        result = Vehicule.getByImmatriculation(con, "EM-862-ML");
+        // Test
+        assertEquals(true, result.isDehors(con));
     }
 
     /**
@@ -79,35 +148,6 @@ public class VehiculeTest {
         Connection con = ConnexionMySQL.newConnexion();
         Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
         assertEquals(Utils.stringToTimestamp("2018/03/20 01:10:00.0"), result.getLastDatation(con));
-    }
-    
-    /**
-     * Test of isDehors method, of class Vehicule.
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void testIsDehors() throws Exception {
-        System.out.println("isDehors");
-        Connection con = ConnexionMySQL.newConnexion();
-        Vehicule result = Vehicule.getByImmatriculation(con, "ED-592-CY");
-        assertEquals(false, result.isDehors(con));
-        result = Vehicule.getByImmatriculation(con, "ED-593-VS");
-        assertEquals(false, result.isDehors(con));
-        result = Vehicule.getByImmatriculation(con, "EE-239-QM");
-        assertEquals(false, result.isDehors(con));
-        
-        // A vérifier celui là, car il est juste à l'Est de Balma !!!
-        result = Vehicule.getByImmatriculation(con, "EE-300-QM");
-        assertEquals(false, result.isDehors(con));
-        
-        result = Vehicule.getByImmatriculation(con, "EK-462-GX");
-        assertEquals(true, result.isDehors(con));
-        result = Vehicule.getByImmatriculation(con, "EM-045-BC");
-        assertEquals(true, result.isDehors(con));
-        result = Vehicule.getByImmatriculation(con, "EM-150-BE");
-        assertEquals(true, result.isDehors(con));
-        result = Vehicule.getByImmatriculation(con, "EM-862-ML");
-        assertEquals(true, result.isDehors(con));
     }
 
     /**
@@ -425,7 +465,7 @@ public class VehiculeTest {
         System.out.println("getAgeMoyenFlotte");
         Connection con = ConnexionMySQL.newConnexion();
         int result = Vehicule.getAgeMoyenFlotte(con);
-        assertEquals(157, result);  // le 30 Mai 2018
+        assertEquals(164, result);  // le 30 Mai 2018
     }
 
     /**
@@ -471,7 +511,9 @@ public class VehiculeTest {
     @Test
     public void testGetTempsAlcis() throws Exception {
         System.out.println("getTempsAlcis");
+        // Init de la connexion SQL
         Connection con = ConnexionMySQL.newConnexion();
+        // Récupération d'un Vehicule par son immatriculation
         int result = Vehicule.getTempsAlcis(con, "EE-300-QM");
         // au garage depuis le 20 mars
         // (12 + 30 + 28)*24*60 = 100 800 mn au 29 Mai

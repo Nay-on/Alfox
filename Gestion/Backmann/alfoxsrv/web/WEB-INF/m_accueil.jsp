@@ -43,7 +43,7 @@
                         <div class="card">
                             <div class="cardTitre">Date d'arrivée au garage</div>
                             <div class="container">
-                                <div id="cnv" class="cardValeur">300 minutes</div>
+                                <div id="cnv" class="cardValeur">52 minutes</div>
                                 <div class="cardUnite">DF-412-EZ</div>
                             </div>
                         </div>

@@ -73,7 +73,7 @@ void testMsgUpload(Etat etat, DonneesTR* data) {
     data->razStat();
     data->initTestINIT();
     Message::nouveau(INIT, data, bMsg);
-    cout << "Test debug" << endl;
+    //cout << "Test debug" << endl;
     cout << "INIT    : 6:6 1:1 30:1e 0:0 0:0 0:0 0:0 0:0 0:0 0:0 0:0 0:0";
     cout << endl;
     afficherMsg(bMsg, 12);

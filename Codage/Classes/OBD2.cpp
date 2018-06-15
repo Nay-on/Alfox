@@ -59,7 +59,7 @@ OBD2::OBD2(Bluetooth* bt){
   //Serial.println(lireReponse());  
   //liaisonBT->println("AT R0");
   //Serial.println(lireReponse());
-  liaisonBT->println("AT E0");
+  //liaisonBT->println("AT E0");
   Serial.println(lireReponse());
   liaisonBT->println("AT SP0");
   Serial.println(lireReponse());

@@ -1,0 +1,29 @@
+
+URL envoyé par le serveur SIGFOX à la réception d'un nouveau message
+
+localhost :
+Mode NORMAL :
+http://localhost:8080/alfoxsrv/alfoxControl.jsp?callBackType=DATA&id=1D2289&seqNumber=300&time=1529587167&data=d1011e002a00af57381c5c43&ack=false
+Mode GPS : 
+http://localhost:8080/alfoxsrv/alfoxControl.jsp?callBackType=DATA&id=1D2289&seqNumber=301&time=1529587227&data=c40c22382b3d3b52011e5f08&ack=false
+Message GEOLOC :
+http://localhost:8080/alfoxsrv/alfoxControl.jsp?callBackType=GEOLOC&id=1D2289&seqNumber=302&time=1529587327&lat=43.592&lng=1.463&radius=5892&source=2&snr=6.60&rssi=-135.00&avgSnr=14.79
+
+
+Intranet :
+Mode NORMAL :
+http://10.10.80.1:8080/alfoxsrv/alfoxControl.jsp?callBackType=DATA&id=1D2289&seqNumber=400&time=1529587467&data=d1011e002a00af57381c5c43&ack=false
+Mode GPS : 
+http://10.10.80.1:8080/alfoxsrv/alfoxControl.jsp?callBackType=DATA&id=1D2289&seqNumber=401&time=1529587567&data=c40c22382b3d3b52011e5f08&ack=false
+Message GEOLOC :
+http://10.10.80.1:8080/alfoxsrv/alfoxControl.jsp?callBackType=GEOLOC&id=1D2289&seqNumber=402&time=1529587667&lat=43.591&lng=1.462&radius=5892&source=2&snr=6.60&rssi=-135.00&avgSnr=14.79
+
+
+Internet :
+Mode NORMAL :
+http://194.254.25.155:8080/alfoxsrv/alfoxControl.jsp?callBackType=DATA&id=1D2289&seqNumber=500&time=1529587767&data=d1011e002a00af57381c5c43&ack=false
+Mode GPS : 
+http://194.254.25.155:8080/alfoxsrv/alfoxControl.jsp?callBackType=DATA&id=1D2289&seqNumber=501&time=1529587867&data=c40c22382b3d3b52011e5f08&ack=false
+Message GEOLOC :
+http://194.254.25.155:8080/alfoxsrv/alfoxControl.jsp?callBackType=GEOLOC&id=1D2289&seqNumber=502&time=1529587967&lat=43.590&lng=1.461&radius=5892&source=2&snr=6.60&rssi=-135.00&avgSnr=14.79
+

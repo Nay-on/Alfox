@@ -70,9 +70,10 @@ void loop()
     Serial.println("___________________________________");
     carteSD->nouveauFichier("180531.txt");
     carteSD->ecrire(donneesTR);
-    Serial.println("___________________________________");
+    Serial.println("___________________________________\n\n");
     if (gps->isDispo())
     {
+      Serial.println("___________________________________");
       Serial.println(donneesTR->getLatitude(), 6);
       Serial.println(donneesTR->getLongitude(), 6);
       
@@ -81,14 +82,17 @@ void loop()
       Serial.print((gps->getDatation().tm_mon) + 1);
       Serial.print('/');
       Serial.println(gps->getDatation().tm_year);
+      Serial.println("___________________________________\n\n");
     }
     Serial.println("___________________________________");
     Serial.print("Vitesse : ");
     Serial.println(donneesTR->getVitesse());
     Serial.print("Regime moteur : ");
     Serial.println(donneesTR->getRegime());
-    Serial.print("Consomation : ");
-    Serial.println(donneesTR->getConsommation());
+    donneesTR->majDistance();
+    Serial.print("Distance parcourue : ");
+    Serial.println(donneesTR->getDistanceParcourue());
+    Serial.println("___________________________________\n\n");
     initial = millis();
   }
 

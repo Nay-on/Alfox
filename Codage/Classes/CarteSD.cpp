@@ -80,7 +80,7 @@ bool CarteSD::ecrire(DonneesTR* dTR)
   fichierSD = SD.open(nomFichier, FILE_WRITE);          // ouverture du fichier en ecriture et creation si il n'existe pas 
   if (fichierSD) {// si l'ouverture as réussie
     //Serial.println(fichierSD.name());                   // debug
-    fichierSD.println(String(dTR->getDistanceParcourue())+"	 " + String(dTR->getConsoMax()) + " 	 " + String(dTR->getConsoMoyenne()) + " 	" +  String(dTR->getVitesseMoyenne()) + "  	" + String(dTR->getVitesseMax()) + "  	" + String(dTR->getRegimeMax()) + " 	"+ String(dTR->getRegimeMoyen()) + "	 "+ String(dTR->getLatitude()) + " 	"+ String(dTR->getLongitude()));
+    fichierSD.println(String(dTR->getDistanceParcourue())+'\t' + String(dTR->getConsoMax()) + "		" + String(dTR->getConsoMoyenne()) + " 	" +  String(dTR->getVitesseMoyenne()) + "  	" + String(dTR->getVitesseMax()) + "  	" + String(dTR->getRegimeMax()) + " 	"+ String(dTR->getRegimeMoyen()) + "	 "+ String(dTR->getLatitude()) + " 	"+ String(dTR->getLongitude()));
                                                         // ecriture des donnée 
     fichierSD.close();                                  // fermeture du fichier
     
@@ -181,7 +181,7 @@ bool CarteSD::nouveauFichier(String nom)
   else {                                                  // si le ficheir n'exitste pas 
     fichierSD = SD.open(nom, FILE_WRITE);                 // creation et ouverture en ecriture
     if (fichierSD) {                                      // si le fichier as bien été crée
-      fichierSD.println("Heure  KM  CMax  CMoy  VMX VMOY  RMX RMOY  NBDF  CD1  CD2  CD3  CD4  Long  Lat"); // entête du fichier
+      fichierSD.println("Heure		KM		CMax		CMoy		VMX		VMOY		RMX		RMOY		NBDF		CD1		CD2		CD3		CD4		Long		Lat"); // entête du fichier
       Serial.println(fichierSD.name());                   // debug
       fichierSD.close();                                  // fermeture
       Serial.println("création réussi");                  // debug

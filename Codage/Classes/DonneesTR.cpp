@@ -133,6 +133,13 @@ void DonneesTR::majDistance() // d = vt
   distanceParcourue += (vitesse*5)/3.6;
 }
 
+void DonneesTR::setLatitude(float latitude){
+  this->latitude = latitude;
+}
+void DonneesTR::setLongitude(float longitude){
+  this->longitude = longitude;
+}
+
 /*
 	void DonneesTR::majData(OBD2 obd2)
 	{

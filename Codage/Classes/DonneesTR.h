@@ -32,6 +32,10 @@ class DonneesTR {
       return longitude;
     };
 
+    void setLatitude(float latitude);
+    void setLongitude(float longitude);
+
+    
     // pas de getDefaut ou de getNbDefaut ni de set
   private:
     float distanceParcourue;

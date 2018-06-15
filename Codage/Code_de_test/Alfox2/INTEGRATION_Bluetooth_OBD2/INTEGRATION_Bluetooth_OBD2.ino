@@ -4,11 +4,9 @@
 #include "CarteSD.h"
 #include "GPS.h"
 #include "LedTri.h"
-#include "avdweb_SAMDtimer.h"
 
 //#define DEBUG
 #define PERIODE_ECH 5000 //en millisecondes
-#define tempsLed 5
 
 Bluetooth* bluetooth;
 OBD2* obd2;
@@ -21,53 +19,49 @@ char c = ' ';
 boolean NL = true;
 unsigned long periode;
 unsigned long initial;
-const byte ledPin = 6;
-const byte interruptPin = 5;
-volatile byte state = LOW;
-volatile byte varCompteur = 0;
-volatile bool LED_ON = false;
-volatile int compteur = 0;
-SAMDtimer *timer4_1s;
-int compt = 0;
-
 
 void setup()
 {
   Serial.begin(9600);
   delay(2500);
-
-  Serial.println("Test integration total");
-
+#ifdef DEBUG
+  Serial.println("Test bluetooth et obd2");
+  Serial.println("Création bluetooth");
+#endif
   bluetooth = new Bluetooth(PINALIM, PINEN);
-
-  //ELM327 (Bleu)
+#ifdef DEBUG
+  Serial.println("Connexion bluetooth");
+#endif
+  //ELM327 (Bleu) Original
   //int resultatConnexion = bluetooth->connexion("2017,11,7030A");
-  
-  //Simulateur
+  //ELM327 (Bleu) Verseillie
+  //int resultatConnexion = bluetooth->connexion("2017,09,300c25");
+  //Simulateur clé bluetooth Verseillie
   int resultatConnexion = bluetooth->connexion("0018,E7,1EC629");
-  //Pour le module noir KONNWEI
-  //Serial.println(bluetooth->connexion("B22B,1C,70EA6"),BIN);
-  
+  //OBD2 noir KONNWEI
+  //int resultatConnexion = bluetooth->connexion("B22B,1C,70EA6"),BIN);
+  //Bluetooth PC portable
   //int resultatConnexion = bluetooth->connexion("780C,B8,46F54");
-
+  
   delay(2000);
-
+  
   carteSD = new CarteSD();
   gps = new GPS();
   donneesTR = new DonneesTR();
-  
-  pinMode(ledPin,OUTPUT);
-  pinMode(interruptPin,INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(interruptPin), allumageLed, FALLING);
-  //gestion de la led
-  timer4_1s = new SAMDtimer(4, ISR_timer4_LED_OFF, 1e6); // ISR LED2 1Hz (0.5s on, 0.5s off)
-  maLed = new LedTri (redLedPin, greenLedPin, blueLedPin);
-  timer4_1s->attachInterrupt(ISR_timer4_LED_OFF);
+  maLed = new LedTri(redLedPin, greenLedPin, blueLedPin);
   configureInterrupt_timer4_1ms();
 
+#ifdef DEBUG
+  Serial.println(resultatConnexion, BIN);
+#endif
 
   delay(2000);
 
+#ifdef DEBUG
+  Serial.print("Is actif? : ");
+  Serial.println(bluetooth->isActif());
+  Serial.println("Création OBD2");
+#endif
 
   if (bluetooth->isActif())
     Serial.println();
@@ -78,52 +72,50 @@ void setup()
 
 void loop()
 {
-
+  
   periode = millis() - initial;
   if (periode >= PERIODE_ECH)
   {
     majDataTR();
-    majGPS();
-    
-    Serial.println("___________________________________");
+    gps->maj();
     carteSD->nouveauFichier("180531.txt");
     carteSD->ecrire(donneesTR);
-    Serial.println("___________________________________");
-    if (gps->isDispo())
+    Serial.println("___________________________________GPS");
+    if (gps->isDispo()) 
     {
-      Serial.println(donneesTR->getLatitude(), 6);
-      Serial.println(donneesTR->getLongitude(), 6);
-      
+      Serial.println(gps->getLatitude(), 6);
+      Serial.println(gps->getLongitude(), 6);
       Serial.print(gps->getDatation().tm_mday);
       Serial.print('/');
       Serial.print((gps->getDatation().tm_mon) + 1);
       Serial.print('/');
       Serial.println(gps->getDatation().tm_year);
     }
-    Serial.println("___________________________________");
+    Serial.println("___________________________________ODB2");
     Serial.print("Vitesse : ");
     Serial.println(donneesTR->getVitesse());
     Serial.print("Regime moteur : ");
     Serial.println(donneesTR->getRegime());
     Serial.print("Consomation : ");
     Serial.println(donneesTR->getConsommation());
-    initial = millis();
+    Serial.println("___________________________________CarteSD");
+  initial = millis();
   }
 
-
-
+  
+  
   /*if(bluetooth->isActif() == false){
     delete bluetooth;
     delete obd2;
-
+    
     delay(2500);
     bluetooth = new Bluetooth(PINALIM, PINEN);
     //ELM327 (Bleu)
     int resultatConnexion = bluetooth->connexion("2017,11,7030A");
     delay(2000);
     OBD2* obd2 = new OBD2(bluetooth);
-    }*/
-
+  }*/
+  
 }
 
 void majDataTR() {
@@ -134,31 +126,6 @@ void majDataTR() {
   donneesTR->setConsommation(obd2->lireConsomation());
   delay(250);
 }
-
-void majGPS()
-{
-  gps->maj();
-  delay(250);
-  donneesTR->setLatitude(gps->getLatitude());
-  donneesTR->setLongitude(gps->getLongitude());
-}
-
-void ISR_timer4_LED_OFF(struct tc_module *const module_inst) 
-{ 
-  compteur++;
-  if (compteur==tempsLed)
-  {
-    maLed->eteindre();
-    compteur = 0;
-    timer4_1s->enableTimer(false);
-  }
-}
-
-void allumageLed() {
-  maLed->setCouleur(cyan, 255);
-  timer4_1s->enableTimer(true);
-}
-
 
 void SERCOM3_Handler()
 {

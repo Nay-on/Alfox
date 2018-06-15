@@ -74,7 +74,9 @@ void loop()
     if (gps->isDispo())
     {
       Serial.println("___________________________________");
+      Serial.print("Latitude : ");
       Serial.println(donneesTR->getLatitude(), 6);
+      Serial.print("Longitude : ");
       Serial.println(donneesTR->getLongitude(), 6);
       
       Serial.print(gps->getDatation().tm_mday);

@@ -6,8 +6,8 @@
 //-----------------------------------------------------
 CarteSD::CarteSD() {
   Serial.println(F("Initialisation!"));                // debug 
-  pinMode(11, OUTPUT);                                 // laisser la broche SS en sortie - obligatoire avec librairie SD
-  if (!SD.begin(11)) {                                 // si la communication commence bien sur le port d'ecriture
+  pinMode(10, OUTPUT);                                 // laisser la broche SS en sortie - obligatoire avec librairie SD
+  if (!SD.begin(10)) {                                 // si la communication commence bien sur le port d'ecriture
     Serial.println(F("Initialisation impossible !"));
   }
   fichierRacineSD = SD.open("/"); 
@@ -80,7 +80,7 @@ bool CarteSD::ecrire(DonneesTR* dTR)
   fichierSD = SD.open(nomFichier, FILE_WRITE);          // ouverture du fichier en ecriture et creation si il n'existe pas 
   if (fichierSD) {// si l'ouverture as réussie
     //Serial.println(fichierSD.name());                   // debug
-    fichierSD.println("# " + String(dTR->getConsoMoyenne()) + "   " + String(dTR->getConsoMax()) + "   " + String(dTR->getVitesseMax()) + "   " + String(dTR->getVitesseMoyenne()) + "   " + String(dTR->getRegimeMax()) + "   ");
+    fichierSD.println("# " +String(dTR->getDistanceParcourue())+" " + String(dTR->getConsoMax()) + "  " + String(dTR->getConsoMoyenne()) + " " +  String(dTR->getVitesseMoyenne()) + "  " + String(dTR->getVitesseMax()) + "  " + String(dTR->getRegimeMax()) + " "+ String(dTR->getRegimeMoyen()) + " "+ String(dTR->getLatitude()) + " "+ String(dTR->getLongitude()));
                                                         // ecriture des donnée 
     fichierSD.close();                                  // fermeture du fichier
     
@@ -162,7 +162,7 @@ void CarteSD::effacerOldData()
   //rechercher nom le plus vieux puis utiliser supprimerFichier
   // supprimer le plus vieux fichier
   //lors de effacer la supression commence par le fichier le plus récent ex 09 puis 08
-  // faire liste tout les ficheir comparer nom et supprimer dernier  problème comment comparer 
+  // faire liste tout les fichier comparer nom et supprimer dernier  problème comment comparer 
   // pour resumer on fait liste fichier et on recupère le dernier mais test a faire pour ordre listeFile 
 }
 
@@ -181,7 +181,7 @@ bool CarteSD::nouveauFichier(String nom)
   else {                                                  // si le ficheir n'exitste pas 
     fichierSD = SD.open(nom, FILE_WRITE);                 // creation et ouverture en ecriture
     if (fichierSD) {                                      // si le fichier as bien été crée
-      fichierSD.println("  KM       CMOY  NBDF  CD1    CD2    CD3    CD4   VMX   VMOY  RMX    RMOY"); // entête
+      fichierSD.println("Heure  KM  CMax  CMoy  VMX VMOY  RMX RMOY  NBDF  CD1  CD2  CD3  CD4  Long  Lat"); // entête du fichier
       Serial.println(fichierSD.name());                   // debug
       fichierSD.close();                                  // fermeture
       Serial.println("création réussi");                  // debug
@@ -193,9 +193,9 @@ bool CarteSD::nouveauFichier(String nom)
     }
     //fichierRacineSD = SD.open("/");                       // ouverture du fichier
 
-    nomFichier = nom;
-    Serial.println(nomFichier);
-    return true;
+    nomFichier = nom; // le nom passer en paramètre deviens le nom journaliers
+    Serial.println(nomFichier); // debug
+    return true; // le fichiers as bien été créé
   }
 }
 

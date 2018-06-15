@@ -25,12 +25,8 @@ class DonneesTR {
     float getDistanceParcourue();
     void majDistance();
     //void majData(OBD2 obd2);
-    float getLatitude() {
-      return latitude;
-    };
-    float getLongitude() {
-      return longitude;
-    };
+    float getLatitude();
+    float getLongitude();
 
     void setLatitude(float latitude);
     void setLongitude(float longitude);

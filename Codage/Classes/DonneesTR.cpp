@@ -14,6 +14,8 @@ DonneesTR::DonneesTR() {
   regime = 0;
   regimeMoyen = 0;
   regimeMax = 0;
+  latitude = 0;
+  longitude = 0;
 }
 
 DonneesTR::~DonneesTR() {
@@ -33,6 +35,8 @@ void DonneesTR::razStat()
   regime = 0;
   regimeMoyen = 0;
   regimeMax = 0;
+  latitude = 0;
+  longitude = 0;
 }
 
 float DonneesTR::getConsommation()
@@ -122,6 +126,7 @@ void DonneesTR::setRegime(int regime)
   regimeMoyen = valeurMoyenneRegime ;
 }
 
+
 float DonneesTR::getDistanceParcourue()
 {
   return distanceParcourue;
@@ -133,13 +138,25 @@ void DonneesTR::majDistance() // d = vt
   distanceParcourue += (vitesse*5)/3.6;
 }
 
+
 void DonneesTR::setLatitude(float latitude){
   this->latitude = latitude;
 }
+
+
 void DonneesTR::setLongitude(float longitude){
   this->longitude = longitude;
 }
 
+
+float DonneesTR::getLatitude() {
+	return latitude;
+}
+
+
+float DonneesTR::getLongitude() {
+	return longitude;
+}
 /*
 	void DonneesTR::majData(OBD2 obd2)
 	{

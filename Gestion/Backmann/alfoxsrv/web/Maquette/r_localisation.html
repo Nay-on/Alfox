@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Accueil</title> 
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="../js/jquery.mobile/jquery.mobile-1.4.5.min.css">
+        <link rel="stylesheet" href="../css/themes/jquery.mobile.icons.min.css" />
+        <link rel="stylesheet" href="../css/alfoxTheme.css">
+        <link rel="stylesheet" href="../css/alfox.css">
+        
+        <script type="text/javascript" src="../js/jquery/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="../js/jquery.mobile/jquery.mobile-1.4.5.min.js"></script>
+    </head>
+    <body>
+        <div data-role="page" id="page1">
+            <div class="header" data-role="header" data-id="main-header" data-tap-toggle="false" 
+                 data-theme="a" data-position="fixed" data-fullscreen="true">
+                <h1><img id="logoHeader" src="../images/alcisLogo.png"/>Localisation</h1>
+                <a href="#panelZones" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-location ui-btn-left"></a>
+                <a href="#panelVehicules" class="ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-btn-right"></a>
+            </div>
+            <div role="main" class="ui-content">
+                <br/><br/><br/>
+                <div id="map">
+                    <img src="/home/snir2g1/Documents/toulouse.png" />
+                </div>
+            </div>
+            <div class="footer" data-role="footer" data-theme="b" data-tap-toggle="false"
+            data-id="main-footer" data-position="fixed" data-fullscreen="true">
+                <div data-role='navbar' data-grid='d'>
+                    <ul>
+                        <li><a href='#' data-ajax='false' id='navbarhome' data-icon='home'>Accueil</a></li>
+                        <li><a href='#' data-ajax='false' id='navbarSuivi' data-icon='location'>Localisation</a></li>
+                        <li><a href='#' data-ajax='false' id='navbarInfos' data-icon='info'>Infos</a></li>
+                        <li><a href='#' data-ajax='false' id='navbarStatistiques' data-icon='bars'>Statistiques</a></li>
+                        <li><a href='#' data-ajax='false' id='navbarGestion' data-icon='edit'>Gestion</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+        <!-- panel de zones -->
+        <div id="panelZones" data-role="panel" data-position="left"  
+            data-position-fixed="true" data-display="push">
+            <ol data-role="listview" data-icon="false">
+                <li data-role="list-divider">Zones limites :</li>
+                <li><a href="#">Toulouse</a></li>
+                <li><a href="#">Sud Ouest</a></li>
+                <li><a href="#">Paris</a></li>
+                <li><a href="#">France</a></li>
+                <li><a href="#">Europe</a></li>
+            </ol>
+        </div>
+        
+        <!-- panel de véhicules -->
+        <div id="panelVehicules" data-role="panel" data-position="right"  
+                 data-position-fixed="true" data-display="push">
+            <div data-role="collapsibleset" data-inset="false">
+                <div data-role="collapsible">
+                    <h3>1 : AA-324-EF</h3>
+                    <ul data-role="listview" data-icon="false">
+                        <li data-role="list-divider">Samedi 14 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 123546km</li>
+                        <li data-icon="false">ConsoMoy : 7,2l</li>
+                        <li data-icon="false">VitMoy : 63km/h</li>
+                        <li data-icon="false">RégimeMoy : 2500tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>2 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 19546km</li>
+                        <li data-icon="false">ConsoMoy : 6,3l</li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>3 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false"><a href="#">Compteur : 19546km</a></li>
+                        <li data-icon="false"><a href="#">ConsoMoy : 6,3l</a></li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>4 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 19546km</li>
+                        <li data-icon="false">ConsoMoy : 6,3l</li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>5 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 19546km</li>
+                        <li data-icon="false">ConsoMoy : 6,3l</li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>6 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 19546km</li>
+                        <li data-icon="false">ConsoMoy : 6,3l</li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>7 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 19546km</li>
+                        <li data-icon="false">ConsoMoy : 6,3l</li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>8 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 19546km</li>
+                        <li data-icon="false">ConsoMoy : 6,3l</li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>9 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 19546km</li>
+                        <li data-icon="false">ConsoMoy : 6,3l</li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>10 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 19546km</li>
+                        <li data-icon="false">ConsoMoy : 6,3l</li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>11 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 19546km</li>
+                        <li data-icon="false">ConsoMoy : 6,3l</li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+                <div data-role="collapsible">
+                    <h3>12 : BB-834-GD</h3>
+                    <ul data-role="listview">
+                        <li data-role="list-divider">Jeudi 12 Février 2018</li>
+                        <li data-icon="false"><a href="#">Centrer</a></li>
+                        <li data-icon="false">Compteur : 19546km</li>
+                        <li data-icon="false">ConsoMoy : 6,3l</li>
+                        <li data-icon="false">VitMoy : 56km/h</li>
+                        <li data-icon="false">RégimeMoy : 2300tpm</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+    </body>
+</html>

@@ -5,7 +5,7 @@
 //------- Constructeur --------------------------------
 //-----------------------------------------------------
 CarteSD::CarteSD() {
-  Serial.println(F("Initialisation!"));                // debug 
+  Serial.println(F("Initialisation de la carte SD"));                // debug 
   pinMode(11, OUTPUT);                                 // laisser la broche SS en sortie - obligatoire avec librairie SD
   if (!SD.begin(11)) {                                 // si la communication commence bien sur le port d'ecriture
     Serial.println(F("Initialisation impossible !"));
@@ -80,7 +80,7 @@ bool CarteSD::ecrire(DonneesTR* dTR)
   fichierSD = SD.open(nomFichier, FILE_WRITE);          // ouverture du fichier en ecriture et creation si il n'existe pas 
   if (fichierSD) {// si l'ouverture as réussie
     //Serial.println(fichierSD.name());                   // debug
-    fichierSD.println("# " +String(dTR->getDistanceParcourue())+" " + String(dTR->getConsoMax()) + "  " + String(dTR->getConsoMoyenne()) + " " +  String(dTR->getVitesseMoyenne()) + "  " + String(dTR->getVitesseMax()) + "  " + String(dTR->getRegimeMax()) + " "+ String(dTR->getRegimeMoyen()) + " "+ String(dTR->getLatitude()) + " "+ String(dTR->getLongitude()));
+    fichierSD.println(String(dTR->getDistanceParcourue())+"	 " + String(dTR->getConsoMax()) + " 	 " + String(dTR->getConsoMoyenne()) + " 	" +  String(dTR->getVitesseMoyenne()) + "  	" + String(dTR->getVitesseMax()) + "  	" + String(dTR->getRegimeMax()) + " 	"+ String(dTR->getRegimeMoyen()) + "	 "+ String(dTR->getLatitude()) + " 	"+ String(dTR->getLongitude()));
                                                         // ecriture des donnée 
     fichierSD.close();                                  // fermeture du fichier
     

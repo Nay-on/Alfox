@@ -10,8 +10,8 @@ void setup() {
   delay(2500);
   bluetooth = new Bluetooth(PINALIM, PINEN);
   Serial.println("Test de la classe Bluetooth");
-  ///*Serial.println(*/bluetooth->connexion("2017,11,7030A")/*,BIN)*/;
-  bluetooth->connexion("780C,B8,46F54");
+  /*Serial.println(*/bluetooth->connexion("2017,11,7030A")/*,BIN)*/;
+  //bluetooth->connexion("780C,B8,46F54");
   delay(2000);
   Serial.println(bluetooth->isActif());
   

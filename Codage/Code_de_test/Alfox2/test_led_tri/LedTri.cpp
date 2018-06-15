@@ -71,6 +71,13 @@ void LedTri::setCouleur(int rouge, int vert, int bleu){
   analogWrite(ledBleuPin, bleu);
 }
 
+void LedTri::eteindre(){
+  // éteind la led
+  analogWrite(ledRougePin, 0);
+  analogWrite(ledVertPin, 0);
+  analogWrite(ledBleuPin, 0);
+}
+  
 
 void LedTri::setCouleur(COLOR c, int lumi) {
     switch (c) {

@@ -1,7 +1,7 @@
   #include "LedTri.h"
 
 
-LedTri* maLed = new LedTri(redLedPin, greenLedPin, blueLedPin);
+LedTri* maLed = new LedTri(redLedPin, greenLedPin, blueLedPin); // définit la pin pour chaque couleur
 
 
 

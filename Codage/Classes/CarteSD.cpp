@@ -84,7 +84,7 @@ bool CarteSD::ecrire(DonneesTR* dTR)
                                                         // ecriture des donnée 
     fichierSD.close();                                  // fermeture du fichier
     
-    //Serial.println("ecriture");                         // debug
+    Serial.println("ecriture");                         // debug
     return true;
   }
   else  {
@@ -173,7 +173,7 @@ void CarteSD::effacerOldData()
 bool CarteSD::nouveauFichier(String nom)
 {
   if (SD.exists(nom)) {
-    Serial.println(F("le fichier existe déjà"));          // debug
+    //Serial.println(F("le fichier existe déjà"));          // debug
     nomFichier = nom;                                     // nom du fichier journalier
     //fichierRacineSD = SD.open("/");                       //nom du fichier racine
     return true;                                          // le fichier existe bien

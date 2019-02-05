@@ -36,25 +36,28 @@ void setup()
   //ELM327 (Bleu) Verseillie
   //int resultatConnexion = bluetooth->connexion("2017,09,300c25");
   //Simulateur clé bluetooth Verseillie
-  int resultatConnexion = bluetooth->connexion("0018,E7,1EC629");
+  //int resultatConnexion = bluetooth->connexion("0018,E7,1EC629");
   //OBD2 noir KONNWEI
   //int resultatConnexion = bluetooth->connexion("B22B,1C,70EA6"),BIN);
   //Bluetooth PC portable
-  //int resultatConnexion = bluetooth->connexion("780C,B8,46F54");
+  int resultatConnexion = bluetooth->connexion("780C,B8,46F54");
 
   delay(2000);
 
   carteSD = new CarteSD();
+  Serial.println("Carte SD OK");
   gps = new GPS();
+  Serial.println("GPS OK");
   donneesTR = new DonneesTR();
   configureInterrupt_timer4_1ms();
-
+  Serial.println("Interruption GPS OK");
   delay(2000);
 
   if (bluetooth->isActif())
     Serial.println();
 
   obd2 = new OBD2(bluetooth);
+  Serial.println("OBD2 OK");
   initial = millis();
 }
 

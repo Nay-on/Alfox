@@ -7,8 +7,7 @@ CarteSD* carteSD;
 DonneesTR* donneesTR;
 int conso = 0;
 
-String nomDuFichier = "180606.TXT"; // nom du fichier qui va être créé, lue, et supprimer
-
+String nomDuFichier = "180711.TXT"; // nom du fichier qui va être créé, lue, et supprimer
 void setup() {
   Serial.begin(9600); //debut de la connection au port serie
   delay(1000);

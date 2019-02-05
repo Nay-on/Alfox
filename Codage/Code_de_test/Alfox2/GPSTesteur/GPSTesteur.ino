@@ -22,21 +22,23 @@ void setup()
 
 
 void loop() {
+ // Serial.println("passage dans la boucle");
   //Serial.print(gps->readDATA());
   time1 = millis();
   gps->maj();
   
   if(gps->isDispo()){
-    Serial.println(gps->getLatitude(),6);
+    Serial.print(gps->getLatitude(),6);
+    Serial.print(",");
     Serial.println(gps->getLongitude(),6);
     
-    Serial.println(gps->getDatation().tm_mday);
-    Serial.println(gps->getDatation().tm_mon);
-    Serial.println(gps->getDatation().tm_year);
-    Serial.println("-------------------------");
+    //Serial.println(gps->getDatation().tm_mday);
+    //Serial.println(gps->getDatation().tm_mon);
+    //Serial.println(gps->getDatation().tm_year);
+    //Serial.println("-------------------------");
 
     time2 = millis();
-    //Serial.println(time2 - time1);
+    Serial.println(time2 - time1);
     //Serial.println(timeInterrupt);
     
   }

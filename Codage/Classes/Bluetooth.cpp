@@ -64,6 +64,7 @@ int Bluetooth::connexion(String adresse)
     /*Serial.println("On entre dans le else pour relancer la procédure de connexion");
     desactiverModule();
     delay(2000);*/
+    Serial.println("Activation du module BT");
     activerModule(commandeAT_ON);  
     
     int sommeErreurs = 0;

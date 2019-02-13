@@ -1,18 +1,6 @@
 #ifndef GESTIONNAIRELED_H
 #define GESTIONNAIRELED_H
 
-//*****************************************************************************
-// Description : Classe GestionnaireLed qui permet de gérer l'allumage et la 
-// couleur de la led en fonction de l'état du système lors de l'appui simple 
-// sur le bouton.
-//
-// La classe utilise les interruptions matérielles
-//
-// Installation : installer la bibliothèque avdweb_SAMDtimer library ainsi que
-// ses dépendances 
-// voir : https://www.avdweb.nl/arduino/timing/samd21-timer
-//
-// *****************************************************************************
 
 #include "LedTri.h"
 #include "avdweb_SAMDtimer.h"

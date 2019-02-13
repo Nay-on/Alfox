@@ -1,15 +1,16 @@
 #include "GestionnaireLed.h"
 
-//LedTri *ledTri;
-//SAMDtimer *timer4;
+#define SORTIE_LED_ROUGE 2
+#define SORTIE_LED_VERTE 3
+#define SORTIE_LED_BLEUE 4
+#define ENTREE_BOUTON 5
 
-//static ETAT etat = 0;
 GestionnaireLed* gestionnaireLed;
 
 
 void setup() {
   // put your setup code here, to run once:
-   gestionnaireLed = new GestionnaireLed(2,3,4,5);
+   gestionnaireLed = new GestionnaireLed(SORTIE_LED_ROUGE,SORTIE_LED_VERTE,SORTIE_LED_BLEUE,ENTREE_BOUTON);
 
 }
 

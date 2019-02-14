@@ -8,10 +8,6 @@ void ISR_timer4_LED_OFF(struct tc_module *const module_inst)
   {
     ledTri->eteindre();
     compteur = 0;
-      if(etat == NORMAL)
-    etat = GPS;
-      else if (etat ==GPS) 
-    etat = NORMAL;
     timer4->enableTimer(false);
   }
 }
@@ -19,15 +15,16 @@ void ISR_timer4_LED_OFF(struct tc_module *const module_inst)
 
 
 void allumerLed() {
-  switch (etat)
-  {
-    case NORMAL:
-      ledTri->setCouleur(cyan,255);  
-      break;
-    case GPS:
-      ledTri->setCouleur(magenta,255);  
-      break;
-  } 
+//  switch (etat)
+//  {
+//    case NORMAL:
+//      ledTri->setCouleur(cyan,255);  
+//      break;
+//    case GPS:
+//      ledTri->setCouleur(magenta,255);  
+//      break;
+//  }
+  ledTri->setCouleur(rouge,255);
   timer4->enableTimer(true);
 }
 
@@ -35,6 +32,7 @@ void allumerLed() {
 GestionnaireLed::GestionnaireLed(byte redPin,byte greenPin,byte bluePin,byte btnPin,int duree)
 {
 	maLed = new LedTri(redPin,greenPin,bluePin);
+  tempsLed = duree;
   ledTri = maLed;
 	timer4_1s = new SAMDtimer(4, ISR_timer4_LED_OFF, 1e6);
   timer4=timer4_1s;

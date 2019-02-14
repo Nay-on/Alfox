@@ -4,11 +4,12 @@
 
 #include "LedTri.h"
 #include "avdweb_SAMDtimer.h"
-#define tempsLed 5
+//#define tempsLed 5
 
 enum ETAT {NORMAL=0,GPS};
 
-static ETAT etat=GPS;
+static volatile int etat = NORMAL ;
+static int tempsLed;
 
 //const byte LED_PIN = 6;
 //const byte BTN_PIN = 5;
@@ -34,7 +35,7 @@ class GestionnaireLed
 
   public:
 	GestionnaireLed(byte redPin,byte greenPin,byte bluePin,byte btnPin,int duree=5);
-	void allumer(ETAT etat);
+  void allumer(ETAT etat);
 	void eteindre();
 };
 

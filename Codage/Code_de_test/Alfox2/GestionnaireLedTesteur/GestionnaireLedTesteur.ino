@@ -1,16 +1,16 @@
 #include "GestionnaireLed.h"
+#include "LedTri.h"
 
 //LedTri *ledTri;
 //SAMDtimer *timer4;
 
-//static ETAT etat = 0;
-GestionnaireLed* gestionnaireLed;
+static volatile GestionnaireLed* gestionnaireLed;
 
 
 void setup() {
-  // put your setup code here, to run once:
-   gestionnaireLed = new GestionnaireLed(2,3,4,5);
-
+  //put your setup code here, to run once:
+  gestionnaireLed = new GestionnaireLed(2,3,4,5,3);
+ 
 }
 
 void loop() {
